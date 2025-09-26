@@ -11,7 +11,7 @@ app = Flask(__name__)
 create_debug_database()
 
 @app.route("/")
-def index():
+def home():
     "The main entry point to the app."
     return render_template('index.html')
 
