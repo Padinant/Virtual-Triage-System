@@ -3,6 +3,8 @@ This is the object-relational mapping (ORM) of Python classes to the
 database tables.
 """
 
+from enum import Enum
+
 # Imports for the SQL tables
 from sqlalchemy import ForeignKey
 from sqlalchemy import String
@@ -15,7 +17,7 @@ from sqlalchemy import create_engine
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-# Database Tables/Classes
+# ORM Database Tables/Classes
 
 # Note: Every class must have a __repr__ printable representation
 # method (for debugging or logging) and a to_json method.
@@ -108,15 +110,41 @@ class FAQEntry(Base):
             f'"category_id" = {self.category_id}, ' \
             f'"author_id" = {self.author_id}}}'
 
-# Database Functions
+# Application Representation of the Database
 
-# Note: We will use PostgreSQL in production, but this uses in-memory
-# SQLite for local testing.
-def create_debug_database():
+class Engine(Enum):
+    """
+    A representation of which DB engine is in use.
+    """
+    SQLITE_MEMORY = 1
+    SQLITE_FILE = 2
+    POSTGRESQL = 3
+
+class AppDatabase():
+    """
+    The application database.
+    """
+    def __init__(self, engine):
+        self.engine_type = engine
+        if engine == Engine.SQLITE_MEMORY:
+            self.engine_path = "sqlite://"
+        elif engine == Engine.SQLITE_FILE:
+            self.engine_path = "sqlite:///test.db"
+        elif engine == Engine.POSTGRESQL:
+            # Not yet implemented.
+            raise TypeError
+        self.engine = create_engine(self.engine_path, echo=True)
+
+# Note: We will use PostgreSQL in production.
+def create_debug_database(is_in_memory):
     "Creates the debug database and populates it with the entries above."
-    engine = create_engine("sqlite://", echo=True)
-    Base.metadata.create_all(engine)
-    return engine
+    if is_in_memory:
+        engine_type = Engine.SQLITE_MEMORY
+    else:
+        engine_type = Engine.SQLITE_FILE
+    db = AppDatabase(engine_type)
+    Base.metadata.create_all(db.engine)
+    return db.engine
 
 def fill_debug_database(engine):
     "Fills the debug database with fake data for testing."
