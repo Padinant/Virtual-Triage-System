@@ -4,24 +4,7 @@
     <title>Interactive Help &#8211; Department of Computer Science and Electrical Engineering &#8211; UMBC</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="data:," rel="icon"> <!-- TODO: UMBC icon goes here -->
-    <!--
-         Note: Move the style to its own file:
-    <link rel="stylesheet" type="text/css" href="style.css">
-    -->
-    <style>
-      body {
-        font-family: sans-serif;
-        font-size: 12pt;
-        max-width: 680px;
-        margin: 40px auto;
-        color: #000;
-        background-color: #fff;
-      }
-      a {
-        text-decoration: none;
-        color: #3333ff;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
   </head>
   <body>
     <a href="https://www.csee.umbc.edu/">
