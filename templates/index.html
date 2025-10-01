@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="data:," rel="icon"> <!-- TODO: UMBC icon goes here -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Note that JavaScript will also go under the /static directory, just like the CSS. -->
   </head>
   <body>
     <a href="https://www.csee.umbc.edu/">
@@ -13,14 +14,6 @@
     <a href="index.html">
       <h2> Interactive Help </h2>
     </a>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-      eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-      enim ad minim veniam, quis nostrud exercitation ullamco laboris
-      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-      in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-      nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-      sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </p>
+    {{ page_body_text|safe }}
   </body>
 </html>
