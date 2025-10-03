@@ -59,11 +59,11 @@ class User(Base):
     def to_json(self) -> str:
         "Converts the database row to a JSON object."
         admin_status = "true" if self.is_admin else "false"
-        return f'{{"id" = {self.id!r}, ' \
-            f'"campus_id" = "{self.campus_id}", ' \
-            f'"email" = "{self.email}", ' \
-            f'"name" = "{self.name}", ' \
-            f'"is_admin" = {admin_status}}}'
+        return f'{{"id" : {self.id!r}, ' \
+            f'"campus_id" : "{self.campus_id}", ' \
+            f'"email" : "{self.email}", ' \
+            f'"name" : "{self.name}", ' \
+            f'"is_admin" : {admin_status}}}'
 
 class FAQCategory(Base):
     """
@@ -80,8 +80,8 @@ class FAQCategory(Base):
 
     def to_json(self) -> str:
         "Converts the database row to a JSON object."
-        return f'{{"id" = {self.id!r}, ' \
-            f'"campus_id" = "{self.category_name}"}}' \
+        return f'{{"id" : {self.id!r}, ' \
+            f'"campus_id" : "{self.category_name}"}}' \
 
 class FAQEntry(Base):
     """
@@ -104,11 +104,11 @@ class FAQEntry(Base):
 
     def to_json(self) -> str:
         "Converts the database row to a JSON object."
-        return f'{{"id" = {self.id!r}, ' \
-            f'"title_text" = "{self.title_text}", ' \
-            f'"body_text" = "{self.body_text}", ' \
-            f'"category_id" = {self.category_id}, ' \
-            f'"author_id" = {self.author_id}}}'
+        return f'{{"id" : {self.id!r}, ' \
+            f'"title_text" : "{self.title_text}", ' \
+            f'"body_text" : "{self.body_text}", ' \
+            f'"category_id" : {self.category_id}, ' \
+            f'"author_id" : {self.author_id}}}'
 
 # Application Representation of the Database
 
@@ -129,7 +129,7 @@ class AppDatabase():
         if engine == Engine.SQLITE_MEMORY:
             self.engine_path = "sqlite://"
         elif engine == Engine.SQLITE_FILE:
-            self.engine_path = "sqlite:///test.db"
+            self.engine_path = "sqlite:///instance/test.db"
         elif engine == Engine.POSTGRESQL:
             # Not yet implemented.
             raise TypeError
@@ -144,6 +144,15 @@ def create_debug_database(is_in_memory):
         engine_type = Engine.SQLITE_FILE
     db = AppDatabase(engine_type)
     Base.metadata.create_all(db.engine)
+    return db.engine
+
+def get_debug_database(is_in_memory):
+    "Creates an interface to the already-existing database."
+    if is_in_memory:
+        engine_type = Engine.SQLITE_MEMORY
+    else:
+        engine_type = Engine.SQLITE_FILE
+    db = AppDatabase(engine_type)
     return db.engine
 
 def fill_debug_database(engine):
@@ -168,3 +177,10 @@ def print_all_users(engine):
         statement = select(User)
         for user in session.scalars(statement):
             print(user)
+
+def users_to_json(engine):
+    "Turns a list of all users into JSON to assist in debugging and testing."
+    with Session(engine) as session:
+        statement = select(User)
+        json_users = [user.to_json() for user in session.scalars(statement)]
+        return '[' + ','.join(json_users) + ']'

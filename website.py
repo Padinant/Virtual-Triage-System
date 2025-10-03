@@ -2,25 +2,47 @@
 Web server layer that serves HTML, CSS, JSON, etc.
 """
 
+import os
 import secrets
 
 import markdown
 
 from flask import Flask
+from flask import Response
 from flask import render_template
-from flask import session
 
 from database import create_debug_database
 from database import fill_debug_database
-from database import print_all_users
+from database import get_debug_database
+from database import users_to_json
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex()
 
 def init_db ():
+    "Initializes the debug/testing database."
+    print("Debug/testing DB not found! Creating it.")
     db = create_debug_database(False)
+    print("Populating the database.")
     fill_debug_database(db)
     return db
+
+def setup_app():
+    "Makes sure that the app has everything that it needs on startup."
+    # If the instance path that Flask uses for data doesn't exist,
+    # create it now.
+    try:
+        os.makedirs(app.instance_path)
+    except OSError:
+        pass
+    # The database must be in the instance directory.
+    db_path = os.path.join(app.instance_path, 'test.db')
+    print(db_path)
+    # If the database is not there, then create it and populate it.
+    if not os.path.exists(db_path):
+        init_db()
+
+setup_app()
 
 # A temporary Markdown string to test placing Markdown in the HTML.
 # Note that Markdown generates HTML so the template must mark the
@@ -88,10 +110,9 @@ def faq_admin_remove():
     "The admin FAQ page for removing items."
     return render_template('index.html', page_body_text = markdown.markdown(LOREM_IPSUM))
 
-# TODO: provide a JSON file of all of the users from the database
 @app.route("/api.json")
 def json_api_hello_world():
     "A temporary JSON file to demonstrate how APIs could work."
-    db = init_db()
-    print_all_users(db)
-    return {}
+    db = get_debug_database(False)
+    return Response(response=users_to_json(db),
+                    mimetype='application/json')
