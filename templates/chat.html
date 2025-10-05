@@ -1,0 +1,58 @@
+<!-- This is some HTML code for the chat page -->
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>FAQ Chat Page(HTTP)</title>
+  <style>
+    body { font-family: Arial; max-width: 720px; margin: 40px auto; }
+    .row { display: flex; gap: 12px; }
+    input, button { padding: 8px; font-size: 16px; }
+    #messages { margin-top: 20px; }
+    .msg { padding:10px; margin:8px 0; border:1px solid #e0e40d; border-radius:8px; }
+  </style>
+</head>
+<body>
+  <h2>Interactive FAQ Chat</h2>
+  <div class="row">
+    <input id="text" placeholder="Type a message..." style="flex:1">
+    <button id="send">Send</button>
+  </div>
+  <div id="messages"></div>
+
+  <script>
+    // Here is some javascript code
+    const input = document.getElementById('text');
+    const sendButton = document.getElementById('send');
+    const messages = document.getElementById('messages');
+
+    function addBubble(text, who) {
+      const div = document.createElement('div');
+      div.className = 'msg';
+      div.textContent = (who === 'you' ? 'You: ' : 'CSEE Bot: ') + text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    async function send() {
+      const text = input.value.trim();
+      if (!text) return;
+      addBubble(text, 'you');
+      input.value = '';
+      const res = await fetch('/message', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ text })
+      });
+      const data = await res.json();
+      addBubble(data.reply, 'bot');
+    }
+
+    // execute the send function after clicking the button or pressing enter
+    sendButton.onclick = send;
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+  </script>
+</body>
+</html>
