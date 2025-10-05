@@ -7,6 +7,7 @@ For some set up, run:
 ```bash
 pip install flask
 pip install sqlalchemy
+pip install markdown
 ```
 
 To test locally on your machine, run:
