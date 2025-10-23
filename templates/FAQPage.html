@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <title>VTS FAQs</title>
     
-    <link href="../PROJECT_CSS/FAQPage.css" rel="stylesheet" />
+    <link href="FAQPage.css" rel="stylesheet" />
   </head>
   <!-- body section, contains code for visible parts of the website and scripts -->
   <body>
@@ -12,8 +12,8 @@
     <!-- first top header section -->
     <header class="top-header-1">
       <div class="container"> <!-- helper for centering and padding -->
-        <a class="UMBC" href="MainPage.html"> <!-- makes clicking on the site logo bring you back to this main page (this is for ease of testing for now) -->
-          <img src="../UMBC_STYLES/UMBC-primary-logo-CMYK-on-black.png" /> <!-- UMBC logo image -->
+        <a class="UMBC" href="index.html">
+          <img src="{{ url_for('static', filename='UMBC_STYLES/UMBC-primary-logo-CMYK-on-black.png') }}" /> <!-- UMBC logo image -->
         </a>
       </div>
     </header>
@@ -61,6 +61,9 @@
       <h1 class="page-title page-title-faq">
         Frequently Asked Questions (FAQ)
       </h1>
+      {% for item in faq_items %}
+        {{ item | safe }}
+      {% endfor %}
     </main>
 
     <!-- bottom menu section -->

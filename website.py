@@ -61,21 +61,39 @@ LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit," \
       "nulla pariatur. Excepteur sint occaecat cupidatat non proident," \
       "sunt in culpa qui officia deserunt mollit anim **id est** laborum."
 
+def faq_entries_to_markdown(faq_entries):
+    return [markdown.markdown(item[0]) + '\n\n' + markdown.markdown(item[1]) + '\n\n'
+            for item in faq_entries]
+
+def faq_titles_to_markdown(faq_entries):
+    return [markdown.markdown(item[0]) + '\n\n'
+            for item in faq_entries]
+
+def get_faq_entries_as_markdown(database):
+    entries = get_faq_entries(database)
+    return faq_entries_to_markdown(entries)
+
+def get_faq_titles_as_markdown(database):
+    entries = get_faq_entries(database)
+    return faq_titles_to_markdown(entries)
+
 @app.route("/")
 def home():
     "The main entry point to the app."
-    entries = [markdown.markdown(item[0]) + '\n\n' + markdown.markdown(item[1]) + '\n\n'
-               for item in get_faq_entries(get_debug_database(False))]
-    body = ''.join(entries)
-    return render_template('MainPage.html', page_body_text = body)
+    items = get_faq_titles_as_markdown(get_debug_database(False))
+    return render_template('MainPage.html', faq_items = items)
 
 @app.route("/index.html")
 def index():
     "Another name for the main entry point."
-    entries = [markdown.markdown(item[0]) + '\n\n' + markdown.markdown(item[1]) + '\n\n'
-               for item in get_faq_entries(get_debug_database(False))]
-    body = ''.join(entries)
-    return render_template('MainPage.html', page_body_text = body)
+    items = get_faq_titles_as_markdown(get_debug_database(False))
+    return render_template('MainPage.html', faq_items = items)
+
+@app.route("/faq-page.html")
+def faq_page():
+    "The list of FAQ items."
+    items = get_faq_entries_as_markdown(get_debug_database(False))
+    return render_template('FAQPage.html', faq_items = items)
 
 @app.route("/style.css")
 def stylesheet():
@@ -144,11 +162,6 @@ def message():
     return jsonify({"reply": reply})
 
 ###
-
-@app.route("/faq_list.html")
-def faq_list():
-    "The list of FAQ items."
-    return render_template('FAQPage.html', page_body_text = markdown.markdown(LOREM_IPSUM))
 
 @app.route("/faq_search.html")
 def faq_search():
