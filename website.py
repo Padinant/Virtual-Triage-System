@@ -13,9 +13,12 @@ from flask import render_template
 from flask import request, jsonify
 
 from database import create_debug_database
-from database import fill_debug_database
+from database import Engine
 from database import get_debug_database
+from database import get_faq_entries
 from database import users_to_json
+
+from test_data import fill_debug_database
 
 import string
 
@@ -25,7 +28,7 @@ app.secret_key = secrets.token_hex()
 def init_db ():
     "Initializes the debug/testing database."
     print("Debug/testing DB not found! Creating it.")
-    db = create_debug_database(False)
+    db = create_debug_database(Engine.SQLITE_FILE)
     print("Populating the database.")
     fill_debug_database(db)
     return db
@@ -61,12 +64,18 @@ LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit," \
 @app.route("/")
 def home():
     "The main entry point to the app."
-    return render_template('index.html', page_body_text = markdown.markdown(LOREM_IPSUM))
+    entries = [markdown.markdown(item[0]) + '\n\n' + markdown.markdown(item[1]) + '\n\n'
+               for item in get_faq_entries(get_debug_database(False))]
+    body = ''.join(entries)
+    return render_template('index.html', page_body_text = body)
 
 @app.route("/index.html")
 def index():
     "Another name for the main entry point."
-    return render_template('index.html', page_body_text = markdown.markdown(LOREM_IPSUM))
+    entries = [markdown.markdown(item[0]) + '\n\n' + markdown.markdown(item[1]) + '\n\n'
+               for item in get_faq_entries(get_debug_database(False))]
+    body = ''.join(entries)
+    return render_template('index.html', page_body_text = body)
 
 @app.route("/style.css")
 def stylesheet():
@@ -79,7 +88,7 @@ def stylesheet():
 @app.route("/chat.html")
 def chat():
     "The chatbot page."
-    return render_template('chat.html', page_body_text = markdown.markdown(LOREM_IPSUM))
+    return render_template('chat.html')
 
 def get_echo_output(user_text: string) -> string:
     "This is the first output function for sprint 1. Returns an excited echo"
