@@ -4,6 +4,7 @@ Web server layer that serves HTML, CSS, JSON, etc.
 
 import os
 import secrets
+import string
 
 import markdown
 
@@ -19,8 +20,6 @@ from database import get_faq_entries
 from database import users_to_json
 
 from test_data import fill_debug_database
-
-import string
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex()
@@ -62,18 +61,22 @@ LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit," \
       "sunt in culpa qui officia deserunt mollit anim **id est** laborum."
 
 def faq_entries_to_markdown(faq_entries):
+    "Turn FAQ questions and answers into markdown."
     return [markdown.markdown(item[0]) + '\n\n' + markdown.markdown(item[1]) + '\n\n'
             for item in faq_entries]
 
 def faq_titles_to_markdown(faq_entries):
+    "Turn FAQ questions into markdown."
     return [markdown.markdown(item[0]) + '\n\n'
             for item in faq_entries]
 
 def get_faq_entries_as_markdown(database):
+    "Retrieve all FAQ entries as markdown."
     entries = get_faq_entries(database)
     return faq_entries_to_markdown(entries)
 
 def get_faq_titles_as_markdown(database):
+    "Retrieve all FAQ titles (questions) as markdown."
     entries = get_faq_entries(database)
     return faq_titles_to_markdown(entries)
 
@@ -90,69 +93,72 @@ MENU_ITEMS = [{'name': 'FAQs',
               {'name': 'How to Use This Tool',
                'url': '#'}]
 
+def page_from_faq_action(page, action, database):
+    "Generate a page by calling an action function on the database."
+    items = action(database)
+    return render_template(page,
+                           menu_items = MENU_ITEMS,
+                           faq_items = items)
+
 @app.route("/")
 def home():
     "The main entry point to the app."
-    items = get_faq_titles_as_markdown(get_debug_database(False))
-    return render_template('MainPage.html',
-                           menu_items = MENU_ITEMS,
-                           faq_items = items)
+    return page_from_faq_action('MainPage.html',
+                                get_faq_titles_as_markdown,
+                                get_debug_database(False))
 
 @app.route("/index.html")
 def index():
     "Another name for the main entry point."
-    items = get_faq_titles_as_markdown(get_debug_database(False))
-    return render_template('MainPage.html',
-                           menu_items = MENU_ITEMS,
-                           faq_items = items)
+    return page_from_faq_action('MainPage.html',
+                                get_faq_titles_as_markdown,
+                                get_debug_database(False))
 
 @app.route("/faq.html")
 def faq_page():
     "The list of FAQ items."
-    items = get_faq_entries_as_markdown(get_debug_database(False))
-    return render_template('FAQPage.html',
-                           menu_items = MENU_ITEMS,
-                           faq_items = items)
+    return page_from_faq_action('FAQPage.html',
+                                get_faq_entries_as_markdown,
+                                get_debug_database(False))
 
 @app.route("/search.html")
 def faq_search():
     "The FAQ search page."
-    items = get_faq_entries_as_markdown(get_debug_database(False))
-    return render_template('SearchResultsPage.html',
-                           menu_items = MENU_ITEMS,
-                           faq_items = items)
+    return page_from_faq_action('SearchResultsPage.html',
+                                get_faq_entries_as_markdown,
+                                get_debug_database(False))
 
-@app.route("/faq_admin.html")
+@app.route("/faq-admin.html")
 def faq_admin():
     "The admin FAQ list page."
-    return render_template('AdminFAQ.html', page_body_text = markdown.markdown(LOREM_IPSUM))
+    return page_from_faq_action('AdminFAQ.html',
+                                get_faq_entries_as_markdown,
+                                get_debug_database(False))
 
-@app.route("/faq_admin_search.html")
+@app.route("/admin-search.html")
 def faq_admin_search():
     "The admin FAQ search page."
-    return render_template('AdminSearchResults.html', page_body_text = markdown.markdown(LOREM_IPSUM))
+    return page_from_faq_action('AdminSearchResults.html',
+                                get_faq_entries_as_markdown,
+                                get_debug_database(False))
 
-@app.route("/faq_admin_add.html")
+@app.route("/admin-add.html")
 def faq_admin_add():
     "The admin FAQ page for adding items."
-    return render_template('AdminAdd.html', page_body_text = markdown.markdown(LOREM_IPSUM))
+    return render_template('AdminAdd.html',
+                           menu_items = MENU_ITEMS)
 
-@app.route("/faq_admin_edit.html")
+@app.route("/admin-edit.html")
 def faq_admin_edit():
     "The admin FAQ page for editing items."
-    return render_template('AdminEdit.html', page_body_text = markdown.markdown(LOREM_IPSUM))
+    return render_template('AdminEdit.html',
+                           menu_items = MENU_ITEMS)
 
-@app.route("/faq_admin_remove.html")
+@app.route("/admin-remove.html")
 def faq_admin_remove():
     "The admin FAQ page for removing items."
-    return render_template('AdminRemove.html', page_body_text = markdown.markdown(LOREM_IPSUM))
-
-@app.route("/api.json")
-def json_api_hello_world():
-    "A temporary JSON file to demonstrate how APIs could work."
-    db = get_debug_database(False)
-    return Response(response=users_to_json(db),
-                    mimetype='application/json')
+    return render_template('AdminRemove.html',
+                           menu_items = MENU_ITEMS)
 
 # Style pages
 
@@ -234,3 +240,10 @@ def message():
     return jsonify({"reply": reply})
 
 ###
+
+@app.route("/api.json")
+def json_api_hello_world():
+    "A temporary JSON file to demonstrate how APIs could work."
+    db = get_debug_database(False)
+    return Response(response=users_to_json(db),
+                    mimetype='application/json')
