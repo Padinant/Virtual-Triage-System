@@ -90,23 +90,23 @@ class FAQEntry(Base):
     __tablename__ = "faq_entry"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    title_text: Mapped[str] = mapped_column(String(200))
-    body_text: Mapped[str] = mapped_column(String(20000))
+    question_text: Mapped[str] = mapped_column(String(500))
+    answer_text: Mapped[str] = mapped_column(String(20000))
     category_id: Mapped[int] = mapped_column(ForeignKey("faq_category.id"))
     author_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
 
     def __repr__(self) -> str:
         return f"FAQEntry(id={self.id!r}, " \
-            f"title_text={self.title_text!r}" \
-            f"body_text={self.body_text!r}" \
+            f"question_text={self.question_text!r}" \
+            f"answer_text={self.answer_text!r}" \
             f"category_id={self.category_id!r}" \
             f"author_id={self.author_id!r})"
 
     def to_json(self) -> str:
         "Converts the database row to a JSON object."
         return f'{{"id" : {self.id!r}, ' \
-            f'"title_text" : "{self.title_text}", ' \
-            f'"body_text" : "{self.body_text}", ' \
+            f'"question_text" : "{self.question_text}", ' \
+            f'"answer_text" : "{self.answer_text}", ' \
             f'"category_id" : {self.category_id}, ' \
             f'"author_id" : {self.author_id}}}'
 
@@ -130,18 +130,15 @@ class AppDatabase():
             self.engine_path = "sqlite://"
         elif engine == Engine.SQLITE_FILE:
             self.engine_path = "sqlite:///instance/test.db"
+        # TODO: fixme: implement this for postgres for early merge
         elif engine == Engine.POSTGRESQL:
             # Not yet implemented.
             raise TypeError
         self.engine = create_engine(self.engine_path, echo=True)
 
 # Note: We will use PostgreSQL in production.
-def create_debug_database(is_in_memory):
+def create_debug_database(engine_type):
     "Creates the debug database and populates it with the entries above."
-    if is_in_memory:
-        engine_type = Engine.SQLITE_MEMORY
-    else:
-        engine_type = Engine.SQLITE_FILE
     db = AppDatabase(engine_type)
     Base.metadata.create_all(db.engine)
     return db.engine
@@ -154,22 +151,6 @@ def get_debug_database(is_in_memory):
         engine_type = Engine.SQLITE_FILE
     db = AppDatabase(engine_type)
     return db.engine
-
-def fill_debug_database(engine):
-    "Fills the debug database with fake data for testing."
-    with Session(engine) as session:
-        guest = User(name = "Guest",
-                     campus_id = "",
-                     email = "",
-                     is_admin = False)
-        admin = User(name = "Administrator",
-                     campus_id = "FAKEID1",
-                     email = "admin@example.com",
-                     is_admin = True)
-        category = FAQCategory(category_name = "Lorem Ipsum")
-        #entry = FAQEntry()
-        session.add_all([guest, admin, category])
-        session.commit()
 
 def print_all_users(engine):
     "Prints all of the database's users to assist in debugging and testing."
@@ -184,3 +165,10 @@ def users_to_json(engine):
         statement = select(User)
         json_users = [user.to_json() for user in session.scalars(statement)]
         return '[' + ','.join(json_users) + ']'
+
+def get_faq_entries(engine):
+    "Retrieves the FAQ entries as markdown."
+    with Session(engine) as session:
+        statement = select(FAQEntry)
+        return [(entry.question_text, entry.answer_text)
+                for entry in session.scalars(statement)]
