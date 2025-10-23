@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Main Page Test</title>
-    <link href="../PROJECT_CSS/MainPage.css" rel="stylesheet" /> <!-- link to external CSS file -->
+    <link href="MainPage.css" rel="stylesheet" /> <!-- link to external CSS file -->
   </head>
 
   <!-- body section, contains code for visible parts of the website and scripts -->
@@ -13,7 +13,7 @@
     <header class="top-header-1">
       <div class="container"> <!-- helper for centering and padding -->
         <a class="UMBC" href="MainPage.html"> <!-- makes clicking on the site logo bring you back to this main page (this is for ease of testing for now) -->
-          <img src="../UMBC_STYLES/UMBC-primary-logo-CMYK-on-black.png" /> <!-- UMBC logo image -->
+          <img src="{{ url_for('static', filename='UMBC_STYLES/UMBC-primary-logo-CMYK-on-black.png') }}" /> <!-- UMBC logo image -->
         </a>
       </div>
     </header>

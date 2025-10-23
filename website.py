@@ -67,7 +67,7 @@ def home():
     entries = [markdown.markdown(item[0]) + '\n\n' + markdown.markdown(item[1]) + '\n\n'
                for item in get_faq_entries(get_debug_database(False))]
     body = ''.join(entries)
-    return render_template('index.html', page_body_text = body)
+    return render_template('MainPage.html', page_body_text = body)
 
 @app.route("/index.html")
 def index():
@@ -75,13 +75,49 @@ def index():
     entries = [markdown.markdown(item[0]) + '\n\n' + markdown.markdown(item[1]) + '\n\n'
                for item in get_faq_entries(get_debug_database(False))]
     body = ''.join(entries)
-    return render_template('index.html', page_body_text = body)
+    return render_template('MainPage.html', page_body_text = body)
 
 @app.route("/style.css")
 def stylesheet():
     "The CSS file shared by all webpages."
     return render_template('style.css')
 
+@app.route("/MainPage.css")
+def main_css():
+    "The CSS file shared by all webpages."
+    return Response(response=render_template('MainPage.css'),
+                    mimetype='text/css')
+
+@app.route("/FAQPage.css")
+def faq_css():
+    "The CSS file shared by all webpages."
+    return Response(response=render_template('FAQPage.css'),
+                    mimetype='text/css')
+
+@app.route("/AdminAdd.css")
+def admin_add_css():
+    "The CSS file shared by all webpages."
+    return render_template('AdminAdd.css')
+
+@app.route("/AdminEdit.css")
+def admin_edit_css():
+    "The CSS file shared by all webpages."
+    return render_template('AdminEdit.css')
+
+@app.route("/AdminRemove.css")
+def admin_remove_css():
+    "The CSS file shared by all webpages."
+    return render_template('AdminRemove.css')
+
+@app.route("/AdminFAQ.css")
+def admin_faq_css():
+    "The CSS file shared by all webpages."
+    return render_template('AdminFAQ.css')
+
+@app.route("/AdminSearchResults.css")
+def admin_search_results_css():
+    "The CSS file shared by all webpages."
+    return render_template('AdminSearchResults.css')
 
 ### CHATBOT PAGE SPECIFICS
 
@@ -112,37 +148,37 @@ def message():
 @app.route("/faq_list.html")
 def faq_list():
     "The list of FAQ items."
-    return render_template('index.html', page_body_text = markdown.markdown(LOREM_IPSUM))
+    return render_template('FAQPage.html', page_body_text = markdown.markdown(LOREM_IPSUM))
 
 @app.route("/faq_search.html")
 def faq_search():
     "The FAQ search page."
-    return render_template('index.html', page_body_text = markdown.markdown(LOREM_IPSUM))
+    return render_template('SearchResultsPage.html', page_body_text = markdown.markdown(LOREM_IPSUM))
 
 @app.route("/faq_admin.html")
 def faq_admin():
     "The admin FAQ list page."
-    return render_template('index.html', page_body_text = markdown.markdown(LOREM_IPSUM))
+    return render_template('AdminFAQ.html', page_body_text = markdown.markdown(LOREM_IPSUM))
 
 @app.route("/faq_admin_search.html")
 def faq_admin_search():
     "The admin FAQ search page."
-    return render_template('index.html', page_body_text = markdown.markdown(LOREM_IPSUM))
+    return render_template('AdminSearchResults.html', page_body_text = markdown.markdown(LOREM_IPSUM))
 
 @app.route("/faq_admin_add.html")
 def faq_admin_add():
     "The admin FAQ page for adding items."
-    return render_template('index.html', page_body_text = markdown.markdown(LOREM_IPSUM))
+    return render_template('AdminAdd.html', page_body_text = markdown.markdown(LOREM_IPSUM))
 
 @app.route("/faq_admin_edit.html")
 def faq_admin_edit():
     "The admin FAQ page for editing items."
-    return render_template('index.html', page_body_text = markdown.markdown(LOREM_IPSUM))
+    return render_template('AdminEdit.html', page_body_text = markdown.markdown(LOREM_IPSUM))
 
 @app.route("/faq_admin_remove.html")
 def faq_admin_remove():
     "The admin FAQ page for removing items."
-    return render_template('index.html', page_body_text = markdown.markdown(LOREM_IPSUM))
+    return render_template('AdminRemove.html', page_body_text = markdown.markdown(LOREM_IPSUM))
 
 @app.route("/api.json")
 def json_api_hello_world():
