@@ -106,7 +106,7 @@ def index():
                            menu_items = MENU_ITEMS,
                            faq_items = items)
 
-@app.route("/faq-page.html")
+@app.route("/faq.html")
 def faq_page():
     "The list of FAQ items."
     items = get_faq_entries_as_markdown(get_debug_database(False))
@@ -114,78 +114,13 @@ def faq_page():
                            menu_items = MENU_ITEMS,
                            faq_items = items)
 
-@app.route("/style.css")
-def stylesheet():
-    "The CSS file shared by all webpages."
-    return render_template('style.css')
-
-@app.route("/MainPage.css")
-def main_css():
-    "The CSS file shared by all webpages."
-    return Response(response=render_template('MainPage.css'),
-                    mimetype='text/css')
-
-@app.route("/FAQPage.css")
-def faq_css():
-    "The CSS file shared by all webpages."
-    return Response(response=render_template('FAQPage.css'),
-                    mimetype='text/css')
-
-@app.route("/AdminAdd.css")
-def admin_add_css():
-    "The CSS file shared by all webpages."
-    return render_template('AdminAdd.css')
-
-@app.route("/AdminEdit.css")
-def admin_edit_css():
-    "The CSS file shared by all webpages."
-    return render_template('AdminEdit.css')
-
-@app.route("/AdminRemove.css")
-def admin_remove_css():
-    "The CSS file shared by all webpages."
-    return render_template('AdminRemove.css')
-
-@app.route("/AdminFAQ.css")
-def admin_faq_css():
-    "The CSS file shared by all webpages."
-    return render_template('AdminFAQ.css')
-
-@app.route("/AdminSearchResults.css")
-def admin_search_results_css():
-    "The CSS file shared by all webpages."
-    return render_template('AdminSearchResults.css')
-
-### CHATBOT PAGE SPECIFICS
-
-@app.route("/chat.html")
-def chat():
-    "The chatbot page."
-    return render_template('chat.html')
-
-def get_echo_output(user_text: string) -> string:
-    "This is the first output function for sprint 1. Returns an excited echo"
-    if not user_text:
-        return "Say Something!" # this is just contingency, it shouldn't be displayed
-    else:
-        return user_text + "!"
-
-# API endpoint for chat messages (in future versions this is where we'd get chatbot output)
-@app.route("/message", methods=["POST"])
-def message():
-    "This function gets text and makes a reply using get_echo_output"
-    # get user text
-    user_text = request.json.get("text", "")
-    # process user text and get output/reply text
-    reply = get_echo_output(user_text)
-    return jsonify({"reply": reply})
-
-###
-
-@app.route("/faq_search.html")
+@app.route("/search.html")
 def faq_search():
     "The FAQ search page."
-    return render_template('SearchResultsPage.html', page_body_text = markdown.markdown(LOREM_IPSUM))
+    items = get_faq_entries_as_markdown(get_debug_database(False))
+    return render_template('SearchResultsPage.html',
+                           menu_items = MENU_ITEMS,
+                           faq_items = items)
 
 @app.route("/faq_admin.html")
 def faq_admin():
@@ -218,3 +153,84 @@ def json_api_hello_world():
     db = get_debug_database(False)
     return Response(response=users_to_json(db),
                     mimetype='application/json')
+
+# Style pages
+
+@app.route("/style.css")
+def stylesheet():
+    "The CSS file shared by all webpages."
+    return render_template('style.css')
+
+@app.route("/MainPage.css")
+def main_css():
+    "The CSS file shared by all webpages."
+    return Response(response=render_template('MainPage.css'),
+                    mimetype='text/css')
+
+@app.route("/FAQPage.css")
+def faq_css():
+    "The CSS file shared by all webpages."
+    return Response(response=render_template('FAQPage.css'),
+                    mimetype='text/css')
+
+@app.route("/SearchResultsPage.css")
+def search_css():
+    "The CSS file shared by all webpages."
+    return Response(response=render_template('SearchResultsPage.css'),
+                    mimetype='text/css')
+
+@app.route("/AdminAdd.css")
+def admin_add_css():
+    "The CSS file shared by all webpages."
+    return Response(response=render_template('AdminAdd.css'),
+                    mimetype='text/css')
+
+@app.route("/AdminEdit.css")
+def admin_edit_css():
+    "The CSS file shared by all webpages."
+    return Response(response=render_template('AdminEdit.css'),
+                    mimetype='text/css')
+
+@app.route("/AdminRemove.css")
+def admin_remove_css():
+    "The CSS file shared by all webpages."
+    return Response(response=render_template('AdminRemove.css'),
+                    mimetype='text/css')
+
+@app.route("/AdminFAQ.css")
+def admin_faq_css():
+    "The CSS file shared by all webpages."
+    return Response(response=render_template('AdminFAQ.css'),
+                    mimetype='text/css')
+
+@app.route("/AdminSearchResults.css")
+def admin_search_results_css():
+    "The CSS file shared by all webpages."
+    return Response(response=render_template('AdminSearchResults.css'),
+                    mimetype='text/css')
+
+### CHATBOT PAGE SPECIFICS
+
+@app.route("/chat.html")
+def chat():
+    "The chatbot page."
+    return render_template('chat.html')
+
+def get_echo_output(user_text: string) -> string:
+    "This is the first output function for sprint 1. Returns an excited echo"
+    if not user_text:
+        return "Say Something!" # this is just contingency, it shouldn't be displayed
+    else:
+        return user_text + "!"
+
+# API endpoint for chat messages (in future versions this is where we'd get chatbot output)
+@app.route("/message", methods=["POST"])
+def message():
+    "This function gets text and makes a reply using get_echo_output"
+    # get user text
+    user_text = request.json.get("text", "")
+    # process user text and get output/reply text
+    reply = get_echo_output(user_text)
+    return jsonify({"reply": reply})
+
+###
