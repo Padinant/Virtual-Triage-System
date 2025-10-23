@@ -9,6 +9,7 @@ from enum import Enum
 from sqlalchemy import ForeignKey
 from sqlalchemy import String
 from sqlalchemy import Boolean
+from sqlalchemy import URL
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
@@ -32,9 +33,9 @@ class Base(DeclarativeBase):
     def __repr__(self) -> str:
         return "Base()"
 
-    def to_json(self) -> str:
-        "Converts the database row to a JSON object."
-        return "{}"
+    def asdict(self) -> dict:
+        "Turn the object into a key/value dictionary for APIs that expect this."
+        return {}
 
 class User(Base):
     """
@@ -47,7 +48,6 @@ class User(Base):
     email: Mapped[str] = mapped_column(String(50))
     name: Mapped[str] = mapped_column(String(50))
     is_admin: Mapped[bool] = mapped_column(Boolean)
-    # Also associate chat history?
 
     def __repr__(self) -> str:
         return f"User(id={self.id!r}, " \
@@ -56,14 +56,13 @@ class User(Base):
             f"name={self.name!r}, " \
             f"is_admin={self.is_admin!r})"
 
-    def to_json(self) -> str:
-        "Converts the database row to a JSON object."
-        admin_status = "true" if self.is_admin else "false"
-        return f'{{"id" : {self.id!r}, ' \
-            f'"campus_id" : "{self.campus_id}", ' \
-            f'"email" : "{self.email}", ' \
-            f'"name" : "{self.name}", ' \
-            f'"is_admin" : {admin_status}}}'
+    def asdict(self) -> dict:
+        "Turn the object into a key/value dictionary for APIs that expect this."
+        return {'id': self.id,
+                'campus_id': self.campus_id,
+                'email': self.email,
+                'name': self.name,
+                'is_admin': self.is_admin}
 
 class FAQCategory(Base):
     """
@@ -78,10 +77,10 @@ class FAQCategory(Base):
         return f"FAQCategory(id={self.id!r}, " \
             f"category_name={self.category_name!r})"
 
-    def to_json(self) -> str:
-        "Converts the database row to a JSON object."
-        return f'{{"id" : {self.id!r}, ' \
-            f'"campus_id" : "{self.category_name}"}}' \
+    def asdict(self) -> dict:
+        "Turn the object into a key/value dictionary for APIs that expect this."
+        return {'id': self.id,
+                'category_name': self.category_name}
 
 class FAQEntry(Base):
     """
@@ -102,13 +101,13 @@ class FAQEntry(Base):
             f"category_id={self.category_id!r}" \
             f"author_id={self.author_id!r})"
 
-    def to_json(self) -> str:
-        "Converts the database row to a JSON object."
-        return f'{{"id" : {self.id!r}, ' \
-            f'"question_text" : "{self.question_text}", ' \
-            f'"answer_text" : "{self.answer_text}", ' \
-            f'"category_id" : {self.category_id}, ' \
-            f'"author_id" : {self.author_id}}}'
+    def asdict(self) -> dict:
+        "Turn the object into a key/value dictionary for APIs that expect this."
+        return {'id': self.id,
+                'question_text': self.question_text,
+                'answer_text': self.answer_text,
+                'category_id': self.category_id,
+                'author_id': self.author_id}
 
 # Application Representation of the Database
 
@@ -120,20 +119,27 @@ class Engine(Enum):
     SQLITE_FILE = 2
     POSTGRESQL = 3
 
+# Note: A secure way to store the database password will be needed.
+def create_postgres_url(username, password, host='localhost'):
+    "Creates the database URL for PostgreSQL."
+    return URL.create('postgresql',
+                      username=username,
+                      password=password,
+                      host=host,
+                      database='umbc-triage')
+
 class AppDatabase():
     """
     The application database.
     """
-    def __init__(self, engine):
+    def __init__(self, engine, username='', password=''):
         self.engine_type = engine
         if engine == Engine.SQLITE_MEMORY:
             self.engine_path = "sqlite://"
         elif engine == Engine.SQLITE_FILE:
             self.engine_path = "sqlite:///instance/test.db"
-        # TODO: fixme: implement this for postgres for early merge
         elif engine == Engine.POSTGRESQL:
-            # Not yet implemented.
-            raise TypeError
+            self.engine_path = create_postgres_url(username, password)
         self.engine = create_engine(self.engine_path, echo=True)
 
 # Note: We will use PostgreSQL in production.
@@ -159,12 +165,11 @@ def print_all_users(engine):
         for user in session.scalars(statement):
             print(user)
 
-def users_to_json(engine):
-    "Turns a list of all users into JSON to assist in debugging and testing."
+def users_to_jsonable(engine) -> list[dict]:
+    "Turns a list of all users into dicts that can then be turned into JSON automatically."
     with Session(engine) as session:
         statement = select(User)
-        json_users = [user.to_json() for user in session.scalars(statement)]
-        return '[' + ','.join(json_users) + ']'
+        return [user.asdict() for user in session.scalars(statement)]
 
 def get_faq_entries(engine):
     "Retrieves the FAQ entries as markdown."

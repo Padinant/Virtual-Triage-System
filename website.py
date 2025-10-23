@@ -10,6 +10,7 @@ import markdown
 from flask import Flask
 from flask import Response
 from flask import render_template
+from flask import jsonify
 
 from chat import reply_to_message
 
@@ -18,7 +19,7 @@ from database import Engine
 from database import get_debug_database
 from database import get_faq_entries
 from database import get_faq_entry
-from database import users_to_json
+from database import users_to_jsonable
 
 from test_data import fill_debug_database
 
@@ -257,5 +258,4 @@ def message():
 def json_api_hello_world():
     "A temporary JSON file to demonstrate how APIs could work."
     db = get_debug_database(False)
-    return Response(response=users_to_json(db),
-                    mimetype='application/json')
+    return users_to_jsonable(db)
