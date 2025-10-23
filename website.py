@@ -49,17 +49,6 @@ def setup_app():
 
 setup_app()
 
-# A temporary Markdown string to test placing Markdown in the HTML.
-# Note that Markdown generates HTML so the template must mark the
-# variable as |safe in order for the HTML to not be escaped.
-LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit," \
-      "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." \
-      "Ut enim ad minim veniam, **quis** nostrud exercitation ullamco laboris" \
-      "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor" \
-      "in reprehenderit in voluptate velit esse cillum dolore eu fugiat" \
-      "nulla pariatur. Excepteur sint occaecat cupidatat non proident," \
-      "sunt in culpa qui officia deserunt mollit anim **id est** laborum."
-
 def faq_entries_to_markdown(faq_entries):
     "Turn FAQ questions and answers into markdown."
     return [markdown.markdown(item[0]) + '\n\n' + markdown.markdown(item[1]) + '\n\n'
@@ -80,17 +69,18 @@ def get_faq_titles_as_markdown(database):
     entries = get_faq_entries(database)
     return faq_titles_to_markdown(entries)
 
-MENU_ITEMS = [{'name': 'FAQs',
-               'url': '#'},
-              {'name': 'Search Questions',
-               'url': '#'},
+MENU_ITEMS = [{'name': 'Browse the FAQs',
+               'url': 'faq.html'},
+              {'name': 'Search the FAQs',
+               'url': 'search.html'},
               {'name': 'Use Chatbot',
-               'url': '#'},
+               'url': 'chat.html'},
               {'name': 'Contact Us',
-               'url': '#'},
+               'url': 'https://www.csee.umbc.edu/about_old/contact-us/'},
               {'name': 'Department Website',
-               'url': '#'},
+               'url': 'https://www.csee.umbc.edu/'},
               {'name': 'How to Use This Tool',
+               # This doesn't have a real URL yet!
                'url': '#'}]
 
 def page_from_faq_action(page, action, database):
