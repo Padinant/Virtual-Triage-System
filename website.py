@@ -4,14 +4,14 @@ Web server layer that serves HTML, CSS, JSON, etc.
 
 import os
 import secrets
-import string
 
 import markdown
 
 from flask import Flask
 from flask import Response
 from flask import render_template
-from flask import request, jsonify
+
+from chat import reply_to_message
 
 from database import create_debug_database
 from database import Engine
@@ -205,31 +205,16 @@ def admin_search_results_css():
     return Response(response=render_template('AdminSearchResults.css'),
                     mimetype='text/css')
 
-### CHATBOT PAGE SPECIFICS
-
 @app.route("/chat.html")
 def chat():
     "The chatbot page."
     return render_template('chat.html')
 
-def get_echo_output(user_text: string) -> string:
-    "This is the first output function for sprint 1. Returns an excited echo"
-    if not user_text:
-        return "Say Something!" # this is just contingency, it shouldn't be displayed
-    else:
-        return user_text + "!"
-
 # API endpoint for chat messages (in future versions this is where we'd get chatbot output)
 @app.route("/message", methods=["POST"])
 def message():
-    "This function gets text and makes a reply using get_echo_output"
-    # get user text
-    user_text = request.json.get("text", "")
-    # process user text and get output/reply text
-    reply = get_echo_output(user_text)
-    return jsonify({"reply": reply})
-
-###
+    "Calls the chatbot reply function, which returns a JSON result."
+    return reply_to_message()
 
 @app.route("/api.json")
 def json_api_hello_world():
