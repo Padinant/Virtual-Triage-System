@@ -12,7 +12,7 @@
     <!-- first top header section -->
     <header class="top-header-1">
       <div class="container"> <!-- helper for centering and padding -->
-        <a class="UMBC" href="MainPage.html"> <!-- makes clicking on the site logo bring you back to this main page (this is for ease of testing for now) -->
+        <a class="UMBC" href="index.html">
           <img src="{{ url_for('static', filename='UMBC_STYLES/UMBC-primary-logo-CMYK-on-black.png') }}" /> <!-- UMBC logo image -->
         </a>
       </div>
@@ -93,69 +93,11 @@
 
           <!-- every item here are parts of the faq list, and each item contains a link to a specific webpage,
           the "#" links are placeholders -->
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #1</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #2</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #3</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #4</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #5</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #6</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #7</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #8</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #9</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #10</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #11</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #12</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #13</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #14</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #15</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #16</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #17</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #18</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #19</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #20</a>
-          </li>
-          <li class="faq-list-item">
-            <a class="faq-list-link" href="#">FAQ Link Placeholder #21</a>
-          </li>
+          {% for item in faq_items %}
+            <li class="faq-list-item">
+              <a class="faq-list-link" href="#">{{ item | safe }}</a>
+            </li>
+          {% endfor %}
         </ul>
       </section>
 
