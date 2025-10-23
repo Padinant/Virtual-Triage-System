@@ -88,6 +88,17 @@ MENU_ITEMS = [{'name': 'Browse the FAQs',
                # This doesn't have a real URL yet!
                'url': '#'}]
 
+ADMIN_ITEMS = [{'name': 'DEBUG Add Entry (ADMIN)',
+                'url': 'admin-add.html'},
+               {'name': 'DEBUG Edit Entry (ADMIN)',
+                'url': 'admin-edit.html'},
+               {'name': 'DEBUG Remove Entry (ADMIN)',
+                'url': 'admin-remove.html'},
+               {'name': 'DEBUG FAQ (ADMIN)',
+                'url': 'admin-faq.html'},
+               {'name': 'DEBUG Search (ADMIN)',
+                'url': 'admin-search.html'}]
+
 def page_from_faq_action(page, action, database):
     "Generate a page by calling an action function on the database."
     items = action(database)
@@ -95,19 +106,27 @@ def page_from_faq_action(page, action, database):
                            menu_items = MENU_ITEMS,
                            faq_items = items)
 
+def main_page_from_faq_action(page, action, database):
+    "Generate a page by calling an action function on the database with admin links."
+    items = action(database)
+    return render_template(page,
+                           menu_items = MENU_ITEMS,
+                           faq_items = items,
+                           admin_items = ADMIN_ITEMS)
+
 @app.route("/")
 def home():
     "The main entry point to the app."
-    return page_from_faq_action('MainPage.html',
-                                get_faq_titles_as_markdown,
-                                get_debug_database(False))
+    return main_page_from_faq_action('MainPage.html',
+                                     get_faq_titles_as_markdown,
+                                     get_debug_database(False))
 
 @app.route("/index.html")
 def index():
     "Another name for the main entry point."
-    return page_from_faq_action('MainPage.html',
-                                get_faq_titles_as_markdown,
-                                get_debug_database(False))
+    return main_page_from_faq_action('MainPage.html',
+                                     get_faq_titles_as_markdown,
+                                     get_debug_database(False))
 
 @app.route("/faq.html")
 def faq_page():
@@ -130,7 +149,7 @@ def faq_search():
                                 get_faq_entries_as_markdown,
                                 get_debug_database(False))
 
-@app.route("/faq-admin.html")
+@app.route("/admin-faq.html")
 def faq_admin():
     "The admin FAQ list page."
     return page_from_faq_action('AdminFAQ.html',

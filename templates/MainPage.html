@@ -114,27 +114,11 @@
       </p>
 
       <!-- admin links section with placeholder information -->
+      {% for item in admin_items %}
       <p>
-        <a class="admin-link" href="AdminAdd.html">Placeholder AdminAdd Link</a>
+        <a class="admin-link" href="{{item.url}}">{{item.name}}</a>
       </p>
-      <p>
-        <a class="admin-link" href="AdminEdit.html"
-          >Placeholder AdminEdit Link</a
-        >
-      </p>
-      <p>
-        <a class="admin-link" href="AdminRemove.html"
-          >Placeholder AdminRemove Link</a
-        >
-      </p>
-      <p>
-        <a class="admin-link" href="AdminFAQ.html">Placeholder AdminFAQ Link</a>
-      </p>
-      <p>
-        <a class="admin-link" href="AdminSearchResults.html"
-          >Placeholder AdminSearchResults Link</a
-        >
-      </p>
+      {% endfor %}
 
     </main>
 
