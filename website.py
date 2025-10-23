@@ -17,6 +17,7 @@ from database import create_debug_database
 from database import Engine
 from database import get_debug_database
 from database import get_faq_entries
+from database import get_faq_entry
 from database import users_to_json
 
 from test_data import fill_debug_database
@@ -64,6 +65,10 @@ def get_faq_entries_as_markdown(database):
     entries = get_faq_entries(database)
     return faq_entries_to_markdown(entries)
 
+def get_faq_entry_as_markdown(faq_id):
+    "Retrieve all FAQ entries as markdown."
+    return lambda db : faq_entries_to_markdown(get_faq_entry(db, faq_id))
+
 def get_faq_titles_as_markdown(database):
     "Retrieve all FAQ titles (questions) as markdown."
     entries = get_faq_entries(database)
@@ -109,6 +114,13 @@ def faq_page():
     "The list of FAQ items."
     return page_from_faq_action('FAQPage.html',
                                 get_faq_entries_as_markdown,
+                                get_debug_database(False))
+
+@app.route("/faq/<int:faq_id>")
+def faq_item_page(faq_id):
+    "The page for a specific FAQ item."
+    return page_from_faq_action('FAQPage.html',
+                                get_faq_entry_as_markdown(faq_id),
                                 get_debug_database(False))
 
 @app.route("/search.html")
@@ -165,6 +177,12 @@ def main_css():
 
 @app.route("/FAQPage.css")
 def faq_css():
+    "The CSS file shared by all webpages."
+    return Response(response=render_template('FAQPage.css'),
+                    mimetype='text/css')
+
+@app.route("/faq/FAQPage.css")
+def faq_item_css():
     "The CSS file shared by all webpages."
     return Response(response=render_template('FAQPage.css'),
                     mimetype='text/css')
