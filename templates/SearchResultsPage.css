@@ -95,7 +95,7 @@ img {
 
 .top-header-2 {
   background-color: var(--umbcGold);
-  background-image: url("../UMBC_STYLES/maryland-flag-header-1280x180-gold.jpg");
+  background-image: url("{{ url_for('static', filename='UMBC_STYLES/maryland-flag-header-1280x180-gold.jpg') }}");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

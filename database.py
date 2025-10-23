@@ -172,3 +172,10 @@ def get_faq_entries(engine):
         statement = select(FAQEntry)
         return [(entry.question_text, entry.answer_text)
                 for entry in session.scalars(statement)]
+
+def get_faq_entry(engine, faq_id):
+    "Retrieves the FAQ entries as markdown."
+    with Session(engine) as session:
+        statement = select(FAQEntry).where(FAQEntry.id == faq_id)
+        return [(entry.question_text, entry.answer_text)
+                for entry in session.scalars(statement)]
