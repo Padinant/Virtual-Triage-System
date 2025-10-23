@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <title>VTS Search Results</title>
     
-    <link href="../PROJECT_CSS/SearchResultsPage.css" rel="stylesheet" />
+    <link href="SearchResultsPage.css" rel="stylesheet" />
   </head>
   <!-- body section, contains code for visible parts of the website and scripts -->
   <body>
@@ -12,8 +12,8 @@
     <!-- first top header section -->
     <header class="top-header-1">
       <div class="container"> <!-- helper for centering and padding -->
-        <a class="UMBC" href="MainPage.html"> <!-- makes clicking on the site logo bring you back to this main page (this is for ease of testing for now) -->
-          <img src="../UMBC_STYLES/UMBC-primary-logo-CMYK-on-black.png" /> <!-- UMBC logo image -->
+        <a class="UMBC" href="index.html"> <!-- makes clicking on the site logo bring you back to this main page (this is for ease of testing for now) -->
+          <img src="{{ url_for('static', filename='UMBC_STYLES/UMBC-primary-logo-CMYK-on-black.png') }}" /> <!-- UMBC logo image -->
         </a>
       </div>
     </header>
@@ -30,27 +30,11 @@
     <nav class="top-menu">
       <div class="container">
         <ul class="top-menu-list"> <!-- describes a list of items in the top menu -->
-
-        <!-- every item here are parts of the top menu list, and each item contains a link to a specific webpage,
-          the "#" links are placeholders -->
+          {% for item in menu_items %}
           <li class="top-menu-item">
-            <a class="top-menu-link" href="FAQPage.html">FAQs</a>
+            <a class="top-menu-link" href="{{item.url}}">{{ item.name }}</a>
           </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="SearchResultsPage.html">Search Questions</a>
-          </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="#">Use Chatbot</a>
-          </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="#">Contact Us</a>
-          </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="#">Department Website</a>
-          </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="#">How To Use This Tool</a>
-          </li>
+          {% endfor %}
         </ul>
       </div>
     </nav>
@@ -59,6 +43,9 @@
     <main class="main-content container" id="main">
       <!-- page title with placeholder information -->
       <h1 class="page-title page-title-search">Search Results</h1>
+      {% for item in faq_items %}
+        {{ item | safe }}
+      {% endfor %}
     </main>
 
     <!-- faq search bar section with placeholder information -->
@@ -80,27 +67,11 @@
     <nav class="top-menu top-menu-bottom"> <!-- reused top menu styles with bottom modifier -->
       <div class="container">
         <ul class="top-menu-list"> <!-- describes a list of items in the top menu -->
-
-        <!-- every item here are parts of the top menu list, and each item contains a link to a specific webpage,
-          the "#" links are placeholders -->
+          {% for item in menu_items %}
           <li class="top-menu-item">
-            <a class="top-menu-link" href="#">FAQs</a>
+            <a class="top-menu-link" href="{{item.url}}">{{ item.name }}</a>
           </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="SearchResultsPage.html">Search Questions</a>
-          </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="#">Use Chatbot</a>
-          </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="#">Contact Us</a>
-          </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="#">Department Website</a>
-          </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="#">How To Use This Tool</a>
-          </li>
+          {% endfor %}
         </ul>
       </div>
     </nav>
