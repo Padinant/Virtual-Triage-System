@@ -119,20 +119,27 @@ class Engine(Enum):
     SQLITE_FILE = 2
     POSTGRESQL = 3
 
+# Note: A secure way to store the database password will be needed.
+def create_postgres_url(username, password, host='localhost'):
+    "Creates the database URL for PostgreSQL."
+    return URL.create('postgresql',
+                      username=username,
+                      password=password,
+                      host=host,
+                      database='umbc-triage')
+
 class AppDatabase():
     """
     The application database.
     """
-    def __init__(self, engine):
+    def __init__(self, engine, username='', password=''):
         self.engine_type = engine
         if engine == Engine.SQLITE_MEMORY:
             self.engine_path = "sqlite://"
         elif engine == Engine.SQLITE_FILE:
             self.engine_path = "sqlite:///instance/test.db"
-        # TODO: fixme: implement this for postgres for early merge
         elif engine == Engine.POSTGRESQL:
-            # Not yet implemented.
-            raise TypeError
+            self.engine_path = create_postgres_url(username, password)
         self.engine = create_engine(self.engine_path, echo=True)
 
 # Note: We will use PostgreSQL in production.
