@@ -77,23 +77,42 @@ def get_faq_titles_as_markdown(database):
     entries = get_faq_entries(database)
     return faq_titles_to_markdown(entries)
 
+MENU_ITEMS = [{'name': 'FAQs',
+               'url': '#'},
+              {'name': 'Search Questions',
+               'url': '#'},
+              {'name': 'Use Chatbot',
+               'url': '#'},
+              {'name': 'Contact Us',
+               'url': '#'},
+              {'name': 'Department Website',
+               'url': '#'},
+              {'name': 'How to Use This Tool',
+               'url': '#'}]
+
 @app.route("/")
 def home():
     "The main entry point to the app."
     items = get_faq_titles_as_markdown(get_debug_database(False))
-    return render_template('MainPage.html', faq_items = items)
+    return render_template('MainPage.html',
+                           menu_items = MENU_ITEMS,
+                           faq_items = items)
 
 @app.route("/index.html")
 def index():
     "Another name for the main entry point."
     items = get_faq_titles_as_markdown(get_debug_database(False))
-    return render_template('MainPage.html', faq_items = items)
+    return render_template('MainPage.html',
+                           menu_items = MENU_ITEMS,
+                           faq_items = items)
 
 @app.route("/faq-page.html")
 def faq_page():
     "The list of FAQ items."
     items = get_faq_entries_as_markdown(get_debug_database(False))
-    return render_template('FAQPage.html', faq_items = items)
+    return render_template('FAQPage.html',
+                           menu_items = MENU_ITEMS,
+                           faq_items = items)
 
 @app.route("/style.css")
 def stylesheet():

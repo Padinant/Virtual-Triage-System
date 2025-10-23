@@ -30,27 +30,11 @@
     <nav class="top-menu">
       <div class="container">
         <ul class="top-menu-list"> <!-- describes a list of items in the top menu -->
-
-        <!-- every item here are parts of the top menu list, and each item contains a link to a specific webpage,
-          the "#" links are placeholders -->
+          {% for item in menu_items %}
           <li class="top-menu-item">
-            <a class="top-menu-link" href="FAQPage.html">FAQs</a>
+            <a class="top-menu-link" href="{{item.url}}">{{ item.name }}</a>
           </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="SearchResultsPage.html">Search Questions</a>
-          </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="#">Use Chatbot</a>
-          </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="#">Contact Us</a>
-          </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="#">Department Website</a>
-          </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="#">How To Use This Tool</a>
-          </li>
+          {% endfor %}
         </ul>
       </div>
     </nav>
@@ -70,27 +54,11 @@
     <nav class="top-menu top-menu-bottom"> <!-- reused top menu styles with bottom modifier -->
       <div class="container">
         <ul class="top-menu-list"> <!-- describes a list of items in the top menu -->
-
-        <!-- every item here are parts of the top menu list, and each item contains a link to a specific webpage,
-          the "#" links are placeholders -->
+          {% for item in menu_items %}
           <li class="top-menu-item">
-            <a class="top-menu-link" href="#">FAQs</a>
+            <a class="top-menu-link" href="{{item.url}}">{{ item.name }}</a>
           </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="SearchResultsPage.html">Search Questions</a>
-          </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="#">Use Chatbot</a>
-          </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="#">Contact Us</a>
-          </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="#">Department Website</a>
-          </li>
-          <li class="top-menu-item">
-            <a class="top-menu-link" href="#">How To Use This Tool</a>
-          </li>
+          {% endfor %}
         </ul>
       </div>
     </nav>
