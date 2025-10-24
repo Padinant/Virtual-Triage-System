@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% set header_eyebrow_class = 'top-header-2-eyebrow-admin-faq' %}
+{% set header_heading_class = 'top-header-2-heading-admin-faq' %}
+
+{% block title %}Admin: FAQ{% endblock %}
+
+{% block styles %}
+  <link href="{{ url_for('static', filename='css/admin-faq.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+    <!-- page title with placeholder information -->
+    <h1 class="page-title page-title-admin-faq">Admin FAQ</h1>
+
+    <!-- dropdown menu for browsing admin FAQ topics -->
+    <details class="faq-dropdown">
+      <summary class="faq-dropdown-toggle">Browse Admin FAQ Categories</summary>
+      <ul class="faq-dropdown-list">
+        <li><a class="faq-dropdown-link" href="#">Managing FAQs</a></li>
+        <li><a class="faq-dropdown-link" href="#">Publishing Updates</a></li>
+        <li><a class="faq-dropdown-link" href="#">Archiving Content</a></li>
+        <li><a class="faq-dropdown-link" href="#">User Feedback</a></li>
+        <li><a class="faq-dropdown-link" href="#">Escalation Process</a></li>
+      </ul>
+    </details>
+
+    <!-- action button for adding entries -->
+    <button class="admin-action-button admin-action-button-add" type="button">
+      Add Item
+    </button>
+
+    {% for item in faq_items %}
+      <!-- each FAQ entry includes contextual actions -->
+      <section class="admin-faq-entry">
+        <div class="admin-faq-heading-row">
+          <h2 class="section-heading">FAQ Entry</h2>
+          <div class="admin-action-group">
+            <button class="admin-action-button admin-action-button-edit" type="button">
+              Edit
+            </button>
+            <button class="admin-action-button admin-action-button-remove" type="button">
+              Remove
+            </button>
+          </div>
+        </div>
+        <div class="admin-faq-body">
+          {{ item | safe }}
+        </div>
+      </section>
+    {% endfor %}
+{% endblock %}
