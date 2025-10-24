@@ -1,52 +1,32 @@
-@import url("/static/css/base.css");
+{% extends "base.html" %}
 
-/* search page title */
-.main-content .page-title {
-  color: var(--umbc-black);
-  font-weight: 700;
-  margin: var(--space-md) 0 var(--space-sm);
-}
+{% set header_eyebrow_class = 'top-header-2-eyebrow-search' %}
+{% set header_heading_class = 'top-header-2-heading-search' %}
 
-/* search form container */
-.faq-search {
-  display: flex;
-  gap: var(--space-sm);
-  margin: var(--space-md) auto var(--space-lg);
-  max-width: 1200px;
-  padding: 0 var(--space-md);
-  width: var(--layout-content-width);
-}
+{% block title %}Search FAQs{% endblock %}
 
-/* search input field */
-.faq-search-input {
-  border: 2px solid var(--umbc-light-gray);
-  border-radius: var(--menu-border-radius);
-  flex: 1 1 auto;
-  font-size: var(--font-size-base);
-  height: var(--space-xl);
-  padding: 0 var(--space-sm);
-}
+{% block styles %}
+  <link href="{{ url_for('static', filename='css/search.css') }}" rel="stylesheet" />
+{% endblock %}
 
-.faq-search-input:focus {
-  border-color: var(--umbc-gold);
-  box-shadow: none;
-  outline: none;
-}
+{% block content %}
+    <!-- page title-->
+    <h1 class="page-title page-title-search">Search FAQs</h1>
 
-/* search submit button */
-.faq-search-submit {
-  background: var(--umbc-black);
-  border: none;
-  border-radius: var(--menu-border-radius);
-  color: var(--umbc-white);
-  cursor: pointer;
-  font-size: var(--font-size-base);
-  font-weight: 400;
-  height: var(--space-xl);
-  padding: 0 var(--space-md);
-  transition: background-color var(--transition-fast);
-}
-
-.faq-search-submit:hover {
-  background: var(--umbc-dark-gray);
-}
+    <!-- faq search bar section with placeholder information -->
+    <form class="faq-search" id="faq-search" action="{{ url_for('faq_search') }}">
+      <!-- input field -->
+      <input
+        autocomplete="off"
+        class="faq-search-input"
+        id="faq-query"
+        name="query"
+        placeholder="Search FAQs..."
+        type="search"
+      />
+      <!-- search button -->
+      <button class="faq-search-submit" id="faq-search-button" type="submit">
+        Search
+      </button>
+    </form>
+{% endblock %}
