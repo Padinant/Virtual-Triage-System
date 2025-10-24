@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% set header_eyebrow_class = 'top-header-2-eyebrow-faq' %}
+{% set header_heading_class = 'top-header-2-heading-faq' %}
+
+{% block title %}VTS FAQs{% endblock %}
+
+{% block styles %}
+  <link href="{{ url_for('static', filename='css/faq-page.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+    <!-- page title -->
+    <h1 class="page-title page-title-faq">Frequently Asked Questions (FAQ)</h1>
+
+    <!-- dropdown menu for FAQ categories -->
+    <details class="faq-dropdown">
+      <summary class="faq-dropdown-toggle">Browse FAQ Categories</summary>
+      <ul class="faq-dropdown-list">
+        <li><a class="faq-dropdown-link" href="#">Registration</a></li>
+        <li><a class="faq-dropdown-link" href="#">Grades</a></li>
+        <li><a class="faq-dropdown-link" href="#">Credits</a></li>
+      </ul>
+    </details>
+
+    <!-- every item here renders a single FAQ entry -->
+    {% for item in faq_items %}
+      <section class="faq-entry">
+        {{ item | safe }}
+      </section>
+    {% endfor %}
+{% endblock %}
