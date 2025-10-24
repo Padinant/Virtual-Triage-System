@@ -8,11 +8,13 @@ import secrets
 import markdown
 
 from flask import Flask
-from flask import Response
-from flask import render_template
 from flask import jsonify
+from flask import render_template
+from flask import send_from_directory
 
 from chat import reply_to_message
+from frontend import MENU_ITEMS
+from frontend import ADMIN_ITEMS
 
 from database import create_debug_database
 from database import Engine
@@ -75,31 +77,6 @@ def get_faq_titles_as_markdown(database):
     entries = get_faq_entries(database)
     return faq_titles_to_markdown(entries)
 
-MENU_ITEMS = [{'name': 'Browse the FAQs',
-               'url': 'faq.html'},
-              {'name': 'Search the FAQs',
-               'url': 'search.html'},
-              {'name': 'Use Chatbot',
-               'url': 'chat.html'},
-              {'name': 'Contact Us',
-               'url': 'https://www.csee.umbc.edu/about_old/contact-us/'},
-              {'name': 'Department Website',
-               'url': 'https://www.csee.umbc.edu/'},
-              {'name': 'How to Use This Tool',
-               # This doesn't have a real URL yet!
-               'url': '#'}]
-
-ADMIN_ITEMS = [{'name': 'DEBUG Add Entry (ADMIN)',
-                'url': 'admin-add.html'},
-               {'name': 'DEBUG Edit Entry (ADMIN)',
-                'url': 'admin-edit.html'},
-               {'name': 'DEBUG Remove Entry (ADMIN)',
-                'url': 'admin-remove.html'},
-               {'name': 'DEBUG FAQ (ADMIN)',
-                'url': 'admin-faq.html'},
-               {'name': 'DEBUG Search (ADMIN)',
-                'url': 'admin-search.html'}]
-
 def page_from_faq_action(page, action, database):
     "Generate a page by calling an action function on the database."
     items = action(database)
@@ -142,6 +119,12 @@ def faq_item_page(faq_id):
     return page_from_faq_action('faq-page.html',
                                 get_faq_entry_as_markdown(faq_id),
                                 get_debug_database(False))
+
+@app.route("/search")
+def faq_search_page():
+    "The FAQ search landing page."
+    return render_template('search.html',
+                           menu_items = MENU_ITEMS)
 
 @app.route("/search.html")
 def faq_search():
@@ -193,7 +176,7 @@ def base_css():
 @app.route("/style.css")
 def stylesheet():
     "The CSS file shared by all webpages."
-    return render_template('style.css')
+    return send_from_directory(_static_directory(), 'style.css', mimetype='text/css')
 
 @app.route("/main-page.css")
 def main_css():
