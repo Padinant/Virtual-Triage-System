@@ -1,0 +1,97 @@
+@import url("/base.css");
+
+/* page title */
+.main-content .page-title {
+  color: var(--umbc-black);
+  font-weight: 700;
+  margin: var(--space-md) 0 var(--space-sm);
+}
+
+/* section headings */
+.main-content .section-heading {
+  color: var(--umbc-black);
+  font-weight: 700;
+  margin: var(--space-lg) 0 var(--space-sm);
+}
+
+.section-heading {
+  font-size: var(--font-size-base);
+}
+
+/* content text */
+.main-content p {
+  font-size: var(--font-size-base);
+  margin: 0 0 var(--space-md);
+}
+
+/* dropdown container */
+.faq-dropdown {
+  margin: var(--space-md) 0 var(--space-lg);
+  max-width: 360px;
+  width: 100%;
+}
+
+/* dropdown toggle button */
+.faq-dropdown-toggle {
+  align-items: center;
+  background: var(--umbc-black);
+  border-radius: var(--menu-border-radius);
+  color: var(--umbc-white);
+  cursor: pointer;
+  display: flex;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  justify-content: space-between;
+  list-style: none;
+  padding: var(--space-sm) var(--space-md);
+  transition: background-color var(--transition-fast);
+}
+
+.faq-dropdown-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.faq-dropdown-toggle::marker {
+  content: "";
+}
+
+.faq-dropdown-toggle::after {
+  content: "\25BC";
+  font-size: var(--font-size-base);
+  margin-left: var(--space-sm);
+  transition: transform var(--transition-fast);
+}
+
+.faq-dropdown[open] .faq-dropdown-toggle {
+  background: var(--umbc-dark-gray);
+}
+
+.faq-dropdown[open] .faq-dropdown-toggle::after {
+  content: "\25B2";
+}
+
+/* dropdown list container */
+.faq-dropdown-list {
+  background: var(--umbc-white);
+  border: 1px solid var(--umbc-light-gray);
+  border-radius: var(--menu-border-radius);
+  list-style: none;
+  margin: var(--space-sm) 0 0;
+  padding: var(--space-sm) 0;
+  width: 100%;
+}
+
+/* dropdown links */
+.faq-dropdown-link {
+  color: var(--umbc-black);
+  display: block;
+  font-size: var(--font-size-sm);
+  padding: var(--space-sm) var(--space-md);
+  text-decoration: none;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.faq-dropdown-link:hover {
+  background: var(--umbc-light-gray);
+  color: var(--umbc-black);
+}

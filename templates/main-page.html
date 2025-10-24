@@ -6,11 +6,9 @@
 {% block title %}Main Page Test{% endblock %}
 
 {% block styles %}
-    <link href="{{ url_for('static', filename='css/main-page.css') }}" rel="stylesheet" />
-{% endblock %}
-
-{% block content %}
-    <!-- page title with placeholder information -->
+    <link href="/main-page.css" rel="stylesheet" />
+{% endblock %}{% block content %}
+    <!-- page title-->
     <h1 class="page-title page-title-main">Got Questions? We Have Answers!</h1>
     <p>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis accumsan

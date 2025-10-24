@@ -3,8 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>{% block title %}Interactive Help{% endblock %}</title>
-    <!-- shared base stylesheet -->
-    <link href="{{ url_for('static', filename='css/base.css') }}" rel="stylesheet" />
+    <link href="/base.css" rel="stylesheet" />
     {% block styles %}{% endblock %}
   </head>
   <!-- body section, contains code for visible parts of the website and scripts -->
