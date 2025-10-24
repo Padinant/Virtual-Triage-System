@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% set header_eyebrow_class = 'top-header-2-eyebrow-admin-edit' %}
+{% set header_heading_class = 'top-header-2-heading-admin-edit' %}
+
+{% block title %}Admin: Edit{% endblock %}
+
+{% block styles %}
+  <link href="{{ url_for('static', filename='css/admin-edit.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+    <!-- page title with placeholder information -->
+    <h1 class="page-title page-title-admin-edit">Edit FAQ Item [ADMIN]</h1>
+
+    <!-- admin edit form -->
+    <form class="admin-faq-form" action="{{ url_for('faq_admin_edit') }}" method="post">
+      <div class="admin-form-group">
+        <!-- question field -->
+        <h2 class="section-heading">Question</h2>
+        <textarea
+          class="admin-textfield admin-textfield-question"
+          id="admin-edit-question"
+          name="question"
+          placeholder="Update the FAQ question..."
+        ></textarea>
+      </div>
+
+      <div class="admin-form-group">
+        <!-- answer field -->
+        <h2 class="section-heading">Answer</h2>
+        <textarea
+          class="admin-textfield admin-textfield-answer"
+          id="admin-edit-answer"
+          name="answer"
+          placeholder="Revise the FAQ answer..."
+        ></textarea>
+      </div>
+
+      <div class="admin-form-group">
+        <!-- category field -->
+        <h2 class="section-heading">Category</h2>
+        <input
+          class="admin-text-input admin-text-input-category"
+          id="admin-edit-category"
+          name="category"
+          placeholder="Category"
+          size="50"
+          type="text"
+        />
+      </div>
+
+      <div class="admin-form-actions">
+        <!-- submit button -->
+        <button class="admin-submit-button" type="submit">Submit</button>
+      </div>
+    </form>
+{% endblock %}
