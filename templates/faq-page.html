@@ -6,27 +6,27 @@
 {% block title %}VTS FAQs{% endblock %}
 
 {% block styles %}
-  <link href="{{ url_for('static', filename='css/faq-page.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/FAQPage.css') }}" rel="stylesheet" />
 {% endblock %}
 
 {% block content %}
-    <!-- page title -->
+    <!-- page title with placeholder information -->
     <h1 class="page-title page-title-faq">Frequently Asked Questions (FAQ)</h1>
 
     <!-- dropdown menu for FAQ categories -->
     <details class="faq-dropdown">
       <summary class="faq-dropdown-toggle">Browse FAQ Categories</summary>
       <ul class="faq-dropdown-list">
-        <li><a class="faq-dropdown-link" href="#">Placeholder 1</a></li>
-        <li><a class="faq-dropdown-link" href="#">Placeholder 2</a></li>
-        <li><a class="faq-dropdown-link" href="#">Placeholder 3</a></li>
-        <li><a class="faq-dropdown-link" href="#">Placeholder 4</a></li>
-        <li><a class="faq-dropdown-link" href="#">Placeholder 5</a></li>
+        <li><a class="faq-dropdown-link" href="#">Registration</a></li>
+        <li><a class="faq-dropdown-link" href="#">Grades</a></li>
+        <li><a class="faq-dropdown-link" href="#">Credits</a></li>
+        <li><a class="faq-dropdown-link" href="#">Advising</a></li>
+        <li><a class="faq-dropdown-link" href="#">Contact Information</a></li>
       </ul>
     </details>
 
-    <!-- every item here renders a single FAQ entry -->
     {% for item in faq_items %}
+      <!-- every item here renders a single FAQ entry -->
       <section class="faq-entry">
         {{ item | safe }}
       </section>
