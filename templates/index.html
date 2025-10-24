@@ -1,31 +1,19 @@
-{% extends "base.html" %}
-
-{% set header_eyebrow_class = 'top-header-2-eyebrow-main' %}
-{% set header_heading_class = 'top-header-2-heading-main' %}
-
-{% block title %}Interactive Help &#8211; Department of Computer Science and Electrical Engineering &#8211; UMBC{% endblock %}
-
-{% block styles %}
-  <link href="{{ url_for('static', filename='css/main-page.css') }}" rel="stylesheet" />
-{% endblock %}
-
-{% block content %}
-    <!-- introductory text -->
-    <h1 class="page-title page-title-main">Interactive Help</h1>
-    <p>
-      Welcome to the UMBC CSEE Interactive Help portal. Use the navigation above to explore FAQs,
-      search common questions, or launch the chatbot experience.
-    </p>
-
-    <!-- quick navigation links -->
-    <p>
-      <a class="admin-link" href="https://www.csee.umbc.edu/">UMBC CSEE Department</a>
-    </p>
-    <p>
-      <a class="admin-link" href="{{ url_for('home') }}">Return to Main Page</a>
-    </p>
-
-    {{ page_body_text | default('', true) | safe }}
-{% endblock %}
-
-{% block page_scripts %}{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Interactive Help &#8211; Department of Computer Science and Electrical Engineering &#8211; UMBC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="data:," rel="icon"> <!-- TODO: UMBC icon goes here -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Note that JavaScript will also go under the /static directory, just like the CSS. -->
+  </head>
+  <body>
+    <a href="https://www.csee.umbc.edu/">
+      <h2> UMBC CSEE Department </h2>
+    </a>
+    <a href="index.html">
+      <h2> Interactive Help </h2>
+    </a>
+    {{ page_body_text|safe }}
+  </body>
+</html>
