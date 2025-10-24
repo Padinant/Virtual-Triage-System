@@ -6,27 +6,27 @@
 {% block title %}Admin: FAQ{% endblock %}
 
 {% block styles %}
-    <link href="{{ url_for('static', filename='css/AdminFAQ.css') }}" rel="stylesheet" />
+  <link href="/admin-faq.css" rel="stylesheet" />
 {% endblock %}
 
 {% block content %}
-    <!-- page title with placeholder information -->
+    <!-- page title-->
     <h1 class="page-title page-title-admin-faq">Admin FAQ</h1>
 
     <!-- dropdown menu for browsing admin FAQ topics -->
     <details class="faq-dropdown">
       <summary class="faq-dropdown-toggle">Browse Admin FAQ Categories</summary>
       <ul class="faq-dropdown-list">
-        <li><a class="faq-dropdown-link" href="#">Managing FAQs</a></li>
-        <li><a class="faq-dropdown-link" href="#">Publishing Updates</a></li>
-        <li><a class="faq-dropdown-link" href="#">Archiving Content</a></li>
-        <li><a class="faq-dropdown-link" href="#">User Feedback</a></li>
-        <li><a class="faq-dropdown-link" href="#">Escalation Process</a></li>
+        <li><a class="faq-dropdown-link" href="#">Placeholder 1</a></li>
+        <li><a class="faq-dropdown-link" href="#">Placeholder 2</a></li>
+        <li><a class="faq-dropdown-link" href="#">Placeholder 3</a></li>
+        <li><a class="faq-dropdown-link" href="#">Placeholder 4</a></li>
+        <li><a class="faq-dropdown-link" href="#">Placeholder 5</a></li>
       </ul>
     </details>
 
     <!-- action button for adding entries -->
-    <button class="admin-action-button admin-action-button-add" type="button">
+    <button class="admin-action-button admin-action-button-add" type="button" onclick="window.location.href='{{ url_for('faq_admin_add') }}'">
       Add Item
     </button>
 
@@ -36,10 +36,10 @@
         <div class="admin-faq-heading-row">
           <h2 class="section-heading">FAQ Entry</h2>
           <div class="admin-action-group">
-            <button class="admin-action-button admin-action-button-edit" type="button">
+            <button class="admin-action-button admin-action-button-edit" type="button" onclick="window.location.href='{{ url_for('faq_admin_edit') }}'">
               Edit
             </button>
-            <button class="admin-action-button admin-action-button-remove" type="button">
+            <button class="admin-action-button admin-action-button-remove" type="button" onclick="window.location.href='{{ url_for('faq_admin_remove') }}'">
               Remove
             </button>
           </div>

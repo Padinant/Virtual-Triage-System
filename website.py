@@ -129,7 +129,7 @@ def faq_search_page():
 @app.route("/search.html")
 def faq_search():
     "The FAQ search page."
-    return page_from_faq_action('search-results.html',
+    return page_from_faq_action('search.html',
                                 get_faq_entries_as_markdown,
                                 get_debug_database(False))
 
@@ -143,7 +143,7 @@ def faq_admin():
 @app.route("/admin-search.html")
 def faq_admin_search():
     "The admin FAQ search page."
-    return page_from_faq_action('admin-search-results.html',
+    return page_from_faq_action('admin-search.html',
                                 get_faq_entries_as_markdown,
                                 get_debug_database(False))
 
@@ -167,68 +167,70 @@ def faq_admin_remove():
 
 # Style pages
 
-def _static_directory() -> str:
-    "Return the absolute path to the static directory."
-    return os.path.join(app.root_path, 'static')
-
-def _css_directory() -> str:
-    "Return the absolute path to the static/css directory."
-    return os.path.join(_static_directory(), 'css')
+@app.route("/base.css")
+def base_css():
+    "The base CSS file with variables and global styles."
+    return Response(response=render_template('base.css'),
+                    mimetype='text/css')
 
 @app.route("/style.css")
 def stylesheet():
     "The CSS file shared by all webpages."
     return send_from_directory(_static_directory(), 'style.css', mimetype='text/css')
 
-@app.route("/MainPage.css")
+@app.route("/main-page.css")
 def main_css():
     "The CSS file shared by all webpages."
-    return send_from_directory(_css_directory(), 'MainPage.css', mimetype='text/css')
+    return Response(response=render_template('main-page.css'),
+                    mimetype='text/css')
 
-@app.route("/FAQPage.css")
+@app.route("/faq-page.css")
 def faq_css():
     "The CSS file shared by all webpages."
-    return send_from_directory(_css_directory(), 'FAQPage.css', mimetype='text/css')
+    return Response(response=render_template('faq-page.css'),
+                    mimetype='text/css')
 
-@app.route("/faq/FAQPage.css")
+@app.route("/faq/faq-page.css")
 def faq_item_css():
     "The CSS file shared by all webpages."
-    return send_from_directory(_css_directory(), 'FAQPage.css', mimetype='text/css')
+    return Response(response=render_template('faq-page.css'),
+                    mimetype='text/css')
 
-@app.route("/SearchResultsPage.css")
+@app.route("/search.css")
 def search_css():
     "The CSS file shared by all webpages."
-    return send_from_directory(_css_directory(), 'SearchResultsPage.css', mimetype='text/css')
+    return Response(response=render_template('search.css'),
+                    mimetype='text/css')
 
-@app.route("/Search.css")
-def search_page_css():
-    "The CSS file shared by all webpages."
-    return send_from_directory(_css_directory(), 'Search.css', mimetype='text/css')
-
-@app.route("/AdminAdd.css")
+@app.route("/admin-add.css")
 def admin_add_css():
     "The CSS file shared by all webpages."
-    return send_from_directory(_css_directory(), 'AdminAdd.css', mimetype='text/css')
+    return Response(response=render_template('admin-add.css'),
+                    mimetype='text/css')
 
-@app.route("/AdminEdit.css")
+@app.route("/admin-edit.css")
 def admin_edit_css():
     "The CSS file shared by all webpages."
-    return send_from_directory(_css_directory(), 'AdminEdit.css', mimetype='text/css')
+    return Response(response=render_template('admin-edit.css'),
+                    mimetype='text/css')
 
-@app.route("/AdminRemove.css")
+@app.route("/admin-remove.css")
 def admin_remove_css():
     "The CSS file shared by all webpages."
-    return send_from_directory(_css_directory(), 'AdminRemove.css', mimetype='text/css')
+    return Response(response=render_template('admin-remove.css'),
+                    mimetype='text/css')
 
-@app.route("/AdminFAQ.css")
+@app.route("/admin-faq.css")
 def admin_faq_css():
     "The CSS file shared by all webpages."
-    return send_from_directory(_css_directory(), 'AdminFAQ.css', mimetype='text/css')
+    return Response(response=render_template('admin-faq.css'),
+                    mimetype='text/css')
 
-@app.route("/AdminSearchResults.css")
-def admin_search_results_css():
+@app.route("/admin-search.css")
+def admin_search_css():
     "The CSS file shared by all webpages."
-    return send_from_directory(_css_directory(), 'AdminSearchResults.css', mimetype='text/css')
+    return Response(response=render_template('admin-search.css'),
+                    mimetype='text/css')
 
 @app.route("/chat.html")
 def chat():
