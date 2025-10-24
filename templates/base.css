@@ -1,0 +1,269 @@
+:root {
+  /* umbc brand colors */
+  --umbc-white: #ffffff;
+  --umbc-black: #000000;
+  --umbc-gold: #fdb515;
+  --umbc-retriever-red: #da2128;
+  --umbc-light-gray: #c7c8ca;
+  --umbc-aok-teal: #007176;
+  --umbc-retriever-brown: #a67a05;
+  --umbc-dark-gray: #636466;
+
+  /* layout dimensions */
+  --layout-base-height: 200px;
+  --layout-header-1-ratio: 3/4;
+  --layout-logo-ratio: 1/2;
+  --layout-divider-ratio: 1/20;
+  --layout-header-2-ratio: 1;
+  --layout-content-width: 75%;
+
+  /* menu dimensions */
+  --menu-height-ratio: 1/5;
+  --menu-border-radius: 5px;
+
+  /* spacing units */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+
+  /* font sizes */
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.5rem;
+  --font-size-xl: 2rem;
+  --font-size-xxl: 3rem;
+
+  /* transitions */
+  --transition-fast: 0.2s ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--umbc-white);
+  color: var(--umbc-black);
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
+  margin: 0;
+  text-align: justify;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+input,
+button,
+select,
+textarea {
+  font-family: inherit;
+}
+
+textarea {
+  resize: none;
+}
+
+a {
+  color: var(--umbc-gold);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--umbc-retriever-brown);
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+}
+
+.top-header-1 {
+  align-items: center;
+  background-color: var(--umbc-black);
+  border-bottom: calc(var(--layout-base-height) * var(--layout-divider-ratio)) solid
+    var(--umbc-light-gray);
+  display: flex;
+  height: calc(var(--layout-base-height) * var(--layout-header-1-ratio));
+  width: 100%;
+}
+
+.top-header-1 .container {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: flex-start;
+  margin: 0 auto;
+  max-width: none;
+  padding: 0;
+  width: var(--layout-content-width);
+}
+
+.UMBC img {
+  display: block;
+  height: calc(
+    var(--layout-base-height) * var(--layout-header-1-ratio) * var(--layout-logo-ratio)
+  );
+}
+
+.top-header-2 {
+  background-color: var(--umbc-gold);
+  background-image: url("/static/UMBC_STYLES/maryland-flag-header-1280x180-gold.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: calc(var(--layout-base-height) * var(--layout-header-2-ratio));
+  position: relative;
+  width: 100%;
+}
+
+.top-header-2-content {
+  align-items: flex-start;
+  color: var(--umbc-black);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  text-align: justify;
+  width: 100%;
+  z-index: 1;
+}
+
+.top-header-2-eyebrow {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+.top-header-2-heading {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 8px 0 0;
+}
+
+.top-header-2-eyebrow,
+.top-header-2-heading,
+.page-title,
+.section-heading {
+  text-align: left;
+}
+
+.top-header-2 .container {
+  margin: 0 auto;
+  max-width: none;
+  padding: 0;
+  width: var(--layout-content-width);
+}
+
+.top-menu {
+  align-items: center;
+  display: flex;
+  margin: 0 auto;
+  position: relative;
+  transform: translateY(-50%);
+  width: 100%;
+  z-index: 5;
+}
+
+.top-menu .container {
+  align-items: center;
+  background-color: var(--umbc-black);
+  border-radius: var(--menu-border-radius);
+  display: flex;
+  margin: 0 auto;
+  max-width: none;
+  overflow: hidden;
+  padding: 0;
+  width: var(--layout-content-width);
+}
+
+.top-menu-bottom {
+  margin: 40px auto 0;
+  transform: none;
+}
+
+.top-menu-list {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  justify-content: space-evenly;
+  list-style: none;
+  margin: 0;
+  overflow: visible;
+  padding: 0;
+  row-gap: 8px;
+  width: 100%;
+}
+
+.top-menu-item {
+  align-items: center;
+  display: flex;
+}
+
+.top-menu-link {
+  align-items: center;
+  color: var(--umbc-gold);
+  display: flex;
+  font-size: 1rem;
+  font-weight: 400;
+  min-height: calc(var(--layout-base-height) * var(--menu-height-ratio));
+  padding: 0 8px;
+  white-space: nowrap;
+}
+
+.top-menu-link:hover {
+  color: var(--umbc-retriever-brown);
+}
+
+.main-content {
+  margin: 40px auto;
+  max-width: none;
+  padding: 0;
+  width: var(--layout-content-width);
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 16px;
+}
+
+.page-title {
+  color: var(--umbc-black);
+  font-weight: 700;
+  margin: 16px 0 8px;
+}
+
+.section-heading {
+  color: var(--umbc-black);
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 16px 0 8px;
+}
+
+/* consistent scrollbar styling */
+*::-webkit-scrollbar {
+  background: var(--umbc-light-gray);
+  width: 12px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--umbc-dark-gray);
+  border-radius: 6px;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--umbc-dark-gray) var(--umbc-light-gray);
+}
