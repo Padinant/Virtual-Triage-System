@@ -146,7 +146,7 @@ def faq_item_page(faq_id):
 @app.route("/search.html")
 def faq_search():
     "The FAQ search page."
-    return page_from_faq_action('search-results.html',
+    return page_from_faq_action('search.html',
                                 get_faq_entries_as_markdown,
                                 get_debug_database(False))
 
@@ -184,6 +184,12 @@ def faq_admin_remove():
 
 # Style pages
 
+@app.route("/base.css")
+def base_css():
+    "The base CSS file with variables and global styles."
+    return Response(response=render_template('base.css'),
+                    mimetype='text/css')
+
 @app.route("/style.css")
 def stylesheet():
     "The CSS file shared by all webpages."
@@ -207,10 +213,10 @@ def faq_item_css():
     return Response(response=render_template('faq-page.css'),
                     mimetype='text/css')
 
-@app.route("/search-results.css")
+@app.route("/search.css")
 def search_css():
     "The CSS file shared by all webpages."
-    return Response(response=render_template('search-results.css'),
+    return Response(response=render_template('search.css'),
                     mimetype='text/css')
 
 @app.route("/admin-add.css")
@@ -237,10 +243,10 @@ def admin_faq_css():
     return Response(response=render_template('admin-faq.css'),
                     mimetype='text/css')
 
-@app.route("/admin-search-results.css")
-def admin_search_results_css():
+@app.route("/admin-search.css")
+def admin_search_css():
     "The CSS file shared by all webpages."
-    return Response(response=render_template('admin-search-results.css'),
+    return Response(response=render_template('admin-search.css'),
                     mimetype='text/css')
 
 @app.route("/chat.html")
