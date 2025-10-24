@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Interactive Help{% endblock %}</title>
+    <!-- shared base stylesheet -->
+    <link href="{{ url_for('static', filename='css/BaseCSS.css') }}" rel="stylesheet" />
+    {% block styles %}{% endblock %}
+  </head>
+  <!-- body section, contains code for visible parts of the website and scripts -->
+  <body>
+    {% set header_eyebrow_class = header_eyebrow_class | default('', true) %}
+    {% set header_heading_class = header_heading_class | default('', true) %}
+    {% set header_eyebrow_text = header_eyebrow_text | default('College of Engineering and Information Technology', true) %}
+    {% set header_heading_text = header_heading_text | default('Interactive Help', true) %}
+    {% set __menu_items = menu_items | default([], true) %}
+    {% set __bottom_menu_items = bottom_menu_items | default(__menu_items, true) %}
+
+    <!-- first top header section -->
+    <header class="top-header-1">
+      <div class="container"> <!-- helper for centering and padding -->
+        <a class="UMBC" href="{{ url_for('home') }}"> <!-- clicking logo returns to main page -->
+          <img
+            src="{{ url_for('static', filename='UMBC_STYLES/UMBC-primary-logo-CMYK-on-black.png') }}"
+            alt="UMBC primary logo"
+          /> <!-- UMBC logo image -->
+        </a>
+      </div>
+    </header>
+
+    <!-- second top header section -->
+    <section class="top-header-2">
+      <div class="top-header-2-content container"> <!-- helpers for style, centering, and padding -->
+        <span class="top-header-2-eyebrow {{ header_eyebrow_class }}">{{ header_eyebrow_text }}</span> <!-- eyebrow text -->
+        <h2 class="top-header-2-heading {{ header_heading_class }}">{{ header_heading_text }}</h2> <!-- heading text -->
+      </div>
+    </section>
+
+    <!-- top menu section -->
+    <nav class="top-menu">
+      <div class="container">
+        <ul class="top-menu-list"> <!-- describes a list of navigation links -->
+          {% for item in __menu_items %}
+            <li class="top-menu-item">
+              <a class="top-menu-link" href="{{ item.url }}">{{ item.name }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </nav>
+
+    <!-- main content area that each page will fill in -->
+    <main class="main-content container" id="main">
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- bottom menu section (reuses top menu styles with modifier) -->
+    <nav class="top-menu top-menu-bottom">
+      <div class="container">
+        <ul class="top-menu-list"> <!-- describes a list of navigation links -->
+          {% for item in __bottom_menu_items %}
+            <li class="top-menu-item">
+              <a class="top-menu-link" href="{{ item.url }}">{{ item.name }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </nav>
+
+    {% block page_scripts %}{% endblock %}
+  </body>
+</html>
