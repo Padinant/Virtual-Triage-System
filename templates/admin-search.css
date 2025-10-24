@@ -1,0 +1,51 @@
+@import url("/base.css");
+
+/* admin search form container */
+.faq-search {
+  display: flex;
+  gap: var(--space-sm);
+  margin: var(--space-md) auto var(--space-lg);
+  max-width: 1200px;
+  padding: 0 var(--space-md);
+  width: var(--layout-content-width);
+}
+
+/* admin search input field */
+.faq-search-input {
+  border: 2px solid var(--umbc-light-gray);
+  border-radius: var(--menu-border-radius);
+  flex: 1 1 auto;
+  font-size: var(--font-size-base);
+  height: var(--space-xl);
+  padding: 0 var(--space-sm);
+  transition: border-color 0.2s ease;
+}
+
+.faq-search-input:focus {
+  border-color: var(--umbc-gold);
+  box-shadow: none;
+  outline: none;
+}
+
+/* admin search submit button */
+.faq-search-submit {
+  background: var(--umbc-black);
+  border: none;
+  border-radius: var(--menu-border-radius);
+  color: var(--umbc-white);
+  cursor: pointer;
+  font-size: var(--font-size-base);
+  font-weight: 400;
+  height: var(--space-xl);
+  padding: 0 var(--space-md);
+  transition: background-color var(--transition-fast);
+}
+
+.faq-search-submit:hover {
+  background: var(--umbc-dark-gray);
+}
+
+/* admin search result entry */
+.admin-search-entry {
+  margin-bottom: var(--space-xl);
+}

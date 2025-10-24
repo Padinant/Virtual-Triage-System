@@ -6,7 +6,7 @@
 {% block title %}Admin: FAQ{% endblock %}
 
 {% block styles %}
-  <link href="{{ url_for('static', filename='css/admin-faq.css') }}" rel="stylesheet" />
+  <link href="/admin-faq.css" rel="stylesheet" />
 {% endblock %}
 
 {% block content %}
@@ -26,7 +26,7 @@
     </details>
 
     <!-- action button for adding entries -->
-    <button class="admin-action-button admin-action-button-add" type="button">
+    <button class="admin-action-button admin-action-button-add" type="button" onclick="window.location.href='{{ url_for('faq_admin_add') }}'">
       Add Item
     </button>
 
@@ -36,10 +36,10 @@
         <div class="admin-faq-heading-row">
           <h2 class="section-heading">FAQ Entry</h2>
           <div class="admin-action-group">
-            <button class="admin-action-button admin-action-button-edit" type="button">
+            <button class="admin-action-button admin-action-button-edit" type="button" onclick="window.location.href='{{ url_for('faq_admin_edit') }}'">
               Edit
             </button>
-            <button class="admin-action-button admin-action-button-remove" type="button">
+            <button class="admin-action-button admin-action-button-remove" type="button" onclick="window.location.href='{{ url_for('faq_admin_remove') }}'">
               Remove
             </button>
           </div>
