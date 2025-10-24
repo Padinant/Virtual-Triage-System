@@ -1,0 +1,71 @@
+@import url("/static/css/base.css");
+
+/* page title alignment */
+.main-content .page-title {
+  color: var(--umbc-black);
+  font-weight: 700;
+  margin: var(--space-md) 0 var(--space-sm);
+}
+
+/* warning text */
+.admin-remove-disclaimer {
+  color: var(--umbc-retriever-red);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  margin: var(--space-lg) 0 var(--space-md);
+}
+
+/* action layout */
+.admin-remove-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  justify-content: flex-start;
+  margin: 0 0 var(--space-lg);
+}
+
+/* action buttons base */
+.admin-remove-button {
+  align-items: center;
+  border: none;
+  border-radius: var(--menu-border-radius);
+  color: var(--umbc-white);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  padding: var(--space-sm) var(--space-lg);
+  transition: background-color var(--transition-fast);
+}
+
+/* confirm button */
+.admin-remove-button-yes {
+  background: var(--umbc-retriever-red);
+}
+
+.admin-remove-button-yes:hover {
+  background: var(--umbc-dark-gray);
+}
+
+/* cancel button */
+.admin-remove-button-no {
+  background: var(--umbc-dark-gray);
+}
+
+.admin-remove-button-no:hover {
+  background: var(--umbc-black);
+}
+
+/* section heading */
+.main-content .section-heading {
+  color: var(--umbc-black);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  margin: var(--space-md) 0 var(--space-sm);
+}
+
+/* content text */
+.main-content p {
+  font-size: var(--font-size-base);
+  margin: 0 0 var(--space-md);
+}
