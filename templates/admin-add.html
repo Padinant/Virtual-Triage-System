@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% set header_eyebrow_class = 'top-header-2-eyebrow-admin-add' %}
+{% set header_heading_class = 'top-header-2-heading-admin-add' %}
+
+{% block title %}Admin: Add{% endblock %}
+
+{% block styles %}
+  <link href="/admin-add.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+    <!-- page title-->
+    <h1 class="page-title page-title-admin-add">Add FAQ Item [ADMIN]</h1>
+
+    <!-- admin add form -->
+    <form class="admin-faq-form" action="{{ url_for('faq_admin_add') }}" method="post">
+      <div class="admin-form-group">
+        <!-- question field -->
+        <h2 class="section-heading">Question</h2>
+        <textarea
+          class="admin-textfield admin-textfield-question"
+          id="admin-add-question"
+          name="question"
+          placeholder="Enter the FAQ question..."
+        ></textarea>
+      </div>
+
+      <div class="admin-form-group">
+        <!-- answer field -->
+        <h2 class="section-heading">Answer</h2>
+        <textarea
+          class="admin-textfield admin-textfield-answer"
+          id="admin-add-answer"
+          name="answer"
+          placeholder="Provide the detailed answer..."
+        ></textarea>
+      </div>
+
+      <div class="admin-form-group">
+        <!-- category field -->
+        <h2 class="section-heading">Category</h2>
+        <input
+          class="admin-text-input admin-text-input-category"
+          id="admin-add-category"
+          name="category"
+          placeholder="Category"
+          size="50"
+          type="text"
+        />
+      </div>
+
+      <div class="admin-form-actions">
+        <!-- submit button -->
+        <button class="admin-submit-button" type="submit">Submit</button>
+      </div>
+    </form>
+{% endblock %}
