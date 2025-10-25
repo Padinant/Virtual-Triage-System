@@ -128,10 +128,9 @@ def create_postgres_url(username, password, host='localhost'):
                       host=host,
                       database='umbc-triage')
 
-def process_faq_entries(entries):
-    "Turn FAQ entry results into a simple format for the frontend."
-    return [(entry.question_text, entry.answer_text)
-            for entry in entries]
+def results_as_dicts(results) -> list[dict]:
+    "Turn database results into a simple format for the frontend."
+    return [result.asdict() for result in results]
 
 class AppDatabase():
     """
@@ -158,25 +157,25 @@ class AppDatabase():
         "Turns a list of all users into dicts that can then be turned into JSON automatically."
         with Session(self.engine) as session:
             statement = select(User)
-            return [user.asdict() for user in session.scalars(statement)]
+            return results_as_dicts(session.scalars(statement))
 
-    def faq_entry(self, faq_id):
+    def faq_entry(self, faq_id) -> list[dict]:
         "Retrieves exactly one FAQ entry, specified by its ID."
         with Session(self.engine) as session:
             statement = select(FAQEntry).where(FAQEntry.id == faq_id)
-            return process_faq_entries(session.scalars(statement))
+            return results_as_dicts(session.scalars(statement))
 
-    def faq_entries(self):
+    def faq_entries(self) -> list[dict]:
         "Retrieves all of the FAQ entries."
         with Session(self.engine) as session:
             statement = select(FAQEntry)
-            return process_faq_entries(session.scalars(statement))
+            return results_as_dicts(session.scalars(statement))
 
-    def faq_entries_by_category(self, category_id):
+    def faq_entries_by_category(self, category_id) -> list[dict]:
         "Retrieves the FAQ entries with the given category."
         with Session(self.engine) as session:
             statement = select(FAQEntry).where(FAQEntry.category_id == category_id)
-            return process_faq_entries(session.scalars(statement))
+            return results_as_dicts(session.scalars(statement))
 
     def faq_categories(self):
         "Returns a dict of category names, associating them with their internal IDs."

@@ -55,12 +55,14 @@ MARKDOWN_SEPARATOR = markdown.markdown('---')
 
 def faq_entries_to_markdown(faq_entries):
     "Turn FAQ questions and answers into markdown."
-    return [markdown.markdown(item[0]) + markdown.markdown(item[1]) + MARKDOWN_SEPARATOR
+    return [markdown.markdown(item['question_text']) +
+            markdown.markdown(item['answer_text']) +
+            MARKDOWN_SEPARATOR
             for item in faq_entries]
 
 def faq_titles_to_markdown(faq_entries):
     "Turn FAQ questions into markdown."
-    return [markdown.markdown(item[0])
+    return [markdown.markdown(item['question_text'])
             for item in faq_entries]
 
 def get_faq_entries_as_markdown(db):
