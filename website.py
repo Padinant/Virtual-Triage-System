@@ -16,7 +16,6 @@ from chat import reply_to_message
 from frontend import MENU_ITEMS
 from frontend import ADMIN_ITEMS
 
-from database import create_debug_database
 from database import AppDatabase
 from database import Engine
 
@@ -28,10 +27,10 @@ app.secret_key = secrets.token_hex()
 def init_db ():
     "Initializes the debug/testing database."
     print("Debug/testing DB not found! Creating it.")
-    db = create_debug_database(Engine.SQLITE_FILE)
+    db = AppDatabase(Engine.SQLITE_FILE)
+    db.initialize_metadata()
     print("Populating the database.")
     fill_debug_database(db)
-    return db
 
 def setup_app():
     "Makes sure that the app has everything that it needs on startup."

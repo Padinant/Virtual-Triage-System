@@ -178,8 +178,11 @@ class AppDatabase():
             statement = select(FAQEntry).where(FAQEntry.category_id == category_id)
             return process_faq_entries(session.scalars(statement))
 
-def create_debug_database(engine_type):
-    "Creates the debug database and populates it with the entries above."
-    db = AppDatabase(engine_type)
-    db.initialize_metadata()
-    return db.engine
+    def faq_categories(self):
+        "Returns a dict of category names, associating them with their internal IDs."
+        categories = {}
+        with Session(self.engine) as session:
+            statement = select(FAQCategory)
+            for category in session.scalars(statement):
+                categories[category.category_name] = category.id
+        return categories
