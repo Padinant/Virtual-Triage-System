@@ -49,14 +49,18 @@ def setup_app():
 
 setup_app()
 
+# This provides a section separator (which should be HTML <hr />) to
+# the end of certain markdown items.
+MARKDOWN_SEPARATOR = markdown.markdown('---')
+
 def faq_entries_to_markdown(faq_entries):
     "Turn FAQ questions and answers into markdown."
-    return [markdown.markdown(item[0]) + '\n\n' + markdown.markdown(item[1]) + '\n\n'
+    return [markdown.markdown(item[0]) + markdown.markdown(item[1]) + MARKDOWN_SEPARATOR
             for item in faq_entries]
 
 def faq_titles_to_markdown(faq_entries):
     "Turn FAQ questions into markdown."
-    return [markdown.markdown(item[0]) + '\n\n'
+    return [markdown.markdown(item[0])
             for item in faq_entries]
 
 def get_faq_entries_as_markdown(db):
