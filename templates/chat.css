@@ -1,0 +1,82 @@
+/* umbc brand colors */
+:root {
+  --umbc-white: #ffffff;
+  --umbc-black: #000000;
+  --umbc-gold: #fdb515;
+  --umbc-retriever-red: #da2128;
+  --umbc-light-gray: #c7c8ca;
+  --umbc-aok-teal: #007176;
+  --umbc-retriever-brown: #a67a05;
+  --umbc-dark-gray: #636466;
+}
+
+/* chat styling */
+body { 
+  font-family: Arial; 
+  max-width: 75%; 
+  margin: 20px auto; 
+}
+
+/* input box */
+.row { 
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+input#text {
+  flex: 1;
+  padding: 12px;
+  font-size: 16px;
+  border: 2px solid var(--umbc-light-gray);
+  border-radius: 4px;
+  background-color: var(--umbc-white);
+  color: var(--umbc-black);
+}
+
+input#text:focus {
+  border-color: var(--umbc-gold);
+  outline: none;
+}
+
+button#send {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: var(--umbc-gold);
+  color: var(--umbc-black);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  outline: none;
+}
+
+button#send:hover {
+  background-color: var(--umbc-retriever-brown);
+  color: var(--umbc-black);
+}
+
+/* chat messages area */
+#messages { 
+  height: 600px;
+  overflow-y: auto;
+  border: 1px solid var(--umbc-light-gray);
+  border-radius: 8px;
+  padding: 12px;
+  background-color: var(--umbc-white);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  outline: none;
+}
+
+/* messages */
+.msg {
+  padding: 10px;
+  border-radius: 8px;
+  word-wrap: break-word;
+  margin: 8px 0;
+  background-color: var(--umbc-light-gray);
+  color: var(--umbc-black);
+  border: none;
+}
