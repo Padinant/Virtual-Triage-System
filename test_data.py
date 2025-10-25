@@ -10,6 +10,7 @@ tests.
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 
+# from database import AppDatabase
 from database import User
 from database import FAQCategory
 from database import FAQEntry
@@ -64,8 +65,9 @@ TEST_FAQ = [("Q: Why can't I register for my classes?",
 
 TEST_FAQ_CATEGORIES = ["Registration", "Grades", "Credits"]
 
-def fill_debug_database(engine):
+def fill_debug_database(db):
     "Fills the debug database with fake data for testing."
+    engine = db.engine
     # Store the users and FAQ categories first because their fields do
     # not use relations.
     with Session(engine) as session:
@@ -82,13 +84,9 @@ def fill_debug_database(engine):
         session.add_all([guest, admin])
         session.add_all(categories)
         session.commit()
-    # Read the database to build a cache that associates names to
-    # IDs. Also find the first (and hopefully only) admin ID.
-    category_dict = {}
+    category_dict = db.faq_categories()
+    # Find the first (and hopefully only) admin ID.
     with Session(engine) as session:
-        statement = select(FAQCategory)
-        for category in session.scalars(statement):
-            category_dict[category.category_name] = category.id
         statement = select(User).where(User.name == "Administrator")
         admin = session.scalars(statement).first()
         admin_id = admin.id
