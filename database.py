@@ -128,9 +128,17 @@ def create_postgres_url(username, password, host='localhost'):
                       host=host,
                       database='umbc-triage')
 
+def process_faq_entries(entries):
+    "Turn FAQ entry results into a simple format for the frontend."
+    return [(entry.question_text, entry.answer_text)
+            for entry in entries]
+
 class AppDatabase():
     """
     The application database.
+
+    Instantiate this class to call methods on it to retrieve data from
+    the database.
     """
     def __init__(self, engine, username='', password=''):
         self.engine_type = engine
@@ -142,45 +150,36 @@ class AppDatabase():
             self.engine_path = create_postgres_url(username, password)
         self.engine = create_engine(self.engine_path, echo=True)
 
-# Note: We will use PostgreSQL in production.
+    def initialize_metadata(self):
+        "Create all of the ORM table metadata for a brand new database."
+        Base.metadata.create_all(self.engine)
+
+    def users_to_jsonable(self) -> list[dict]:
+        "Turns a list of all users into dicts that can then be turned into JSON automatically."
+        with Session(self.engine) as session:
+            statement = select(User)
+            return [user.asdict() for user in session.scalars(statement)]
+
+    def faq_entry(self, faq_id):
+        "Retrieves exactly one FAQ entry, specified by its ID."
+        with Session(self.engine) as session:
+            statement = select(FAQEntry).where(FAQEntry.id == faq_id)
+            return process_faq_entries(session.scalars(statement))
+
+    def faq_entries(self):
+        "Retrieves all of the FAQ entries."
+        with Session(self.engine) as session:
+            statement = select(FAQEntry)
+            return process_faq_entries(session.scalars(statement))
+
+    def faq_entries_by_category(self, category_id):
+        "Retrieves the FAQ entries with the given category."
+        with Session(self.engine) as session:
+            statement = select(FAQEntry).where(FAQEntry.category_id == category_id)
+            return process_faq_entries(session.scalars(statement))
+
 def create_debug_database(engine_type):
     "Creates the debug database and populates it with the entries above."
     db = AppDatabase(engine_type)
-    Base.metadata.create_all(db.engine)
+    db.initialize_metadata()
     return db.engine
-
-def get_debug_database(is_in_memory):
-    "Creates an interface to the already-existing database."
-    if is_in_memory:
-        engine_type = Engine.SQLITE_MEMORY
-    else:
-        engine_type = Engine.SQLITE_FILE
-    db = AppDatabase(engine_type)
-    return db.engine
-
-def print_all_users(engine):
-    "Prints all of the database's users to assist in debugging and testing."
-    with Session(engine) as session:
-        statement = select(User)
-        for user in session.scalars(statement):
-            print(user)
-
-def users_to_jsonable(engine) -> list[dict]:
-    "Turns a list of all users into dicts that can then be turned into JSON automatically."
-    with Session(engine) as session:
-        statement = select(User)
-        return [user.asdict() for user in session.scalars(statement)]
-
-def get_faq_entries(engine):
-    "Retrieves the FAQ entries as markdown."
-    with Session(engine) as session:
-        statement = select(FAQEntry)
-        return [(entry.question_text, entry.answer_text)
-                for entry in session.scalars(statement)]
-
-def get_faq_entry(engine, faq_id):
-    "Retrieves the FAQ entries as markdown."
-    with Session(engine) as session:
-        statement = select(FAQEntry).where(FAQEntry.id == faq_id)
-        return [(entry.question_text, entry.answer_text)
-                for entry in session.scalars(statement)]
