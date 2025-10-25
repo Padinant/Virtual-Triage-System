@@ -62,7 +62,8 @@ def faq_entries_to_markdown(faq_entries):
 
 def faq_titles_to_markdown(faq_entries):
     "Turn FAQ questions into markdown."
-    return [markdown.markdown(item['question_text'])
+    return [{'text': markdown.markdown(item['question_text']),
+             'url': f'/faq/{item['id']}'}
             for item in faq_entries]
 
 def get_faq_entries_as_markdown(db):
