@@ -102,7 +102,7 @@ def index():
                                      get_faq_titles_as_markdown,
                                      db)
 
-@app.route("/faq.html")
+@app.route("/faq-page.html")
 def faq_page():
     "The list of FAQ items."
     db = AppDatabase(Engine.SQLITE_FILE)
@@ -177,7 +177,7 @@ def base_css():
 @app.route("/style.css")
 def stylesheet():
     "The CSS file shared by all webpages."
-    return send_from_directory(_static_directory(), 'style.css', mimetype='text/css')
+    return send_from_directory(app.static_folder, 'style.css', mimetype='text/css')
 
 @app.route("/main-page.css")
 def main_css():
@@ -231,6 +231,12 @@ def admin_faq_css():
 def admin_search_css():
     "The CSS file shared by all webpages."
     return Response(response=render_template('admin-search.css'),
+                    mimetype='text/css')
+
+@app.route("/chat.css")
+def chat_css():
+    "The CSS file for the chat page."
+    return Response(response=render_template('chat.css'),
                     mimetype='text/css')
 
 @app.route("/chat.html")
