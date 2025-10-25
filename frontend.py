@@ -13,7 +13,4 @@ MENU_ITEMS = [
 ADMIN_ITEMS = [
     {"name": "DEBUG Admin FAQ", "url": "/admin-faq.html"},
     {"name": "DEBUG Admin Search", "url": "/admin-search.html"},
-    {"name": "DEBUG Admin Add", "url": "/admin-add.html"},
-    {"name": "DEBUG Admin Edit", "url": "/admin-edit.html"},
-    {"name": "DEBUG Admin Remove", "url": "/admin-remove.html"}
 ]
