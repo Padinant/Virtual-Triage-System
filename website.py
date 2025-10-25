@@ -8,7 +8,6 @@ import secrets
 import markdown
 
 from flask import Flask
-from flask import jsonify
 from flask import render_template
 from flask import send_from_directory
 from flask import Response
@@ -17,12 +16,8 @@ from chat import reply_to_message
 from frontend import MENU_ITEMS
 from frontend import ADMIN_ITEMS
 
-from database import create_debug_database
+from database import AppDatabase
 from database import Engine
-from database import get_debug_database
-from database import get_faq_entries
-from database import get_faq_entry
-from database import users_to_jsonable
 
 from test_data import fill_debug_database
 
@@ -32,10 +27,10 @@ app.secret_key = secrets.token_hex()
 def init_db ():
     "Initializes the debug/testing database."
     print("Debug/testing DB not found! Creating it.")
-    db = create_debug_database(Engine.SQLITE_FILE)
+    db = AppDatabase(Engine.SQLITE_FILE)
+    db.initialize_metadata()
     print("Populating the database.")
     fill_debug_database(db)
-    return db
 
 def setup_app():
     "Makes sure that the app has everything that it needs on startup."
@@ -54,40 +49,45 @@ def setup_app():
 
 setup_app()
 
+# This provides a section separator (which should be HTML <hr />) to
+# the end of certain markdown items.
+MARKDOWN_SEPARATOR = markdown.markdown('---')
+
 def faq_entries_to_markdown(faq_entries):
     "Turn FAQ questions and answers into markdown."
-    return [markdown.markdown(item[0]) + '\n\n' + markdown.markdown(item[1]) + '\n\n'
+    return [markdown.markdown(item['question_text']) +
+            markdown.markdown(item['answer_text']) +
+            MARKDOWN_SEPARATOR
             for item in faq_entries]
 
 def faq_titles_to_markdown(faq_entries):
     "Turn FAQ questions into markdown."
-    return [markdown.markdown(item[0]) + '\n\n'
+    return [{'text': markdown.markdown(item['question_text']),
+             'url': f'/faq/{item['id']}'}
             for item in faq_entries]
 
-def get_faq_entries_as_markdown(database):
+def get_faq_entries_as_markdown(db):
     "Retrieve all FAQ entries as markdown."
-    entries = get_faq_entries(database)
-    return faq_entries_to_markdown(entries)
+    return faq_entries_to_markdown(db.faq_entries())
 
 def get_faq_entry_as_markdown(faq_id):
     "Retrieve all FAQ entries as markdown."
-    return lambda db : faq_entries_to_markdown(get_faq_entry(db, faq_id))
+    return lambda db : faq_entries_to_markdown(db.faq_entry(faq_id))
 
-def get_faq_titles_as_markdown(database):
+def get_faq_titles_as_markdown(db):
     "Retrieve all FAQ titles (questions) as markdown."
-    entries = get_faq_entries(database)
-    return faq_titles_to_markdown(entries)
+    return faq_titles_to_markdown(db.faq_entries())
 
-def page_from_faq_action(page, action, database):
+def page_from_faq_action(page, action, db):
     "Generate a page by calling an action function on the database."
-    items = action(database)
+    items = action(db)
     return render_template(page,
                            menu_items = MENU_ITEMS,
                            faq_items = items)
 
-def main_page_from_faq_action(page, action, database):
+def main_page_from_faq_action(page, action, db):
     "Generate a page by calling an action function on the database with admin links."
-    items = action(database)
+    items = action(db)
     return render_template(page,
                            menu_items = MENU_ITEMS,
                            faq_items = items,
@@ -96,30 +96,34 @@ def main_page_from_faq_action(page, action, database):
 @app.route("/")
 def home():
     "The main entry point to the app."
+    db = AppDatabase(Engine.SQLITE_FILE)
     return main_page_from_faq_action('main-page.html',
                                      get_faq_titles_as_markdown,
-                                     get_debug_database(False))
+                                     db)
 
 @app.route("/index.html")
 def index():
     "Another name for the main entry point."
+    db = AppDatabase(Engine.SQLITE_FILE)
     return main_page_from_faq_action('main-page.html',
                                      get_faq_titles_as_markdown,
-                                     get_debug_database(False))
+                                     db)
 
 @app.route("/faq-page.html")
 def faq_page():
     "The list of FAQ items."
+    db = AppDatabase(Engine.SQLITE_FILE)
     return page_from_faq_action('faq-page.html',
                                 get_faq_entries_as_markdown,
-                                get_debug_database(False))
+                                db)
 
 @app.route("/faq/<int:faq_id>")
 def faq_item_page(faq_id):
     "The page for a specific FAQ item."
+    db = AppDatabase(Engine.SQLITE_FILE)
     return page_from_faq_action('faq-page.html',
                                 get_faq_entry_as_markdown(faq_id),
-                                get_debug_database(False))
+                                db)
 
 @app.route("/search")
 def faq_search_page():
@@ -130,23 +134,26 @@ def faq_search_page():
 @app.route("/search.html")
 def faq_search():
     "The FAQ search page."
+    db = AppDatabase(Engine.SQLITE_FILE)
     return page_from_faq_action('search.html',
                                 get_faq_entries_as_markdown,
-                                get_debug_database(False))
+                                db)
 
 @app.route("/admin-faq.html")
 def faq_admin():
     "The admin FAQ list page."
+    db = AppDatabase(Engine.SQLITE_FILE)
     return page_from_faq_action('admin-faq.html',
                                 get_faq_entries_as_markdown,
-                                get_debug_database(False))
+                                db)
 
 @app.route("/admin-search.html")
 def faq_admin_search():
     "The admin FAQ search page."
+    db = AppDatabase(Engine.SQLITE_FILE)
     return page_from_faq_action('admin-search.html',
                                 get_faq_entries_as_markdown,
-                                get_debug_database(False))
+                                db)
 
 @app.route("/admin-add.html")
 def faq_admin_add():
@@ -253,5 +260,5 @@ def message():
 @app.route("/api.json")
 def json_api_hello_world():
     "A temporary JSON file to demonstrate how APIs could work."
-    db = get_debug_database(False)
-    return users_to_jsonable(db)
+    db = AppDatabase(Engine.SQLITE_FILE)
+    return db.users_to_jsonable()
