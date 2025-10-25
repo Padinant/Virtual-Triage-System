@@ -2,7 +2,7 @@
 
 /* page title */
 .page-title-main {
-  font-size: var(--font-size-xxl);
+  font-size: var(--font-size-xl);
   margin-bottom: var(--space-xl);
   text-align: left;
 }
