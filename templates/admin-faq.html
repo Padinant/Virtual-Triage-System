@@ -39,7 +39,7 @@
             <button class="admin-action-button admin-action-button-edit" type="button" onclick="window.location.href='{{ url_for('faq_admin_edit', faq_id = item.id) }}'">
               Edit
             </button>
-            <button class="admin-action-button admin-action-button-remove" type="button" onclick="window.location.href='{{ url_for('faq_admin_remove') }}'">
+            <button class="admin-action-button admin-action-button-remove" type="button" onclick="window.location.href='{{ url_for('faq_admin_remove', faq_id = item.id) }}'">
               Remove
             </button>
           </div>
