@@ -28,13 +28,8 @@
       </button>
     </div>
 
-    <!-- example FAQ details that would be removed -->
-    <h2 class="section-heading">Example FAQ Content</h2>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis accumsan
-      finibus elit, sagittis pellentesque sem pretium egestas. Nam velit nisi,
-      eleifend sit amet aliquet quis, ultricies sit amet mi. Morbi efficitur
-      id quam vel commodo. Donec fringilla, eros in feugiat euismod, erat nisl
-      vehicula nunc, sit amet rhoncus neque diam ac turpis.
-    </p>
+    <!-- FAQ details that would be removed -->
+
+    <h2 class="section-heading">Selected FAQ Content</h2>
+    {{ faq_items[0].text | safe }}
 {% endblock %}

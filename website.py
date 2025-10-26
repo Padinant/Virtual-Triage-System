@@ -178,11 +178,18 @@ def edit_root():
     "The root edit directory redirects because it only makes sense if an ID is provided."
     return redirect(url_for('faq_admin'))
 
-@app.route("/admin-remove.html")
-def faq_admin_remove():
-    "The admin FAQ page for removing items."
-    return render_template('admin-remove.html',
-                           menu_items = MENU_ITEMS)
+@app.route("/remove/<int:faq_id>")
+def faq_admin_remove(faq_id):
+    "The admin FAQ page for removing an individual item."
+    db = AppDatabase(Engine.SQLITE_FILE)
+    return page_from_faq_action('admin-remove.html',
+                                get_faq_entry_as_markdown(faq_id),
+                                db)
+
+@app.route('/remove/')
+def remove_root():
+    "The root remove directory redirects because it only makes sense if an ID is provided."
+    return redirect(url_for('faq_admin'))
 
 # Style pages
 
