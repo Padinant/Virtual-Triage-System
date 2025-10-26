@@ -1,7 +1,7 @@
 # student/guest menu items
 MENU_ITEMS = [
     {"name": "Home", "url": "/"},
-    {"name": "Browse FAQ", "url": "/faq-page.html"},
+    {"name": "Browse FAQ", "url": "/faq/"},
     {"name": "Search", "url": "/search.html"},
     {"name": "Ask Chatbot", "url": "/chat.html"},
     {"name": "Contact Us", "url": "https://www.csee.umbc.edu/contact/"},
