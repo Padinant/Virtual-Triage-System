@@ -17,11 +17,9 @@
     <details class="faq-dropdown">
       <summary class="faq-dropdown-toggle">Browse FAQ Categories</summary>
       <ul class="faq-dropdown-list">
-        <li><a class="faq-dropdown-link" href="#">Placeholder 1</a></li>
-        <li><a class="faq-dropdown-link" href="#">Placeholder 2</a></li>
-        <li><a class="faq-dropdown-link" href="#">Placeholder 3</a></li>
-        <li><a class="faq-dropdown-link" href="#">Placeholder 4</a></li>
-        <li><a class="faq-dropdown-link" href="#">Placeholder 5</a></li>
+      {%for item in category_items %}
+        <li><a class="faq-dropdown-link" href="#">{{ item.category_name }}</a></li>
+      {% endfor %}
       </ul>
     </details>
 

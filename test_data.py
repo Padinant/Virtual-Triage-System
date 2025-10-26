@@ -84,7 +84,7 @@ def fill_debug_database(db):
         session.add_all([guest, admin])
         session.add_all(categories)
         session.commit()
-    category_dict = db.faq_categories()
+    category_dict = db.faq_categories_by_name()
     # Find the first (and hopefully only) admin ID.
     with Session(engine) as session:
         statement = select(User).where(User.name == "Administrator")

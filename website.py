@@ -84,8 +84,10 @@ def get_faq_titles_as_markdown(db):
 def page_from_faq_action(page, action, db):
     "Generate a page by calling an action function on the database."
     items = action(db)
+    categories = db.faq_categories()
     return render_template(page,
                            menu_items = MENU_ITEMS,
+                           category_items = categories,
                            faq_items = items)
 
 def main_page_from_faq_action(page, action, db):
