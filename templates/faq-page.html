@@ -28,7 +28,7 @@
     <!-- every item here renders a single FAQ entry -->
     {% for item in faq_items %}
       <section class="faq-entry">
-        {{ item | safe }}
+        {{ item.text | safe }}
       </section>
     {% endfor %}
 {% endblock %}

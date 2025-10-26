@@ -14,7 +14,7 @@
     <h1 class="page-title page-title-admin-edit">Edit FAQ Item [ADMIN]</h1>
 
     <!-- admin edit form -->
-    <form class="admin-faq-form" action="{{ url_for('faq_admin_edit') }}" method="post">
+    <form class="admin-faq-form" action="{{ url_for('faq_admin_edit', faq_id = 1) }}" method="post">
       <div class="admin-form-group">
         <!-- question field -->
         <h2 class="section-heading">Question</h2>
@@ -22,8 +22,7 @@
           class="admin-textfield admin-textfield-question"
           id="admin-edit-question"
           name="question"
-          placeholder="Update the FAQ question..."
-        ></textarea>
+        >{{ faq_entry.question_text }}</textarea>
       </div>
 
       <div class="admin-form-group">
@@ -33,8 +32,7 @@
           class="admin-textfield admin-textfield-answer"
           id="admin-edit-answer"
           name="answer"
-          placeholder="Revise the FAQ answer..."
-        ></textarea>
+        >{{ faq_entry.answer_text }}</textarea>
       </div>
 
       <div class="admin-form-group">

@@ -36,7 +36,7 @@
         <div class="admin-faq-heading-row">
           <h2 class="section-heading">FAQ Entry</h2>
           <div class="admin-action-group">
-            <button class="admin-action-button admin-action-button-edit" type="button" onclick="window.location.href='{{ url_for('faq_admin_edit') }}'">
+            <button class="admin-action-button admin-action-button-edit" type="button" onclick="window.location.href='{{ url_for('faq_admin_edit', faq_id = item.id) }}'">
               Edit
             </button>
             <button class="admin-action-button admin-action-button-remove" type="button" onclick="window.location.href='{{ url_for('faq_admin_remove') }}'">
@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="admin-faq-body">
-          {{ item | safe }}
+          {{ item.text | safe }}
         </div>
       </section>
     {% endfor %}

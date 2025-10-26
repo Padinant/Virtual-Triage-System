@@ -11,6 +11,8 @@ from flask import Flask
 from flask import render_template
 from flask import send_from_directory
 from flask import Response
+from flask import redirect
+from flask import url_for
 
 from chat import reply_to_message
 from frontend import MENU_ITEMS
@@ -55,9 +57,10 @@ MARKDOWN_SEPARATOR = markdown.markdown('---')
 
 def faq_entries_to_markdown(faq_entries):
     "Turn FAQ questions and answers into markdown."
-    return [markdown.markdown(item['question_text']) +
-            markdown.markdown(item['answer_text']) +
-            MARKDOWN_SEPARATOR
+    return [{'text': markdown.markdown(item['question_text']) +
+             markdown.markdown(item['answer_text']) +
+             MARKDOWN_SEPARATOR,
+             'id': item['id']}
             for item in faq_entries]
 
 def faq_titles_to_markdown(faq_entries):
@@ -161,11 +164,19 @@ def faq_admin_add():
     return render_template('admin-add.html',
                            menu_items = MENU_ITEMS)
 
-@app.route("/admin-edit.html")
-def faq_admin_edit():
-    "The admin FAQ page for editing items."
+@app.route("/edit/<int:faq_id>")
+def faq_admin_edit(faq_id):
+    "The admin FAQ page for editing an individual item."
+    db = AppDatabase(Engine.SQLITE_FILE)
+    faq_entry = db.faq_entry(faq_id)[0]
     return render_template('admin-edit.html',
-                           menu_items = MENU_ITEMS)
+                           menu_items = MENU_ITEMS,
+                           faq_entry = faq_entry)
+
+@app.route('/edit/')
+def edit_root():
+    "The root edit directory redirects because it only makes sense if an ID is provided."
+    return redirect(url_for('faq_admin'))
 
 @app.route("/admin-remove.html")
 def faq_admin_remove():
@@ -194,12 +205,6 @@ def main_css():
 
 @app.route("/faq-page.css")
 def faq_css():
-    "The CSS file shared by all webpages."
-    return Response(response=render_template('faq-page.css'),
-                    mimetype='text/css')
-
-@app.route("/faq/faq-page.css")
-def faq_item_css():
     "The CSS file shared by all webpages."
     return Response(response=render_template('faq-page.css'),
                     mimetype='text/css')
