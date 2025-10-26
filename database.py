@@ -93,13 +93,17 @@ class FAQEntry(Base):
     answer_text: Mapped[str] = mapped_column(String(20000))
     category_id: Mapped[int] = mapped_column(ForeignKey("faq_category.id"))
     author_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
+    # Deleted FAQ entries are first marked as removed and then can be
+    # batch deleted later on.
+    is_removed: Mapped[bool] = mapped_column(Boolean, default=False)
 
     def __repr__(self) -> str:
         return f"FAQEntry(id={self.id!r}, " \
             f"question_text={self.question_text!r}" \
             f"answer_text={self.answer_text!r}" \
             f"category_id={self.category_id!r}" \
-            f"author_id={self.author_id!r})"
+            f"author_id={self.author_id!r}" \
+            f"is_removed={self.is_removed!r})"
 
     def asdict(self) -> dict:
         "Turn the object into a key/value dictionary for APIs that expect this."
