@@ -112,7 +112,7 @@ def index():
                                      get_faq_titles_as_markdown,
                                      db)
 
-@app.route("/faq-page.html")
+@app.route("/faq/")
 def faq_page():
     "The list of FAQ items."
     db = AppDatabase(Engine.SQLITE_FILE)
