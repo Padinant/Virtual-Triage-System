@@ -181,7 +181,13 @@ class AppDatabase():
             statement = select(FAQEntry).where(FAQEntry.category_id == category_id)
             return results_as_dicts(session.scalars(statement))
 
-    def faq_categories(self):
+    def faq_categories(self) -> list[dict]:
+        "Retrieves all FAQ categories."
+        with Session(self.engine) as session:
+            statement = select(FAQCategory)
+            return results_as_dicts(session.scalars(statement))
+
+    def faq_categories_by_name(self) -> dict:
         "Returns a dict of category names, associating them with their internal IDs."
         categories = {}
         with Session(self.engine) as session:
