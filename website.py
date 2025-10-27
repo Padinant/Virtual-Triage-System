@@ -8,18 +8,19 @@ import secrets
 import markdown
 
 from flask import Flask
-from flask import render_template
-from flask import send_from_directory
 from flask import Response
 from flask import redirect
+from flask import render_template
+from flask import request
+from flask import send_from_directory
 from flask import url_for
 
 from chat import reply_to_message
-from frontend import MENU_ITEMS
-from frontend import ADMIN_ITEMS
-
 from database import AppDatabase
 from database import Engine
+from database import FAQEntry
+from frontend import ADMIN_ITEMS
+from frontend import MENU_ITEMS
 
 from test_data import fill_debug_database
 
@@ -160,7 +161,7 @@ def faq_admin_search():
                                 get_faq_entries_as_markdown,
                                 db)
 
-@app.route("/admin-add.html")
+@app.route("/add/")
 def faq_admin_add():
     "The admin FAQ page for adding items."
     return render_template('admin-add.html',
@@ -192,6 +193,53 @@ def faq_admin_remove(faq_id):
 def remove_root():
     "The root remove directory redirects because it only makes sense if an ID is provided."
     return redirect(url_for('faq_admin'))
+
+# Input
+
+@app.route("/add/", methods=["POST"])
+def faq_admin_add_post():
+    "Adds a new post to the database."
+    db = AppDatabase(Engine.SQLITE_FILE)
+
+    new_entry = FAQEntry(question_text = request.form['question'],
+                         answer_text = request.form['answer'],
+                         # TODO: update category
+                         category_id = 1,
+                         # TODO: get author
+                         author_id = 1)
+
+    faq_id = db.add_item(new_entry)
+
+    return redirect(url_for('faq_item_page', faq_id = faq_id))
+
+@app.route("/edit/<int:faq_id>", methods=["POST"])
+def faq_admin_edit_post(faq_id):
+    "Updates the given ID's post to contain the new data."
+    # TODO: update the category, too!
+    print(request.form['category'])
+
+    def query(statement):
+        return statement.where(FAQEntry.id == faq_id)
+
+    def update(item):
+        item.question_text = request.form['question']
+        item.answer_text = request.form['answer']
+
+    db = AppDatabase(Engine.SQLITE_FILE)
+    db.update_item(query, update)
+
+    return redirect(url_for('faq_item_page', faq_id = faq_id))
+
+@app.route("/remove/<int:faq_id>", methods=["POST"])
+def faq_admin_remove_post(faq_id):
+    "Removes the given post ID."
+    db = AppDatabase(Engine.SQLITE_FILE)
+
+    if request.form['confirm'] and request.form['confirm'] == 'yes':
+        db.remove_faq_entry(faq_id)
+        return "Success!"
+
+    return "Failure!"
 
 # Style pages
 
