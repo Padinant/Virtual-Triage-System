@@ -45,7 +45,7 @@
         {% for item in faq_items %}
           <!-- every item here is a placeholder link to an FAQ entry -->
           <li class="faq-list-item">
-            <a class="faq-list-link" href="#">{{ item | safe }}</a>
+            <a class="faq-list-link" href="{{ item.url }}">{{ item.text | safe }}</a>
           </li>
         {% endfor %}
       </ul>

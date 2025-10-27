@@ -15,13 +15,11 @@
 
     <!-- dropdown menu for browsing admin FAQ topics -->
     <details class="faq-dropdown">
-      <summary class="faq-dropdown-toggle">Browse Admin FAQ Categories</summary>
+      <summary class="faq-dropdown-toggle">Browse FAQ Categories</summary>
       <ul class="faq-dropdown-list">
-        <li><a class="faq-dropdown-link" href="#">Placeholder 1</a></li>
-        <li><a class="faq-dropdown-link" href="#">Placeholder 2</a></li>
-        <li><a class="faq-dropdown-link" href="#">Placeholder 3</a></li>
-        <li><a class="faq-dropdown-link" href="#">Placeholder 4</a></li>
-        <li><a class="faq-dropdown-link" href="#">Placeholder 5</a></li>
+      {%for item in category_items %}
+        <li><a class="faq-dropdown-link" href="#">{{ item.category_name }}</a></li>
+      {% endfor %}
       </ul>
     </details>
 
@@ -36,16 +34,16 @@
         <div class="admin-faq-heading-row">
           <h2 class="section-heading">FAQ Entry</h2>
           <div class="admin-action-group">
-            <button class="admin-action-button admin-action-button-edit" type="button" onclick="window.location.href='{{ url_for('faq_admin_edit') }}'">
+            <button class="admin-action-button admin-action-button-edit" type="button" onclick="window.location.href='{{ url_for('faq_admin_edit', faq_id = item.id) }}'">
               Edit
             </button>
-            <button class="admin-action-button admin-action-button-remove" type="button" onclick="window.location.href='{{ url_for('faq_admin_remove') }}'">
+            <button class="admin-action-button admin-action-button-remove" type="button" onclick="window.location.href='{{ url_for('faq_admin_remove', faq_id = item.id) }}'">
               Remove
             </button>
           </div>
         </div>
         <div class="admin-faq-body">
-          {{ item | safe }}
+          {{ item.text | safe }}
         </div>
       </section>
     {% endfor %}
