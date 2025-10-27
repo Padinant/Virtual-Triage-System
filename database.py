@@ -136,6 +136,7 @@ def results_as_dicts(results) -> list[dict]:
     "Turn database results into a simple format for the frontend."
     return [result.asdict() for result in results]
 
+# TODO: update, mark as removed, delete
 class AppDatabase():
     """
     The application database.
@@ -162,6 +163,12 @@ class AppDatabase():
         with Session(self.engine) as session:
             statement = select(User)
             return results_as_dicts(session.scalars(statement))
+
+    def add_items(self, items):
+        "Uses a session to add and commit a list of items to the database."
+        with Session(self.engine) as session:
+            session.add_all(items)
+            session.commit()
 
     def faq_entry(self, faq_id) -> list[dict]:
         "Retrieves exactly one FAQ entry, specified by its ID."
