@@ -34,7 +34,7 @@
     {% for item in faq_items %}
       <!-- each item here renders a single search result entry -->
       <section class="search-result-entry">
-        {{ item | safe }}
+        {{ item.text | safe }}
       </section>
     {% endfor %}
 {% endblock %}
