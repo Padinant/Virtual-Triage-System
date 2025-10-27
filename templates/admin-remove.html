@@ -20,12 +20,14 @@
 
     <!-- confirmation button group -->
     <div class="admin-remove-actions">
-      <button class="admin-remove-button admin-remove-button-yes" type="button">
-        Yes, Remove Item
-      </button>
-      <button class="admin-remove-button admin-remove-button-no" type="button">
-        No, Keep Item
-      </button>
+      <form action="{{ url_for('faq_admin_remove_post', faq_id = faq_items[0].id) }}" method="post">
+        <button class="admin-remove-button admin-remove-button-yes" type="submit" name="confirm" value="yes">
+          Yes, Remove Item
+        </button>
+        <button class="admin-remove-button admin-remove-button-no" type="button" name="cancel" onclick="history.back(); window.location.href='{{ url_for('home') }}';">
+          No, Keep Item
+        </button>
+      </form>
     </div>
 
     <!-- FAQ details that would be removed -->
