@@ -67,37 +67,32 @@ TEST_FAQ_CATEGORIES = ["Registration", "Grades", "Credits"]
 
 def fill_debug_database(db):
     "Fills the debug database with fake data for testing."
-    engine = db.engine
     # Store the users and FAQ categories first because their fields do
     # not use relations.
-    with Session(engine) as session:
-        guest = User(name = "Guest",
-                     campus_id = "",
-                     email = "",
-                     is_admin = False)
-        admin = User(name = "Administrator",
-                     campus_id = "FAKEID1",
-                     email = "admin@example.com",
-                     is_admin = True)
-        categories = [FAQCategory(category_name = category)
-                      for category in TEST_FAQ_CATEGORIES]
-        session.add_all([guest, admin])
-        session.add_all(categories)
-        session.commit()
+    guest = User(name = "Guest",
+                 campus_id = "",
+                 email = "",
+                 is_admin = False)
+    admin = User(name = "Administrator",
+                 campus_id = "FAKEID1",
+                 email = "admin@example.com",
+                 is_admin = True)
+    categories = [FAQCategory(category_name = category)
+                  for category in TEST_FAQ_CATEGORIES]
+    db.add_items([guest, admin])
+    db.add_items(categories)
     category_dict = db.faq_categories_by_name()
     # Find the first (and hopefully only) admin ID.
-    with Session(engine) as session:
+    with Session(db.engine) as session:
         statement = select(User).where(User.name == "Administrator")
         admin = session.scalars(statement).first()
         admin_id = admin.id
     # Add the FAQ entries by converting the constants' tuple format
     # into the object-oriented format and then committing it to the
     # database.
-    with Session(engine) as session:
-        entries = [FAQEntry(question_text = entry[0],
-                            answer_text = entry[1],
-                            category_id = category_dict[entry[2]],
-                            author_id = admin_id)
-                   for entry in TEST_FAQ]
-        session.add_all(entries)
-        session.commit()
+    entries = [FAQEntry(question_text = question,
+                        answer_text = answer,
+                        category_id = category_dict[category],
+                        author_id = admin_id)
+               for question, answer, category in TEST_FAQ]
+    db.add_items(entries)
