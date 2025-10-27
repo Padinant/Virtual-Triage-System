@@ -11,6 +11,7 @@ from flask import Flask
 from flask import render_template
 from flask import send_from_directory
 from flask import Response
+from flask import request
 from flask import redirect
 from flask import url_for
 
@@ -160,7 +161,7 @@ def faq_admin_search():
                                 get_faq_entries_as_markdown,
                                 db)
 
-@app.route("/admin-add.html")
+@app.route("/add/")
 def faq_admin_add():
     "The admin FAQ page for adding items."
     return render_template('admin-add.html',
@@ -192,6 +193,32 @@ def faq_admin_remove(faq_id):
 def remove_root():
     "The root remove directory redirects because it only makes sense if an ID is provided."
     return redirect(url_for('faq_admin'))
+
+# Input
+
+@app.route("/add/", methods=["POST"])
+def faq_admin_add_post():
+    "Adds a new post to the database."
+    print(request.form['question'])
+    print(request.form['answer'])
+    print(request.form['category'])
+    return "Success!"
+
+@app.route("/edit/<int:faq_id>", methods=["POST"])
+def faq_admin_edit_post(faq_id):
+    "Updates the given ID's post to contain the new data."
+    print(faq_id)
+    print(request.form['question'])
+    print(request.form['answer'])
+    print(request.form['category'])
+    return "Success!"
+
+@app.route("/remove/<int:faq_id>", methods=["POST"])
+def faq_admin_remove_post(faq_id):
+    "Removes the given post ID."
+    print(faq_id)
+    print(request.form['confirm'] and request.form['confirm'] == 'yes')
+    return "Success!"
 
 # Style pages
 
