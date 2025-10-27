@@ -136,7 +136,7 @@ def results_as_dicts(results) -> list[dict]:
     "Turn database results into a simple format for the frontend."
     return [result.asdict() for result in results]
 
-# TODO: update, mark as removed, delete
+# TODO: add individual item, mark as removed, delete
 class AppDatabase():
     """
     The application database.
@@ -170,16 +170,34 @@ class AppDatabase():
             session.add_all(items)
             session.commit()
 
+    def update_item(self, query, update):
+        """
+        Update an item in a session through two higher order functions.
+
+        The first function, query, takes a statement as its argument and lets the
+        caller refine that statement, such as with a .where() method call.
+
+        The second function, update, passes in an ORM object and lets
+        the caller edit that object.
+
+        The result is then committed.
+        """
+        with Session(self.engine) as session:
+            statement = select(FAQEntry)
+            result = session.scalars(query(statement)).one()
+            update(result)
+            session.commit()
+
     def faq_entry(self, faq_id) -> list[dict]:
         "Retrieves exactly one FAQ entry, specified by its ID."
         with Session(self.engine) as session:
-            statement = select(FAQEntry).where(FAQEntry.id == faq_id)
+            statement = select(FAQEntry).where(FAQEntry.id == faq_id and not FAQEntry.is_removed)
             return results_as_dicts(session.scalars(statement))
 
     def faq_entries(self) -> list[dict]:
         "Retrieves all of the FAQ entries."
         with Session(self.engine) as session:
-            statement = select(FAQEntry)
+            statement = select(FAQEntry).where(FAQEntry.is_removed == False)
             return results_as_dicts(session.scalars(statement))
 
     def faq_entries_by_category(self, category_id) -> list[dict]:
