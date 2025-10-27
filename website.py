@@ -199,14 +199,23 @@ def remove_root():
 @app.route("/add/", methods=["POST"])
 def faq_admin_add_post():
     "Adds a new post to the database."
-    print(request.form['question'])
-    print(request.form['answer'])
-    print(request.form['category'])
-    return "Success!"
+    db = AppDatabase(Engine.SQLITE_FILE)
+
+    new_entry = FAQEntry(question_text = request.form['question'],
+                         answer_text = request.form['answer'],
+                         # TODO: update category
+                         category_id = 1,
+                         # TODO: get author
+                         author_id = 1)
+
+    faq_id = db.add_item(new_entry)
+
+    return redirect(url_for('faq_item_page', faq_id = faq_id))
 
 @app.route("/edit/<int:faq_id>", methods=["POST"])
 def faq_admin_edit_post(faq_id):
     "Updates the given ID's post to contain the new data."
+    # TODO: update the category, too!
     print(request.form['category'])
 
     def query(statement):
@@ -219,14 +228,18 @@ def faq_admin_edit_post(faq_id):
     db = AppDatabase(Engine.SQLITE_FILE)
     db.update_item(query, update)
 
-    return faq_item_page(faq_id)
+    return redirect(url_for('faq_item_page', faq_id = faq_id))
 
 @app.route("/remove/<int:faq_id>", methods=["POST"])
 def faq_admin_remove_post(faq_id):
     "Removes the given post ID."
-    print(faq_id)
-    print(request.form['confirm'] and request.form['confirm'] == 'yes')
-    return "Success!"
+    db = AppDatabase(Engine.SQLITE_FILE)
+
+    if request.form['confirm'] and request.form['confirm'] == 'yes':
+        db.remove_faq_entry(faq_id)
+        return "Success!"
+
+    return "Failure!"
 
 # Style pages
 

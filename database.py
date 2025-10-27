@@ -136,7 +136,8 @@ def results_as_dicts(results) -> list[dict]:
     "Turn database results into a simple format for the frontend."
     return [result.asdict() for result in results]
 
-# TODO: add individual item, mark as removed, delete
+# TODO: Add a method that goes through and deletes every entry where
+# is_removed == True
 class AppDatabase():
     """
     The application database.
@@ -164,6 +165,13 @@ class AppDatabase():
             statement = select(User)
             return results_as_dicts(session.scalars(statement))
 
+    def add_item(self, item):
+        "Uses a session to add and commit exactly one item to the database."
+        with Session(self.engine) as session:
+            session.add(item)
+            session.commit()
+            return item.id
+
     def add_items(self, items):
         "Uses a session to add and commit a list of items to the database."
         with Session(self.engine) as session:
@@ -184,14 +192,16 @@ class AppDatabase():
         """
         with Session(self.engine) as session:
             statement = select(FAQEntry)
-            result = session.scalars(query(statement)).one()
+            statement = query(statement)
+            result = session.scalars(statement).one()
             update(result)
             session.commit()
 
     def faq_entry(self, faq_id) -> list[dict]:
         "Retrieves exactly one FAQ entry, specified by its ID."
         with Session(self.engine) as session:
-            statement = select(FAQEntry).where(FAQEntry.id == faq_id and not FAQEntry.is_removed)
+            statement = select(FAQEntry).where(FAQEntry.id == faq_id)
+            statement = statement.where(FAQEntry.is_removed == False)
             return results_as_dicts(session.scalars(statement))
 
     def faq_entries(self) -> list[dict]:
@@ -199,6 +209,16 @@ class AppDatabase():
         with Session(self.engine) as session:
             statement = select(FAQEntry).where(FAQEntry.is_removed == False)
             return results_as_dicts(session.scalars(statement))
+
+    def remove_faq_entry(self, faq_id):
+        "Marks an FAQ entry with the given ID as removed."
+        def query(statement):
+            return statement.where(FAQEntry.id == faq_id)
+
+        def update(item):
+            item.is_removed = True
+
+        self.update_item(query, update)
 
     def faq_entries_by_category(self, category_id) -> list[dict]:
         "Retrieves the FAQ entries with the given category."
