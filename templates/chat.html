@@ -1,52 +1,40 @@
-<!-- This is some HTML code for the chat page -->
+{% extends "base.html" %}
 
+{% set header_eyebrow_class = 'top-header-2-eyebrow-chat' %}
+{% set header_heading_class = 'top-header-2-heading-chat' %}
 
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>FAQ Chat Page(HTTP)</title>
+{% block title %}Ask the Chatbot{% endblock %}
+
+{% block styles %}
   <link href="/chat.css" rel="stylesheet" />
-</head>
-<body>
-  <h2>Interactive FAQ Chat</h2>
-  <div class="row">
-    <input id="text" placeholder="Type a message...">
-    <button id="send">Send</button>
+{% endblock %}
+
+{% block content %}
+  <h1 class="page-title page-title-chat">Ask Chatbot</h1>
+
+  <!-- Chat Container -->
+  <div id="chat-container">
+      <!-- Chat messages -->
+      <div id="chat-box">
+          <!-- Bot's initial message -->
+          <div class="message bot">
+              <img src="{{ url_for('static', filename='UMBC_STYLES/dogumbc.png') }}" alt="UMBC Mascot" class="avatar">
+
+              <div class="bubble bot-bubble">How can I help you?</div>
+          </div>
+      </div>
+
+      <!-- Input area -->
+      <div id="input-section">
+          <form id="chat-form" method="post" action="{{ url_for('chat') }}">
+              <input id="user-input" name="message" placeholder="Type your question..." required />
+              <button type="submit">Send</button>
+          </form>
+          <p class="footer-text">Ask Me Anything</p>
+      </div>
   </div>
-  <div id="messages"></div>
+{% endblock %}
 
-  <script>
-    // Here is some javascript code
-    const input = document.getElementById('text');
-    const sendButton = document.getElementById('send');
-    const messages = document.getElementById('messages');
-
-    function addBubble(text, who) {
-      const div = document.createElement('div');
-      div.className = 'msg';
-      div.textContent = (who === 'you' ? 'You: ' : 'CSEE Bot: ') + text;
-      messages.appendChild(div);
-      messages.scrollTop = messages.scrollHeight;
-    }
-
-    async function send() {
-      const text = input.value.trim();
-      if (!text) return;
-      addBubble(text, 'you');
-      input.value = '';
-      const res = await fetch('/message', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ text })
-      });
-      const data = await res.json();
-      addBubble(data.reply, 'bot');
-    }
-
-    // execute the send function after clicking the button or pressing enter
-    sendButton.onclick = send;
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
-  </script>
-</body>
-</html>
+{% block scripts %}
+  <script src="{{ url_for('static', filename='chat.js') }}"></script>
+{% endblock %}

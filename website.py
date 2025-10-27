@@ -242,7 +242,11 @@ def chat_css():
 @app.route("/chat.html")
 def chat():
     "The chatbot page."
-    return render_template('chat.html')
+    return render_template (
+        'chat.html',
+        menu_items=MENU_ITEMS,           # top menu
+        bottom_menu_items=MENU_ITEMS     # bottom menu
+) 
 
 # API endpoint for chat messages (in future versions this is where we'd get chatbot output)
 @app.route("/message", methods=["POST"])
