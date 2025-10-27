@@ -18,6 +18,7 @@ from flask import url_for
 from chat import reply_to_message
 from database import AppDatabase
 from database import Engine
+from database import FAQEntry
 from frontend import ADMIN_ITEMS
 from frontend import MENU_ITEMS
 
@@ -206,11 +207,19 @@ def faq_admin_add_post():
 @app.route("/edit/<int:faq_id>", methods=["POST"])
 def faq_admin_edit_post(faq_id):
     "Updates the given ID's post to contain the new data."
-    print(faq_id)
-    print(request.form['question'])
-    print(request.form['answer'])
     print(request.form['category'])
-    return "Success!"
+
+    def query(statement):
+        return statement.where(FAQEntry.id == faq_id)
+
+    def update(item):
+        item.question_text = request.form['question']
+        item.answer_text = request.form['answer']
+
+    db = AppDatabase(Engine.SQLITE_FILE)
+    db.update_item(query, update)
+
+    return faq_item_page(faq_id)
 
 @app.route("/remove/<int:faq_id>", methods=["POST"])
 def faq_admin_remove_post(faq_id):
