@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% set header_eyebrow_class = 'top-header-2-eyebrow-admin-faq' %}
+{% set header_heading_class = 'top-header-2-heading-admin-faq' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block styles %}
+  <link href="/faq-search-admin.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+    <!-- page title-->
+    <h1 class="page-title page-title-admin-faq">Admin FAQ</h1>
+
+    <!-- admin search form -->
+    <form class="faq-search" id="admin-faq-search" action="{{ url_for('faq_admin') }}">
+      <!-- input field -->
+      <input
+        autocomplete="off"
+        class="faq-search-input"
+        id="admin-faq-query"
+        name="query"
+        placeholder="Search admin FAQs..."
+        type="search"
+        value="{{ query | default('', true) }}"
+      />
+      <!-- search button -->
+      <button class="faq-search-submit" id="admin-faq-search-button" type="submit">
+        Search
+      </button>
+    </form>
+
+    <!-- dropdown menu for browsing admin FAQ topics -->
+    <details class="faq-dropdown">
+      <summary class="faq-dropdown-toggle">Browse FAQ Categories</summary>
+      <ul class="faq-dropdown-list">
+      {%for item in category_items %}
+        <li><a class="faq-dropdown-link" href="#">{{ item.category_name }}</a></li>
+      {% endfor %}
+      </ul>
+    </details>
+
+    <!-- action button for adding entries -->
+    <button class="admin-action-button admin-action-button-add" type="button" onclick="window.location.href='{{ url_for('faq_admin_add') }}'">
+      Add Item
+    </button>
+
+    {% for item in faq_items %}
+      <!-- each FAQ entry includes contextual actions -->
+      <section class="admin-faq-entry">
+        <div class="admin-faq-heading-row">
+          <h2 class="section-heading">FAQ Entry</h2>
+          <div class="admin-action-group">
+            <button class="admin-action-button admin-action-button-edit" type="button" onclick="window.location.href='{{ url_for('faq_admin_edit', faq_id = item.id) }}'">
+              Edit
+            </button>
+            <button class="admin-action-button admin-action-button-remove" type="button" onclick="window.location.href='{{ url_for('faq_admin_remove', faq_id = item.id) }}'">
+              Remove
+            </button>
+          </div>
+        </div>
+        <div class="admin-faq-body">
+          {{ item.text | safe }}
+        </div>
+      </section>
+    {% endfor %}
+{% endblock %}

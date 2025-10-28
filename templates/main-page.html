@@ -3,7 +3,7 @@
 {% set header_eyebrow_class = 'top-header-2-eyebrow-main' %}
 {% set header_heading_class = 'top-header-2-heading-main' %}
 
-{% block title %}Main Page Test{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block styles %}
     <link href="/main-page.css" rel="stylesheet" />
@@ -21,7 +21,7 @@
     </p>
 
     <!-- faq search bar section with placeholder information -->
-    <form class="faq-search" id="faq-search" action="{{ url_for('faq_search') }}">
+    <form class="faq-search" id="faq-search" action="{{ url_for('faq_page') }}">
       <!-- input field -->
       <input
         autocomplete="off"
@@ -45,7 +45,7 @@
         {% for item in faq_items %}
           <!-- every item here is a placeholder link to an FAQ entry -->
           <li class="faq-list-item">
-            <a class="faq-list-link" href="#">{{ item | safe }}</a>
+            <a class="faq-list-link" href="{{ item.url }}">{{ item.text | safe }}</a>
           </li>
         {% endfor %}
       </ul>
