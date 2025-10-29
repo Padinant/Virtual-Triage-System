@@ -37,9 +37,9 @@
   font-weight: bold;
   height: var(--space-xl);
   justify-content: center;
-  width: 200px;
   padding: 0 var(--space-lg);
   transition: background-color var(--transition-fast);
+  width: 200px;
 }
 
 /* confirm button */
@@ -74,3 +74,12 @@
   font-size: var(--font-size-base);
   margin: 0 0 var(--space-md);
 }
+
+/* faq content styling */
+.faq-content {
+  border: 1px solid var(--umbc-light-gray);
+  margin: var(--space-lg) 0;
+  padding: var(--space-md);
+}
+
+

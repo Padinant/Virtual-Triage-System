@@ -43,11 +43,11 @@
   border-radius: var(--menu-border-radius);
   color: var(--umbc-white);
   cursor: pointer;
+  font-size: var(--font-size-sm);
   font-weight: bold;
   height: var(--space-xl);
   padding: 0 var(--space-md);
   transition: background-color var(--transition-fast);
-  width: 100px;
 }
 
 .faq-search-submit:hover {
@@ -72,7 +72,7 @@
 /* faq panel section */
 .faq-panel {
   background: var(--umbc-light-gray);
-  border: 1px solid var(--umbc-light-gray);
+  border: 2px solid var(--umbc-light-gray);
   border-radius: var(--menu-border-radius);
   margin: var(--space-md) 0 var(--space-lg);
   max-height: 500px;

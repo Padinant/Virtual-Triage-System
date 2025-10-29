@@ -53,11 +53,11 @@
   border-radius: var(--menu-border-radius);
   color: var(--umbc-white);
   cursor: pointer;
+  font-size: var(--font-size-sm);
   font-weight: bold;
   height: var(--space-xl);
   padding: 0 var(--space-md);
   transition: background-color var(--transition-fast);
-  width: 100px;
 }
 
 .faq-search-submit:hover {
@@ -75,6 +75,7 @@
 .faq-dropdown-toggle {
   align-items: center;
   background: var(--umbc-black);
+  border: none;
   border-radius: var(--menu-border-radius);
   color: var(--umbc-white);
   cursor: pointer;
@@ -111,7 +112,7 @@
   content: "\25B2";
 }
 
-/* dropdown list */
+/* dropdown list container */
 .faq-dropdown-list {
   background: var(--umbc-white);
   border: 1px solid var(--umbc-light-gray);
@@ -119,7 +120,7 @@
   list-style: none;
   margin: var(--space-sm) 0 0;
   padding: var(--space-sm) 0;
-  width: 100%;
+  width: 400px;
 }
 
 .faq-dropdown-link {
@@ -150,7 +151,6 @@
   gap: var(--space-xs);
   height: var(--space-xl);
   justify-content: center;
-  width: 100px;
   padding: 0 var(--space-md);
   transition: background-color var(--transition-fast);
 }
@@ -179,7 +179,6 @@
 .admin-action-button-add {
   background: var(--umbc-aok-teal);
   margin: var(--space-sm) 0 var(--space-lg);
-  width: 150px;
 }
 
 .admin-action-button-add:hover {
@@ -188,18 +187,28 @@
 
 /* faq entry layout */
 .admin-faq-entry {
-  margin-bottom: var(--space-xl);
+  border: 1px solid var(--umbc-light-gray);
+  margin: var(--space-lg) 0;
+  padding: var(--space-md);
+  position: relative;
 }
 
 .admin-faq-heading-row {
   align-items: center;
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.admin-faq-heading-row .section-heading {
+  margin: 0;
 }
 
 .admin-action-group {
-  display: inline-flex;
+  display: flex;
   gap: var(--space-sm);
+  position: absolute;
+  right: var(--space-sm);
+  top: var(--space-sm);
 }
+
+

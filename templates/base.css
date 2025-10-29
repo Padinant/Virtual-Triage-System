@@ -72,12 +72,17 @@ textarea {
 }
 
 a {
-  color: var(--umbc-gold);
+  color: var(--umbc-aok-teal);
   text-decoration: none;
+  transition: text-decoration var(--transition-fast);
 }
 
 a:hover {
-  color: var(--umbc-retriever-brown);
+  text-decoration: underline;
+}
+
+.faq-dropdown-link:hover {
+  text-decoration: none;
 }
 
 img {
@@ -242,6 +247,7 @@ img {
 
 .top-menu-link:hover {
   color: var(--umbc-retriever-brown);
+  text-decoration: none;
 }
 
 .main-content {

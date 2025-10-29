@@ -50,7 +50,7 @@
       <!-- each FAQ entry includes contextual actions -->
       <section class="admin-faq-entry">
         <div class="admin-faq-heading-row">
-          <h2 class="section-heading">FAQ Entry</h2>
+          <h2 class="section-heading">FAQ Entry ID: {{ item.id }}</h2>
           <div class="admin-action-group">
             <button class="admin-action-button admin-action-button-edit" type="button" onclick="window.location.href='{{ url_for('faq_admin_edit', faq_id = item.id) }}'">
               Edit

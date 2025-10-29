@@ -32,6 +32,8 @@
 
     <!-- FAQ details that would be removed -->
 
-    <h2 class="section-heading">Selected FAQ Content</h2>
-    {{ faq_items[0].text | safe }}
+    <div class="faq-content">
+      <h2 class="section-heading">FAQ Entry ID: {{ faq_items[0].id }}</h2>
+      {{ faq_items[0].text | safe }}
+    </div>
 {% endblock %}
