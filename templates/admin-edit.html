@@ -3,7 +3,7 @@
 {% set header_eyebrow_class = 'top-header-2-eyebrow-admin-edit' %}
 {% set header_heading_class = 'top-header-2-heading-admin-edit' %}
 
-{% block title %}Admin: Edit{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block styles %}
   <link href="/admin-edit.css" rel="stylesheet" />
@@ -14,7 +14,7 @@
     <h1 class="page-title page-title-admin-edit">Edit FAQ Item [ADMIN]</h1>
 
     <!-- admin edit form -->
-    <form class="admin-faq-form" action="{{ url_for('faq_admin_edit') }}" method="post">
+    <form class="admin-faq-form" action="{{ url_for('faq_admin_edit_post', faq_id = faq_entry.id) }}" method="post">
       <div class="admin-form-group">
         <!-- question field -->
         <h2 class="section-heading">Question</h2>
@@ -22,8 +22,7 @@
           class="admin-textfield admin-textfield-question"
           id="admin-edit-question"
           name="question"
-          placeholder="Update the FAQ question..."
-        ></textarea>
+        >{{ faq_entry.question_text }}</textarea>
       </div>
 
       <div class="admin-form-group">
@@ -33,21 +32,19 @@
           class="admin-textfield admin-textfield-answer"
           id="admin-edit-answer"
           name="answer"
-          placeholder="Revise the FAQ answer..."
-        ></textarea>
+        >{{ faq_entry.answer_text }}</textarea>
       </div>
 
       <div class="admin-form-group">
         <!-- category field -->
-        <h2 class="section-heading">Category</h2>
-        <input
-          class="admin-text-input admin-text-input-category"
-          id="admin-edit-category"
-          name="category"
-          placeholder="Category"
-          size="50"
-          type="text"
-        />
+        <details class="faq-dropdown">
+          <summary class="faq-dropdown-toggle">Browse FAQ Categories</summary>
+          <ul class="faq-dropdown-list">
+          {%for item in category_items %}
+            <li><a class="faq-dropdown-link" href="#">{{ item.category_name }}</a></li>
+          {% endfor %}
+          </ul>
+        </details>
       </div>
 
       <div class="admin-form-actions">

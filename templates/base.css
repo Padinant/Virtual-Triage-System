@@ -48,7 +48,7 @@ body {
   color: var(--umbc-black);
   font-family: Arial, sans-serif;
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: normal;
   line-height: 1.5;
   letter-spacing: normal;
   margin: 0;
@@ -57,7 +57,7 @@ body {
 
 h1 {
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: bold;
 }
 
 input,
@@ -72,12 +72,17 @@ textarea {
 }
 
 a {
-  color: var(--umbc-gold);
+  color: var(--umbc-aok-teal);
   text-decoration: none;
+  transition: text-decoration var(--transition-fast);
 }
 
 a:hover {
-  color: var(--umbc-retriever-brown);
+  text-decoration: underline;
+}
+
+.faq-dropdown-link:hover {
+  text-decoration: none;
 }
 
 img {
@@ -139,16 +144,34 @@ img {
   z-index: 1;
 }
 
-.top-header-2-eyebrow {
+.top-header-2-eyebrow,
+.top-header-2-eyebrow a {
   font-size: 1.5rem;
-  font-weight: 400;
+  font-weight: normal;
   margin: 0;
+  color: var(--umbc-black);
+  text-decoration: none;
 }
 
-.top-header-2-heading {
+.top-header-2 .top-header-2-eyebrow:hover,
+.top-header-2-eyebrow a:hover {
+  color: var(--umbc-black) !important;
+  text-decoration: underline !important;
+}
+
+.top-header-2-heading,
+.top-header-2-heading a {
   font-size: 3rem;
-  font-weight: 700;
+  font-weight: bold;
   margin: 8px 0 0;
+  color: var(--umbc-black);
+  text-decoration: none;
+}
+
+.top-header-2 .top-header-2-heading:hover,
+.top-header-2-heading a:hover {
+  color: var(--umbc-black) !important;
+  text-decoration: underline !important;
 }
 
 .top-header-2-eyebrow,
@@ -216,7 +239,7 @@ img {
   color: var(--umbc-gold);
   display: flex;
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: normal;
   min-height: calc(var(--layout-base-height) * var(--menu-height-ratio));
   padding: 0 8px;
   white-space: nowrap;
@@ -224,6 +247,7 @@ img {
 
 .top-menu-link:hover {
   color: var(--umbc-retriever-brown);
+  text-decoration: none;
 }
 
 .main-content {
@@ -241,14 +265,14 @@ img {
 
 .page-title {
   color: var(--umbc-black);
-  font-weight: 700;
+  font-weight: bold;
   margin: 16px 0 8px;
 }
 
 .section-heading {
   color: var(--umbc-black);
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: bold;
   margin: 16px 0 8px;
 }
 

@@ -8,21 +8,19 @@ import secrets
 import markdown
 
 from flask import Flask
-from flask import jsonify
-from flask import render_template
-from flask import send_from_directory
 from flask import Response
+from flask import redirect
+from flask import render_template
+from flask import request
+from flask import send_from_directory
+from flask import url_for
 
 from chat import reply_to_message
-from frontend import MENU_ITEMS
-from frontend import ADMIN_ITEMS
-
-from database import create_debug_database
+from database import AppDatabase
 from database import Engine
-from database import get_debug_database
-from database import get_faq_entries
-from database import get_faq_entry
-from database import users_to_jsonable
+from database import FAQEntry
+from frontend import ADMIN_ITEMS
+from frontend import MENU_ITEMS
 
 from test_data import fill_debug_database
 
@@ -32,10 +30,10 @@ app.secret_key = secrets.token_hex()
 def init_db ():
     "Initializes the debug/testing database."
     print("Debug/testing DB not found! Creating it.")
-    db = create_debug_database(Engine.SQLITE_FILE)
+    db = AppDatabase(Engine.SQLITE_FILE)
+    db.initialize_metadata()
     print("Populating the database.")
     fill_debug_database(db)
-    return db
 
 def setup_app():
     "Makes sure that the app has everything that it needs on startup."
@@ -54,41 +52,50 @@ def setup_app():
 
 setup_app()
 
+# This provides a section separator (which should be HTML <hr />) to
+# the end of certain markdown items.
+MARKDOWN_SEPARATOR = markdown.markdown('---')
+
 def faq_entries_to_markdown(faq_entries):
     "Turn FAQ questions and answers into markdown."
-    return [markdown.markdown(item[0]) + '\n\n' + markdown.markdown(item[1]) + '\n\n'
+    return [{'text': markdown.markdown(item['question_text']) +
+             markdown.markdown(item['answer_text']),
+             'id': item['id']}
             for item in faq_entries]
 
 def faq_titles_to_markdown(faq_entries):
     "Turn FAQ questions into markdown."
-    return [markdown.markdown(item[0]) + '\n\n'
+    return [{'text': markdown.markdown(item['question_text']),
+             'url': f'/faq/{item['id']}'}
             for item in faq_entries]
 
-def get_faq_entries_as_markdown(database):
+def get_faq_entries_as_markdown(db):
     "Retrieve all FAQ entries as markdown."
-    entries = get_faq_entries(database)
-    return faq_entries_to_markdown(entries)
+    return faq_entries_to_markdown(db.faq_entries())
 
 def get_faq_entry_as_markdown(faq_id):
     "Retrieve all FAQ entries as markdown."
-    return lambda db : faq_entries_to_markdown(get_faq_entry(db, faq_id))
+    return lambda db : faq_entries_to_markdown(db.faq_entry(faq_id))
 
-def get_faq_titles_as_markdown(database):
+def get_faq_titles_as_markdown(db):
     "Retrieve all FAQ titles (questions) as markdown."
-    entries = get_faq_entries(database)
-    return faq_titles_to_markdown(entries)
+    return faq_titles_to_markdown(db.faq_entries())
 
-def page_from_faq_action(page, action, database):
+def page_from_faq_action(page, action, db, title="Interactive Help"):
     "Generate a page by calling an action function on the database."
-    items = action(database)
+    items = action(db)
+    categories = db.faq_categories()
     return render_template(page,
+                           title = title,
                            menu_items = MENU_ITEMS,
+                           category_items = categories,
                            faq_items = items)
 
-def main_page_from_faq_action(page, action, database):
+def main_page_from_faq_action(page, action, db, title="Interactive Help"):
     "Generate a page by calling an action function on the database with admin links."
-    items = action(database)
+    items = action(db)
     return render_template(page,
+                           title = title,
                            menu_items = MENU_ITEMS,
                            faq_items = items,
                            admin_items = ADMIN_ITEMS)
@@ -96,75 +103,141 @@ def main_page_from_faq_action(page, action, database):
 @app.route("/")
 def home():
     "The main entry point to the app."
+    db = AppDatabase(Engine.SQLITE_FILE)
     return main_page_from_faq_action('main-page.html',
                                      get_faq_titles_as_markdown,
-                                     get_debug_database(False))
+                                     db,
+                                     "Interactive Help - Department of Computer Science and Electrical Engineering - UMBC")
 
-@app.route("/index.html")
-def index():
-    "Another name for the main entry point."
-    return main_page_from_faq_action('main-page.html',
-                                     get_faq_titles_as_markdown,
-                                     get_debug_database(False))
-
-@app.route("/faq-page.html")
+@app.route("/faq/")
 def faq_page():
-    "The list of FAQ items."
-    return page_from_faq_action('faq-page.html',
+    "The list of FAQ items with search functionality."
+    db = AppDatabase(Engine.SQLITE_FILE)
+    return page_from_faq_action('faq-search.html',
                                 get_faq_entries_as_markdown,
-                                get_debug_database(False))
+                                db,
+                                "VTS FAQs")
 
 @app.route("/faq/<int:faq_id>")
 def faq_item_page(faq_id):
-    "The page for a specific FAQ item."
-    return page_from_faq_action('faq-page.html',
+    "The page for a specific FAQ item with search functionality."
+    db = AppDatabase(Engine.SQLITE_FILE)
+    return page_from_faq_action('faq-search.html',
                                 get_faq_entry_as_markdown(faq_id),
-                                get_debug_database(False))
+                                db,
+                                "VTS FAQs")
 
 @app.route("/search")
 def faq_search_page():
-    "The FAQ search landing page."
-    return render_template('search.html',
-                           menu_items = MENU_ITEMS)
+    "The FAQ search landing page (redirects to FAQ page)."
+    return redirect(url_for('faq_page'))
 
 @app.route("/search.html")
 def faq_search():
-    "The FAQ search page."
-    return page_from_faq_action('search.html',
-                                get_faq_entries_as_markdown,
-                                get_debug_database(False))
+    "The FAQ search page (redirects to FAQ page)."
+    return redirect(url_for('faq_page'))
 
 @app.route("/admin-faq.html")
 def faq_admin():
-    "The admin FAQ list page."
-    return page_from_faq_action('admin-faq.html',
+    "The admin FAQ list page with search functionality."
+    db = AppDatabase(Engine.SQLITE_FILE)
+    return page_from_faq_action('admin-faq-search.html',
                                 get_faq_entries_as_markdown,
-                                get_debug_database(False))
+                                db,
+                                "Admin: FAQ")
 
 @app.route("/admin-search.html")
 def faq_admin_search():
-    "The admin FAQ search page."
-    return page_from_faq_action('admin-search.html',
-                                get_faq_entries_as_markdown,
-                                get_debug_database(False))
+    "The admin FAQ search page (redirects to admin FAQ page)."
+    return redirect(url_for('faq_admin'))
 
-@app.route("/admin-add.html")
+@app.route("/add/")
 def faq_admin_add():
     "The admin FAQ page for adding items."
+    db = AppDatabase(Engine.SQLITE_FILE)
+    categories = db.faq_categories()
     return render_template('admin-add.html',
-                           menu_items = MENU_ITEMS)
+                           title = "Admin: Add",
+                           menu_items = MENU_ITEMS,
+                           category_items = categories)
 
-@app.route("/admin-edit.html")
-def faq_admin_edit():
-    "The admin FAQ page for editing items."
+@app.route("/edit/<int:faq_id>")
+def faq_admin_edit(faq_id):
+    "The admin FAQ page for editing an individual item."
+    db = AppDatabase(Engine.SQLITE_FILE)
+    faq_entry = db.faq_entry(faq_id)[0]
+    categories = db.faq_categories()
     return render_template('admin-edit.html',
-                           menu_items = MENU_ITEMS)
+                           title = "Admin: Edit",
+                           menu_items = MENU_ITEMS,
+                           category_items = categories,
+                           faq_entry = faq_entry)
 
-@app.route("/admin-remove.html")
-def faq_admin_remove():
-    "The admin FAQ page for removing items."
-    return render_template('admin-remove.html',
-                           menu_items = MENU_ITEMS)
+@app.route('/edit/')
+def edit_root():
+    "The root edit directory redirects because it only makes sense if an ID is provided."
+    return redirect(url_for('faq_admin'))
+
+@app.route("/remove/<int:faq_id>")
+def faq_admin_remove(faq_id):
+    "The admin FAQ page for removing an individual item."
+    db = AppDatabase(Engine.SQLITE_FILE)
+    return page_from_faq_action('admin-remove.html',
+                                get_faq_entry_as_markdown(faq_id),
+                                db,
+                                "Admin: Remove")
+
+@app.route('/remove/')
+def remove_root():
+    "The root remove directory redirects because it only makes sense if an ID is provided."
+    return redirect(url_for('faq_admin'))
+
+# Input
+
+@app.route("/add/", methods=["POST"])
+def faq_admin_add_post():
+    "Adds a new post to the database."
+    db = AppDatabase(Engine.SQLITE_FILE)
+
+    new_entry = FAQEntry(question_text = request.form['question'],
+                         answer_text = request.form['answer'],
+                         # TODO: update category
+                         category_id = 1,
+                         # TODO: get author
+                         author_id = 1)
+
+    faq_id = db.add_item(new_entry)
+
+    return redirect(url_for('faq_item_page', faq_id = faq_id))
+
+@app.route("/edit/<int:faq_id>", methods=["POST"])
+def faq_admin_edit_post(faq_id):
+    "Updates the given ID's post to contain the new data."
+    # TODO: update the category, too!
+    # print(request.form['category'])  # Jia Liu - Commented this part out to be able to run edit for the presentation
+
+    def query(statement):
+        return statement.where(FAQEntry.id == faq_id)
+
+    def update(item):
+        item.question_text = request.form['question']
+        item.answer_text = request.form['answer']
+
+    db = AppDatabase(Engine.SQLITE_FILE)
+    db.update_item(query, update)
+
+    return redirect(url_for('faq_item_page', faq_id = faq_id))
+
+@app.route("/remove/<int:faq_id>", methods=["POST"])
+def faq_admin_remove_post(faq_id):
+    "Removes the given post ID."
+    db = AppDatabase(Engine.SQLITE_FILE)
+
+    if request.form['confirm'] and request.form['confirm'] == 'yes':
+        db.remove_faq_entry(faq_id)
+        return "Success!"
+
+    return "Failure!"
 
 # Style pages
 
@@ -187,20 +260,14 @@ def main_css():
 
 @app.route("/faq-page.css")
 def faq_css():
-    "The CSS file shared by all webpages."
-    return Response(response=render_template('faq-page.css'),
+    "The CSS file for the old FAQ page (now serves combined CSS)."
+    return Response(response=render_template('faq-search.css'),
                     mimetype='text/css')
 
-@app.route("/faq/faq-page.css")
-def faq_item_css():
-    "The CSS file shared by all webpages."
-    return Response(response=render_template('faq-page.css'),
-                    mimetype='text/css')
-
-@app.route("/search.css")
-def search_css():
-    "The CSS file shared by all webpages."
-    return Response(response=render_template('search.css'),
+@app.route("/faq-search.css")
+def faq_search_css():
+    "The CSS file for the combined FAQ and search page."
+    return Response(response=render_template('faq-search.css'),
                     mimetype='text/css')
 
 @app.route("/admin-add.css")
@@ -223,14 +290,14 @@ def admin_remove_css():
 
 @app.route("/admin-faq.css")
 def admin_faq_css():
-    "The CSS file shared by all webpages."
-    return Response(response=render_template('admin-faq.css'),
+    "The CSS file for the old admin FAQ page (now serves combined CSS)."
+    return Response(response=render_template('admin-faq-search.css'),
                     mimetype='text/css')
 
-@app.route("/admin-search.css")
-def admin_search_css():
-    "The CSS file shared by all webpages."
-    return Response(response=render_template('admin-search.css'),
+@app.route("/admin-faq-search.css")
+def admin_faq_search_css():
+    "The CSS file for the combined admin FAQ and search page."
+    return Response(response=render_template('admin-faq-search.css'),
                     mimetype='text/css')
 
 @app.route("/chat.css")
@@ -242,7 +309,12 @@ def chat_css():
 @app.route("/chat.html")
 def chat():
     "The chatbot page."
-    return render_template('chat.html')
+    return render_template (
+        'chat.html',
+        title="Ask the Chatbot",
+        menu_items=MENU_ITEMS,           # top menu
+        bottom_menu_items=MENU_ITEMS     # bottom menu
+) 
 
 # API endpoint for chat messages (in future versions this is where we'd get chatbot output)
 @app.route("/message", methods=["POST"])
@@ -253,5 +325,5 @@ def message():
 @app.route("/api.json")
 def json_api_hello_world():
     "A temporary JSON file to demonstrate how APIs could work."
-    db = get_debug_database(False)
-    return users_to_jsonable(db)
+    db = AppDatabase(Engine.SQLITE_FILE)
+    return db.users_to_jsonable()
