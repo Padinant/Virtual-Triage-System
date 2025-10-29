@@ -59,8 +59,7 @@ MARKDOWN_SEPARATOR = markdown.markdown('---')
 def faq_entries_to_markdown(faq_entries):
     "Turn FAQ questions and answers into markdown."
     return [{'text': markdown.markdown(item['question_text']) +
-             markdown.markdown(item['answer_text']) +
-             MARKDOWN_SEPARATOR,
+             markdown.markdown(item['answer_text']),
              'id': item['id']}
             for item in faq_entries]
 
@@ -215,7 +214,7 @@ def faq_admin_add_post():
 def faq_admin_edit_post(faq_id):
     "Updates the given ID's post to contain the new data."
     # TODO: update the category, too!
-    print(request.form['category'])
+    # print(request.form['category'])  # Jia Liu - Commented this part out to be able to run edit for the presentation
 
     def query(statement):
         return statement.where(FAQEntry.id == faq_id)
