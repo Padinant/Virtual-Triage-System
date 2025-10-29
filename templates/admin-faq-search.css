@@ -71,7 +71,7 @@
   width: 100%;
 }
 
-/* dropdown toggle button */
+/* dropdown toggle */
 .faq-dropdown-toggle {
   align-items: center;
   background: var(--umbc-black);
@@ -111,7 +111,7 @@
   content: "\25B2";
 }
 
-/* dropdown list container */
+/* dropdown list */
 .faq-dropdown-list {
   background: var(--umbc-white);
   border: 1px solid var(--umbc-light-gray);
@@ -122,7 +122,6 @@
   width: 100%;
 }
 
-/* dropdown links */
 .faq-dropdown-link {
   color: var(--umbc-black);
   display: block;
@@ -135,4 +134,72 @@
 .faq-dropdown-link:hover {
   background: var(--umbc-light-gray);
   color: var(--umbc-black);
+}
+
+/* action buttons */
+.admin-action-button {
+  align-items: center;
+  background: var(--umbc-black);
+  border: none;
+  border-radius: var(--menu-border-radius);
+  color: var(--umbc-white);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: var(--font-size-sm);
+  font-weight: bold;
+  gap: var(--space-xs);
+  height: var(--space-xl);
+  justify-content: center;
+  width: 100px;
+  padding: 0 var(--space-md);
+  transition: background-color var(--transition-fast);
+}
+
+.admin-action-button:hover {
+  background: var(--umbc-dark-gray);
+}
+
+.admin-action-button-edit {
+  background: var(--umbc-black);
+}
+
+.admin-action-button-edit:hover {
+  background: var(--umbc-dark-gray);
+}
+
+.admin-action-button-remove {
+  background: var(--umbc-retriever-red);
+}
+
+.admin-action-button-remove:hover {
+  background: var(--umbc-dark-gray);
+}
+
+/* add button spacing */
+.admin-action-button-add {
+  background: var(--umbc-aok-teal);
+  margin: var(--space-sm) 0 var(--space-lg);
+  width: 150px;
+}
+
+.admin-action-button-add:hover {
+  background: var(--umbc-dark-gray);
+}
+
+/* faq entry layout */
+.admin-faq-entry {
+  margin-bottom: var(--space-xl);
+}
+
+.admin-faq-heading-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  justify-content: space-between;
+}
+
+.admin-action-group {
+  display: inline-flex;
+  gap: var(--space-sm);
 }

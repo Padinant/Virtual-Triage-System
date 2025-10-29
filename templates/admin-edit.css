@@ -4,7 +4,7 @@
 .main-content .section-heading {
   color: var(--umbc-black);
   font-size: var(--font-size-base);
-  font-weight: 700;
+  font-weight: bold;
   margin: 0;
 }
 
@@ -75,9 +75,11 @@
   color: var(--umbc-white);
   cursor: pointer;
   font-size: var(--font-size-base);
-  font-weight: 600;
-  padding: var(--space-sm) var(--space-lg);
+  font-weight: bold;
+  padding: 0 var(--space-md);
+  height: var(--space-xl);
   transition: background-color var(--transition-fast);
+  width: 100px;
 }
 
 /* submit button hover */
@@ -101,11 +103,12 @@
   cursor: pointer;
   display: flex;
   font-size: var(--font-size-base);
-  font-weight: 600;
+  font-weight: bold;
   justify-content: space-between;
   list-style: none;
   padding: var(--space-sm) var(--space-md);
   transition: background-color var(--transition-fast);
+  width: 400px;
 }
 
 .faq-dropdown-toggle::-webkit-details-marker {

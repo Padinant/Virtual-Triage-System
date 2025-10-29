@@ -43,10 +43,11 @@
   border-radius: var(--menu-border-radius);
   color: var(--umbc-white);
   cursor: pointer;
-  font-weight: 400;
+  font-weight: bold;
   height: var(--space-xl);
   padding: 0 var(--space-md);
   transition: background-color var(--transition-fast);
+  width: 100px;
 }
 
 .faq-search-submit:hover {
@@ -63,7 +64,7 @@
   background: var(--umbc-gold);
   color: var(--umbc-black);
   font-size: var(--font-size-base);
-  font-weight: 700;
+  font-weight: bold;
   margin: var(--space-sm) 0 var(--space-sm);
   padding: var(--space-sm) var(--space-md);
 }
