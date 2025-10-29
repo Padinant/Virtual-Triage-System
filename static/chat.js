@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
       botDiv.className = "message bot";
       botDiv.innerHTML = `
         <img src="/static/UMBC_STYLES/dogumbc.png" class="avatar" alt="UMBC Mascot">
-        <div class="bubble bot-bubble">That’s a great question!</div>
+        <div class="bubble bot-bubble">That's a great question!</div>
       `;
       chatBox.appendChild(botDiv);
       chatBox.scrollTop = chatBox.scrollHeight;
