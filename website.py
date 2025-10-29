@@ -110,15 +110,6 @@ def home():
                                      db,
                                      "Interactive Help - Department of Computer Science and Electrical Engineering - UMBC")
 
-@app.route("/index.html")
-def index():
-    "Another name for the main entry point."
-    db = AppDatabase(Engine.SQLITE_FILE)
-    return main_page_from_faq_action('main-page.html',
-                                     get_faq_titles_as_markdown,
-                                     db,
-                                     "Interactive Help - Department of Computer Science and Electrical Engineering - UMBC")
-
 @app.route("/faq/")
 def faq_page():
     "The list of FAQ items with search functionality."
@@ -151,7 +142,7 @@ def faq_search():
 def faq_admin():
     "The admin FAQ list page with search functionality."
     db = AppDatabase(Engine.SQLITE_FILE)
-    return page_from_faq_action('faq-search-admin.html',
+    return page_from_faq_action('admin-faq-search.html',
                                 get_faq_entries_as_markdown,
                                 db,
                                 "Admin: FAQ")
@@ -301,13 +292,13 @@ def admin_remove_css():
 @app.route("/admin-faq.css")
 def admin_faq_css():
     "The CSS file for the old admin FAQ page (now serves combined CSS)."
-    return Response(response=render_template('faq-search-admin.css'),
+    return Response(response=render_template('admin-faq-search.css'),
                     mimetype='text/css')
 
-@app.route("/faq-search-admin.css")
-def faq_search_admin_css():
+@app.route("/admin-faq-search.css")
+def admin_faq_search_css():
     "The CSS file for the combined admin FAQ and search page."
-    return Response(response=render_template('faq-search-admin.css'),
+    return Response(response=render_template('admin-faq-search.css'),
                     mimetype='text/css')
 
 @app.route("/chat.css")
