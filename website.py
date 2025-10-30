@@ -65,7 +65,7 @@ def faq_entries_to_markdown(faq_entries):
 def faq_titles_to_markdown(faq_entries):
     "Turn FAQ questions into markdown."
     return [{'text': markdown.markdown(item['question_text']),
-             'url': f'/faq/{item['id']}'}
+             'url': f'/faq/{item["id"]}'}
             for item in faq_entries]
 
 def get_faq_entries_as_markdown(db):
@@ -186,7 +186,8 @@ def faq_admin_add_post():
                          answer_text = request.form['answer'],
                          # TODO: update category
                          category_id = 1,
-                         # TODO: get author
+                         # This will be the author when the
+                         # authentication system is added.
                          author_id = 1)
 
     faq_id = db.add_item(new_entry)

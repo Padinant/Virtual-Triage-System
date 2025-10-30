@@ -201,12 +201,16 @@ class AppDatabase():
         "Retrieves exactly one FAQ entry, specified by its ID."
         with Session(self.engine) as session:
             statement = select(FAQEntry).where(FAQEntry.id == faq_id)
+            # Note: Pylint's style suggestion here doesn't work with SQLAlchemy's .where()
+            # pylint:disable-next=singleton-comparison
             statement = statement.where(FAQEntry.is_removed == False)
             return results_as_dicts(session.scalars(statement))
 
     def faq_entries(self) -> list[dict]:
         "Retrieves all of the FAQ entries."
         with Session(self.engine) as session:
+            # Note: Pylint's style suggestion here doesn't work with SQLAlchemy's .where()
+            # pylint:disable-next=singleton-comparison
             statement = select(FAQEntry).where(FAQEntry.is_removed == False)
             return results_as_dicts(session.scalars(statement))
 
