@@ -289,7 +289,19 @@ def message():
     return reply_to_message()
 
 @app.route("/api.json")
-def json_api_hello_world():
-    "A temporary JSON file to demonstrate how APIs could work."
+def json_faq_api():
+    "A JSON file that returns the FAQs as structured data for AI."
     db = AppDatabase(Engine.SQLITE_FILE)
-    return db.users_to_jsonable()
+    return [{'question' : entry['question_text'],
+             'answer'   : entry['answer_text']}
+            for entry in db.faq_entries()]
+
+@app.route("/api.txt")
+def text_faq_api():
+    "A TXT file that returns the FAQs all in one file for AI."
+    db = AppDatabase(Engine.SQLITE_FILE)
+    faq_text = ''.join([entry['question_text'] + '\n\n'
+                        + entry['answer_text'] + '\n---\n\n'
+                        for entry in db.faq_entries()])
+    return Response(response='---\n\n' + faq_text,
+                    mimetype='text/plain')
