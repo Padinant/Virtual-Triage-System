@@ -12,7 +12,6 @@ from flask import Response
 from flask import redirect
 from flask import render_template
 from flask import request
-from flask import send_from_directory
 from flask import url_for
 
 from chat import reply_to_message
@@ -87,7 +86,8 @@ def home():
     db = AppDatabase(Engine.SQLITE_FILE)
     items = get_faq_titles_as_markdown(db)
     return render_template('main-page.html',
-                           title="Interactive Help - UMBC Computer Science & Electrical Engineering",
+                           title="Interactive Help" \
+                           " - UMBC Computer Science & Electrical Engineering",
                            menu_items=MENU_ITEMS,
                            faq_items=items,
                            admin_items=ADMIN_ITEMS)
@@ -196,12 +196,11 @@ def faq_admin_add_post():
 @app.route("/edit/<int:faq_id>", methods=["POST"])
 def faq_admin_edit_post(faq_id):
     "Updates the given ID's post to contain the new data."
-    # TODO: update the category, too!
-    # print(request.form['category']) - Commented out by Jia Liu so edit submit can run for now
 
     def query(statement):
         return statement.where(FAQEntry.id == faq_id)
 
+    # TODO: update category
     def update(item):
         item.question_text = request.form['question']
         item.answer_text = request.form['answer']
@@ -278,9 +277,10 @@ def chat():
     return render_template(
         'chat.html',
         title="Ask Chatbot - Interactive Help",
-        menu_items=MENU_ITEMS,           # top menu
-        bottom_menu_items=MENU_ITEMS     # bottom menu
-    ) 
+        # Top menu
+        menu_items=MENU_ITEMS,
+        # Bottom menu
+        bottom_menu_items=MENU_ITEMS)
 
 # API endpoint for chat messages (in future versions this is where we'd get chatbot output)
 @app.route("/message", methods=["POST"])
