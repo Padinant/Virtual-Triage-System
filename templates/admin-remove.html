@@ -3,7 +3,7 @@
 {% set header_eyebrow_class = 'top-header-2-eyebrow-admin-remove' %}
 {% set header_heading_class = 'top-header-2-heading-admin-remove' %}
 
-{% block title %}Admin: Remove{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block styles %}
   <link href="/admin-remove.css" rel="stylesheet" />
@@ -32,6 +32,8 @@
 
     <!-- FAQ details that would be removed -->
 
-    <h2 class="section-heading">Selected FAQ Content</h2>
-    {{ faq_items[0].text | safe }}
+    <div class="faq-content">
+      <h2 class="section-heading">FAQ Entry ID: {{ faq_items[0].id }}</h2>
+      {{ faq_items[0].text | safe }}
+    </div>
 {% endblock %}

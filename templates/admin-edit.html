@@ -3,7 +3,7 @@
 {% set header_eyebrow_class = 'top-header-2-eyebrow-admin-edit' %}
 {% set header_heading_class = 'top-header-2-heading-admin-edit' %}
 
-{% block title %}Admin: Edit{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block styles %}
   <link href="/admin-edit.css" rel="stylesheet" />
@@ -37,15 +37,14 @@
 
       <div class="admin-form-group">
         <!-- category field -->
-        <h2 class="section-heading">Category</h2>
-        <input
-          class="admin-text-input admin-text-input-category"
-          id="admin-edit-category"
-          name="category"
-          placeholder="Category"
-          size="50"
-          type="text"
-        />
+        <details class="faq-dropdown">
+          <summary class="faq-dropdown-toggle">Browse FAQ Categories</summary>
+          <ul class="faq-dropdown-list">
+          {%for item in category_items %}
+            <li><a class="faq-dropdown-link" href="#">{{ item.category_name }}</a></li>
+          {% endfor %}
+          </ul>
+        </details>
       </div>
 
       <div class="admin-form-actions">
