@@ -184,8 +184,7 @@ def faq_admin_add_post():
 
     new_entry = FAQEntry(question_text = request.form['question'],
                          answer_text = request.form['answer'],
-                         # TODO: update category
-                         category_id = 1,
+                         category_id = request.form['category'],
                          # This will be the author when the
                          # authentication system is added.
                          author_id = 1)
@@ -201,10 +200,10 @@ def faq_admin_edit_post(faq_id):
     def query(statement):
         return statement.where(FAQEntry.id == faq_id)
 
-    # TODO: update category
     def update(item):
         item.question_text = request.form['question']
         item.answer_text = request.form['answer']
+        item.category_id = request.form['category']
 
     db = AppDatabase(Engine.SQLITE_FILE)
     db.update_item(query, update)
