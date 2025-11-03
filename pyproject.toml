@@ -1,0 +1,14 @@
+[project]
+name = "virtual_triage_system"
+version = "0.2"
+description = "UMBC CSMC 447 Fall 2025 Team 5 Project"
+dependencies = [ "flask",
+                 "sqlalchemy",
+                 "markdown" ]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["vts*"]

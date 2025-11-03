@@ -14,16 +14,19 @@ from flask import render_template
 from flask import request
 from flask import url_for
 
-from chat import reply_to_message
-from database import AppDatabase
-from database import Engine
-from database import FAQEntry
-from frontend import ADMIN_ITEMS
-from frontend import MENU_ITEMS
-
-from test_data import fill_debug_database
+from vts.chat import reply_to_message
+from vts.database import AppDatabase
+from vts.database import Engine
+from vts.database import FAQEntry
+from vts.frontend import ADMIN_ITEMS
+from vts.frontend import MENU_ITEMS
+from vts.test_data import fill_debug_database
 
 app = Flask(__name__)
+app.static_folder='../static'
+app.template_folder='../templates'
+app.instance_pathr='../instance'
+
 app.secret_key = secrets.token_hex()
 
 def init_db ():
@@ -44,7 +47,6 @@ def setup_app():
         pass
     # The database must be in the instance directory.
     db_path = os.path.join(app.instance_path, 'test.db')
-    print(db_path)
     # If the database is not there, then create it and populate it.
     if not os.path.exists(db_path):
         init_db()

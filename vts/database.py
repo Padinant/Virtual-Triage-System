@@ -149,7 +149,7 @@ class AppDatabase():
         if engine == Engine.SQLITE_MEMORY:
             self.engine_path = "sqlite://"
         elif engine == Engine.SQLITE_FILE:
-            self.engine_path = "sqlite:///instance/test.db"
+            self.engine_path = "sqlite:///../instance/test.db"
         elif engine == Engine.POSTGRESQL:
             self.engine_path = create_postgres_url(username, password)
         self.engine = create_engine(self.engine_path, echo=True)
