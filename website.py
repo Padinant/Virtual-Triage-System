@@ -12,7 +12,6 @@ from flask import Response
 from flask import redirect
 from flask import render_template
 from flask import request
-from flask import send_from_directory
 from flask import url_for
 
 from chat import reply_to_message
@@ -66,7 +65,7 @@ def faq_entries_to_markdown(faq_entries):
 def faq_titles_to_markdown(faq_entries):
     "Turn FAQ questions into markdown."
     return [{'text': markdown.markdown(item['question_text']),
-             'url': f'/faq/{item['id']}'}
+             'url': f'/faq/{item["id"]}'}
             for item in faq_entries]
 
 def get_faq_entries_as_markdown(db):
@@ -87,7 +86,8 @@ def home():
     db = AppDatabase(Engine.SQLITE_FILE)
     items = get_faq_titles_as_markdown(db)
     return render_template('main-page.html',
-                           title="Interactive Help - UMBC Computer Science & Electrical Engineering",
+                           title="Interactive Help" \
+                           " - UMBC Computer Science & Electrical Engineering",
                            menu_items=MENU_ITEMS,
                            faq_items=items,
                            admin_items=ADMIN_ITEMS)
@@ -184,9 +184,9 @@ def faq_admin_add_post():
 
     new_entry = FAQEntry(question_text = request.form['question'],
                          answer_text = request.form['answer'],
-                         # TODO: update category
-                         category_id = 1,
-                         # TODO: get author
+                         category_id = request.form['category'],
+                         # This will be the author when the
+                         # authentication system is added.
                          author_id = 1)
 
     faq_id = db.add_item(new_entry)
@@ -196,8 +196,6 @@ def faq_admin_add_post():
 @app.route("/edit/<int:faq_id>", methods=["POST"])
 def faq_admin_edit_post(faq_id):
     "Updates the given ID's post to contain the new data."
-    # TODO: update the category, too!
-    # print(request.form['category']) - Commented out by Jia Liu so edit submit can run for now
 
     def query(statement):
         return statement.where(FAQEntry.id == faq_id)
@@ -205,6 +203,7 @@ def faq_admin_edit_post(faq_id):
     def update(item):
         item.question_text = request.form['question']
         item.answer_text = request.form['answer']
+        item.category_id = request.form['category']
 
     db = AppDatabase(Engine.SQLITE_FILE)
     db.update_item(query, update)
@@ -278,9 +277,10 @@ def chat():
     return render_template(
         'chat.html',
         title="Ask Chatbot - Interactive Help",
-        menu_items=MENU_ITEMS,           # top menu
-        bottom_menu_items=MENU_ITEMS     # bottom menu
-    ) 
+        # Top menu
+        menu_items=MENU_ITEMS,
+        # Bottom menu
+        bottom_menu_items=MENU_ITEMS)
 
 # API endpoint for chat messages (in future versions this is where we'd get chatbot output)
 @app.route("/message", methods=["POST"])
@@ -289,7 +289,19 @@ def message():
     return reply_to_message()
 
 @app.route("/api.json")
-def json_api_hello_world():
-    "A temporary JSON file to demonstrate how APIs could work."
+def json_faq_api():
+    "A JSON file that returns the FAQs as structured data for AI."
     db = AppDatabase(Engine.SQLITE_FILE)
-    return db.users_to_jsonable()
+    return [{'question' : entry['question_text'],
+             'answer'   : entry['answer_text']}
+            for entry in db.faq_entries()]
+
+@app.route("/api.txt")
+def text_faq_api():
+    "A TXT file that returns the FAQs all in one file for AI."
+    db = AppDatabase(Engine.SQLITE_FILE)
+    faq_text = ''.join([entry['question_text'] + '\n\n'
+                        + entry['answer_text'] + '\n---\n\n'
+                        for entry in db.faq_entries()])
+    return Response(response='---\n\n' + faq_text,
+                    mimetype='text/plain')

@@ -39,14 +39,13 @@
 
       <div class="admin-form-group">
         <!-- category field -->
-        <details class="faq-dropdown">
-          <summary class="faq-dropdown-toggle">Browse FAQ Categories</summary>
-          <ul class="faq-dropdown-list">
+        <h2 class="section-heading">Category</h2>
+        <select name="category" id="category" class="faq-dropdown" required="true">
+          <option value="">All Categories</option>
           {%for item in category_items %}
-            <li><a class="faq-dropdown-link" href="#">{{ item.category_name }}</a></li>
+            <option value="{{ item.id }}">{{ item.category_name }}</option>
           {% endfor %}
-          </ul>
-        </details>
+        </select>
       </div>
 
       <div class="admin-form-actions">

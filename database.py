@@ -15,6 +15,7 @@ from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 # Imports for the SQL database itself
 from sqlalchemy import create_engine
+from sqlalchemy import delete
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -136,8 +137,6 @@ def results_as_dicts(results) -> list[dict]:
     "Turn database results into a simple format for the frontend."
     return [result.asdict() for result in results]
 
-# TODO: Add a method that goes through and deletes every entry where
-# is_removed == True
 class AppDatabase():
     """
     The application database.
@@ -201,12 +200,16 @@ class AppDatabase():
         "Retrieves exactly one FAQ entry, specified by its ID."
         with Session(self.engine) as session:
             statement = select(FAQEntry).where(FAQEntry.id == faq_id)
+            # Note: Pylint's style suggestion here doesn't work with SQLAlchemy's .where()
+            # pylint:disable-next=singleton-comparison
             statement = statement.where(FAQEntry.is_removed == False)
             return results_as_dicts(session.scalars(statement))
 
     def faq_entries(self) -> list[dict]:
         "Retrieves all of the FAQ entries."
         with Session(self.engine) as session:
+            # Note: Pylint's style suggestion here doesn't work with SQLAlchemy's .where()
+            # pylint:disable-next=singleton-comparison
             statement = select(FAQEntry).where(FAQEntry.is_removed == False)
             return results_as_dicts(session.scalars(statement))
 
@@ -240,3 +243,14 @@ class AppDatabase():
             for category in session.scalars(statement):
                 categories[category.category_name] = category.id
         return categories
+
+    def delete_marked_entries(self):
+        "Deletes the entries that have been marked for deletion."
+        with Session(self.engine) as session:
+            # Note: Pylint's style suggestion here doesn't work with SQLAlchemy's .where()
+            # pylint:disable-next=singleton-comparison
+            statement = delete(FAQEntry).where(FAQEntry.is_removed == True)
+            statement = statement.returning(FAQEntry.id)
+            result_ids = [{'id': result} for result in session.scalars(statement)]
+            session.commit()
+            return result_ids

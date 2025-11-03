@@ -1,3 +1,10 @@
+"""
+This file is designed to help reduce the chance of merge conflicts in
+website.py during pull requests. This file contains some of the code
+that is needed by the frontend files (HTML, CSS, etc.) to complete the
+templating.
+"""
+
 # student/guest menu items
 MENU_ITEMS = [
     {"name": "Home", "url": "/"},
