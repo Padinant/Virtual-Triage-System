@@ -10,10 +10,10 @@ tests.
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 
-# from database import AppDatabase
-from database import User
-from database import FAQCategory
-from database import FAQEntry
+# from vts.database import AppDatabase
+from vts.database import User
+from vts.database import FAQCategory
+from vts.database import FAQEntry
 
 # Takes one complicated question and three simple questions from an
 # actual UMBC CSEE FAQ to simulate realistic data.

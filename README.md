@@ -10,7 +10,16 @@ pip install sqlalchemy
 pip install markdown
 ```
 
-To test locally on your machine, run:
+To use inside of a local venv:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install --editable .
+```
+
+To test locally on your machine, navigate to the `vts` directory and
+then run:
 
 ```bash
 flask --app website run
