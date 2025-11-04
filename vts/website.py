@@ -60,6 +60,7 @@ MARKDOWN_SEPARATOR = markdown.markdown('---')
 def faq_entries_to_markdown(faq_entries):
     "Turn FAQ questions and answers into markdown."
     return [{'text': markdown.markdown(item['question_text']) +
+             MARKDOWN_SEPARATOR +
              markdown.markdown(item['answer_text']),
              'id': item['id']}
             for item in faq_entries]
@@ -302,8 +303,8 @@ def json_faq_api():
 def text_faq_api():
     "A TXT file that returns the FAQs all in one file for AI."
     db = AppDatabase(Engine.SQLITE_FILE)
-    faq_text = ''.join([entry['question_text'] + '\n\n'
-                        + entry['answer_text'] + '\n---\n\n'
+    faq_text = ''.join(['Question:\n' + entry['question_text'] + '\n\n'
+                        + 'Answer:\n' + entry['answer_text'] + '\n---\n\n'
                         for entry in db.faq_entries()])
     return Response(response='---\n\n' + faq_text,
                     mimetype='text/plain')
