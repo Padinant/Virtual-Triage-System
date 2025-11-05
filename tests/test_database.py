@@ -6,6 +6,7 @@ Test the database functionality.
 # that contains the test data that we will fill a fresh database with.
 from vts.database import AppDatabase
 from vts.database import Engine
+from vts.test_data import TEST_FAQ
 from vts.test_data import TEST_FAQ_CATEGORIES
 from vts.test_data import fill_debug_database
 
@@ -21,8 +22,10 @@ def is_empty_dict(obj):
 
 # Test functions
 
-# For now, this tests the FAQ categories. The users and FAQ entries still
-# need to be tested.
+# Methods not yet directly tested: add_item(), add_items(),
+# update_item(), remove_faq_entry(), faq_entries_by_category(), and
+# delete_marked_entries()
+
 def test_basic_database_functionality():
     "Test the basics of the database via exposed AppDatabase methods."
     # Initialize an empty SQLite database in memory. The subtle
@@ -65,11 +68,46 @@ def test_basic_database_functionality():
     # We'll use enumerate() here due to the suggestion of Pylint. Note
     # that Python is 0-based and the SQL IDs are 1-based so an
     # addition has to be done.
-    for i, category in enumerate((TEST_FAQ_CATEGORIES)):
+    for i, category in enumerate(TEST_FAQ_CATEGORIES):
         category_id = i + 1
         faq_categories.append({'id': category_id, 'category_name': category})
         faq_category_names[category] = category_id
 
-    # Does the database match our assumptions?
+    # Does the database match our assumptions for FAQ categories?
     assert db.faq_categories() == faq_categories
     assert db.faq_categories_by_name() == faq_category_names
+
+    # The two users as defined in fill_debug_database, except now
+    # defined as a list of dicts here.
+    users = [{'id': 1,
+              'name': 'Guest',
+             'campus_id': '',
+             'email': '',
+             'is_admin': False},
+             {'id': 2,
+              'name': 'Administrator',
+             'campus_id': "FAKEID1",
+             'email': "admin@example.com",
+             'is_admin': True}]
+
+    # Compare the returned user dicts to the expected user dict.
+    assert db.users() == users
+
+    # We'll do the same thing with the entries that we did with the
+    # categories, creating a dict that should be what we get when we
+    # query the database.
+    faq_entries = []
+    for i, entry in enumerate(TEST_FAQ):
+        faq_question, faq_answer, faq_category = entry
+        faq_id = i + 1
+        faq_category_id = faq_category_names[faq_category]
+        faq_entries.append({'id': faq_id,
+                            'question_text': faq_question,
+                            'answer_text': faq_answer,
+                            'category_id': faq_category_id,
+                            'author_id': 2})
+
+    # Now we'll check our assumptions. Note the off-by-one again when
+    # comparing SQL IDs to Python indexing.
+    assert db.faq_entries() == faq_entries
+    assert db.faq_entry(3) == [faq_entries[2]]

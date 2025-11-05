@@ -162,7 +162,7 @@ class AppDatabase():
         "Create all of the ORM table metadata for a brand new database."
         Base.metadata.create_all(self.engine)
 
-    def users_to_jsonable(self) -> list[dict]:
+    def users(self) -> list[dict]:
         "Turns a list of all users into dicts that can then be turned into JSON automatically."
         with Session(self.engine) as session:
             statement = select(User)
