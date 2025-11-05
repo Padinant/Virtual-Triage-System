@@ -38,3 +38,7 @@ flask --app vts/website run
 ```
 
 And then navigate your browser to the provided localhost URL.
+
+Note that both pylint and pytest will not recognize imports from vts
+in the tests folder without installing and running both pylint and
+pytest *inside* of the venv.
