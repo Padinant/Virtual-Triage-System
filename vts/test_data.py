@@ -20,8 +20,7 @@ from vts.database import FAQEntry
 #
 # Each FAQ item is a tuple of three entries: the question, the answer,
 # and the category name.
-TEST_FAQ = [("Q: Why can't I register for my classes?",
-             "A:\n\n" \
+TEST_FAQ = [("Why can't I register for my classes?",
              "1. **Have you been advised, and did your adviser clear you to register?** " \
              "All students must interact with their academic adviser each semester. Then, in " \
              "order for the student to register, the adviser has to give ‘advising clearance’ " \
@@ -40,25 +39,25 @@ TEST_FAQ = [("Q: Why can't I register for my classes?",
              "4. **Do you have a financial hold?** You cannot register for classes if you have " \
              "unpaid bills: this must be taken care of first.\n",
              "Registration"),
-            ("Q: Why can’t I register for a specific course?",
-             "A: The course might require departmental consent, or you do not have all the " \
+            ("Why can’t I register for a specific course?",
+             "The course might require departmental consent, or you do not have all the " \
              "prerequisites for the course. Sometimes a course you transferred in, thinking it " \
              "qualifies as a prerequisite, may not have been deemed equivalent.\n",
              "Registration"),
-            ("Q: How do I get permission to enroll in a closed class?",
-             "A: If a class is closed, then it has reached its capacity. You should select a " \
+            ("How do I get permission to enroll in a closed class?",
+             "If a class is closed, then it has reached its capacity. You should select a " \
              "different class for your schedule. Exceptions may be made for students graduating " \
              "in the semester. See our [wait list " \
              "policy](https://www.csee.umbc.edu/files/2022/06/wait_list_policy.pdf) for more " \
              "information.\n",
              "Registration"),
-            ("Q: Do grades I receive when I take classes outside of UMBC count toward my GPA?",
-             "A: Not usually. You receive credits toward the 120 credits needed to graduate (and " \
+            ("Do grades I receive when I take classes outside of UMBC count toward my GPA?",
+             "Not usually. You receive credits toward the 120 credits needed to graduate (and " \
              "toward the 45 upper level credits needed if the course is upper level), but only " \
              "your grades in UMBC courses are used in your UMBC GPA calculation.\n",
              "Grades"),
-            ("Q: Can I take a course at a community college during my last semester?",
-             "A: Yes, as long as you have not already transferred in the maximum of 60 credits " \
+            ("Can I take a course at a community college during my last semester?",
+             "Yes, as long as you have not already transferred in the maximum of 60 credits " \
              "from a 2-year institution, and you will satisfy the requirement of 30 credits " \
              "taken at UMBC.\n",
              "Credits")]

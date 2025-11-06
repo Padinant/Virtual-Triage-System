@@ -144,12 +144,16 @@ class AppDatabase():
     Instantiate this class to call methods on it to retrieve data from
     the database.
     """
+    path = ''
     def __init__(self, engine, username='', password=''):
         self.engine_type = engine
         if engine == Engine.SQLITE_MEMORY:
             self.engine_path = "sqlite://"
         elif engine == Engine.SQLITE_FILE:
-            self.engine_path = "sqlite:///../instance/test.db"
+            if AppDatabase.path == '':
+                self.engine_path = "sqlite:///test.db"
+            else:
+                self.engine_path = "sqlite:///" + AppDatabase.path
         elif engine == Engine.POSTGRESQL:
             self.engine_path = create_postgres_url(username, password)
         self.engine = create_engine(self.engine_path, echo=True)
@@ -158,7 +162,7 @@ class AppDatabase():
         "Create all of the ORM table metadata for a brand new database."
         Base.metadata.create_all(self.engine)
 
-    def users_to_jsonable(self) -> list[dict]:
+    def users(self) -> list[dict]:
         "Turns a list of all users into dicts that can then be turned into JSON automatically."
         with Session(self.engine) as session:
             statement = select(User)
