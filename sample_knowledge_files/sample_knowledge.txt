@@ -1,0 +1,45 @@
+This document contains information and resources about the Department of Computer Science and Electrical Engineering at UMBC. This department is often abbreviated as CSEE.
+
+About the department:
+For more than 30 years, the Department of Computer Science and Electrical Engineering (CSEE) at UMBC has produced the Computer Science, Computer Engineering, and Electrical Engineering leaders of tomorrow. Currently, the department offers two undergraduate degrees in computer science and computer engineering with approximately 2300 students, and graduate degrees in five programs computer science (MS and PhD), computer engineering (MS and PhD), electrical engineering (MS and PhD), data science (MS), and cybersecurity (MS) with a total of approximately 1270 students.
+
+
+—-----------------
+Facts and Highlights:
+In Fall 2024, CSEE enrolled 2145 undergraduate students and 1028 graduate students.
+CSEE programs are available to both full-time and part-time students and include several accelerated Bachelor’s/Master’s degree program options. In addition, selected programs are offered both on Main Campus (Catonsville, MD) and at the Universities at Shady Grove (Rockville, MD) in Montgomery County.
+CSEE maintains strong, active industry partnerships with global firms, regional and national companies, and many emerging technology companies in UMBC’s Research Park.
+CSEE’s alumni are employed by prestigious national technology innovators as well as major local and national employers.
+For over 20 years, UMBC has been a National Center of Academic Excellence in Cyber Defense Education (CAE-CD) and Research (CAE-R)  based on our undergraduate and graduate computer science programs with tracks and research in cybersecurity.
+ Computer Science was the largest degree program at UMBC in terms of the number of undergraduate degrees awarded at UMBC in the 2023-2024 academic year.
+
+
+—-----------------
+List of CSEE Research Areas, its relevant topics and university faculty who perform research in that area:
+
+Research Area: Quantum Computing/Theory and Algorithms
+Related Topics: Computational Complexity Theory, Quantum Computation, Quantum Information, Scientific and Engineering Computation
+Faculty: Richard Chang, Milt Halem, Sam Lomonaco, Curtis Menyuk, Yaacov Yesha
+
+Research Area: Communications and Photonics
+Related Topics: Cognitive Radio, Optical Fibers, Wireless Communications and Networking
+Faculty: Gary Carter, Fow-Sen Choa, Anthony Johnson, Seung-Jun Kim, Mohamed Younis
+
+Research Area: Cyber-Physical Systems
+Related Topics: Internet of Things (IoT), Network Protocols and Management, Network Security, Smart Power Grids
+Faculty: Nilanjan Banerjee, Riadul Islam, Dong Li, Mohamed Younis, Roberto Yus
+
+
+
+—-----------------
+Forms, Links, and Administrative Resources:
+
+Scenario 1: Person wanting to request card swipe access to a room.
+Scenario 1, Case 1: If that person is a CSEE faculty member, they can request room access via filling out the ‘CSEE Room Access Request’ form. Note that only faculty and staff are permitted to complete this form:
+form URL link: https://docs.google.com/forms/d/e/1FAIpQLScQs5QiJrMrFbYqA4PnOLEP2VfJc_39EujAZEb3MU0P76RS2g/viewform?c=0&w=1
+The ‘CSEE Room Access Request’ form can also be found by navigating to the CSEE department website → ‘Faculty Resources’ → ‘Forms, Department Links & Business Affairs’
+
+
+Scenario 1, Case 2: If the person who wants to request card swipe or room access is a student (and is not a faculty at UMBC).
+In this case, the student should reach out via email to the CSEE faculty member responsible for the specific room they are requesting access to. 
+For example, if you want to request swipe access to the research lab of a professor, you have to reach out to the specific professor. Then, that professor can request swipe access on your behalf from the department.
