@@ -17,5 +17,5 @@ MENU_ITEMS = [
 
 # admin menu items
 ADMIN_ITEMS = [
-    {"name": "DEBUG Admin FAQ", "url": "/admin-faq-search.html"},
+    {"name": "DEBUG Admin FAQ", "url": "/admin-login.html"},
 ]

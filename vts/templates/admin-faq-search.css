@@ -211,4 +211,22 @@
   top: var(--space-sm);
 }
 
+/* floating chatbot icon */
+.chatbot-float {
+  bottom: var(--space-lg);
+  position: fixed;
+  right: var(--space-lg);
+  z-index: 1000;
+}
 
+.chatbot-float img {
+  border-radius: 50%;
+  cursor: pointer;
+  height: 80px;
+  transition: transform var(--transition-fast);
+  width: 80px;
+}
+
+.chatbot-float img:hover {
+  transform: scale(1.1);
+}

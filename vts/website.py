@@ -118,6 +118,13 @@ def faq_item_page(faq_id):
                            category_items=categories,
                            faq_items=items)
 
+@app.route("/admin-login.html")
+def admin_login():
+    "The admin login page."
+    return render_template('admin-login.html',
+                           title="Admin Login - Interactive Help",
+                           menu_items=MENU_ITEMS)
+
 @app.route("/admin-faq-search.html")
 def faq_admin():
     "The admin FAQ with search page."
@@ -178,6 +185,11 @@ def remove_root():
     return redirect(url_for('faq_admin'))
 
 # Input
+
+@app.route("/admin-login.html", methods=["POST"])
+def admin_login_post():
+    "Handles admin login form submission."
+    return redirect(url_for('faq_admin'))
 
 @app.route("/add/", methods=["POST"])
 def faq_admin_add_post():
@@ -241,6 +253,12 @@ def main_css():
 def faq_search_css():
     "The CSS file for the combined FAQ and search page."
     return Response(response=render_template('faq-search.css'),
+                    mimetype='text/css')
+
+@app.route("/admin-login.css")
+def admin_login_css():
+    "The CSS file for the admin login page."
+    return Response(response=render_template('admin-login.css'),
                     mimetype='text/css')
 
 @app.route("/admin-faq-search.css")

@@ -11,13 +11,9 @@
     <!-- page title-->
     <h1 class="page-title page-title-main">Got Questions? We Have Answers!</h1>
     <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis accumsan
-      finibus elit, sagittis pellentesque sem pretium egestas. Nam velit nisi,
-      eleifend sit amet aliquet quis, ultricies sit amet mi. Morbi efficitur
-      id quam vel commodo. Donec fringilla, eros in feugiat euismod, erat nisl
-      vehicula nunc, sit amet rhoncus neque diam ac turpis. Aenean nec varius
-      lacus. Curabitur nulla ex, euismod ac augue in, porttitor tincidunt
-      massa. Vivamus sagittis mi eu fermentum dictum.
+      Welcome to the UMBC CSEE Interactive Help system! This tool is designed
+      to help you quickly find answers to common questions about the Computer
+      Science and Electrical Engineering department.
     </p>
 
     <!-- faq search bar section with placeholder information -->
@@ -56,13 +52,14 @@
       How To Use This Tool
     </h2>
     <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis accumsan
-      finibus elit, sagittis pellentesque sem pretium egestas. Nam velit nisi,
-      eleifend sit amet aliquet quis, ultricies sit amet mi. Morbi efficitur
-      id quam vel commodo. Donec fringilla, eros in feugiat euismod, erat nisl
-      vehicula nunc, sit amet rhoncus neque diam ac turpis. Aenean nec varius
-      lacus. Curabitur nulla ex, euismod ac augue in, porttitor tincidunt
-      massa. Vivamus sagittis mi eu fermentum dictum.
+      Browse through our Frequently Asked Questions (FAQ) by scrolling through
+      the list on the home page, or use the search bar to find specific topics.
+      Click on any question to view its detailed answer. If you need more
+      personalized assistance, try our chatbot feature by clicking "Ask Chatbot"
+      in the menu or the retriever icon in the bottom right corner. The chatbot
+      can help answer your questions in real-time and guide you to the right
+      resources. For quick access to department contact information and
+      additional resources, visit the "Contact Us" link in the navigation menu.
     </p>
 
     <!-- contact info section -->
@@ -70,13 +67,14 @@
       Contact Information
     </h2>
     <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis accumsan
-      finibus elit, sagittis pellentesque sem pretium egestas. Nam velit nisi,
-      eleifend sit amet aliquet quis, ultricies sit amet mi. Morbi efficitur
-      id quam vel commodo. Donec fringilla, eros in feugiat euismod, erat nisl
-      vehicula nunc, sit amet rhoncus neque diam ac turpis. Aenean nec varius
-      lacus. Curabitur nulla ex, euismod ac augue in, porttitor tincidunt
-      massa. Vivamus sagittis mi eu fermentum dictum.
+      <span class="contact-label">Location</span><br />
+      CSEE Main Office: ITE 325<br />
+      1000 Hilltop Circle<br />
+      Baltimore, MD 21250
+    </p>
+    <p>
+      <span class="contact-label">Contact</span><br />
+      Phone: 410-455-3500
     </p>
 
     <!-- admin links section with placeholder information -->
@@ -87,4 +85,9 @@
         </p>
       {% endfor %}
     {% endif %}
+
+    <!-- floating chatbot icon -->
+    <a href="{{ url_for('chat') }}" class="chatbot-float">
+      <img src="{{ url_for('static', filename='UMBC_STYLES/UMBC-retriever-social-media.png') }}" alt="Chatbot" />
+    </a>
 {% endblock %}
