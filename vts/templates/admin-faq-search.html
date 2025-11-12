@@ -65,4 +65,9 @@
         </div>
       </section>
     {% endfor %}
+
+    <!-- floating chatbot icon -->
+    <a href="{{ url_for('chat') }}" class="chatbot-float">
+      <img src="{{ url_for('static', filename='UMBC_STYLES/UMBC-retriever-social-media.png') }}" alt="Chatbot" />
+    </a>
 {% endblock %}
