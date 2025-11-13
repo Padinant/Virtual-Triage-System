@@ -50,7 +50,12 @@
       <!-- each FAQ entry includes contextual actions -->
       <section class="admin-faq-entry">
         <div class="admin-faq-heading-row">
-          <h2 class="section-heading">FAQ Entry ID: {{ item.id }}</h2>
+          <div class="admin-faq-metadata">
+            <h2 class="section-heading">FAQ Entry ID: {{ item.id }}</h2>
+            <p class="admin-faq-info">Author: {{ item.author_id }}</p>
+            <p class="admin-faq-info">Timestamp: {{ item.timestamp }}</p> <!-- timestamp not implemented yet? -->
+            <p class="admin-faq-info">Category: {{ item.category_id }}</p>
+          </div>
           <div class="admin-action-group">
             <button class="admin-action-button admin-action-button-edit" type="button" onclick="window.location.href='{{ url_for('faq_admin_edit', faq_id = item.id) }}'">
               Edit

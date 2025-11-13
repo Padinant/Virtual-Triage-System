@@ -61,7 +61,11 @@ def faq_entries_to_markdown(faq_entries):
     return [{'text': markdown.markdown(item['question_text']) +
              MARKDOWN_SEPARATOR +
              markdown.markdown(item['answer_text']),
-             'id': item['id']}
+
+             # Jia Liu - testing adding author_id and category_id
+             'id': item['id'],
+             'author_id': item['author_id'],
+             'category_id': item['category_id']}
             for item in faq_entries]
 
 def faq_titles_to_markdown(faq_entries):
