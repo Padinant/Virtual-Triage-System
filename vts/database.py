@@ -48,6 +48,7 @@ class User(Base):
     campus_id: Mapped[str] = mapped_column(String(10))
     email: Mapped[str] = mapped_column(String(50))
     name: Mapped[str] = mapped_column(String(50))
+    password: Mapped[str] = mapped_column(String(60))
     is_admin: Mapped[bool] = mapped_column(Boolean)
 
     def __repr__(self) -> str:
@@ -55,6 +56,8 @@ class User(Base):
             f"campus_id={self.campus_id!r}, " \
             f"email={self.email!r}, " \
             f"name={self.name!r}, " \
+            # We don't want password hashes in our logs.
+            f"password=b'******', " \
             f"is_admin={self.is_admin!r})"
 
     def asdict(self) -> dict:
@@ -73,10 +76,13 @@ class FAQCategory(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     category_name: Mapped[str] = mapped_column(String(50))
+    # Mark category as removed before batch deletion.
+    is_removed: Mapped[bool] = mapped_column(Boolean, default=False)
 
     def __repr__(self) -> str:
         return f"FAQCategory(id={self.id!r}, " \
-            f"category_name={self.category_name!r})"
+            f"category_name={self.category_name!r}, " \
+            f"is_removed={self.is_removed!r})"
 
     def asdict(self) -> dict:
         "Turn the object into a key/value dictionary for APIs that expect this."
@@ -94,16 +100,15 @@ class FAQEntry(Base):
     answer_text: Mapped[str] = mapped_column(String(20000))
     category_id: Mapped[int] = mapped_column(ForeignKey("faq_category.id"))
     author_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
-    # Deleted FAQ entries are first marked as removed and then can be
-    # batch deleted later on.
+    # Mark entry as removed before batch deletion.
     is_removed: Mapped[bool] = mapped_column(Boolean, default=False)
 
     def __repr__(self) -> str:
         return f"FAQEntry(id={self.id!r}, " \
-            f"question_text={self.question_text!r}" \
-            f"answer_text={self.answer_text!r}" \
-            f"category_id={self.category_id!r}" \
-            f"author_id={self.author_id!r}" \
+            f"question_text={self.question_text!r}, " \
+            f"answer_text={self.answer_text!r}, " \
+            f"category_id={self.category_id!r}, " \
+            f"author_id={self.author_id!r}, " \
             f"is_removed={self.is_removed!r})"
 
     def asdict(self) -> dict:
