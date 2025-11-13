@@ -58,15 +58,23 @@ MARKDOWN_SEPARATOR = markdown.markdown('---')
 
 def faq_entries_to_markdown(faq_entries):
     "Turn FAQ questions and answers into markdown."
-    return [{'text': markdown.markdown(item['question_text']) +
-             MARKDOWN_SEPARATOR +
-             markdown.markdown(item['answer_text']),
 
-             # Jia Liu - testing adding author_id and category_id
-             'id': item['id'],
-             'author_id': item['author_id'],
-             'category_id': item['category_id']}
-            for item in faq_entries]
+    # Jia Liu - reworked this part's logic to include author_id and category_id if present
+
+    result = []
+    for item in faq_entries:
+        entry = {
+            'text': markdown.markdown(item['question_text']) +
+                    MARKDOWN_SEPARATOR +
+                    markdown.markdown(item['answer_text']),
+            'id': item['id'],
+        }
+        if 'author_id' in item:
+            entry['author_id'] = item['author_id']
+        if 'category_id' in item:
+            entry['category_id'] = item['category_id']
+        result.append(entry)
+    return result
 
 def faq_titles_to_markdown(faq_entries):
     "Turn FAQ questions into markdown."
