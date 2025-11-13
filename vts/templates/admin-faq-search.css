@@ -194,21 +194,29 @@
 }
 
 .admin-faq-heading-row {
-  align-items: center;
+  align-items: flex-start;
   display: flex;
+  justify-content: space-between;
   margin-bottom: var(--space-md);
 }
 
+.admin-faq-metadata {
+  flex: 1;
+}
+
 .admin-faq-heading-row .section-heading {
-  margin: 0;
+  margin: 0 0 var(--space-sm);
+}
+
+.admin-faq-info {
+  color: var(--umbc-dark-gray);
+  font-size: var(--font-size-sm);
+  margin: var(--space-xs) 0;
 }
 
 .admin-action-group {
   display: flex;
   gap: var(--space-sm);
-  position: absolute;
-  right: var(--space-sm);
-  top: var(--space-sm);
 }
 
 /* floating chatbot icon */
