@@ -7,6 +7,8 @@ This module provides test data for the test database and other unit
 tests.
 """
 
+from datetime import datetime
+
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 
@@ -94,6 +96,7 @@ def fill_debug_database(db):
     entries = [FAQEntry(question_text = question,
                         answer_text = answer,
                         category_id = category_dict[category],
-                        author_id = admin_id)
+                        author_id = admin_id,
+                        timestamp = datetime.now())
                for question, answer, category in TEST_FAQ]
     db.add_items(entries)

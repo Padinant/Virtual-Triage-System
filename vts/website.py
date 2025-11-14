@@ -5,6 +5,8 @@ Web server layer that serves HTML, CSS, JSON, etc.
 import os
 import secrets
 
+from datetime import datetime
+
 import markdown
 
 from flask import Flask
@@ -240,7 +242,8 @@ def faq_admin_add_post():
                          category_id = request.form['category'],
                          # This will be the author when the
                          # authentication system is added.
-                         author_id = 1)
+                         author_id = 1,
+                         timestamp = datetime.now())
 
     faq_id = db.add_item(new_entry)
 
@@ -257,6 +260,7 @@ def faq_admin_edit_post(faq_id):
         item.question_text = request.form['question']
         item.answer_text = request.form['answer']
         item.category_id = request.form['category']
+        item.timestamp = datetime.now()
 
     db = AppDatabase(Engine.SQLITE_FILE)
     db.update_item(query, update)
