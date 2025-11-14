@@ -75,6 +75,8 @@ def faq_entries_to_markdown(faq_entries):
             entry['author_id'] = item['author_id']
         if 'category_id' in item:
             entry['category_id'] = item['category_id']
+        if 'timestamp' in item:
+            entry['timestamp'] = item['timestamp']
         result.append(entry)
     return result
 
