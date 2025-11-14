@@ -3,9 +3,11 @@ This is the object-relational mapping (ORM) of Python classes to the
 database tables.
 """
 
+from datetime import datetime
 from enum import Enum
 
 # Imports for the SQL tables
+from sqlalchemy import DateTime
 from sqlalchemy import ForeignKey
 from sqlalchemy import String
 from sqlalchemy import Boolean
@@ -13,6 +15,7 @@ from sqlalchemy import URL
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
+from sqlalchemy.sql import func
 # Imports for the SQL database itself
 from sqlalchemy import create_engine
 from sqlalchemy import delete
@@ -100,7 +103,11 @@ class FAQEntry(Base):
     answer_text: Mapped[str] = mapped_column(String(20000))
     category_id: Mapped[int] = mapped_column(ForeignKey("faq_category.id"))
     author_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
-    # timestamp: Mapped[datetime] = ...
+    # Note: Pylint isn't smart enough to handle SQLAlchemy magic here.
+    # It wants to use the invalid func.now instead of func.now()
+    #
+    # pylint:disable-next=not-callable
+    timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     # Mark entry as removed before batch deletion.
     is_removed: Mapped[bool] = mapped_column(Boolean, default=False)
 
@@ -110,6 +117,7 @@ class FAQEntry(Base):
             f"answer_text={self.answer_text!r}, " \
             f"category_id={self.category_id!r}, " \
             f"author_id={self.author_id!r}, " \
+            f"timestamp={self.timestamp!r}, " \
             f"is_removed={self.is_removed!r})"
 
     def asdict(self) -> dict:
@@ -118,7 +126,8 @@ class FAQEntry(Base):
                 'question_text': self.question_text,
                 'answer_text': self.answer_text,
                 'category_id': self.category_id,
-                'author_id': self.author_id}
+                'author_id': self.author_id,
+                'timestamp': self.timestamp}
 
 # Application Representation of the Database
 
