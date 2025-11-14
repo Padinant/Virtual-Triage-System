@@ -234,7 +234,7 @@ class AppDatabase():
             statement = select(FAQEntry).where(FAQEntry.is_removed == False)
             return results_as_dicts(session.scalars(statement))
 
-    def remove_faq_entry(self, faq_id):
+    def remove_faq_entry(self, faq_id) -> bool:
         "Marks an FAQ entry with the given ID as removed."
         def query(statement):
             return statement.where(FAQEntry.id == faq_id)
@@ -243,6 +243,29 @@ class AppDatabase():
             item.is_removed = True
 
         self.update_item(query, update)
+
+        return True
+
+    def remove_category(self, category_id) -> bool:
+        """
+        Marks a category with the given ID as removed. Returns True if
+        the category can be removed and False if the category cannot
+        be removed. A category in use cannot be removed.
+        """
+        def query(statement):
+            return statement.where(FAQCategory.id == category_id)
+
+        # Check to make sure that the category is empty.
+        faq_entries = self.faq_entries_by_category(category_id)
+        if len(faq_entries) > 0:
+            return False
+
+        def update(item):
+            item.is_removed = True
+
+        self.update_item(query, update)
+
+        return True
 
     def faq_entries_by_category(self, category_id) -> list[dict]:
         "Retrieves the FAQ entries with the given category."
@@ -253,14 +276,14 @@ class AppDatabase():
     def faq_categories(self) -> list[dict]:
         "Retrieves all FAQ categories."
         with Session(self.engine) as session:
-            statement = select(FAQCategory)
+            statement = select(FAQCategory).where(FAQCategory.is_removed == False)
             return results_as_dicts(session.scalars(statement))
 
     def faq_categories_by_name(self) -> dict:
         "Returns a dict of category names, associating them with their internal IDs."
         categories = {}
         with Session(self.engine) as session:
-            statement = select(FAQCategory)
+            statement = select(FAQCategory).where(FAQCategory.is_removed == False)
             for category in session.scalars(statement):
                 categories[category.category_name] = category.id
         return categories
