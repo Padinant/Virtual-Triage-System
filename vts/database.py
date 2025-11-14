@@ -100,6 +100,7 @@ class FAQEntry(Base):
     answer_text: Mapped[str] = mapped_column(String(20000))
     category_id: Mapped[int] = mapped_column(ForeignKey("faq_category.id"))
     author_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
+    # timestamp: Mapped[datetime] = ...
     # Mark entry as removed before batch deletion.
     is_removed: Mapped[bool] = mapped_column(Boolean, default=False)
 
@@ -141,6 +142,17 @@ def create_postgres_url(username, password, host='localhost'):
 def results_as_dicts(results) -> list[dict]:
     "Turn database results into a simple format for the frontend."
     return [result.asdict() for result in results]
+
+def delete_marked_items(engine, table):
+    "Deletes the items of the table that are marked for deletion."
+    with Session(engine) as session:
+        # Note: Pylint's style suggestion here doesn't work with SQLAlchemy's .where()
+        # pylint:disable-next=singleton-comparison
+        statement = delete(table).where(table.is_removed == True)
+        statement = statement.returning(table.id)
+        result_ids = [{'id': result} for result in session.scalars(statement)]
+        session.commit()
+        return result_ids
 
 class AppDatabase():
     """
@@ -255,11 +267,8 @@ class AppDatabase():
 
     def delete_marked_entries(self):
         "Deletes the entries that have been marked for deletion."
-        with Session(self.engine) as session:
-            # Note: Pylint's style suggestion here doesn't work with SQLAlchemy's .where()
-            # pylint:disable-next=singleton-comparison
-            statement = delete(FAQEntry).where(FAQEntry.is_removed == True)
-            statement = statement.returning(FAQEntry.id)
-            result_ids = [{'id': result} for result in session.scalars(statement)]
-            session.commit()
-            return result_ids
+        return delete_marked_items(self.engine, FAQEntry)
+
+    def delete_marked_categories(self):
+        "Deletes the categories that have been marked for deletion."
+        return delete_marked_items(self.engine, FAQCategory)
