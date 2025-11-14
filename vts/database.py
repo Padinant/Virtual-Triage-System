@@ -276,6 +276,8 @@ class AppDatabase():
     def faq_categories(self) -> list[dict]:
         "Retrieves all FAQ categories."
         with Session(self.engine) as session:
+            # Note: Pylint's style suggestion here doesn't work with SQLAlchemy's .where()
+            # pylint:disable-next=singleton-comparison
             statement = select(FAQCategory).where(FAQCategory.is_removed == False)
             return results_as_dicts(session.scalars(statement))
 
@@ -283,6 +285,8 @@ class AppDatabase():
         "Returns a dict of category names, associating them with their internal IDs."
         categories = {}
         with Session(self.engine) as session:
+            # Note: Pylint's style suggestion here doesn't work with SQLAlchemy's .where()
+            # pylint:disable-next=singleton-comparison
             statement = select(FAQCategory).where(FAQCategory.is_removed == False)
             for category in session.scalars(statement):
                 categories[category.category_name] = category.id
