@@ -98,6 +98,16 @@ def get_faq_titles_as_markdown(db):
     "Retrieve all FAQ titles (questions) as markdown."
     return faq_titles_to_markdown(db.faq_entries())
 
+# This is based on the assumption that there aren't many categories
+# and that it's cheaper to iterate over the category dict than to talk
+# to the database again.
+def find_category_name(categories, category_id):
+    "Return the name for a category id."
+    for category in categories:
+        if category['id'] == category_id:
+            return category['category_name']
+    return ''
+
 @app.route("/")
 def home():
     "The main entry point to the app."
@@ -140,9 +150,9 @@ def faq_category_page(category_id):
     db = AppDatabase(Engine.SQLITE_FILE)
     items = get_faq_categorized_entries_as_markdown(db, category_id)
     categories = db.faq_categories()
+    name = find_category_name(categories, category_id)
     return render_template('faq-search.html',
-                           # TODO: Replace with category name
-                           title=f"FAQ Category #{category_id} - Interactive Help",
+                           title=f"FAQ Category #{category_id} - {name} - Interactive Help",
                            menu_items=MENU_ITEMS,
                            category_items=categories,
                            faq_items=items)
