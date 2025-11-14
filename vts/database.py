@@ -51,12 +51,12 @@ class User(Base):
     password: Mapped[str] = mapped_column(String(60))
     is_admin: Mapped[bool] = mapped_column(Boolean)
 
+    # Note: We don't want password hashes in our logs.
     def __repr__(self) -> str:
         return f"User(id={self.id!r}, " \
             f"campus_id={self.campus_id!r}, " \
             f"email={self.email!r}, " \
             f"name={self.name!r}, " \
-            # We don't want password hashes in our logs.
             f"password=b'******', " \
             f"is_admin={self.is_admin!r})"
 

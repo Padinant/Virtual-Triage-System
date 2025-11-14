@@ -86,6 +86,10 @@ def get_faq_entries_as_markdown(db):
     "Retrieve all FAQ entries as markdown."
     return faq_entries_to_markdown(db.faq_entries())
 
+def get_faq_categorized_entries_as_markdown(db, category_id):
+    "Retrieve FAQ entries as markdown in a category."
+    return faq_entries_to_markdown(db.faq_entries_by_category(category_id))
+
 def get_faq_entry_as_markdown(faq_id):
     "Retrieve all FAQ entries as markdown."
     return lambda db : faq_entries_to_markdown(db.faq_entry(faq_id))
@@ -126,6 +130,19 @@ def faq_item_page(faq_id):
     categories = db.faq_categories()
     return render_template('faq-search.html',
                            title=f"FAQ Item #{faq_id} - Interactive Help",
+                           menu_items=MENU_ITEMS,
+                           category_items=categories,
+                           faq_items=items)
+
+@app.route("/faq/category/<int:category_id>")
+def faq_category_page(category_id):
+    "The page for all entries of a given category."
+    db = AppDatabase(Engine.SQLITE_FILE)
+    items = get_faq_categorized_entries_as_markdown(db, category_id)
+    categories = db.faq_categories()
+    return render_template('faq-search.html',
+                           # TODO: Replace with category name
+                           title=f"FAQ Category #{category_id} - Interactive Help",
                            menu_items=MENU_ITEMS,
                            category_items=categories,
                            faq_items=items)
