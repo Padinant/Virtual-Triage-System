@@ -99,6 +99,7 @@ img {
   height: calc(var(--layout-base-height) * var(--layout-header-1-ratio));
   width: 100%;
 }
+.top-header-1 { position: relative; }
 
 .top-header-1 .container {
   align-items: center;
@@ -116,6 +117,26 @@ img {
   height: calc(
     var(--layout-base-height) * var(--layout-header-1-ratio) * var(--layout-logo-ratio)
   );
+}
+
+/* Admin login button in the top-right */
+.admin-login-button {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  background: var(--umbc-gold);
+  color: var(--umbc-black);
+  border-radius: 4px;
+  padding: 0.4rem 0.7rem;
+  font-weight: bold;
+  text-decoration: none;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.admin-login-button:hover {
+  background: var(--umbc-retriever-brown);
+  text-decoration: none !important;
 }
 
 .top-header-2 {

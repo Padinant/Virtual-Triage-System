@@ -15,7 +15,5 @@ MENU_ITEMS = [
     {"name": "How to Use This Tool", "url": "#"}
 ]
 
-# admin menu items
-ADMIN_ITEMS = [
-    {"name": "DEBUG Admin FAQ", "url": "/admin-login.html"},
-]
+# admin menu items, empty because admin link is exposed via header button
+ADMIN_ITEMS = []

@@ -175,6 +175,27 @@
   color: var(--umbc-retriever-red);
 }
 
+/* Top-left 'Go to FAQ' button inside popup */
+.faq-popup-open {
+  position: absolute;
+  top: var(--space-md);
+  left: var(--space-md);
+  background: var(--umbc-aok-teal);
+  border-radius: 4px;
+  color: var(--umbc-white);
+  display: none;
+  font-size: var(--font-size-sm);
+  padding: 0.4rem 0.6rem;
+  text-decoration: none;
+  z-index: 5;
+}
+
+.faq-popup-open:hover {
+  background: var(--umbc-dark-gray);
+  color: var(--umbc-white);
+  text-decoration: none !important;
+}
+
 .faq-popup-body {
   color: var(--umbc-black);
   font-size: var(--font-size-base);
