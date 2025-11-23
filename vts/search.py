@@ -6,6 +6,7 @@ Functions to create and query a Whoosh index for FAQ questions, answers, and cat
 from __future__ import annotations
 
 import os
+import importlib
 
 from typing import Iterable, List
 
@@ -22,6 +23,19 @@ from whoosh.index import exists_in
 from whoosh.qparser import MultifieldParser
 
 from vts.database import AppDatabase
+
+# Provide a fallback QuerySyntaxError class and override it
+# if Whoosh exposes a more specific exception
+class QuerySyntaxError(Exception):
+    """Fallback for Whoosh query syntax errors when unavailable."""
+
+try:
+    qparser_module = importlib.import_module("whoosh.qparser")
+    qs_except = getattr(qparser_module, "QuerySyntaxError", None)
+    if qs_except is not None:
+        QuerySyntaxError = qs_except
+except (ImportError, ModuleNotFoundError):
+    pass
 
 # Index directory name under Flask instance path
 INDEX_DIR_NAME = "whoosh_index"
@@ -164,8 +178,8 @@ def search_faq_ids(query: str, instance_path: str, limit: int = 50) -> List[int]
     parser = MultifieldParser(["question", "answer", "category"], schema=ix.schema)
     try:
         q = parser.parse(query)
-    except Exception:
-        # Ignore parsing errors
+    except (QuerySyntaxError, SyntaxError, ValueError):
+        # Ignore malformed user queries
         return []
     results: List[int] = []
     with ix.searcher() as searcher:
