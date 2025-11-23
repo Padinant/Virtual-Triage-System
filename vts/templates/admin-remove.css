@@ -1,13 +1,13 @@
 @import url("/base.css");
 
-/* page title alignment */
+/* Page title alignment */
 .main-content .page-title {
   color: var(--umbc-black);
   font-weight: bold;
   margin: var(--space-md) 0 var(--space-sm);
 }
 
-/* warning text */
+/* Warning text */
 .admin-remove-disclaimer {
   color: var(--umbc-retriever-red);
   font-size: var(--font-size-lg);
@@ -16,7 +16,7 @@
   text-align: center;
 }
 
-/* action layout */
+/* Action layout */
 .admin-remove-actions {
   display: flex;
   flex-wrap: wrap;
@@ -25,7 +25,7 @@
   margin: 0 0 var(--space-lg);
 }
 
-/* action buttons base */
+/* Action buttons base */
 .admin-remove-button {
   align-items: center;
   border: none;
@@ -42,7 +42,7 @@
   width: 200px;
 }
 
-/* confirm button */
+/* Confirm button */
 .admin-remove-button-yes {
   background: var(--umbc-retriever-red);
 }
@@ -51,7 +51,7 @@
   background: var(--umbc-dark-gray);
 }
 
-/* cancel button */
+/* Cancel button */
 .admin-remove-button-no {
   background: var(--umbc-black);
 }
@@ -61,7 +61,7 @@
   opacity: 0.8;
 }
 
-/* section heading */
+/* Section heading */
 .main-content .section-heading {
   color: var(--umbc-black);
   font-size: var(--font-size-base);
@@ -69,13 +69,13 @@
   margin: var(--space-md) 0 var(--space-sm);
 }
 
-/* content text */
+/* Content text */
 .main-content p {
   font-size: var(--font-size-base);
   margin: 0 0 var(--space-md);
 }
 
-/* faq content styling */
+/* Faq content styling */
 .faq-content {
   border: 1px solid var(--umbc-light-gray);
   margin: var(--space-lg) 0;

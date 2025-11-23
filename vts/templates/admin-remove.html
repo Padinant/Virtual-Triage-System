@@ -10,15 +10,15 @@
 {% endblock %}
 
 {% block content %}
-    <!-- page title-->
+    <!-- Page title -->
     <h1 class="page-title page-title-admin-remove">Remove FAQ Item [ADMIN]</h1>
 
-    <!-- warning message -->
+    <!-- Warning message -->
     <h2 class="admin-remove-disclaimer">
       Are you sure you want to remove this item? It cannot be undone.
     </h2>
 
-    <!-- confirmation button group -->
+    <!-- Confirmation button group -->
     <div class="admin-remove-actions">
       <form action="{{ url_for('faq_admin_remove_post', faq_id = faq_items[0].id) }}" method="post">
         <button class="admin-remove-button admin-remove-button-yes" type="submit" name="confirm" value="yes">
@@ -30,7 +30,7 @@
       </form>
     </div>
 
-    <!-- FAQ details that would be removed -->
+    <!-- Faq details that would be removed -->
 
     <div class="faq-content">
       <h2 class="section-heading">FAQ Entry ID: {{ faq_items[0].id }}</h2>

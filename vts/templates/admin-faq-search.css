@@ -1,13 +1,13 @@
 @import url("/base.css");
 
-/* page title */
+/* Page title */
 .main-content .page-title {
   color: var(--umbc-black);
   font-weight: bold;
   margin: var(--space-md) 0 var(--space-sm);
 }
 
-/* section headings */
+/* Section headings */
 .main-content .section-heading {
   color: var(--umbc-black);
   font-weight: bold;
@@ -18,13 +18,13 @@
   font-size: var(--font-size-base);
 }
 
-/* content text */
+/* Content text */
 .main-content p {
   font-size: var(--font-size-base);
   margin: 0 0 var(--space-md);
 }
 
-/* search form */
+/* Search form */
 .faq-search {
   display: flex;
   gap: var(--space-sm);
@@ -64,14 +64,14 @@
   background: var(--umbc-dark-gray);
 }
 
-/* dropdown container */
+/* Dropdown container */
 .faq-dropdown {
   margin: var(--space-md) 0 var(--space-lg);
   max-width: 360px;
   width: 100%;
 }
 
-/* dropdown toggle */
+/* Dropdown toggle */
 .faq-dropdown-toggle {
   align-items: center;
   background: var(--umbc-black);
@@ -112,7 +112,7 @@
   content: "\25B2";
 }
 
-/* dropdown list container */
+/* Dropdown list container */
 .faq-dropdown-list {
   background: var(--umbc-white);
   border: 1px solid var(--umbc-light-gray);
@@ -137,7 +137,7 @@
   color: var(--umbc-black);
 }
 
-/* action buttons */
+/* Action buttons */
 .admin-action-button {
   align-items: center;
   background: var(--umbc-black);
@@ -175,7 +175,7 @@
   background: var(--umbc-dark-gray);
 }
 
-/* add button spacing */
+/* Add button spacing */
 .admin-action-button-add {
   background: var(--umbc-aok-teal);
   margin: var(--space-sm) 0 var(--space-lg);
@@ -185,7 +185,7 @@
   background: var(--umbc-dark-gray);
 }
 
-/* faq entry layout */
+/* Faq entry layout */
 .admin-faq-entry {
   border: 1px solid var(--umbc-light-gray);
   margin: var(--space-lg) 0;
@@ -219,7 +219,7 @@
   gap: var(--space-sm);
 }
 
-/* floating chatbot icon */
+/* Floating chatbot icon */
 .chatbot-float {
   bottom: var(--space-lg);
   position: fixed;

@@ -1,13 +1,13 @@
 @import url("/base.css");
 
-/* page title */
+/* Page title */
 .main-content .page-title {
   color: var(--umbc-black);
   font-weight: bold;
   margin: var(--space-md) 0 var(--space-sm);
 }
 
-/* section headings */
+/* Section headings */
 .main-content .section-heading {
   color: var(--umbc-black);
   font-weight: bold;
@@ -18,13 +18,13 @@
   font-size: var(--font-size-base);
 }
 
-/* content text */
+/* Content text */
 .main-content p {
   font-size: var(--font-size-base);
   margin: 0 0 var(--space-md);
 }
 
-/* search form */
+/* Search form */
 .faq-search {
   display: flex;
   gap: var(--space-sm);
@@ -64,14 +64,14 @@
   background: var(--umbc-dark-gray);
 }
 
-/* dropdown container */
+/* Dropdown container */
 .faq-dropdown {
   margin: var(--space-md) 0 var(--space-lg);
   max-width: 360px;
   width: 100%;
 }
 
-/* dropdown toggle button */
+/* Dropdown toggle button */
 .faq-dropdown-toggle {
   align-items: center;
   background: var(--umbc-black);
@@ -112,7 +112,7 @@
   content: "\25B2";
 }
 
-/* dropdown list container */
+/* Dropdown list container */
 .faq-dropdown-list {
   background: var(--umbc-white);
   border: 1px solid var(--umbc-light-gray);
@@ -123,7 +123,7 @@
   width: 400px;
 }
 
-/* dropdown links */
+/* Dropdown links */
 .faq-dropdown-link {
   color: var(--umbc-black);
   display: block;
@@ -138,14 +138,14 @@
   color: var(--umbc-black);
 }
 
-/* faq entry styling */
+/* Faq entry styling */
 .faq-entry {
   border: 1px solid var(--umbc-light-gray);
   margin: var(--space-lg) 0;
   padding: var(--space-md);
 }
 
-/* floating chatbot icon */
+/* Floating chatbot icon */
 .chatbot-float {
   bottom: var(--space-lg);
   position: fixed;

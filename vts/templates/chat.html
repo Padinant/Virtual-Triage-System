@@ -12,8 +12,8 @@
 {% block content %}
   <h1 class="page-title page-title-chat">Ask Chatbot</h1>
 
-  <!-- Chat Container -->
-  <div id="chat-container">
+  <!-- Chat container -->
+  <div id="chat-container" class="container">
       <!-- Chat messages -->
       <div id="chat-box">
           <!-- Bot's initial message -->
@@ -26,7 +26,7 @@
 
       <!-- Input area -->
       <div id="input-section">
-          <form id="chat-form" method="post" action="{{ url_for('chat') }}">
+          <form id="chat-form">
               <input id="user-input" name="message" placeholder="Type your question..." required />
               <button type="submit">Send</button>
           </form>
@@ -35,6 +35,6 @@
   </div>
 {% endblock %}
 
-{% block scripts %}
+{% block page_scripts %}
   <script src="{{ url_for('static', filename='chat.js') }}"></script>
 {% endblock %}

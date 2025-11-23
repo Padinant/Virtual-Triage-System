@@ -10,13 +10,13 @@
 {% endblock %}
 
 {% block content %}
-    <!-- page title-->
+    <!-- Page title -->
     <h1 class="page-title page-title-admin-edit">Edit FAQ Item [ADMIN]</h1>
 
-    <!-- admin edit form -->
+    <!-- Admin edit form -->
     <form class="admin-faq-form" action="{{ url_for('faq_admin_edit_post', faq_id = faq_entry.id) }}" method="post">
       <div class="admin-form-group">
-        <!-- question field -->
+        <!-- Question field -->
         <h2 class="section-heading">Question</h2>
         <textarea
           class="admin-textfield admin-textfield-question"
@@ -26,7 +26,7 @@
       </div>
 
       <div class="admin-form-group">
-        <!-- answer field -->
+        <!-- Answer field -->
         <h2 class="section-heading">Answer</h2>
         <textarea
           class="admin-textfield admin-textfield-answer"
@@ -36,7 +36,7 @@
       </div>
 
       <div class="admin-form-group">
-        <!-- category field -->
+        <!-- Category field -->
         <h2 class="section-heading">Category</h2>
         <select name="category" id="category" class="faq-dropdown" required="true">
           <option value="">All Categories</option>
@@ -47,7 +47,7 @@
       </div>
 
       <div class="admin-form-actions">
-        <!-- submit button -->
+        <!-- Submit button -->
         <button class="admin-submit-button" type="submit">Submit</button>
       </div>
     </form>

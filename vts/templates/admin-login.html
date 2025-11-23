@@ -10,14 +10,14 @@
 {% endblock %}
 
 {% block content %}
-    <!-- page title-->
+    <!-- Page title -->
     <h1 class="page-title page-title-admin-login">Admin Login</h1>
 
-    <!-- login container -->
+    <!-- Login container -->
     <div class="login-container">
       <form class="login-form" action="{{ url_for('admin_login_post') }}" method="post">
         <div class="login-form-group">
-          <!-- username field -->
+          <!-- Username field -->
           <label class="login-label" for="username">Username</label>
           <input
             class="login-input"
@@ -30,7 +30,7 @@
         </div>
 
         <div class="login-form-group">
-          <!-- password field -->
+          <!-- Password field -->
           <label class="login-label" for="password">Password</label>
           <input
             class="login-input"
@@ -43,7 +43,7 @@
         </div>
 
         <div class="login-form-actions">
-          <!-- submit button -->
+          <!-- Submit button -->
           <button class="login-submit-button" type="submit">Submit</button>
         </div>
       </form>

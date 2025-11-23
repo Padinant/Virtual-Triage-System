@@ -8,7 +8,7 @@
 {% block styles %}
     <link href="/main-page.css" rel="stylesheet" />
 {% endblock %}{% block content %}
-    <!-- page title-->
+    <!-- Page title -->
     <h1 class="page-title page-title-main">Got Questions? We Have Answers!</h1>
     <p>
       Welcome to the UMBC CSEE Interactive Help system! This tool is designed
@@ -16,9 +16,9 @@
       Science and Electrical Engineering department.
     </p>
 
-    <!-- faq search bar section with placeholder information -->
+    <!-- Faq search bar section with placeholder information -->
     <form class="faq-search" id="faq-search" action="{{ url_for('faq_page') }}">
-      <!-- input field -->
+      <!-- Input field -->
       <input
         autocomplete="off"
         class="faq-search-input"
@@ -27,27 +27,46 @@
         placeholder="Search FAQs..."
         type="search"
       />
-      <!-- search button -->
+      <!-- Search button -->
       <button class="faq-search-submit" id="faq-search-button" type="submit">
         Search
       </button>
     </form>
 
-    <!-- faq lookup section-->
+    <!-- Faq lookup section -->
     <div class="faq-lookup" id="faq-lookup"></div>
     <h2 class="faq-lookup-heading">Frequently Asked Questions</h2>
-    <section class="faq-panel"> <!-- faq panel section containing faq links -->
-      <ul class="faq-list"> <!-- describes a list of items in the faq list -->
+    <section class="faq-panel"> <!-- Faq panel section containing faq links -->
+      <ul class="faq-list"> <!-- Describes a list of items in the faq list -->
         {% for item in faq_items %}
-          <!-- every item here is a placeholder link to an FAQ entry -->
+          <!-- Every item here is a clickable FAQ entry -->
           <li class="faq-list-item">
-            <a class="faq-list-link" href="{{ item.url }}">{{ item.text | safe }}</a>
+            <a class="faq-list-link" href="#" data-faq-id="{{ item.url.split('/')[-1] }}">{{ item.text | safe }}</a>
           </li>
         {% endfor %}
       </ul>
     </section>
 
-    <!-- howto section -->
+    <!-- Popup overlay for FAQ display -->
+    <div id="faq-popup" class="faq-popup">
+      <div class="faq-popup-content">
+        <button class="faq-popup-close" aria-label="Close">&times;</button>
+        <div id="faq-popup-body" class="faq-popup-body">
+          <!-- Faq content will be inserted here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Hidden FAQ data for modal -->
+    <div id="faq-data" style="display: none;">
+      {% for item in faq_full_items %}
+        <div data-faq-id="{{ item.id }}" class="faq-data-item">
+          {{ item.text | safe }}
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Howto section -->
     <h2 class="section-heading section-heading-howto">
       How To Use This Tool
     </h2>
@@ -62,7 +81,7 @@
       additional resources, visit the "Contact Us" link in the navigation menu.
     </p>
 
-    <!-- contact info section -->
+    <!-- Contact info section -->
     <h2 class="section-heading section-heading-contact">
       Contact Information
     </h2>
@@ -77,7 +96,7 @@
       Phone: 410-455-3500
     </p>
 
-    <!-- admin links section with placeholder information -->
+    <!-- Admin links section with placeholder information -->
     {% if admin_items %}
       {% for item in admin_items %}
         <p>
@@ -85,9 +104,84 @@
         </p>
       {% endfor %}
     {% endif %}
+{% endblock %}
 
-    <!-- floating chatbot icon -->
-    <a href="{{ url_for('chat') }}" class="chatbot-float">
+{% block chatbot_widget %}
+    <!-- Floating chatbot widget -->
+    <div id="chatbot-widget" class="chatbot-widget">
+      <div class="chatbot-widget-header">
+        <span class="chatbot-widget-title">Ask Chatbot</span>
+        <div class="chatbot-widget-controls">
+          <button id="chatbot-widget-expand" class="chatbot-widget-expand" title="Expand">⤢</button>
+          <button id="chatbot-widget-close" class="chatbot-widget-close" title="Close">&times;</button>
+        </div>
+      </div>
+      <div id="chatbot-widget-messages" class="chatbot-widget-messages">
+        <div class="message bot">
+          <img src="{{ url_for('static', filename='UMBC_STYLES/dogumbc.png') }}" alt="UMBC Mascot" class="avatar">
+          <div class="bubble bot-bubble">How can I help you?</div>
+        </div>
+      </div>
+      <div class="chatbot-widget-input">
+        <form id="chatbot-widget-form">
+          <input id="chatbot-widget-input" type="text" placeholder="Type your question..." required />
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Floating chatbot button -->
+    <button id="chatbot-float-btn" class="chatbot-float-btn">
       <img src="{{ url_for('static', filename='UMBC_STYLES/UMBC-retriever-social-media.png') }}" alt="Chatbot" />
-    </a>
+    </button>
+
+    <script src="/static/chatwidget.js"></script>
+{% endblock %}
+
+{% block page_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const popup = document.getElementById('faq-popup');
+  const popupBody = document.getElementById('faq-popup-body');
+  const closeBtn = document.querySelector('.faq-popup-close');
+  const faqLinks = document.querySelectorAll('.faq-list-link');
+  
+  // Open popup when FAQ link is clicked
+  faqLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const faqId = this.getAttribute('data-faq-id');
+      const faqData = document.querySelector(`#faq-data [data-faq-id="${faqId}"]`);
+      
+      if (faqData) {
+        popupBody.innerHTML = faqData.innerHTML;
+        popup.classList.add('show');
+        document.body.style.overflow = 'hidden'; // Prevent background scroll
+      }
+    });
+  });
+  
+  // Close popup when X button is clicked
+  closeBtn.addEventListener('click', function() {
+    popup.classList.remove('show');
+    document.body.style.overflow = ''; // Restore scroll
+  });
+  
+  // Close popup when clicking outside the content
+  popup.addEventListener('click', function(e) {
+    if (e.target === popup) {
+      popup.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+  });
+  
+  // Close popup with Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && popup.classList.contains('show')) {
+      popup.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+  });
+});
+</script>
 {% endblock %}
