@@ -131,6 +131,8 @@ class FAQEntry(Base):
                 'answer_text': self.answer_text,
                 'category_id': self.category_id,
                 'author_id': self.author_id,
+                'category' : self.category.category_name,
+                'author' : self.author.name,
                 'timestamp': self.timestamp}
 
 # Application Representation of the Database
@@ -154,8 +156,6 @@ def create_postgres_url(username, password, host='localhost'):
 
 def results_as_dicts(results) -> list[dict]:
     "Turn database results into a simple format for the frontend."
-    for result in results:
-        print(result.category.category_name)
     return [result.asdict() for result in results]
 
 def delete_marked_items(engine, table):

@@ -121,11 +121,14 @@ def test_database_with_test_data_file():
         faq_question, faq_answer, faq_category = entry
         faq_id = i + 1
         faq_category_id = faq_category_names[faq_category]
+        author_id = 2
         faq_entries.append({'id': faq_id,
                             'question_text': faq_question,
                             'answer_text': faq_answer,
                             'category_id': faq_category_id,
-                            'author_id': 2})
+                            'author_id': author_id,
+                            'category' : faq_categories[faq_category_id - 1]['category_name'],
+                            'author' : users[author_id - 1]['name']})
 
     # Now we'll check our assumptions. Note that we need to remove the
     # timestamp from the results because the time that it will return
