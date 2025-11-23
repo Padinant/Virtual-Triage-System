@@ -42,9 +42,9 @@
     </details>
 
     <!-- Action button for adding entries -->
-    <button class="admin-action-button admin-action-button-add" type="button" onclick="window.location.href='{{ url_for('faq_admin_add') }}'">
+    <a class="admin-action-button admin-action-button-add" role="button" href="{{ url_for('faq_admin_add') }}">
       Add Item
-    </button>
+    </a>
 
     {% for item in faq_items %}
       <!-- Each FAQ entry includes contextual actions -->
@@ -57,12 +57,8 @@
             <p class="admin-faq-info">Category: {{ item.category_id }}</p>
           </div>
           <div class="admin-action-group">
-            <button class="admin-action-button admin-action-button-edit" type="button" onclick="window.location.href='{{ url_for('faq_admin_edit', faq_id = item.id) }}'">
-              Edit
-            </button>
-            <button class="admin-action-button admin-action-button-remove" type="button" onclick="window.location.href='{{ url_for('faq_admin_remove', faq_id = item.id) }}'">
-              Remove
-            </button>
+            <a class="admin-action-button admin-action-button-edit" role="button" href="{{ url_for('faq_admin_edit', faq_id=item.id) }}">Edit</a>
+            <a class="admin-action-button admin-action-button-remove" role="button" href="{{ url_for('faq_admin_remove', faq_id=item.id) }}">Remove</a>
           </div>
         </div>
         <div class="admin-faq-body">
@@ -70,4 +66,8 @@
         </div>
       </section>
     {% endfor %}
+{% endblock %}
+
+{% block chatbot_widget %}
+  {% include "chatbot-widget.html" %}
 {% endblock %}

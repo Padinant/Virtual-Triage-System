@@ -50,33 +50,5 @@
 {% endblock %}
 
 {% block chatbot_widget %}
-    <!-- Floating chatbot widget -->
-    <div id="chatbot-widget" class="chatbot-widget">
-      <div class="chatbot-widget-header">
-        <span class="chatbot-widget-title">Ask Chatbot</span>
-        <div class="chatbot-widget-controls">
-          <button id="chatbot-widget-expand" class="chatbot-widget-expand" title="Expand">⤢</button>
-          <button id="chatbot-widget-close" class="chatbot-widget-close" title="Close">&times;</button>
-        </div>
-      </div>
-      <div id="chatbot-widget-messages" class="chatbot-widget-messages">
-        <div class="message bot">
-          <img src="{{ url_for('static', filename='UMBC_STYLES/dogumbc.png') }}" alt="UMBC Mascot" class="avatar">
-          <div class="bubble bot-bubble">How can I help you?</div>
-        </div>
-      </div>
-      <div class="chatbot-widget-input">
-        <form id="chatbot-widget-form">
-          <input id="chatbot-widget-input" type="text" placeholder="Type your question..." required />
-          <button type="submit">Send</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Floating chatbot button -->
-    <button id="chatbot-float-btn" class="chatbot-float-btn">
-      <img src="{{ url_for('static', filename='UMBC_STYLES/UMBC-retriever-social-media.png') }}" alt="Chatbot" />
-    </button>
-
-    <script src="/static/chatwidget.js"></script>
+    {% include "chatbot-widget.html" %}
 {% endblock %}
