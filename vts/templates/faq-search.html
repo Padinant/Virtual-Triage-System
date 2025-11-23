@@ -36,7 +36,7 @@
       <summary class="faq-dropdown-toggle">All Categories</summary>
       <ul class="faq-dropdown-list">
       {%for item in category_items %}
-        <li><a class="faq-dropdown-link" href="#">{{ item.category_name }}</a></li>
+        <li><a class="faq-dropdown-link" href="/faq/category/{{ item.id }}">{{ item.category_name }}</a></li>
       {% endfor %}
       </ul>
     </details>
