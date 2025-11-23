@@ -66,7 +66,6 @@ def empty_database_is_empty(db):
     # so that list should be empty.
     assert is_empty_list(db.delete_marked_entries())
 
-# pylint:disable-next=too-many-locals
 def test_database_with_test_data_file():
     "Test the basics of the database via exposed AppDatabase methods."
 
@@ -127,22 +126,10 @@ def test_database_with_test_data_file():
                             'category_id': faq_category_id,
                             'author_id': 2})
 
-    # Now we'll check our assumptions. Note that we need to remove the
-    # timestamp from the results because the time that it will return
-    # is arbitrary so we can't match against it.
-    db_faq_entries = db.faq_entries()
-    for entry in db_faq_entries:
-        entry.pop('timestamp', None)
-    assert db_faq_entries == faq_entries
-
-    # Let's do that again for a single item.
-    db_faq_entries = db.faq_entry(3)
-    for entry in db_faq_entries:
-        entry.pop('timestamp', None)
-    # Note the off-by-one again when comparing SQL IDs to Python
-    # indexing We're comparing the database ID 3 to our list index 2,
-    # which stores the item with ID 3.
-    assert db_faq_entries == [faq_entries[2]]
+    # Now we'll check our assumptions. Note the off-by-one again when
+    # comparing SQL IDs to Python indexing.
+    assert db.faq_entries() == faq_entries
+    assert db.faq_entry(3) == [faq_entries[2]]
 
     # Now let's take entries by their categories.
     categorized_entries = []
