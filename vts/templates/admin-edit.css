@@ -1,6 +1,6 @@
 @import url("/base.css");
 
-/* section heading */
+/* Section heading */
 .main-content .section-heading {
   color: var(--umbc-black);
   font-size: var(--font-size-base);
@@ -8,7 +8,7 @@
   margin: 0;
 }
 
-/* form layout */
+/* Form layout */
 .admin-faq-form {
   display: flex;
   flex-direction: column;
@@ -16,14 +16,14 @@
   margin: var(--space-xl) 0;
 }
 
-/* form field groups */
+/* Form field groups */
 .admin-form-group {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
 }
 
-/* text inputs, textareas, and selects */
+/* Text inputs, textareas, and selects */
 .admin-textfield,
 .admin-text-input,
 .admin-select {
@@ -36,23 +36,23 @@
   transition: border-color var(--transition-fast);
 }
 
-/* question field height */
+/* Question field height */
 .admin-textfield-question {
   min-height: calc(var(--layout-base-height) * 2);
 }
 
-/* answer field height */
+/* Answer field height */
 .admin-textfield-answer {
   min-height: calc(var(--layout-base-height) * 2);
 }
 
-/* category width */
+/* Category width */
 .admin-text-input-category,
 .admin-select-category {
   max-width: 400px;
 }
 
-/* focus state */
+/* Focus state */
 .admin-textfield:focus,
 .admin-text-input:focus,
 .admin-select:focus {
@@ -61,13 +61,13 @@
   outline: none;
 }
 
-/* form actions alignment */
+/* Form actions alignment */
 .admin-form-actions {
   display: flex;
   justify-content: flex-end;
 }
 
-/* submit button */
+/* Submit button */
 .admin-submit-button {
   background: var(--umbc-aok-teal);
   border: none;
@@ -81,19 +81,19 @@
   transition: background-color var(--transition-fast);
 }
 
-/* submit button hover */
+/* Submit button hover */
 .admin-submit-button:hover {
   background: var(--umbc-dark-gray);
 }
 
-/* dropdown container */
+/* Dropdown container */
 .faq-dropdown {
   margin: var(--space-md) 0 var(--space-lg);
   max-width: 400px;
   width: 100%;
 }
 
-/* dropdown toggle button */
+/* Dropdown toggle button */
 .faq-dropdown-toggle {
   align-items: center;
   background: var(--umbc-black);
@@ -134,7 +134,7 @@
   content: "\25B2";
 }
 
-/* dropdown list container */
+/* Dropdown list container */
 .faq-dropdown-list {
   background: var(--umbc-white);
   border: 1px solid var(--umbc-light-gray);
@@ -145,7 +145,7 @@
   width: 400px;
 }
 
-/* dropdown links */
+/* Dropdown links */
 .faq-dropdown-link {
   color: var(--umbc-black);
   display: block;

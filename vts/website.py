@@ -3,6 +3,7 @@ Web server layer that serves HTML, CSS, JSON, etc.
 """
 
 import os
+
 import secrets
 
 from datetime import datetime
@@ -17,12 +18,23 @@ from flask import request
 from flask import url_for
 
 from vts.chat import reply_to_message
+
 from vts.database import AppDatabase
 from vts.database import Engine
 from vts.database import FAQEntry
+
 from vts.frontend import ADMIN_ITEMS
 from vts.frontend import MENU_ITEMS
+
 from vts.test_data import fill_debug_database
+
+from vts.search import ensure_index
+from vts.search import build_index
+from vts.search import search_faq_ids
+from vts.search import fetch_entries_by_ids
+from vts.search import add_faq_to_index
+from vts.search import update_faq_in_index
+from vts.search import remove_faq_from_index
 
 app = Flask(__name__)
 
@@ -49,8 +61,16 @@ def setup_app():
     # The path must be cached for future AppDatabase instances.
     AppDatabase.path = db_path
     # If the database is not there, then create it and populate it.
+    fresh_db = False
     if not os.path.exists(db_path):
         init_db()
+        fresh_db = True
+    # Builds search index.
+    db = AppDatabase(Engine.SQLITE_FILE)
+    if fresh_db:
+        build_index(db, app.instance_path)
+    else:
+        ensure_index(db, app.instance_path)
 
 setup_app()
 
@@ -60,9 +80,6 @@ MARKDOWN_SEPARATOR = markdown.markdown('---')
 
 def faq_entries_to_markdown(faq_entries):
     "Turn FAQ questions and answers into markdown."
-
-    # Jia Liu - reworked this part's logic to include author_id and category_id if present
-
     result = []
     for item in faq_entries:
         entry = {
@@ -117,24 +134,33 @@ def home():
     "The main entry point to the app."
     db = AppDatabase(Engine.SQLITE_FILE)
     items = get_faq_titles_as_markdown(db)
+    full_items = get_faq_entries_as_markdown(db)
     return render_template('main-page.html',
                            title="Interactive Help" \
                            " - UMBC Computer Science & Electrical Engineering",
                            menu_items=MENU_ITEMS,
                            faq_items=items,
+                           faq_full_items=full_items,
                            admin_items=ADMIN_ITEMS)
 
 @app.route("/faq-search.html")
 def faq_page():
     "The FAQ with search page."
     db = AppDatabase(Engine.SQLITE_FILE)
-    items = get_faq_entries_as_markdown(db)
+    query = request.args.get('query', '').strip()
+    if query:
+        matched_ids = search_faq_ids(query, app.instance_path)
+        faq_entries = fetch_entries_by_ids(db, matched_ids) if matched_ids else []
+        items = faq_entries_to_markdown(faq_entries)
+    else:
+        items = get_faq_entries_as_markdown(db)
     categories = db.faq_categories()
     return render_template('faq-search.html',
                            title="Browse FAQ - Interactive Help",
                            menu_items=MENU_ITEMS,
                            category_items=categories,
-                           faq_items=items)
+                           faq_items=items,
+                           query=query)
 
 @app.route("/faq/<int:faq_id>")
 def faq_item_page(faq_id):
@@ -172,13 +198,20 @@ def admin_login():
 def faq_admin():
     "The admin FAQ with search page."
     db = AppDatabase(Engine.SQLITE_FILE)
-    items = get_faq_entries_as_markdown(db)
+    query = request.args.get('query', '').strip()
+    if query:
+        matched_ids = search_faq_ids(query, app.instance_path)
+        faq_entries = fetch_entries_by_ids(db, matched_ids) if matched_ids else []
+        items = faq_entries_to_markdown(faq_entries)
+    else:
+        items = get_faq_entries_as_markdown(db)
     categories = db.faq_categories()
     return render_template('admin-faq-search.html',
                            title="Admin FAQ Management - Interactive Help",
                            menu_items=MENU_ITEMS,
                            category_items=categories,
-                           faq_items=items)
+                           faq_items=items,
+                           query=query)
 
 @app.route("/add/")
 def faq_admin_add():
@@ -248,6 +281,8 @@ def faq_admin_add_post():
                          timestamp = datetime.now())
 
     faq_id = db.add_item(new_entry)
+    # Incremental index update
+    add_faq_to_index(db, faq_id, app.instance_path)
 
     return redirect(url_for('faq_item_page', faq_id = faq_id))
 
@@ -266,6 +301,7 @@ def faq_admin_edit_post(faq_id):
 
     db = AppDatabase(Engine.SQLITE_FILE)
     db.update_item(query, update)
+    update_faq_in_index(db, faq_id, app.instance_path)
 
     return redirect(url_for('faq_item_page', faq_id = faq_id))
 
@@ -276,6 +312,7 @@ def faq_admin_remove_post(faq_id):
 
     if request.form['confirm'] and request.form['confirm'] == 'yes':
         db.remove_faq_entry(faq_id)
+        remove_faq_from_index(faq_id, app.instance_path)
         return "Success!"
 
     return "Failure!"

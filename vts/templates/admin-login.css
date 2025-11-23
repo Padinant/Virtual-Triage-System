@@ -1,6 +1,6 @@
 @import url("/base.css");
 
-/* page title */
+/* Page title */
 .main-content .page-title {
   color: var(--umbc-black);
   font-weight: bold;
@@ -8,7 +8,7 @@
   text-align: center;
 }
 
-/* login container */
+/* Login container */
 .login-container {
   align-items: center;
   display: flex;
@@ -17,7 +17,7 @@
   min-height: 400px;
 }
 
-/* login form */
+/* Login form */
 .login-form {
   background: var(--umbc-white);
   border: 2px solid var(--umbc-light-gray);
@@ -30,21 +30,21 @@
   width: 100%;
 }
 
-/* form field groups */
+/* Form field groups */
 .login-form-group {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
 }
 
-/* labels */
+/* Labels */
 .login-label {
   color: var(--umbc-black);
   font-size: var(--font-size-base);
   font-weight: bold;
 }
 
-/* text inputs */
+/* Text inputs */
 .login-input {
   border: 2px solid var(--umbc-light-gray);
   border-radius: var(--menu-border-radius);
@@ -56,21 +56,21 @@
   width: 100%;
 }
 
-/* focus state */
+/* Focus state */
 .login-input:focus {
   border-color: var(--umbc-gold);
   box-shadow: none;
   outline: none;
 }
 
-/* form actions alignment */
+/* Form actions alignment */
 .login-form-actions {
   display: flex;
   justify-content: center;
   margin-top: var(--space-md);
 }
 
-/* submit button */
+/* Submit button */
 .login-submit-button {
   background: var(--umbc-black);
   border: none;
@@ -85,7 +85,7 @@
   width: 100%;
 }
 
-/* submit button hover */
+/* Submit button hover */
 .login-submit-button:hover {
   background: var(--umbc-dark-gray);
 }
