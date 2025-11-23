@@ -15,6 +15,7 @@ from sqlalchemy import URL
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 # Imports for the SQL database itself
 from sqlalchemy import create_engine
@@ -98,6 +99,9 @@ class FAQEntry(Base):
     """
     __tablename__ = "faq_entry"
 
+    author: Mapped["User"] = relationship()
+    category: Mapped["FAQCategory"] = relationship()
+
     id: Mapped[int] = mapped_column(primary_key=True)
     question_text: Mapped[str] = mapped_column(String(500))
     answer_text: Mapped[str] = mapped_column(String(20000))
@@ -150,6 +154,8 @@ def create_postgres_url(username, password, host='localhost'):
 
 def results_as_dicts(results) -> list[dict]:
     "Turn database results into a simple format for the frontend."
+    for result in results:
+        print(result.category.category_name)
     return [result.asdict() for result in results]
 
 def delete_marked_items(engine, table):
