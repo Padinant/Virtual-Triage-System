@@ -3,11 +3,9 @@ This is the object-relational mapping (ORM) of Python classes to the
 database tables.
 """
 
-from datetime import datetime
 from enum import Enum
 
 # Imports for the SQL tables
-from sqlalchemy import DateTime
 from sqlalchemy import ForeignKey
 from sqlalchemy import String
 from sqlalchemy import Boolean
@@ -15,7 +13,6 @@ from sqlalchemy import URL
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
-from sqlalchemy.sql import func
 # Imports for the SQL database itself
 from sqlalchemy import create_engine
 from sqlalchemy import delete
@@ -51,16 +48,13 @@ class User(Base):
     campus_id: Mapped[str] = mapped_column(String(10))
     email: Mapped[str] = mapped_column(String(50))
     name: Mapped[str] = mapped_column(String(50))
-    password: Mapped[str] = mapped_column(String(60))
     is_admin: Mapped[bool] = mapped_column(Boolean)
 
-    # Note: We don't want password hashes in our logs.
     def __repr__(self) -> str:
         return f"User(id={self.id!r}, " \
             f"campus_id={self.campus_id!r}, " \
             f"email={self.email!r}, " \
             f"name={self.name!r}, " \
-            f"password=b'******', " \
             f"is_admin={self.is_admin!r})"
 
     def asdict(self) -> dict:
@@ -79,13 +73,10 @@ class FAQCategory(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     category_name: Mapped[str] = mapped_column(String(50))
-    # Mark category as removed before batch deletion.
-    is_removed: Mapped[bool] = mapped_column(Boolean, default=False)
 
     def __repr__(self) -> str:
         return f"FAQCategory(id={self.id!r}, " \
-            f"category_name={self.category_name!r}, " \
-            f"is_removed={self.is_removed!r})"
+            f"category_name={self.category_name!r})"
 
     def asdict(self) -> dict:
         "Turn the object into a key/value dictionary for APIs that expect this."
@@ -103,21 +94,16 @@ class FAQEntry(Base):
     answer_text: Mapped[str] = mapped_column(String(20000))
     category_id: Mapped[int] = mapped_column(ForeignKey("faq_category.id"))
     author_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
-    # Note: Pylint isn't smart enough to handle SQLAlchemy magic here.
-    # It wants to use the invalid func.now instead of func.now()
-    #
-    # pylint:disable-next=not-callable
-    timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
-    # Mark entry as removed before batch deletion.
+    # Deleted FAQ entries are first marked as removed and then can be
+    # batch deleted later on.
     is_removed: Mapped[bool] = mapped_column(Boolean, default=False)
 
     def __repr__(self) -> str:
         return f"FAQEntry(id={self.id!r}, " \
-            f"question_text={self.question_text!r}, " \
-            f"answer_text={self.answer_text!r}, " \
-            f"category_id={self.category_id!r}, " \
-            f"author_id={self.author_id!r}, " \
-            f"timestamp={self.timestamp!r}, " \
+            f"question_text={self.question_text!r}" \
+            f"answer_text={self.answer_text!r}" \
+            f"category_id={self.category_id!r}" \
+            f"author_id={self.author_id!r}" \
             f"is_removed={self.is_removed!r})"
 
     def asdict(self) -> dict:
@@ -126,8 +112,7 @@ class FAQEntry(Base):
                 'question_text': self.question_text,
                 'answer_text': self.answer_text,
                 'category_id': self.category_id,
-                'author_id': self.author_id,
-                'timestamp': self.timestamp}
+                'author_id': self.author_id}
 
 # Application Representation of the Database
 
@@ -151,17 +136,6 @@ def create_postgres_url(username, password, host='localhost'):
 def results_as_dicts(results) -> list[dict]:
     "Turn database results into a simple format for the frontend."
     return [result.asdict() for result in results]
-
-def delete_marked_items(engine, table):
-    "Deletes the items of the table that are marked for deletion."
-    with Session(engine) as session:
-        # Note: Pylint's style suggestion here doesn't work with SQLAlchemy's .where()
-        # pylint:disable-next=singleton-comparison
-        statement = delete(table).where(table.is_removed == True)
-        statement = statement.returning(table.id)
-        result_ids = [{'id': result} for result in session.scalars(statement)]
-        session.commit()
-        return result_ids
 
 class AppDatabase():
     """
@@ -243,7 +217,7 @@ class AppDatabase():
             statement = select(FAQEntry).where(FAQEntry.is_removed == False)
             return results_as_dicts(session.scalars(statement))
 
-    def remove_faq_entry(self, faq_id) -> bool:
+    def remove_faq_entry(self, faq_id):
         "Marks an FAQ entry with the given ID as removed."
         def query(statement):
             return statement.where(FAQEntry.id == faq_id)
@@ -252,29 +226,6 @@ class AppDatabase():
             item.is_removed = True
 
         self.update_item(query, update)
-
-        return True
-
-    def remove_category(self, category_id) -> bool:
-        """
-        Marks a category with the given ID as removed. Returns True if
-        the category can be removed and False if the category cannot
-        be removed. A category in use cannot be removed.
-        """
-        def query(statement):
-            return statement.where(FAQCategory.id == category_id)
-
-        # Check to make sure that the category is empty.
-        faq_entries = self.faq_entries_by_category(category_id)
-        if len(faq_entries) > 0:
-            return False
-
-        def update(item):
-            item.is_removed = True
-
-        self.update_item(query, update)
-
-        return True
 
     def faq_entries_by_category(self, category_id) -> list[dict]:
         "Retrieves the FAQ entries with the given category."
@@ -285,26 +236,25 @@ class AppDatabase():
     def faq_categories(self) -> list[dict]:
         "Retrieves all FAQ categories."
         with Session(self.engine) as session:
-            # Note: Pylint's style suggestion here doesn't work with SQLAlchemy's .where()
-            # pylint:disable-next=singleton-comparison
-            statement = select(FAQCategory).where(FAQCategory.is_removed == False)
+            statement = select(FAQCategory)
             return results_as_dicts(session.scalars(statement))
 
     def faq_categories_by_name(self) -> dict:
         "Returns a dict of category names, associating them with their internal IDs."
         categories = {}
         with Session(self.engine) as session:
-            # Note: Pylint's style suggestion here doesn't work with SQLAlchemy's .where()
-            # pylint:disable-next=singleton-comparison
-            statement = select(FAQCategory).where(FAQCategory.is_removed == False)
+            statement = select(FAQCategory)
             for category in session.scalars(statement):
                 categories[category.category_name] = category.id
         return categories
 
     def delete_marked_entries(self):
         "Deletes the entries that have been marked for deletion."
-        return delete_marked_items(self.engine, FAQEntry)
-
-    def delete_marked_categories(self):
-        "Deletes the categories that have been marked for deletion."
-        return delete_marked_items(self.engine, FAQCategory)
+        with Session(self.engine) as session:
+            # Note: Pylint's style suggestion here doesn't work with SQLAlchemy's .where()
+            # pylint:disable-next=singleton-comparison
+            statement = delete(FAQEntry).where(FAQEntry.is_removed == True)
+            statement = statement.returning(FAQEntry.id)
+            result_ids = [{'id': result} for result in session.scalars(statement)]
+            session.commit()
+            return result_ids
