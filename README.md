@@ -10,6 +10,7 @@ To install the dependencies, run:
 pip install flask
 pip install sqlalchemy
 pip install markdown
+pip install whoosh
 ```
 
 To use inside of a local venv with automatic dependency resolution,
