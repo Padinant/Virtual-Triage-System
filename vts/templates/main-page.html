@@ -50,6 +50,7 @@
     <!-- Popup overlay for FAQ display -->
     <div id="faq-popup" class="faq-popup">
       <div class="faq-popup-content">
+        <a id="faq-popup-open" class="faq-popup-open" href="#" role="button">Go to FAQ</a>
         <button class="faq-popup-close" aria-label="Close">&times;</button>
         <div id="faq-popup-body" class="faq-popup-body">
           <!-- Faq content will be inserted here -->
@@ -106,43 +107,12 @@
     {% endif %}
 {% endblock %}
 
-{% block chatbot_widget %}
-    <!-- Floating chatbot widget -->
-    <div id="chatbot-widget" class="chatbot-widget">
-      <div class="chatbot-widget-header">
-        <span class="chatbot-widget-title">Ask Chatbot</span>
-        <div class="chatbot-widget-controls">
-          <button id="chatbot-widget-expand" class="chatbot-widget-expand" title="Expand">⤢</button>
-          <button id="chatbot-widget-close" class="chatbot-widget-close" title="Close">&times;</button>
-        </div>
-      </div>
-      <div id="chatbot-widget-messages" class="chatbot-widget-messages">
-        <div class="message bot">
-          <img src="{{ url_for('static', filename='UMBC_STYLES/dogumbc.png') }}" alt="UMBC Mascot" class="avatar">
-          <div class="bubble bot-bubble">How can I help you?</div>
-        </div>
-      </div>
-      <div class="chatbot-widget-input">
-        <form id="chatbot-widget-form">
-          <input id="chatbot-widget-input" type="text" placeholder="Type your question..." required />
-          <button type="submit">Send</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Floating chatbot button -->
-    <button id="chatbot-float-btn" class="chatbot-float-btn">
-      <img src="{{ url_for('static', filename='UMBC_STYLES/UMBC-retriever-social-media.png') }}" alt="Chatbot" />
-    </button>
-
-    <script src="/static/chatwidget.js"></script>
-{% endblock %}
-
 {% block page_scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const popup = document.getElementById('faq-popup');
   const popupBody = document.getElementById('faq-popup-body');
+  const popupOpenLink = document.getElementById('faq-popup-open');
   const closeBtn = document.querySelector('.faq-popup-close');
   const faqLinks = document.querySelectorAll('.faq-list-link');
   
@@ -155,6 +125,11 @@ document.addEventListener('DOMContentLoaded', function() {
       
       if (faqData) {
         popupBody.innerHTML = faqData.innerHTML;
+        // A button to go to the full FAQ page
+        if (popupOpenLink) {
+          popupOpenLink.href = `/faq/${faqId}`;
+          popupOpenLink.style.display = 'inline-block';
+        }
         popup.classList.add('show');
         document.body.style.overflow = 'hidden'; // Prevent background scroll
       }
@@ -165,6 +140,10 @@ document.addEventListener('DOMContentLoaded', function() {
   closeBtn.addEventListener('click', function() {
     popup.classList.remove('show');
     document.body.style.overflow = ''; // Restore scroll
+    if (popupOpenLink) {
+      popupOpenLink.href = '#';
+      popupOpenLink.style.display = 'none';
+    }
   });
   
   // Close popup when clicking outside the content
@@ -172,6 +151,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (e.target === popup) {
       popup.classList.remove('show');
       document.body.style.overflow = '';
+      if (popupOpenLink) {
+        popupOpenLink.href = '#';
+        popupOpenLink.style.display = 'none';
+      }
     }
   });
   
@@ -180,8 +163,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if (e.key === 'Escape' && popup.classList.contains('show')) {
       popup.classList.remove('show');
       document.body.style.overflow = '';
+      if (popupOpenLink) {
+        popupOpenLink.href = '#';
+        popupOpenLink.style.display = 'none';
+      }
     }
   });
 });
 </script>
+{% endblock %}
+
+{% block chatbot_widget %}
+    {% include "chatbot-widget.html" %}
 {% endblock %}
