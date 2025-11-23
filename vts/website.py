@@ -5,6 +5,8 @@ Web server layer that serves HTML, CSS, JSON, etc.
 import os
 import secrets
 
+from datetime import datetime
+
 import markdown
 
 from flask import Flask
@@ -73,6 +75,8 @@ def faq_entries_to_markdown(faq_entries):
             entry['author_id'] = item['author_id']
         if 'category_id' in item:
             entry['category_id'] = item['category_id']
+        if 'timestamp' in item:
+            entry['timestamp'] = item['timestamp']
         result.append(entry)
     return result
 
@@ -86,6 +90,10 @@ def get_faq_entries_as_markdown(db):
     "Retrieve all FAQ entries as markdown."
     return faq_entries_to_markdown(db.faq_entries())
 
+def get_faq_categorized_entries_as_markdown(db, category_id):
+    "Retrieve FAQ entries as markdown in a category."
+    return faq_entries_to_markdown(db.faq_entries_by_category(category_id))
+
 def get_faq_entry_as_markdown(faq_id):
     "Retrieve all FAQ entries as markdown."
     return lambda db : faq_entries_to_markdown(db.faq_entry(faq_id))
@@ -93,6 +101,16 @@ def get_faq_entry_as_markdown(faq_id):
 def get_faq_titles_as_markdown(db):
     "Retrieve all FAQ titles (questions) as markdown."
     return faq_titles_to_markdown(db.faq_entries())
+
+# This is based on the assumption that there aren't many categories
+# and that it's cheaper to iterate over the category dict than to talk
+# to the database again.
+def find_category_name(categories, category_id):
+    "Return the name for a category id."
+    for category in categories:
+        if category['id'] == category_id:
+            return category['category_name']
+    return ''
 
 @app.route("/")
 def home():
@@ -126,6 +144,19 @@ def faq_item_page(faq_id):
     categories = db.faq_categories()
     return render_template('faq-search.html',
                            title=f"FAQ Item #{faq_id} - Interactive Help",
+                           menu_items=MENU_ITEMS,
+                           category_items=categories,
+                           faq_items=items)
+
+@app.route("/faq/category/<int:category_id>")
+def faq_category_page(category_id):
+    "The page for all entries of a given category."
+    db = AppDatabase(Engine.SQLITE_FILE)
+    items = get_faq_categorized_entries_as_markdown(db, category_id)
+    categories = db.faq_categories()
+    name = find_category_name(categories, category_id)
+    return render_template('faq-search.html',
+                           title=f"FAQ Category #{category_id} - {name} - Interactive Help",
                            menu_items=MENU_ITEMS,
                            category_items=categories,
                            faq_items=items)
@@ -213,7 +244,8 @@ def faq_admin_add_post():
                          category_id = request.form['category'],
                          # This will be the author when the
                          # authentication system is added.
-                         author_id = 1)
+                         author_id = 1,
+                         timestamp = datetime.now())
 
     faq_id = db.add_item(new_entry)
 
@@ -230,6 +262,7 @@ def faq_admin_edit_post(faq_id):
         item.question_text = request.form['question']
         item.answer_text = request.form['answer']
         item.category_id = request.form['category']
+        item.timestamp = datetime.now()
 
     db = AppDatabase(Engine.SQLITE_FILE)
     db.update_item(query, update)
