@@ -316,8 +316,7 @@ def faq_admin_remove_post(faq_id):
 def page_not_found(error):
     "Handles the HTTP 404 error."
     title = 'HTTP 404 Error: Page Not Found'
-    message = 'The requested page could not be found.'
-    return render_template('error.html', title = title, message = message), 404
+    return render_template('error.html', title = title, message = error), 404
 
 # Style pages
 
