@@ -52,9 +52,9 @@
         <div class="admin-faq-heading-row">
           <div class="admin-faq-metadata">
             <h2 class="section-heading">FAQ Entry ID: {{ item.id }}</h2>
-            <p class="admin-faq-info">Author: {{ item.author_id }}</p>
+            <p class="admin-faq-info">Author: {{ item.author }}</p>
             <p class="admin-faq-info">Timestamp: {{ item.timestamp }}</p>
-            <p class="admin-faq-info">Category: {{ item.category_id }}</p>
+            <p class="admin-faq-info">Category: {{ item.category }}</p>
           </div>
           <div class="admin-action-group">
             <a class="admin-action-button admin-action-button-edit" role="button" href="{{ url_for('faq_admin_edit', faq_id=item.id) }}">Edit</a>

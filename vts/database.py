@@ -15,6 +15,7 @@ from sqlalchemy import URL
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 # Imports for the SQL database itself
 from sqlalchemy import create_engine
@@ -92,11 +93,19 @@ class FAQCategory(Base):
         return {'id': self.id,
                 'category_name': self.category_name}
 
+# Note: Pylint isn't smart enough for all of the magic that is
+# happening in this class with SQLAlchemy once relationships() are
+# added to it.
+#
+# pylint:disable=unsubscriptable-object
 class FAQEntry(Base):
     """
     FAQ entry database table.
     """
     __tablename__ = "faq_entry"
+
+    author: Mapped["User"] = relationship()
+    category: Mapped["FAQCategory"] = relationship()
 
     id: Mapped[int] = mapped_column(primary_key=True)
     question_text: Mapped[str] = mapped_column(String(500))
@@ -127,6 +136,8 @@ class FAQEntry(Base):
                 'answer_text': self.answer_text,
                 'category_id': self.category_id,
                 'author_id': self.author_id,
+                'category' : self.category.category_name,
+                'author' : self.author.name,
                 'timestamp': self.timestamp}
 
 # Application Representation of the Database
