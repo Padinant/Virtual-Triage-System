@@ -93,6 +93,11 @@ class FAQCategory(Base):
         return {'id': self.id,
                 'category_name': self.category_name}
 
+# Note: Pylint isn't smart enough for all of the magic that is
+# happening in this class with SQLAlchemy once relationships() are
+# added to it.
+#
+# pylint:disable=unsubscriptable-object
 class FAQEntry(Base):
     """
     FAQ entry database table.
