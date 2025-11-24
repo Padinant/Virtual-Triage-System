@@ -310,6 +310,14 @@ def faq_admin_remove_post(faq_id):
 
     return "Failure!"
 
+# HTML Errors
+
+@app.errorhandler(404)
+def page_not_found(error):
+    title = 'HTTP 404 Error: Page Not Found'
+    message = 'The requested page could not be found.'
+    return render_template('error.html', title = title, message = message), 404
+
 # Style pages
 
 @app.route("/base.css")
