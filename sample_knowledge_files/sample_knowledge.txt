@@ -43,3 +43,9 @@ The ‘CSEE Room Access Request’ form can also be found by navigating to the C
 Scenario 1, Case 2: If the person who wants to request card swipe or room access is a student (and is not a faculty at UMBC).
 In this case, the student should reach out via email to the CSEE faculty member responsible for the specific room they are requesting access to. 
 For example, if you want to request swipe access to the research lab of a professor, you have to reach out to the specific professor. Then, that professor can request swipe access on your behalf from the department.
+
+
+
+The faculty member
+
+email a relevant faculty member (related to their reason of room access request), to fill out the request form on the student's behalf

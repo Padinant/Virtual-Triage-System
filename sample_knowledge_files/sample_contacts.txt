@@ -10,9 +10,44 @@ CSEE Phone: 410-455-3500
 
 
 —----------------------
-CSEE Staff:
+CONTACT LIST - CSEE Staff:
 Name: Rosie Bacon
 Role: Administrative Assistant
 Office: ITE 325
 Phone: (410) 455-3500
 E-mail:  rosiebacon@umbc.edu
+
+
+Name: Yemisi Aina
+Role: Program Management Specialist
+Office: ITE 325E
+Phone: (410) 455-8869
+E-mail: yaina1@umbc.edu
+
+
+Name: Rebecca Dongarra
+Role: Assistant Director
+Office: ITE 325F
+Phone: (410) 455-3065
+E-mail: dongarra@umbc.edu
+
+
+Name: Keara Fliggins
+Role: Program Management Specialist
+Office: ITE 325I
+Phone: (410) 455-3000
+E-mail: fliggins@umbc.edu
+
+
+Name: Skye Jonke
+Role: Linux System Administrator and Technical Specialist
+Office: ITE 307
+Phone: (410) 455-3423
+E-mail:  ii69854@umbc.edu
+
+
+Name: Geoff Weiss
+Role: Computer Systems Manager
+Office: ITE 302
+Phone: (410) 455-3959
+E-mail:  gweiss@cs.umbc.edu
