@@ -1,25 +1,178 @@
 @import url("/base.css");
 
-/* Full page layout */
+/* Full page layout (reduced outer padding for more real estate) */
 #chat-container {
-  max-width: 100%;
+  max-width: 96%;
   margin: 0 auto;
   background-color: #f5f5f5;
-  border-radius: var(--space-sm);
-  padding: var(--space-lg);
+  border-radius: var(--space-xs);
+  padding: var(--space-md);
   box-sizing: border-box;
+  width: 100%;
+  position: relative; /* Needed so the fullscreen button can be absolutely positioned inside */
 }
 
-/* Chat area */
 #chat-box {
   background-color: var(--umbc-dark-gray);
-  border-radius: var(--space-sm);
-  padding: var(--space-lg);
-  height: 500px;
+  border-radius: var(--space-xs);
+  padding: var(--space-md);
+  height: 72vh;
+  max-height: 72vh;
+  width: 100%;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-sm);
+  position: relative; /* For gradient overlay positioning */
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  border: 2px solid var(--umbc-light-gray);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* Fullscreen toggle button */
+.chat-fullscreen-btn {
+  position: absolute;
+  top: calc(var(--space-sm) + 6px);
+  right: calc(var(--space-sm) + 6px);
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--umbc-gold);
+  border: none;
+  color: var(--umbc-black);
+  border-radius: 8px;
+  padding: 0;
+  cursor: pointer;
+  z-index: 2150; /* Sit above the chat box content */
+}
+
+.chat-fullscreen-btn:hover {
+  background: var(--umbc-retriever-brown);
+}
+
+/* Fullscreen button icon swapping */
+/* Chat fullscreen button: show expand-1 by default, expand-2 when chat is fullscreen */
+.chat-fullscreen-btn svg {
+  width: 19.2px;
+  height: 19.2px;
+  display: none;
+}
+
+.chat-fullscreen-btn .expand-1 {
+  display: inline-block;
+}
+
+#chat-container.fullscreen .chat-fullscreen-btn .expand-1 {
+  display: none;
+}
+
+#chat-container.fullscreen .chat-fullscreen-btn .expand-2 {
+  display: inline-block;
+}
+
+/* Fullscreen styles for chat container */
+#chat-container.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+  margin: 0;
+  padding: 0;
+  background: var(--umbc-white);
+}
+
+body.chat-fullscreen {
+  overflow: hidden;
+}
+
+#chat-container.fullscreen #chat-box {
+  height: calc(100vh - 5.25rem); /* Leave room for title and input area */
+  border-radius: 0;
+  border: 0;
+  padding: var(--space-md);
+  padding-bottom: 8.75rem; /* Reserve space for the absolute-positioned input area */
+}
+
+/* When expanded, pin the input area to the bottom of the viewport inside the chat container */
+#chat-container.fullscreen #input-section {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: calc(var(--space-sm)) calc(var(--space-md));
+  background: var(--umbc-white);
+  box-shadow: 0 -6px 18px rgba(0,0,0,0.06);
+  z-index: 2151;
+  margin-top: 0;
+}
+
+
+/* Hide site when chat is expanded */
+body.chat-fullscreen .top-header-1,
+body.chat-fullscreen .top-header-2,
+body.chat-fullscreen .top-menu,
+body.chat-fullscreen .top-menu-bottom {
+  display: none !important;
+}
+
+/* Hide main content children except chat container */
+body.chat-fullscreen .main-content > *:not(#chat-container) {
+  display: none !important;
+}
+
+/* Ensure the chat container ignores the `.container` constraints when expanded */
+#chat-container.fullscreen.container {
+  max-width: none !important;
+  width: 100vw !important;
+  left: 0 !important;
+}
+
+/* Make sure the expanded chat is above everything */
+#chat-container.fullscreen {
+  z-index: 2147483647; /* Very high to overlay all page elements */
+}
+
+/* Apply same styles when using the fullscreen API (:fullscreen pseudo-class) */
+#chat-container:fullscreen,
+#chat-container:-webkit-full-screen {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+  margin: 0;
+  padding: var(--space-lg);
+  background: var(--umbc-white);
+}
+
+#chat-container:fullscreen #chat-box,
+#chat-container:-webkit-full-screen #chat-box {
+  height: calc(100vh - 8.75rem);
+  border-radius: 0;
+  border: 0;
+}
+
+/* Cursor-following gradient overlay for the chat messages area */
+#chat-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  mix-blend-mode: screen;
+  background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(253,181,21,0.22), rgba(253,181,21,0.10) 20%, transparent 45%);
+  opacity: 0;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+#chat-box.hover-gradient::before,
+#chat-box:hover::before {
+  opacity: 1;
 }
 
 /* Message rows */
@@ -31,15 +184,24 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(var(--space-xs)); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-xs));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Avatar (Bot icon) */
 .avatar {
   width: var(--space-xl);
   height: var(--space-xl);
-  margin-right: var(--space-sm);
+  margin-right: calc(var(--space-xs));
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 /* Bot message (Left) */
@@ -47,12 +209,15 @@
   justify-content: flex-start;
 }
 
+/* Chat Bubble Styling */
 .bubble.bot-bubble {
   background-color: var(--umbc-light-gray);
   color: var(--umbc-black);
-  border-radius: calc(var(--menu-border-radius) + 7px);
-  padding: var(--space-sm) var(--space-md);
-  max-width: 70%;
+  border-radius: var(--space-xs);
+  padding: calc(var(--space-xs) + 6px) calc(var(--space-sm) + 6px);
+  max-width: 78%;
+  font-size: var(--font-size-base);
+  border: 2px solid rgba(0,0,0,0.03);
 }
 
 /* User message (Right) */
@@ -61,38 +226,53 @@
 }
 
 .bubble.user-bubble {
-  background-color: #d9d9d9;
-  color: var(--umbc-black);
-  border-radius: calc(var(--menu-border-radius) + 7px);
-  padding: var(--space-sm) var(--space-md);
-  max-width: 70%;
+  background-color: var(--umbc-aok-teal);
+  color: var(--umbc-white);
+  border-radius: var(--space-xs);
+  padding: calc(var(--space-xs) + 6px) calc(var(--space-sm) + 6px);
+  max-width: 78%;
   text-align: right;
+  font-size: var(--font-size-base);
+  border: 2px solid rgba(0,0,0,0.06);
 }
 
 .emoji {
-  font-size: calc(var(--font-size-base) + 4px);
+  font-size: calc(var(--font-size-base) + 0.25rem);
   margin-left: var(--space-sm);
 }
 
 /* Input section */
 #input-section {
-  margin-top: var(--space-lg);
+  margin-top: var(--space-sm);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
 }
 
 #chat-form {
   display: flex;
   width: 100%;
-  gap: var(--space-sm);
+  gap: var(--space-xs);
+}
+
+#input-section {
+  margin-top: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+#chat-form {
+  display: flex;
+  width: 100%;
+  gap: var(--space-xs);
 }
 
 #user-input {
   flex: 1;
-  padding: calc(var(--space-sm) + 4px);
-  border-radius: calc(var(--menu-border-radius) + 1px);
-  border: 1px solid var(--umbc-dark-gray);
+  padding: calc(var(--space-xs) + 8px);
+  border-radius: var(--space-xs);
+  border: 2px solid var(--umbc-light-gray);
   font-size: var(--font-size-base);
 }
 
@@ -101,22 +281,23 @@
   border-color: var(--umbc-gold);
 }
 
-button {
-  background-color: var(--umbc-gold);
-  color: var(--umbc-black);
+/* Buttons in chat input use widget style: dark background, white text */
+#chat-form button {
+  background-color: var(--umbc-black);
+  color: var(--umbc-white);
   border: none;
-  padding: calc(var(--space-sm) + 4px) var(--space-lg);
-  border-radius: calc(var(--menu-border-radius) + 1px);
+  padding: calc(var(--space-xs) + 8px) calc(var(--space-md) + 6px);
+  border-radius: var(--space-xs);
   cursor: pointer;
   font-weight: bold;
 }
 
-button:hover {
-  background-color: var(--umbc-retriever-brown);
+ #chat-form button:hover {
+  background-color: var(--umbc-dark-gray);
 }
 
 .footer-text {
   color: var(--umbc-black);
-  margin-top: var(--space-sm);
+  margin-top: var(--space-xs);
   font-weight: bold;
 }

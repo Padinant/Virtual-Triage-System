@@ -18,7 +18,7 @@
   font-size: var(--font-size-base);
 }
 
-/* Content text */
+/* Body text */
 .main-content p {
   font-size: var(--font-size-base);
   margin: 0 0 var(--space-md);
@@ -31,6 +31,7 @@
   margin: var(--space-md) 0 var(--space-lg);
 }
 
+/* Search input */
 .faq-search-input {
   border: 2px solid var(--umbc-light-gray);
   border-radius: var(--menu-border-radius);
@@ -47,6 +48,7 @@
   outline: none;
 }
 
+/* Search submit button */
 .faq-search-submit {
   background: var(--umbc-black);
   border: none;
@@ -67,7 +69,7 @@
 /* Dropdown container */
 .faq-dropdown {
   margin: var(--space-md) 0 var(--space-lg);
-  max-width: 360px;
+  max-width: 22.5rem;
   width: 100%;
 }
 
@@ -86,7 +88,7 @@
   list-style: none;
   padding: var(--space-sm) var(--space-md);
   transition: background-color var(--transition-fast);
-  width: 400px;
+  width: 25rem;
 }
 
 .faq-dropdown-toggle::-webkit-details-marker {
@@ -97,22 +99,24 @@
   content: "";
 }
 
-.faq-dropdown-toggle::after {
-  content: "\25BC";
-  font-size: var(--font-size-base);
+.faq-dropdown-toggle .chevron {
+  width: 16px;
+  height: 16px;
   margin-left: var(--space-sm);
+  flex: 0 0 16px;
   transition: transform var(--transition-fast);
+  color: inherit;
 }
 
 .faq-dropdown[open] .faq-dropdown-toggle {
   background: var(--umbc-dark-gray);
 }
 
-.faq-dropdown[open] .faq-dropdown-toggle::after {
-  content: "\25B2";
+.faq-dropdown[open] .faq-dropdown-toggle .chevron {
+  transform: rotate(180deg);
 }
 
-/* Dropdown list container */
+/* Dropdown list */
 .faq-dropdown-list {
   background: var(--umbc-white);
   border: 1px solid var(--umbc-light-gray);
@@ -120,9 +124,10 @@
   list-style: none;
   margin: var(--space-sm) 0 0;
   padding: var(--space-sm) 0;
-  width: 400px;
+  width: 25rem;
 }
 
+/* Dropdown link */
 .faq-dropdown-link {
   color: var(--umbc-black);
   display: block;
@@ -155,6 +160,16 @@
   transition: background-color var(--transition-fast);
 }
 
+.admin-action-button .btn-icon {
+  display: inline-flex;
+  margin-left: calc(var(--space-xs) + 6px);
+  width: 19.2px;
+  height: 19.2px;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
 .admin-action-button:hover {
   background: var(--umbc-dark-gray);
 }
@@ -175,7 +190,7 @@
   background: var(--umbc-dark-gray);
 }
 
-/* Add button spacing */
+/* Add button */
 .admin-action-button-add {
   background: var(--umbc-aok-teal);
   margin: var(--space-sm) 0 var(--space-lg);
@@ -219,7 +234,7 @@
   gap: var(--space-sm);
 }
 
-/* Floating chatbot icon */
+/* Floating chatbot */
 .chatbot-float {
   bottom: var(--space-lg);
   position: fixed;
@@ -238,3 +253,4 @@
 .chatbot-float img:hover {
   transform: scale(1.1);
 }
+

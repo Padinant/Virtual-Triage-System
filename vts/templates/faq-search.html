@@ -33,7 +33,11 @@
 
     <!-- Dropdown menu for FAQ categories -->
     <details class="faq-dropdown">
-      <summary class="faq-dropdown-toggle">All Categories</summary>
+      <summary class="faq-dropdown-toggle">All Categories
+        <svg class="chevron icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <use href="/static/ICONS/sprite.svg#icon-chevron"></use>
+        </svg>
+      </summary>
       <ul class="faq-dropdown-list">
       {%for item in category_items %}
         <li><a class="faq-dropdown-link" href="/faq/category/{{ item.id }}">{{ item.category_name }}</a></li>

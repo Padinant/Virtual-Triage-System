@@ -8,7 +8,7 @@
   margin: 0;
 }
 
-/* Form layout */
+/* Form container */
 .admin-faq-form {
   display: flex;
   flex-direction: column;
@@ -16,14 +16,14 @@
   margin: var(--space-xl) 0;
 }
 
-/* Form field groups */
+/* Field group */
 .admin-form-group {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
 }
 
-/* Text inputs, textareas, and selects */
+/* Inputs and selects */
 .admin-textfield,
 .admin-text-input,
 .admin-select {
@@ -36,12 +36,12 @@
   transition: border-color var(--transition-fast);
 }
 
-/* Question field height */
+/* Question height */
 .admin-textfield-question {
   min-height: calc(var(--layout-base-height) * 2);
 }
 
-/* Answer field height */
+/* Answer height */
 .admin-textfield-answer {
   min-height: calc(var(--layout-base-height) * 2);
 }
@@ -49,7 +49,7 @@
 /* Category width */
 .admin-text-input-category,
 .admin-select-category {
-  max-width: 400px;
+  max-width: 25rem;
 }
 
 /* Focus state */
@@ -61,7 +61,7 @@
   outline: none;
 }
 
-/* Form actions alignment */
+/* Form actions */
 .admin-form-actions {
   display: flex;
   justify-content: flex-end;
@@ -81,7 +81,7 @@
   transition: background-color var(--transition-fast);
 }
 
-/* Submit button hover */
+/* Submit hover */
 .admin-submit-button:hover {
   background: var(--umbc-dark-gray);
 }
@@ -89,11 +89,11 @@
 /* Dropdown container */
 .faq-dropdown {
   margin: var(--space-md) 0 var(--space-lg);
-  max-width: 400px;
+  max-width: 25rem;
   width: 100%;
 }
 
-/* Dropdown toggle button */
+/* Dropdown toggle */
 .faq-dropdown-toggle {
   align-items: center;
   background: var(--umbc-black);
@@ -108,7 +108,7 @@
   list-style: none;
   padding: var(--space-sm) var(--space-md);
   transition: background-color var(--transition-fast);
-  width: 400px;
+  width: 25rem;
 }
 
 .faq-dropdown-toggle::-webkit-details-marker {
@@ -119,22 +119,24 @@
   content: "";
 }
 
-.faq-dropdown-toggle::after {
-  content: "\25BC";
-  font-size: var(--font-size-base);
+.faq-dropdown-toggle .chevron {
+  width: 16px;
+  height: 16px;
   margin-left: var(--space-sm);
+  flex: 0 0 16px;
   transition: transform var(--transition-fast);
+  color: inherit;
 }
 
 .faq-dropdown[open] .faq-dropdown-toggle {
   background: var(--umbc-dark-gray);
 }
 
-.faq-dropdown[open] .faq-dropdown-toggle::after {
-  content: "\25B2";
+.faq-dropdown[open] .faq-dropdown-toggle .chevron {
+  transform: rotate(180deg);
 }
 
-/* Dropdown list container */
+/* Dropdown list */
 .faq-dropdown-list {
   background: var(--umbc-white);
   border: 1px solid var(--umbc-light-gray);
@@ -142,10 +144,10 @@
   list-style: none;
   margin: var(--space-sm) 0 0;
   padding: var(--space-sm) 0;
-  width: 400px;
+  width: 25rem;
 }
 
-/* Dropdown links */
+/* Dropdown link */
 .faq-dropdown-link {
   color: var(--umbc-black);
   display: block;

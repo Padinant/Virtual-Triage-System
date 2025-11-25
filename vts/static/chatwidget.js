@@ -1,5 +1,4 @@
-// Chatbot widget script (based mostly on chat.js )
-
+// Chatbot Widget Script (based mostly on chat.js)
 document.addEventListener('DOMContentLoaded', function() {
   const floatBtn = document.getElementById('chatbot-float-btn');
   const widget = document.getElementById('chatbot-widget');
@@ -9,15 +8,31 @@ document.addEventListener('DOMContentLoaded', function() {
   const widgetInput = document.getElementById('chatbot-widget-input');
   const widgetMessages = document.getElementById('chatbot-widget-messages');
 
-  // Track current scale state for the widget
-  // Values:
-  //   0 -> default size (25% width x 50% height) used when the widget opens by default
-  //   1 -> scale 1 (25% width x 100% height)
-  //   2 -> scale 2 (50% width x 100% height)
-  // Default is 0 so the widget opens at quarter width, half height
+  // Track current scale state
   let scaleState = 0;
 
   if (!floatBtn || !widget) return;
+
+  // Initialize mouse tracking CSS vars
+  widget.style.setProperty('--mouse-x', '50%');
+  widget.style.setProperty('--mouse-y', '50%');
+
+  // Show gradient overlay while hovering the widget
+  widget.addEventListener('mousemove', function(e) {
+    const rect = widget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) + 'px';
+    const y = (e.clientY - rect.top) + 'px';
+    widget.style.setProperty('--mouse-x', x);
+    widget.style.setProperty('--mouse-y', y);
+    widget.classList.add('hover-gradient');
+  });
+
+  widget.addEventListener('mouseleave', function() {
+    // Reset gradient to center when leaving
+    widget.style.setProperty('--mouse-x', '50%');
+    widget.style.setProperty('--mouse-y', '50%');
+    widget.classList.remove('hover-gradient');
+  });
 
   // Toggle widget visibility
   floatBtn.addEventListener('click', function() {
