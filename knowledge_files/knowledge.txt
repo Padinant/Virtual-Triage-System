@@ -1,0 +1,87 @@
+—-----------------
+SECTION 1: Introduction:
+This document contains information and resources about the Department of Computer Science and Electrical Engineering at UMBC. This department is often abbreviated as CSEE.
+
+About UMBC:
+The University of Maryland Baltimore County (UMBC) is a research university in Baltimore County, Maryland. 
+
+About the CSEE department:
+For more than 30 years, the Department of Computer Science and Electrical Engineering (CSEE) at UMBC has produced the Computer Science, Computer Engineering, and Electrical Engineering leaders of tomorrow. Currently, the department offers two undergraduate degrees in Computer Science and Computer Engineering with approximately 2300 students, and graduate degrees in five programs Computer Science (MS and PhD), Computer Engineering (MS and PhD), Electrical Engineering (MS and PhD), Data Science (MS), and Cybersecurity (MS) with a total of approximately 1270 students.
+The department has 41 tenured and tenure-track faculty, 18 full-time instructional faculty, 15 research faculty, and over 20 affiliate and part-time adjunct faculty, whose research are in five clusters (i) artificial intelligence, machine learning, and signal processing; (ii) communications and photonics; (iii) computer architecture and hardware systems; (iv) cyber-physical systems; and (v) graphics and visualization.
+The department is centered in the Information Technology and Engineering (ITE) building, which has an excellent laboratory and computing environment, and in the Technology Research Center, which has specialized research laboratories.
+
+About the CSEE programs (Highlights):
+In Fall 2024, CSEE enrolled 2145 undergraduate students and 1028 graduate students.
+CSEE programs are available to both full-time and part-time students and include several accelerated Bachelor’s/Master’s degree program options. In addition, selected programs are offered both on Main Campus (Catonsville, MD) and at the Universities at Shady Grove (Rockville, MD) in Montgomery County.
+For over 20 years, UMBC has been a National Center of Academic Excellence in Cyber Defense Education (CAE-CD) and Research (CAE-R)  based on our undergraduate and graduate computer science programs with tracks and research in cybersecurity.
+
+
+—-----------------
+SECTION 2: Research at CSEE Department
+
+
+
+
+—-----------------
+SECTION 3: Commonly Requested Resources
+
+
+
+—-----------------
+SECTION 4: CSEE Undergraduate Programs
+
+
+
+—-----------------
+SECTION 5: CSEE Graduate Programs
+
+
+
+
+—-----------------
+SECTION 6: CSEE research laboratories
+
+
+
+—-----------------
+SECTION 7: Student organizations and activities
+UMBC offers a rich variety of organizations that offer students a chance to meet others with similar interests.
+The following are some groups that may be of interest to both undergraduate and graduate CSEE majors:
+- ACM: Association for Computing Machinary - Scientific Computing Society
+- IEEE - Engineering/Computing Technology Society
+- National Society of Black Engineers - Engineering Society
+- Phi Beta Kappa - Academic Honor Society
+- Tau Beta Pi - Engineering Honor Society
+- Council of Computing Majors
+- CyberDawgs - UMBC Cyberdefense Team
+- UMBC Game Developer’s Club
+- UMBC Chess Club
+- Upsilon Pi Epsilon Honor Society
+- UMBC Linux User’s Group
+- SWE: UMBC Society of Women Engineers
+- UMBC System Administration and Software Development Club
+- Hack UMBC - UMBC Annual Hackathon Event
+- Center for Women in Technology
+
+—-----------------
+SECTION 8: CSEE Department Staff
+Here is a list of the CSEE Department staff names, followed by their roles:
+- Yemisi Aina: Program Management Specialist
+- Rosie Bacon: Administrative Assistant
+- Rebecca Dongarra: Assistant Director
+- Keara Fliggins: Program Management Specialist
+- Skye Jonke: Linux System Administrator and Technical Specialist
+- Geoff Weiss: Computer Systems Manager
+
+—-----------------
+SECTION #: [...]
+
+
+
+—-----------------
+SECTION #: [...]
+
+
+
+—-----------------
+SECTION #: [...]
