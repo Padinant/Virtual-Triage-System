@@ -8,16 +8,16 @@
   text-align: center;
 }
 
-/* Login container */
+/* Container */
 .login-container {
   align-items: center;
   display: flex;
   justify-content: center;
   margin: var(--space-xl) auto;
-  min-height: 400px;
+  min-height: 25rem;
 }
 
-/* Login form */
+/* Form wrapper */
 .login-form {
   background: var(--umbc-white);
   border: 2px solid var(--umbc-light-gray);
@@ -25,12 +25,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
-  max-width: 500px;
+  max-width: 31.25rem;
   padding: var(--space-xl);
   width: 100%;
 }
 
-/* Form field groups */
+/* Field group */
 .login-form-group {
   display: flex;
   flex-direction: column;
@@ -63,7 +63,7 @@
   outline: none;
 }
 
-/* Form actions alignment */
+/* Actions */
 .login-form-actions {
   display: flex;
   justify-content: center;
@@ -85,7 +85,8 @@
   width: 100%;
 }
 
-/* Submit button hover */
+/* Submit hover */
 .login-submit-button:hover {
   background: var(--umbc-dark-gray);
 }
+

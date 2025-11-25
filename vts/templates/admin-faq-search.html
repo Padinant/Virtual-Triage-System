@@ -33,7 +33,11 @@
 
     <!-- Dropdown menu for browsing admin FAQ topics -->
     <details class="faq-dropdown">
-      <summary class="faq-dropdown-toggle">All Categories</summary>
+      <summary class="faq-dropdown-toggle">All Categories
+        <svg class="chevron icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <use href="/static/ICONS/sprite.svg#icon-chevron"></use>
+        </svg>
+      </summary>
       <ul class="faq-dropdown-list">
       {%for item in category_items %}
         <li><a class="faq-dropdown-link" href="#">{{ item.category_name }}</a></li>
@@ -44,6 +48,11 @@
     <!-- Action button for adding entries -->
     <a class="admin-action-button admin-action-button-add" role="button" href="{{ url_for('faq_admin_add') }}">
       Add Item
+      <span class="btn-icon">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <use href="/static/ICONS/sprite.svg#icon-add-file"></use>
+        </svg>
+      </span>
     </a>
 
     {% for item in faq_items %}
@@ -57,8 +66,20 @@
             <p class="admin-faq-info">Category: {{ item.category }}</p>
           </div>
           <div class="admin-action-group">
-            <a class="admin-action-button admin-action-button-edit" role="button" href="{{ url_for('faq_admin_edit', faq_id=item.id) }}">Edit</a>
-            <a class="admin-action-button admin-action-button-remove" role="button" href="{{ url_for('faq_admin_remove', faq_id=item.id) }}">Remove</a>
+            <a class="admin-action-button admin-action-button-edit" role="button" href="{{ url_for('faq_admin_edit', faq_id=item.id) }}">Edit
+              <span class="btn-icon">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <use href="/static/ICONS/sprite.svg#icon-edit"></use>
+                </svg>
+              </span>
+            </a>
+            <a class="admin-action-button admin-action-button-remove" role="button" href="{{ url_for('faq_admin_remove', faq_id=item.id) }}">Remove
+              <span class="btn-icon">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <use href="/static/ICONS/sprite.svg#icon-delete"></use>
+                </svg>
+              </span>
+            </a>
           </div>
         </div>
         <div class="admin-faq-body">

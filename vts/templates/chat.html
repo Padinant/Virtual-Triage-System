@@ -16,6 +16,14 @@
   <div id="chat-container" class="container">
       <!-- Chat messages -->
       <div id="chat-box">
+        <button id="chat-fullscreen-btn" class="chat-fullscreen-btn" title="Toggle Expand" aria-pressed="false">
+          <svg class="expand-1 icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <use href="/static/ICONS/sprite.svg#icon-expand-1"></use>
+          </svg>
+          <svg class="expand-2 icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <use href="/static/ICONS/sprite.svg#icon-expand-2"></use>
+          </svg>
+        </button>
           <!-- Bot's initial message -->
           <div class="message bot">
               <img src="{{ url_for('static', filename='UMBC_STYLES/dogumbc.png') }}" alt="UMBC Mascot" class="avatar">
@@ -24,14 +32,13 @@
           </div>
       </div>
 
-      <!-- Input area -->
-      <div id="input-section">
+        <!-- Input area -->
+        <div id="input-section">
           <form id="chat-form">
-              <input id="user-input" name="message" placeholder="Type your question..." required />
-              <button type="submit">Send</button>
+            <input id="user-input" name="message" placeholder="Type your question..." required />
+            <button type="submit">Send</button>
           </form>
-          <p class="footer-text">Ask Me Anything</p>
-      </div>
+        </div>
   </div>
 {% endblock %}
 
