@@ -75,7 +75,7 @@
   border: 2px solid var(--umbc-light-gray);
   border-radius: var(--menu-border-radius);
   margin: var(--space-md) 0 var(--space-lg);
-  max-height: 500px;
+  max-height: 31.25rem;
   overflow-y: auto;
   padding: var(--space-sm);
 }
@@ -149,7 +149,7 @@
   border-radius: var(--menu-border-radius);
   box-shadow: 0 var(--space-xs) var(--space-lg) rgba(0, 0, 0, 0.3);
   max-height: 80vh;
-  max-width: 800px;
+  max-width: 50rem;
   overflow-y: auto;
   padding: var(--space-xl);
   position: relative;
@@ -185,7 +185,7 @@
   color: var(--umbc-white);
   display: none;
   font-size: var(--font-size-sm);
-  padding: 0.4rem 0.6rem;
+  padding: 6.4px 9.6px;
   text-decoration: none;
   z-index: 5;
 }

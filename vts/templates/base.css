@@ -1,5 +1,6 @@
+/* Design tokens */
 :root {
-  /* Umbc brand colors */
+  /* UMBC brand colors */
   --umbc-white: #ffffff;
   --umbc-black: #000000;
   --umbc-gold: #fdb515;
@@ -10,7 +11,7 @@
   --umbc-dark-gray: #636466;
 
   /* Layout dimensions */
-  --layout-base-height: 200px;
+  --layout-base-height: 12.5rem;
   --layout-header-1-ratio: 3/4;
   --layout-logo-ratio: 1/2;
   --layout-divider-ratio: 1/20;
@@ -39,10 +40,12 @@
   --transition-fast: 0.2s ease;
 }
 
+/* Global reset */
 * {
   box-sizing: border-box;
 }
 
+/* Base body and typography */
 body {
   background-color: var(--umbc-white);
   color: var(--umbc-black);
@@ -71,6 +74,7 @@ textarea {
   resize: none;
 }
 
+/* Links */
 a {
   color: var(--umbc-aok-teal);
   text-decoration: none;
@@ -85,21 +89,24 @@ a:hover {
   text-decoration: none;
 }
 
+/* Media */
 img {
   height: auto;
   max-width: 100%;
 }
 
+/* Header bar 1 */
 .top-header-1 {
   align-items: center;
   background-color: var(--umbc-black);
-  border-bottom: calc(var(--layout-base-height) * var(--layout-divider-ratio)) solid
-    var(--umbc-light-gray);
+  border-bottom: calc(var(--layout-base-height) * var(--layout-divider-ratio)) solid var(--umbc-light-gray);
   display: flex;
   height: calc(var(--layout-base-height) * var(--layout-header-1-ratio));
   width: 100%;
 }
-.top-header-1 { position: relative; }
+.top-header-1 {
+  position: relative;
+}
 
 .top-header-1 .container {
   align-items: center;
@@ -114,12 +121,10 @@ img {
 
 .UMBC img {
   display: block;
-  height: calc(
-    var(--layout-base-height) * var(--layout-header-1-ratio) * var(--layout-logo-ratio)
-  );
+  height: calc(var(--layout-base-height) * var(--layout-header-1-ratio) * var(--layout-logo-ratio));
 }
 
-/* Admin login button in the top-right */
+/* Admin login button */
 .admin-login-button {
   position: absolute;
   top: var(--space-md);
@@ -127,7 +132,7 @@ img {
   background: var(--umbc-gold);
   color: var(--umbc-black);
   border-radius: 4px;
-  padding: 0.4rem 0.7rem;
+  padding: 6.4px 11.2px;
   font-weight: bold;
   text-decoration: none;
   z-index: 10;
@@ -139,6 +144,7 @@ img {
   text-decoration: none !important;
 }
 
+/* Header bar 2 */
 .top-header-2 {
   background-color: var(--umbc-gold);
   background-image: url("/static/UMBC_STYLES/maryland-flag-header-1280x180-gold.jpg");
@@ -209,6 +215,7 @@ img {
   width: var(--layout-content-width);
 }
 
+/* Navigation menu */
 .top-menu {
   align-items: center;
   display: flex;
@@ -271,6 +278,7 @@ img {
   text-decoration: none;
 }
 
+/* Main content layout */
 .main-content {
   margin: var(--space-xl) auto;
   max-width: none;
@@ -280,10 +288,11 @@ img {
 
 .container {
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: 75rem;
   padding: 0 var(--space-md);
 }
 
+/* Generic titles */
 .page-title {
   color: var(--umbc-black);
   font-weight: bold;
@@ -297,7 +306,7 @@ img {
   margin: var(--space-md) 0 var(--space-sm);
 }
 
-/* Consistent scrollbar styling */
+/* Scrollbar styling */
 *::-webkit-scrollbar {
   background: var(--umbc-light-gray);
   width: var(--space-md);
@@ -339,19 +348,40 @@ img {
   transform: scale(1.1);
 }
 
-/* Floating chatbot widget */
+/* Chatbot widget container */
 .chatbot-widget {
-  background: var(--umbc-white);
+  background: var(--umbc-dark-gray);
   border-radius: var(--menu-border-radius);
   bottom: var(--space-sm);
   box-shadow: 0 var(--space-xs) var(--space-lg) rgba(0, 0, 0, 0.3);
   display: none;
   flex-direction: column;
-  height: 500px;
+  height: 31.25rem;
   position: fixed;
   right: var(--space-sm);
-  width: 400px;
+  width: 25rem;
   z-index: 1001;
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  transition: width 0.25s ease, height 0.25s ease, top 0.25s ease, bottom 0.25s ease, right 0.25s ease;
+}
+
+.chatbot-widget::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  mix-blend-mode: screen;
+  background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(253,181,21,0.22), rgba(253,181,21,0.10) 20%, transparent 50%);
+  opacity: 0;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+
+.chatbot-widget.hover-gradient::before,
+.chatbot-widget:hover::before {
+  opacity: 1;
 }
 
 .chatbot-widget.show {
@@ -410,13 +440,27 @@ img {
   color: var(--umbc-retriever-brown);
 }
 
-/* Scale states for chatbot widget */
-.chatbot-widget {
-  transition: width 0.25s ease, height 0.25s ease, top 0.25s ease, bottom 0.25s ease, right 0.25s ease;
+/* Widget expand icon states */
+.chatbot-widget-expand svg {
+  width: 19.2px;
+  height: 19.2px;
+  display: none;
 }
 
+.chatbot-widget-expand .expand-1 {
+  display: inline-block;
+}
+
+.chatbot-widget.scale-2 .chatbot-widget-expand .expand-1 {
+  display: none;
+}
+
+.chatbot-widget.scale-2 .chatbot-widget-expand .expand-2 {
+  display: inline-block;
+}
+
+/* Widget scale states */
 .chatbot-widget.scale-default {
-  /* Default open: 25% width, 50% height anchored bottom-right */
   width: 25vw;
   height: 50vh;
   bottom: 5vh;
@@ -424,7 +468,6 @@ img {
 }
 
 .chatbot-widget.scale-1 {
-  /* Scale 1: 25% width, full height */
   width: 25vw;
   height: 100vh;
   top: 0;
@@ -434,7 +477,6 @@ img {
 }
 
 .chatbot-widget.scale-2 {
-  /* Scale 2: 50% width, full height */
   width: 50vw;
   height: 100vh;
   top: 0;
@@ -443,6 +485,7 @@ img {
   border-radius: 0;
 }
 
+/* Widget messages */
 .chatbot-widget-messages {
   display: flex;
   flex: 1;
@@ -494,6 +537,7 @@ img {
   font-size: var(--font-size-lg);
 }
 
+/* Widget input */
 .chatbot-widget-input {
   border-top: 2px solid var(--umbc-light-gray);
   padding: var(--space-md);
@@ -511,7 +555,6 @@ img {
   font-size: var(--font-size-base);
   padding: var(--space-sm);
 }
-
 .chatbot-widget-input input:focus {
   border-color: var(--umbc-gold);
   outline: none;
@@ -531,4 +574,22 @@ img {
 
 .chatbot-widget-input button:hover {
   background: var(--umbc-dark-gray);
+}
+
+/* Icon utilities */
+.icon {
+  width: 19.2px;
+  height: 19.2px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: calc(var(--space-xs) + 6px);
+  width: 19.2px;
+  height: 19.2px;
+  color: inherit;
 }

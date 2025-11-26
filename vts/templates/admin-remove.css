@@ -1,13 +1,13 @@
 @import url("/base.css");
 
-/* Page title alignment */
+/* Page title */
 .main-content .page-title {
   color: var(--umbc-black);
   font-weight: bold;
   margin: var(--space-md) 0 var(--space-sm);
 }
 
-/* Warning text */
+/* Warning disclaimer */
 .admin-remove-disclaimer {
   color: var(--umbc-retriever-red);
   font-size: var(--font-size-lg);
@@ -16,7 +16,7 @@
   text-align: center;
 }
 
-/* Action layout */
+/* Action buttons layout */
 .admin-remove-actions {
   display: flex;
   flex-wrap: wrap;
@@ -25,7 +25,7 @@
   margin: 0 0 var(--space-lg);
 }
 
-/* Action buttons base */
+/* Base action button */
 .admin-remove-button {
   align-items: center;
   border: none;
@@ -39,7 +39,7 @@
   justify-content: center;
   padding: 0 var(--space-lg);
   transition: background-color var(--transition-fast);
-  width: 200px;
+  width: 12.5rem;
 }
 
 /* Confirm button */
@@ -69,17 +69,15 @@
   margin: var(--space-md) 0 var(--space-sm);
 }
 
-/* Content text */
+/* Body text */
 .main-content p {
   font-size: var(--font-size-base);
   margin: 0 0 var(--space-md);
 }
 
-/* Faq content styling */
+/* Faq content */
 .faq-content {
   border: 1px solid var(--umbc-light-gray);
   margin: var(--space-lg) 0;
   padding: var(--space-md);
 }
-
-
