@@ -1,0 +1,10 @@
+# This is an example of what a config.toml can look like. Do not put
+# privileged information in this file!
+
+[database]
+username = "username"
+password = "password"
+host = "example.com"
+
+[agent]
+key = "1A1B2C3D5E8F13G21H34I55J89K144L"
