@@ -4,7 +4,8 @@ version = "0.2"
 description = "UMBC CSMC 447 Fall 2025 Team 5 Project"
 dependencies = [ "flask",
                  "sqlalchemy",
-                 "markdown" ]
+                 "markdown",
+                 "Whoosh" ]
 
 [build-system]
 requires = ["setuptools"]
