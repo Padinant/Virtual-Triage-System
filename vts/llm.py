@@ -66,3 +66,33 @@ def say_hello_openai() -> str:
 # if this file is ran, have the model introduce itself
 if __name__ == "__main__":
     print(say_hello_openai())
+
+
+
+
+#########################################################
+# other functions - not directly dealing with getting input/output messages
+# tbi - to be implemented
+
+
+def update_agent_instruction_prompt(new_instruction_prompt: str) -> bool:
+    # tbi
+    return False
+
+
+def add_file_to_kb(new_knowledge_base_file_path: str, kb_id: str) -> bool:
+    # tbi
+    return False
+
+
+def create_new_kb(kb_name, kb_decription = ""):
+    # tbi
+    # would return the kb api in digital ocean
+    return False
+
+
+def add_kb_to_agent(agent_id: str, kb_id: str):
+    # tbi
+    return False 
+
+
