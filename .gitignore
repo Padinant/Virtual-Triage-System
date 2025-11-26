@@ -5,3 +5,5 @@ venv/*
 *.egg-info/*
 *.pyc
 .coverage
+config.toml
+.*
