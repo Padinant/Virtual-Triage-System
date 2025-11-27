@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Chat page script
+
+  // Initialize elements
   const form = document.getElementById("chat-form");
   const input = document.getElementById("user-input");
   const chatBox = document.getElementById("chat-box");
@@ -6,15 +9,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const fsBtn = document.getElementById("chat-fullscreen-btn");
 
   if (!form || !input || !chatBox) {
-    console.error("Chat elements not found. Check your HTML IDs.");
+    console.error("Chat elements not found Check your HTML IDs");
     return;
   }
 
-  // Initialize mouse-tracking CSS vars for chat page gradient
+  // Mouse tracking for gradient overlay
   chatBox.style.setProperty('--mouse-x', '50%');
   chatBox.style.setProperty('--mouse-y', '50%');
 
-  chatBox.addEventListener('mousemove', function(e) {
+  chatBox.addEventListener('mousemove', (e) => {
     const rect = chatBox.getBoundingClientRect();
     const x = (e.clientX - rect.left) + 'px';
     const y = (e.clientY - rect.top) + 'px';
@@ -23,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     chatBox.classList.add('hover-gradient');
   });
 
-  chatBox.addEventListener('mouseleave', function() {
+  chatBox.addEventListener('mouseleave', () => {
     chatBox.style.setProperty('--mouse-x', '50%');
     chatBox.style.setProperty('--mouse-y', '50%');
     chatBox.classList.remove('hover-gradient');
@@ -47,31 +50,31 @@ document.addEventListener("DOMContentLoaded", () => {
         fsBtn.setAttribute('title', 'Toggle Expand');
       }
     }
-    // Ensure chat scroll stays at bottom
     chatBox.scrollTop = chatBox.scrollHeight;
   }
 
   if (fsBtn) {
-    fsBtn.addEventListener('click', function() {
+    fsBtn.addEventListener('click', () => {
       const on = !chatContainer.classList.contains('fullscreen');
       setFullscreen(on);
     });
   }
 
-  // Exit fullscreen on Escape
-  document.addEventListener('keydown', function(e) {
+  // Exit fullscreen on Esc key press
+  document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && chatContainer && chatContainer.classList.contains('fullscreen')) {
       setFullscreen(false);
     }
   });
 
+  // Form submit handler adds user message and simulates bot reply
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const message = input.value.trim();
     if (!message) return;
 
-    // --- Add user's message (right side)
+    // Create and append user's message
     const userDiv = document.createElement("div");
     userDiv.className = "message user";
     userDiv.innerHTML = `
@@ -81,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
     chatBox.appendChild(userDiv);
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    // --- Simulated bot reply
+    // Simulate bot reply with a short delay
     setTimeout(() => {
       const botDiv = document.createElement("div");
       botDiv.className = "message bot";

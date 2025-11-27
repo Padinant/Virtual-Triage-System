@@ -22,6 +22,7 @@ from vts.chat import reply_to_message
 from vts.database import AppDatabase
 from vts.database import Engine
 from vts.database import FAQEntry
+from vts.database import FAQCategory
 
 from vts.frontend import ADMIN_ITEMS
 from vts.frontend import MENU_ITEMS
@@ -148,12 +149,15 @@ def faq_page():
     else:
         items = get_faq_entries_as_markdown(db)
     categories = db.faq_categories()
+    # Default selected category for the public FAQ page is 'All Categories'
+    selected_category = 'All Categories'
     return render_template('faq-search.html',
                            title="Browse FAQ - Interactive Help",
                            menu_items=MENU_ITEMS,
                            category_items=categories,
                            faq_items=items,
-                           query=query)
+                           query=query,
+                           selected_category=selected_category)
 
 @app.route("/faq/<int:faq_id>")
 def faq_item_page(faq_id):
@@ -174,11 +178,13 @@ def faq_category_page(category_id):
     items = get_faq_categorized_entries_as_markdown(db, category_id)
     categories = db.faq_categories()
     name = find_category_name(categories, category_id)
+    # When viewing a specific category, set the selected category name
     return render_template('faq-search.html',
                            title=f"FAQ Category #{category_id} - {name} - Interactive Help",
                            menu_items=MENU_ITEMS,
                            category_items=categories,
-                           faq_items=items)
+                           faq_items=items,
+                           selected_category=name)
 
 @app.route("/admin-login.html")
 def admin_login():
@@ -192,19 +198,110 @@ def faq_admin():
     "The admin FAQ with search page."
     db = AppDatabase(Engine.SQLITE_FILE)
     query = request.args.get('query', '').strip()
-    if query:
+    category = request.args.get('category', '').strip()
+    if category:
+        try:
+            category_id = int(category)
+        except ValueError:
+            category_id = None
+        if category_id is not None:
+            items = get_faq_categorized_entries_as_markdown(db, category_id)
+        else:
+            items = get_faq_entries_as_markdown(db)
+    elif query:
         matched_ids = search_faq_ids(query, app.instance_path)
         faq_entries = fetch_entries_by_ids(db, matched_ids) if matched_ids else []
         items = faq_entries_to_markdown(faq_entries)
     else:
         items = get_faq_entries_as_markdown(db)
     categories = db.faq_categories()
+    selected_category = 'All Categories'
+    if category and category_id is not None:
+        name = find_category_name(categories, category_id)
+        if name:
+            selected_category = name
+
     return render_template('admin-faq-search.html',
                            title="Admin FAQ Management - Interactive Help",
                            menu_items=MENU_ITEMS,
                            category_items=categories,
                            faq_items=items,
-                           query=query)
+                           query=query,
+                           selected_category=selected_category)
+
+
+@app.route("/admin-categories.html")
+def category_admin():
+    "The admin page that lists and manages categories."
+    db = AppDatabase(Engine.SQLITE_FILE)
+    categories = db.faq_categories()
+    return render_template('admin-category-list.html',
+                           title="Admin Category Management - Interactive Help",
+                           menu_items=MENU_ITEMS,
+                           category_items=categories)
+
+
+@app.route("/admin-categories/add")
+def category_add():
+    "Render the add-category form."
+    return render_template('admin-category-add.html',
+                           title="Add New Category - Admin",
+                           menu_items=MENU_ITEMS)
+
+
+@app.route("/admin-categories/add", methods=["POST"])
+def category_add_post():
+    "Create a new category from the form."
+    db = AppDatabase(Engine.SQLITE_FILE)
+    new_cat = FAQCategory(category_name=request.form['category_name'])
+    db.add_item(new_cat)
+    return redirect(url_for('category_admin'))
+
+
+@app.route("/admin-categories/edit/<int:category_id>")
+def category_edit(category_id):
+    "Render edit form for a category."
+    db = AppDatabase(Engine.SQLITE_FILE)
+    categories = db.faq_categories()
+    category = next((c for c in categories if c['id'] == category_id), None)
+    if not category:
+        return redirect(url_for('category_admin'))
+    return render_template('admin-category-edit.html',
+                           title=f"Edit Category #{category_id} - Admin",
+                           menu_items=MENU_ITEMS,
+                           category=category)
+
+
+@app.route("/admin-categories/edit/<int:category_id>", methods=["POST"])
+def category_edit_post(category_id):
+    "Process category edits."
+    db = AppDatabase(Engine.SQLITE_FILE)
+    db.update_category(category_id, request.form['category_name'])
+    return redirect(url_for('category_admin'))
+
+
+@app.route("/admin-categories/remove/<int:category_id>")
+def category_remove(category_id):
+    "Show category remove confirmation."
+    db = AppDatabase(Engine.SQLITE_FILE)
+    category = next((c for c in db.faq_categories() if c['id'] == category_id), None)
+    if not category:
+        return redirect(url_for('category_admin'))
+    return render_template('admin-category-remove.html',
+                           title=f"Remove Category #{category_id} - Admin",
+                           menu_items=MENU_ITEMS,
+                           category=category)
+
+
+@app.route("/admin-categories/remove/<int:category_id>", methods=["POST"])
+def category_remove_post(category_id):
+    "Perform category removal (marks as removed if not in use)."
+    db = AppDatabase(Engine.SQLITE_FILE)
+    success = db.remove_category(category_id)
+    if success:
+        return redirect(url_for('category_admin'))
+    # Category in use - ERROR
+    return ("Category in use; cannot remove.", 400)
 
 @app.route("/add/")
 def faq_admin_add():

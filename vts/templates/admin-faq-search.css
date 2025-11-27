@@ -60,17 +60,38 @@
   height: var(--space-xl);
   padding: 0 var(--space-md);
   transition: background-color var(--transition-fast);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: var(--space-xl);
 }
 
 .faq-search-submit:hover {
   background: var(--umbc-dark-gray);
+  text-decoration: none;
+}
+
+.faq-search-submit:focus {
+  outline: none;
+  text-decoration: none;
 }
 
 /* Dropdown container */
 .faq-dropdown {
-  margin: var(--space-md) 0 var(--space-lg);
+  margin: 0;
   max-width: 22.5rem;
   width: 100%;
+  position: relative;
+}
+
+/* Controls wrapper */
+.faq-controls {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  margin: var(--space-md) 0 var(--space-lg);
+  flex-wrap: nowrap; /* keep controls on a single line */
 }
 
 /* Dropdown toggle */
@@ -88,7 +109,9 @@
   list-style: none;
   padding: var(--space-sm) var(--space-md);
   transition: background-color var(--transition-fast);
-  width: 25rem;
+  max-width: 25rem;
+  width: 100%;
+  flex: 0 0 25rem;
 }
 
 .faq-dropdown-toggle::-webkit-details-marker {
@@ -122,9 +145,15 @@
   border: 1px solid var(--umbc-light-gray);
   border-radius: var(--menu-border-radius);
   list-style: none;
-  margin: var(--space-sm) 0 0;
+  margin: 0;
   padding: var(--space-sm) 0;
-  width: 25rem;
+  max-width: 25rem;
+  width: 100%;
+  position: absolute;
+  top: calc(100% + var(--space-xs));
+  left: 0;
+  z-index: 400;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
 }
 
 /* Dropdown link */
@@ -149,6 +178,7 @@
   border: none;
   border-radius: var(--menu-border-radius);
   color: var(--umbc-white);
+  text-decoration: none;
   cursor: pointer;
   display: inline-flex;
   font-size: var(--font-size-sm);
@@ -172,6 +202,15 @@
 
 .admin-action-button:hover {
   background: var(--umbc-dark-gray);
+  text-decoration: none;
+}
+
+/* Edit categories button */
+.admin-action-button-edit-cats {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .admin-action-button-edit {
@@ -200,9 +239,15 @@
   background: var(--umbc-dark-gray);
 }
 
+.faq-controls .admin-action-button-add {
+  margin: 0;
+  align-self: center;
+}
+
 /* Faq entry layout */
 .admin-faq-entry {
-  border: 1px solid var(--umbc-light-gray);
+  border: 1px solid var(--cust-lighter-gray);
+  background: var(--cust-lightest-gray);
   margin: var(--space-lg) 0;
   padding: var(--space-md);
   position: relative;
@@ -253,4 +298,3 @@
 .chatbot-float img:hover {
   transform: scale(1.1);
 }
-

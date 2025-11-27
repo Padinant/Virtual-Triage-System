@@ -7,7 +7,7 @@
     <link href="/base.css" rel="stylesheet" />
     {% block styles %}{% endblock %}
   </head>
-  <!-- Body section, contains code for visible parts of the website and scripts -->
+  <!-- Body section -->
   <body>
     {% set header_eyebrow_class = header_eyebrow_class | default('', true) %}
     {% set header_heading_class = header_heading_class | default('', true) %}
@@ -16,31 +16,31 @@
     {% set __menu_items = menu_items | default([], true) %}
     {% set __bottom_menu_items = bottom_menu_items | default(__menu_items, true) %}
 
-    <!-- First top header section -->
+    <!-- Top header 1 -->
     <header class="top-header-1">
-      <div class="container"> <!-- Helper for centering and padding -->
-        <a class="UMBC" href="https://umbc.edu/"> <!-- Clicking logo directs to UMBC website -->
+      <div class="container">
+        <a class="UMBC" href="https://umbc.edu/">
           <img
             src="{{ url_for('static', filename='UMBC_STYLES/UMBC-primary-logo-CMYK-on-black.png') }}"
             alt="UMBC primary logo"
-          /> <!-- UMBC logo image -->
+          />
         </a>
         <a class="admin-login-button" href="{{ url_for('admin_login') }}">Admin Login</a>
       </div>
     </header>
 
-    <!-- Second top header section -->
+    <!-- Top header 2 -->
     <section class="top-header-2">
-      <div class="top-header-2-content container"> <!-- Helpers for style, centering, and padding -->
-        <a href="https://www.csee.umbc.edu/" class="top-header-2-eyebrow {{ header_eyebrow_class }}">{{ header_eyebrow_text }}</a> <!-- Eyebrow text -->
-        <a href="{{ url_for('home') }}" class="top-header-2-heading {{ header_heading_class }}">{{ header_heading_text }}</a> <!-- Heading text -->
+      <div class="top-header-2-content container">
+        <a href="https://www.csee.umbc.edu/" class="top-header-2-eyebrow {{ header_eyebrow_class }}">{{ header_eyebrow_text }}</a>
+        <a href="{{ url_for('home') }}" class="top-header-2-heading {{ header_heading_class }}">{{ header_heading_text }}</a>
       </div>
     </section>
 
-    <!-- Top menu section -->
+    <!-- Top menu -->
     <nav class="top-menu">
       <div class="container">
-        <ul class="top-menu-list"> <!-- Describes a list of navigation links -->
+        <ul class="top-menu-list">
           {% for item in __menu_items %}
             <li class="top-menu-item">
               <a class="top-menu-link" href="{{ item.url }}">{{ item.name }}</a>
@@ -50,15 +50,15 @@
       </div>
     </nav>
 
-    <!-- Main content area that each page will fill in -->
+    <!-- Main content area -->
     <main class="main-content container" id="main">
       {% block content %}{% endblock %}
     </main>
 
-    <!-- Bottom menu section (reuses top menu styles with modifier) -->
+    <!-- Bottom menu -->
     <nav class="top-menu top-menu-bottom">
       <div class="container">
-        <ul class="top-menu-list"> <!-- Describes a list of navigation links -->
+        <ul class="top-menu-list">
           {% for item in __bottom_menu_items %}
             <li class="top-menu-item">
               <a class="top-menu-link" href="{{ item.url }}">{{ item.name }}</a>

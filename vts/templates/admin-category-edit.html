@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Category - Admin{% endblock %}
+
+{% block styles %}
+  <link href="/admin-edit.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+  <h1 class="page-title">Edit Category [ADMIN]</h1>
+
+  <form class="admin-faq-form" action="{{ url_for('category_edit_post', category_id=category.id) }}" method="post">
+    <div class="admin-form-group">
+      <input type="text" name="category_name" id="category-name" class="admin-textfield" value="{{ category.category_name }}" required />
+    </div>
+
+    <div class="admin-form-actions">
+      <button class="admin-submit-button" type="submit">Save</button>
+    </div>
+  </form>
+
+{% endblock %}
