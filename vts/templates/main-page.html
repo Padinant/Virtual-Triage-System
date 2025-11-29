@@ -8,7 +8,7 @@
 {% block styles %}
     <link href="/main-page.css" rel="stylesheet" />
 {% endblock %}{% block content %}
-    <!-- Page title -->
+  <!-- Page title -->
     <h1 class="page-title page-title-main">Got Questions? We Have Answers!</h1>
     <p>
       Welcome to the UMBC CSEE Interactive Help system! This tool is designed
@@ -16,7 +16,7 @@
       Science and Electrical Engineering department.
     </p>
 
-    <!-- Faq search bar section with placeholder information -->
+    <!-- Faq search bar section -->
     <form class="faq-search" id="faq-search" action="{{ url_for('faq_page') }}">
       <!-- Input field -->
       <input
@@ -36,10 +36,10 @@
     <!-- Faq lookup section -->
     <div class="faq-lookup" id="faq-lookup"></div>
     <h2 class="faq-lookup-heading">Frequently Asked Questions</h2>
-    <section class="faq-panel"> <!-- Faq panel section containing faq links -->
-      <ul class="faq-list"> <!-- Describes a list of items in the faq list -->
+    <section class="faq-panel">
+      <ul class="faq-list">
         {% for item in faq_items %}
-          <!-- Every item here is a clickable FAQ entry -->
+          <!-- Clickable FAQ entry -->
           <li class="faq-list-item">
             <a class="faq-list-link" href="#" data-faq-id="{{ item.url.split('/')[-1] }}">{{ item.text | safe }}</a>
           </li>
@@ -53,7 +53,7 @@
         <a id="faq-popup-open" class="faq-popup-open" href="#" role="button">Go to FAQ</a>
         <button class="faq-popup-close" aria-label="Close">&times;</button>
         <div id="faq-popup-body" class="faq-popup-body">
-          <!-- Faq content will be inserted here -->
+          <!-- Faq content inserted here -->
         </div>
       </div>
     </div>
@@ -97,7 +97,7 @@
       Phone: 410-455-3500
     </p>
 
-    <!-- Admin links section with placeholder information -->
+    <!-- Admin links section -->
     {% if admin_items %}
       {% for item in admin_items %}
         <p>

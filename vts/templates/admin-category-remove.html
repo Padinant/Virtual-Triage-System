@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Remove Category - Admin{% endblock %}
+
+{% block styles %}
+  <link href="/admin-remove.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+    <!-- Page title -->
+    <h1 class="page-title page-title-admin-remove">Remove Category [ADMIN]</h1>
+
+    <!-- Warning message -->
+    <h2 class="admin-remove-disclaimer">
+      Are you sure you want to remove this category? It cannot be undone.
+    </h2>
+
+    <!-- Confirmation button group -->
+    <div class="admin-remove-actions">
+      <form action="{{ url_for('category_remove_post', category_id=category.id) }}" method="post">
+        <button class="admin-remove-button admin-remove-button-yes" type="submit" name="confirm" value="yes">
+          Yes, Remove Category
+        </button>
+        <a class="admin-remove-button admin-remove-button-no" role="button" href="{{ url_for('category_admin') }}">
+          No, Keep Category
+        </a>
+      </form>
+    </div>
+
+    <!-- Category details to be removed -->
+    <div class="faq-content">
+      <h2 class="section-heading">Category ID: {{ category.id }}</h2>
+      <p class="admin-faq-info">{{ category.category_name }}</p>
+    </div>
+{% endblock %}

@@ -312,6 +312,18 @@ class AppDatabase():
                 categories[category.category_name] = category.id
         return categories
 
+    def update_category(self, category_id, new_name) -> bool:
+        """
+        Update the name of a category specified by `category_id`.
+        Returns True on success.
+        """
+        with Session(self.engine) as session:
+            statement = select(FAQCategory).where(FAQCategory.id == category_id)
+            result = session.scalars(statement).one()
+            result.category_name = new_name
+            session.commit()
+        return True
+
     def delete_marked_entries(self):
         "Deletes the entries that have been marked for deletion."
         return delete_marked_items(self.engine, FAQEntry)

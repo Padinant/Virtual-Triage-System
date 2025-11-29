@@ -32,10 +32,11 @@
     </form>
 
     <!-- Dropdown menu for FAQ categories -->
-    <details class="faq-dropdown">
-      <summary class="faq-dropdown-toggle">All Categories
+    <div class="faq-controls">
+      <details class="faq-dropdown">
+      <summary class="faq-dropdown-toggle">{{ selected_category | default('All Categories') }}
         <svg class="chevron icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <use href="/static/ICONS/sprite.svg#icon-chevron"></use>
+          <use href="/static/ICONS/sprite.svg#chevron-down"></use>
         </svg>
       </summary>
       <ul class="faq-dropdown-list">
@@ -43,9 +44,13 @@
         <li><a class="faq-dropdown-link" href="/faq/category/{{ item.id }}">{{ item.category_name }}</a></li>
       {% endfor %}
       </ul>
-    </details>
+      </details>
 
-    <!-- Every item here renders a single FAQ entry -->
+      <!-- View all button -->
+      <a class="faq-search-submit" role="button" href="{{ url_for('faq_page') }}">View All</a>
+    </div>
+
+    <!-- Single FAQ entry -->
     {% for item in faq_items %}
       <section class="faq-entry">
         {{ item.text | safe }}

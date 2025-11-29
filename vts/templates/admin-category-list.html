@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Category Administration{% endblock %}
+
+{% block styles %}
+  <link href="/admin-faq-search.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+  <h1 class="page-title">Admin Category</h1>
+  <div class="admin-actions" style="display:flex;align-items:center;justify-content:space-between;margin:var(--space-md) 0;">
+    <!-- Left controls -->
+    <div>
+      <a class="admin-action-button admin-action-button-edit-cats" href="{{ url_for('faq_admin') }}">
+        Go To Admin FAQ
+      </a>
+    </div>
+
+    <!-- Right controls -->
+    <div>
+      <a class="admin-action-button admin-action-button-add" href="{{ url_for('category_add') }}">
+        Add Category
+        <span class="btn-icon">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <use href="/static/ICONS/sprite.svg#add-file"></use>
+          </svg>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Category list entries -->
+  {% for cat in category_items %}
+    <section class="admin-faq-entry">
+      <div class="admin-faq-heading-row">
+        <div class="admin-faq-metadata">
+          <h2 class="section-heading">Category ID: {{ cat.id }}</h2>
+          <p class="admin-faq-info">{{ cat.category_name }}</p>
+        </div>
+        <div class="admin-action-group">
+          <a class="admin-action-button admin-action-button-edit" href="{{ url_for('category_edit', category_id=cat.id) }}">Edit
+            <span class="btn-icon">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <use href="/static/ICONS/sprite.svg#edit"></use>
+              </svg>
+            </span>
+          </a>
+          <a class="admin-action-button admin-action-button-remove" href="{{ url_for('category_remove', category_id=cat.id) }}">Remove
+            <span class="btn-icon">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <use href="/static/ICONS/sprite.svg#delete"></use>
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+  {% endfor %}
+
+{% endblock %}

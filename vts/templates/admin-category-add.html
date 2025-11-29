@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Add Category - Admin{% endblock %}
+
+{% block styles %}
+  <link href="/admin-add.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+  <h1 class="page-title">Add Category [ADMIN]</h1>
+
+  <form class="admin-faq-form" action="{{ url_for('category_add_post') }}" method="post">
+    <div class="admin-form-group">
+      <input type="text" name="category_name" id="category-name" class="admin-textfield" placeholder="Category name" required />
+    </div>
+
+    <div class="admin-form-actions">
+      <button class="admin-submit-button" type="submit">Create Category</button>
+    </div>
+  </form>
+
+{% endblock %}

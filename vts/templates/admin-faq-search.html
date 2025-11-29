@@ -31,32 +31,48 @@
       </button>
     </form>
 
-    <!-- Dropdown menu for browsing admin FAQ topics -->
-    <details class="faq-dropdown">
-      <summary class="faq-dropdown-toggle">All Categories
+    <!-- Dropdown menu for admin FAQ topics -->
+    <div class="faq-controls">
+      <details class="faq-dropdown">
+      <summary class="faq-dropdown-toggle">{{ selected_category | default('All Categories') }}
         <svg class="chevron icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <use href="/static/ICONS/sprite.svg#icon-chevron"></use>
         </svg>
       </summary>
       <ul class="faq-dropdown-list">
       {%for item in category_items %}
-        <li><a class="faq-dropdown-link" href="#">{{ item.category_name }}</a></li>
+        <li><a class="faq-dropdown-link" href="{{ url_for('faq_admin') }}?category={{ item.id }}">{{ item.category_name }}</a></li>
       {% endfor %}
       </ul>
-    </details>
+      </details>
 
-    <!-- Action button for adding entries -->
-    <a class="admin-action-button admin-action-button-add" role="button" href="{{ url_for('faq_admin_add') }}">
-      Add Item
-      <span class="btn-icon">
-        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <use href="/static/ICONS/sprite.svg#icon-add-file"></use>
-        </svg>
-      </span>
-    </a>
+      <!-- View all button -->
+      <a class="faq-search-submit" role="button" href="{{ url_for('faq_admin') }}">View All</a>
+
+      <!-- Edit categories button -->
+      <a class="admin-action-button admin-action-button-edit-cats" role="button" href="{{ url_for('category_admin') }}">
+        Edit Categories
+        <span class="btn-icon">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <use href="/static/ICONS/sprite.svg#edit"></use>
+          </svg>
+        </span>
+      </a>
+        <div style="flex:1 1 auto"></div>
+
+        <!-- Add FAQ button -->
+        <a class="admin-action-button admin-action-button-add" role="button" href="{{ url_for('faq_admin_add') }}">
+          Add FAQ
+          <span class="btn-icon">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <use href="/static/ICONS/sprite.svg#add-file"></use>
+            </svg>
+          </span>
+        </a>
+    </div>
 
     {% for item in faq_items %}
-      <!-- Each FAQ entry includes contextual actions -->
+      <!-- Admin FAQ entry with actions -->
       <section class="admin-faq-entry">
         <div class="admin-faq-heading-row">
           <div class="admin-faq-metadata">
@@ -69,14 +85,14 @@
             <a class="admin-action-button admin-action-button-edit" role="button" href="{{ url_for('faq_admin_edit', faq_id=item.id) }}">Edit
               <span class="btn-icon">
                 <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <use href="/static/ICONS/sprite.svg#icon-edit"></use>
+                  <use href="/static/ICONS/sprite.svg#edit"></use>
                 </svg>
               </span>
             </a>
             <a class="admin-action-button admin-action-button-remove" role="button" href="{{ url_for('faq_admin_remove', faq_id=item.id) }}">Remove
               <span class="btn-icon">
                 <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <use href="/static/ICONS/sprite.svg#icon-delete"></use>
+                  <use href="/static/ICONS/sprite.svg#delete"></use>
                 </svg>
               </span>
             </a>

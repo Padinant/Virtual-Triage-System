@@ -1,19 +1,20 @@
 @import url("/base.css");
 
-/* Full page layout (reduced outer padding for more real estate) */
+/* Full page layout */
 #chat-container {
   max-width: 96%;
   margin: 0 auto;
-  background-color: #f5f5f5;
+  background-color: var(--umbc-dark-gray);
   border-radius: var(--space-xs);
-  padding: var(--space-md);
+  padding: var(--space-sm);
   box-sizing: border-box;
   width: 100%;
-  position: relative; /* Needed so the fullscreen button can be absolutely positioned inside */
+  position: relative;
 }
 
+/* Chat box styles */
 #chat-box {
-  background-color: var(--umbc-dark-gray);
+  background-color: var(--umbc-light-gray);
   border-radius: var(--space-xs);
   padding: var(--space-md);
   height: 72vh;
@@ -23,11 +24,11 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  position: relative; /* For gradient overlay positioning */
+  position: relative;
   --mouse-x: 50%;
   --mouse-y: 50%;
-  border: 2px solid var(--umbc-light-gray);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  border: none;
+  box-shadow: none;
 }
 
 /* Fullscreen toggle button */
@@ -46,7 +47,11 @@
   border-radius: 8px;
   padding: 0;
   cursor: pointer;
-  z-index: 2150; /* Sit above the chat box content */
+  z-index: 2150;
+}
+
+#chat-container.fullscreen .chat-fullscreen-btn {
+  position: fixed;
 }
 
 .chat-fullscreen-btn:hover {
@@ -54,7 +59,6 @@
 }
 
 /* Fullscreen button icon swapping */
-/* Chat fullscreen button: show expand-1 by default, expand-2 when chat is fullscreen */
 .chat-fullscreen-btn svg {
   width: 19.2px;
   height: 19.2px;
@@ -69,7 +73,7 @@
   display: none;
 }
 
-#chat-container.fullscreen .chat-fullscreen-btn .expand-2 {
+#chat-container.fullscreen .chat-fullscreen-btn .compress-1 {
   display: inline-block;
 }
 
@@ -83,32 +87,35 @@
   z-index: 2000;
   margin: 0;
   padding: 0;
-  background: var(--umbc-white);
+  background: var(--umbc-light-gray);
+  border-radius: 0;
 }
 
 body.chat-fullscreen {
   overflow: hidden;
 }
 
+/* Fullscreen styles for chat box */
 #chat-container.fullscreen #chat-box {
-  height: calc(100vh - 5.25rem); /* Leave room for title and input area */
   border-radius: 0;
   border: 0;
   padding: var(--space-md);
-  padding-bottom: 8.75rem; /* Reserve space for the absolute-positioned input area */
+  height: 100vh;
+  max-height: 100vh;
+  padding-bottom: calc(5rem + var(--space-sm));
 }
 
 /* When expanded, pin the input area to the bottom of the viewport inside the chat container */
 #chat-container.fullscreen #input-section {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: calc(var(--space-sm)) calc(var(--space-md));
-  background: var(--umbc-white);
-  box-shadow: 0 -6px 18px rgba(0,0,0,0.06);
+  position: fixed;
+  left: calc(var(--space-sm) + 6px);
+  right: calc(var(--space-sm) + 6px);
+  bottom: calc(var(--space-sm) + 6px);
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
   z-index: 2151;
-  margin-top: 0;
+  margin: 0;
 }
 
 
@@ -132,31 +139,10 @@ body.chat-fullscreen .main-content > *:not(#chat-container) {
   left: 0 !important;
 }
 
-/* Make sure the expanded chat is above everything */
+/* Makes sure the expanded chat is above everything */
 #chat-container.fullscreen {
-  z-index: 2147483647; /* Very high to overlay all page elements */
+  z-index: 2147483647;
 }
-
-/* Apply same styles when using the fullscreen API (:fullscreen pseudo-class) */
-#chat-container:fullscreen,
-#chat-container:-webkit-full-screen {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 2000;
-  margin: 0;
-  padding: var(--space-lg);
-  background: var(--umbc-white);
-}
-
-#chat-container:fullscreen #chat-box,
-#chat-container:-webkit-full-screen #chat-box {
-  height: calc(100vh - 8.75rem);
-  border-radius: 0;
-  border: 0;
-}
-
 /* Cursor-following gradient overlay for the chat messages area */
 #chat-box::before {
   content: "";
@@ -165,7 +151,7 @@ body.chat-fullscreen .main-content > *:not(#chat-container) {
   pointer-events: none;
   border-radius: inherit;
   mix-blend-mode: screen;
-  background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(253,181,21,0.22), rgba(253,181,21,0.10) 20%, transparent 45%);
+  background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(253,181,21,0.10), rgba(253,181,21,0.10) 25%, transparent 50%);
   opacity: 0;
   transition: opacity 180ms ease, transform 180ms ease;
 }
@@ -211,13 +197,18 @@ body.chat-fullscreen .main-content > *:not(#chat-container) {
 
 /* Chat Bubble Styling */
 .bubble.bot-bubble {
-  background-color: var(--umbc-light-gray);
+  background-color: var(--cust-lightest-gray);
   color: var(--umbc-black);
   border-radius: var(--space-xs);
   padding: calc(var(--space-xs) + 6px) calc(var(--space-sm) + 6px);
   max-width: 78%;
   font-size: var(--font-size-base);
-  border: 2px solid rgba(0,0,0,0.03);
+  border: none;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  
+  
 }
 
 /* User message (Right) */
@@ -233,7 +224,12 @@ body.chat-fullscreen .main-content > *:not(#chat-container) {
   max-width: 78%;
   text-align: right;
   font-size: var(--font-size-base);
-  border: 2px solid rgba(0,0,0,0.06);
+  border: none;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  
+  
 }
 
 .emoji {
@@ -281,7 +277,7 @@ body.chat-fullscreen .main-content > *:not(#chat-container) {
   border-color: var(--umbc-gold);
 }
 
-/* Buttons in chat input use widget style: dark background, white text */
+/* Buttons in chat input */
 #chat-form button {
   background-color: var(--umbc-black);
   color: var(--umbc-white);
