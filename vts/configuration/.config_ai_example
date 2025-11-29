@@ -1,7 +1,0 @@
-# example file for the AI backend's secret values - in INI format
-# you can make a copy of this file within the same folder and name it .config_ai, and then replace the secret values
-[agent]
-AGENT_API_ACCESS_KEY = an-example-secret-value
-AGENT_ENDPOINT = https://<agent-identifier-goes-here>.ondigitalocean.app
-
-

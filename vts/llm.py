@@ -17,7 +17,7 @@ from openai import OpenAI
 # load the secret config values from the given path
 # precondition: the provided file exists and contains info in correct INI format
 # returns model endpoint and access key from that file
-def load_agent_secret_config(path="configuration/.config_ai"):
+def load_agent_secret_config(path="configuration/..config_ai.toml"):
     cfg = configparser.ConfigParser()
     
     files_read = cfg.read(path)
@@ -35,7 +35,7 @@ def load_agent_secret_config(path="configuration/.config_ai"):
 # takes user text as input_prompt and returns the model output as a string
 # ignore include_retrieval_info boolean for now
 # precondition: the provided file for config_path exists and contains info in correct INI format
-def ask_agent_openai(input_prompt: str, include_retrieval_info: bool = False, config_path: str = "configuration/.config_ai") -> str:
+def ask_agent_openai(input_prompt: str, include_retrieval_info: bool = False, config_path: str = "configuration/..config_ai.toml") -> str:
     base_url, key = load_agent_secret_config(config_path)
 
     client = OpenAI(base_url=base_url, api_key=key)

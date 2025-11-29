@@ -6,5 +6,6 @@ venv/*
 *.pyc
 .coverage
 config.toml
+.config_ai.toml
 .*
-.config_ai
+
