@@ -7,3 +7,4 @@ venv/*
 .coverage
 config.toml
 .*
+.config_ai

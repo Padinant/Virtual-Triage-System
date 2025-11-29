@@ -17,7 +17,7 @@ from openai import OpenAI
 # load the secret config values from the given path
 # precondition: the provided file exists and contains info in correct INI format
 # returns model endpoint and access key from that file
-def load_agent_secret_config(path=".config_ai"):
+def load_agent_secret_config(path="configuration/.config_ai"):
     cfg = configparser.ConfigParser()
     
     files_read = cfg.read(path)
@@ -35,14 +35,14 @@ def load_agent_secret_config(path=".config_ai"):
 # takes user text as input_prompt and returns the model output as a string
 # ignore include_retrieval_info boolean for now
 # precondition: the provided file for config_path exists and contains info in correct INI format
-def ask_agent_openai(input_prompt: str, include_retrieval_info: bool = False, config_path: str = ".config_ai") -> str:
+def ask_agent_openai(input_prompt: str, include_retrieval_info: bool = False, config_path: str = "configuration/.config_ai") -> str:
     base_url, key = load_agent_secret_config(config_path)
 
     client = OpenAI(base_url=base_url, api_key=key)
 
     agent_response = client.chat.completions.create(
         model="n/a",
-        messages=[{"role": "user", "content": prompt}],
+        messages=[{"role": "user", "content": input_prompt}],
         # # Extra options for later - get meta data on the knowledge base usage:
         # extra_body={
         #     "include_retrieval_info": include_retrieval_info,
@@ -53,7 +53,7 @@ def ask_agent_openai(input_prompt: str, include_retrieval_info: bool = False, co
     if agent_response.choices:
         return agent_response.choices[0].message.content
     else: 
-        return ""
+        return "Access to agent failed. Maybe take a look at the FAQ section?"
 
 
 # an example function that can be called at the start!
@@ -65,7 +65,9 @@ def say_hello_openai() -> str:
 
 # if this file is ran, have the model introduce itself
 if __name__ == "__main__":
+    print("Calling on agent to say hello...")
     print(say_hello_openai())
+    print("Finished running llm.py")
 
 
 
