@@ -6,7 +6,8 @@ dependencies = [ "flask",
                  "sqlalchemy",
                  "markdown",
                  "Whoosh",
-                 "openai" ]
+                 "openai",
+                 "Flask-Bcrypt" ]
 
 [build-system]
 requires = ["setuptools"]

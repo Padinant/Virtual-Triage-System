@@ -199,23 +199,25 @@ class AppDatabase():
         "Create all of the ORM table metadata for a brand new database."
         Base.metadata.create_all(self.engine)
 
+    def generate_password_hash(self, password, pwhash):
+        "Use the pwhash object to generate a password hash of password."
+        return pwhash.generate_password_hash(password)
+
     def users(self) -> list[dict]:
         "Turns a list of all users into dicts that can then be turned into JSON automatically."
         with Session(self.engine) as session:
             statement = select(User)
             return results_as_dicts(session.scalars(statement))
 
-    def check_user_login(self, username, password) -> bool:
-        "Verifies that the password matches for the given username."
+    def check_user_login(self, username, password, pwhash) -> bool:
+        "Verifies that the password matches for the given username, checked by pwhash."
         with Session(self.engine) as session:
             statement = select(User).where(User.name == username)
             result = session.scalars(statement)
             user = result.one_or_none()
             if user is None:
                 return False
-            # This will eventually check the hashed password, not a
-            # string match.
-            return user.password == password.encode('UTF-8')
+            return pwhash.check_password_hash(user.password, password)
 
     def add_item(self, item):
         "Uses a session to add and commit exactly one item to the database."

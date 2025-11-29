@@ -66,7 +66,7 @@ TEST_FAQ = [("Why can't I register for my classes?",
 
 TEST_FAQ_CATEGORIES = ["Registration", "Grades", "Credits"]
 
-def fill_debug_database(db):
+def fill_debug_database(db, pwhash = None):
     "Fills the debug database with fake data for testing."
     # Store the users and FAQ categories first because their fields do
     # not use relations.
@@ -75,11 +75,14 @@ def fill_debug_database(db):
                  email = "",
                  is_admin = False,
                  password = b'')
+    test_password = b'password'
+    if pwhash is not None:
+        test_password = db.generate_password_hash(test_password, pwhash)
     admin = User(name = "admin",
                  campus_id = "FAKEID1",
                  email = "admin@example.com",
                  is_admin = True,
-                 password = b'password')
+                 password = test_password)
     categories = [FAQCategory(category_name = category)
                   for category in TEST_FAQ_CATEGORIES]
     db.add_items([guest, admin])

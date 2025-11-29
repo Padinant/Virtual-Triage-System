@@ -17,6 +17,8 @@ from flask import render_template
 from flask import request
 from flask import url_for
 
+from flask_bcrypt import Bcrypt
+
 from vts.chat import reply_to_message
 
 from vts.database import AppDatabase
@@ -39,6 +41,8 @@ from vts.search import remove_faq_from_index
 
 app = Flask(__name__)
 
+flask_bcrypt = Bcrypt(app)
+
 app.secret_key = secrets.token_hex()
 
 # Right now, this will always return the SQLite database. The
@@ -54,7 +58,7 @@ def init_db ():
     db = AppDatabase(Engine.SQLITE_FILE)
     db.initialize_metadata()
     print("Populating the database.")
-    fill_debug_database(db)
+    fill_debug_database(db, flask_bcrypt)
 
 def setup_app():
     "Makes sure that the app has everything that it needs on startup."
@@ -364,7 +368,8 @@ def admin_login_post():
     "Handles admin login form submission."
     db = get_db()
     is_valid = db.check_user_login(request.form['username'],
-                                   request.form['password'])
+                                   request.form['password'],
+                                   flask_bcrypt)
 
     if not is_valid:
         return redirect(url_for('admin_login_error'))

@@ -3,3 +3,4 @@ sqlalchemy
 markdown
 Whoosh
 openai
+Flask-Bcrypt
