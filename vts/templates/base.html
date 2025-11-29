@@ -25,7 +25,11 @@
             alt="UMBC primary logo"
           />
         </a>
-        <a class="admin-login-button" href="{{ url_for('admin_login') }}">Admin {% if is_admin %} Logout {% else %} Login {% endif %}</a>
+        {% if is_admin %}
+        <a class="admin-login-button" href="{{ url_for('admin_logout') }}">Admin Logout </a>
+        {% else %}
+        <a class="admin-login-button" href="{{ url_for('admin_login') }}">Admin Login </a>
+        {% endif %}
       </div>
     </header>
 

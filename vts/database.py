@@ -215,7 +215,9 @@ class AppDatabase():
             statement = select(User).where(User.name == username)
             result = session.scalars(statement)
             user = result.one_or_none()
-            if user is None:
+            # The username doesn't exist or the user has had
+            # permissions removed.
+            if user is None or not user.is_admin:
                 return False
             return pwhash.check_password_hash(user.password, password)
 

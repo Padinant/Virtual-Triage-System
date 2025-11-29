@@ -15,6 +15,7 @@ from flask import Response
 from flask import redirect
 from flask import render_template
 from flask import request
+from flask import session
 from flask import url_for
 
 from flask_bcrypt import Bcrypt
@@ -139,6 +140,10 @@ def find_category_name(categories, category_id):
             return category['category_name']
     return ''
 
+def get_admin_status() -> bool:
+    "Returns true if the user is logged in, i.e. if the user's session has a username."
+    return 'username' in session
+
 @app.route("/")
 def home():
     "The main entry point to the app."
@@ -152,7 +157,7 @@ def home():
                            faq_items=items,
                            faq_full_items=full_items,
                            admin_items=ADMIN_ITEMS,
-                           is_admin=False)
+                           is_admin=get_admin_status())
 
 @app.route("/faq-search.html")
 def faq_page():
@@ -175,7 +180,7 @@ def faq_page():
                            faq_items=items,
                            query=query,
                            selected_category=selected_category,
-                           is_admin=False)
+                           is_admin=get_admin_status())
 
 @app.route("/faq/<int:faq_id>")
 def faq_item_page(faq_id):
@@ -188,7 +193,7 @@ def faq_item_page(faq_id):
                            menu_items=MENU_ITEMS,
                            category_items=categories,
                            faq_items=items,
-                           is_admin=False)
+                           is_admin=get_admin_status())
 
 @app.route("/faq/category/<int:category_id>")
 def faq_category_page(category_id):
@@ -204,11 +209,15 @@ def faq_category_page(category_id):
                            category_items=categories,
                            faq_items=items,
                            selected_category=name,
-                           is_admin=False)
+                           is_admin=get_admin_status())
 
 @app.route("/admin-login.html")
 def admin_login():
     "The admin login page."
+    # If already logged in, don't login again.
+    if get_admin_status():
+        return redirect(url_for('faq_admin'))
+
     return render_template('admin-login.html',
                            title="Admin Login - Interactive Help",
                            menu_items=MENU_ITEMS,
@@ -385,7 +394,15 @@ def admin_login_post():
     if not is_valid:
         return redirect(url_for('admin_login_error'))
 
+    session['username'] = request.form['username']
+
     return redirect(url_for('faq_admin'))
+
+@app.route("/admin-logout.html")
+def admin_logout():
+    "Logs the user out if the user navigates here."
+    session.pop('username')
+    return redirect(url_for('home'))
 
 @app.route("/add/", methods=["POST"])
 def faq_admin_add_post():
@@ -443,14 +460,20 @@ def faq_admin_remove_post(faq_id):
 def page_not_found(error):
     "Handles the HTTP 404 error."
     title = 'HTTP 404 Error: Page Not Found'
-    return render_template('error.html', title = title, message = error, is_admin=False), 404
+    return render_template('error.html',
+                           title = title,
+                           message = error,
+                           is_admin=get_admin_status), 404
 
 @app.route('/bad-login')
 def admin_login_error():
     "Handles an invalid login."
     title = 'Login Error: Invalid Username and/or Password'
     body = 'Please try again.'
-    return render_template('error.html', title = title, message = body, is_admin=False), 401
+    return render_template('error.html',
+                           title = title,
+                           message = body,
+                           is_admin=get_admin_status), 401
 
 # Style pages
 
@@ -518,7 +541,7 @@ def chat():
         menu_items=MENU_ITEMS,
         # Bottom menu
         bottom_menu_items=MENU_ITEMS,
-        is_admin=False)
+        is_admin=get_admin_status())
 
 # API endpoint for chat messages (in future versions this is where we'd get chatbot output)
 @app.route("/message", methods=["POST"])
