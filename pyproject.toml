@@ -5,7 +5,8 @@ description = "UMBC CSMC 447 Fall 2025 Team 5 Project"
 dependencies = [ "flask",
                  "sqlalchemy",
                  "markdown",
-                 "Whoosh" ]
+                 "Whoosh",
+                 "openai" ]
 
 [build-system]
 requires = ["setuptools"]

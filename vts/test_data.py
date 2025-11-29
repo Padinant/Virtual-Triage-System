@@ -75,7 +75,7 @@ def fill_debug_database(db):
                  email = "",
                  is_admin = False,
                  password = b'')
-    admin = User(name = "Administrator",
+    admin = User(name = "admin",
                  campus_id = "FAKEID1",
                  email = "admin@example.com",
                  is_admin = True,
@@ -87,7 +87,7 @@ def fill_debug_database(db):
     category_dict = db.faq_categories_by_name()
     # Find the first (and hopefully only) admin ID.
     with Session(db.engine) as session:
-        statement = select(User).where(User.name == "Administrator")
+        statement = select(User).where(User.name == "admin")
         admin = session.scalars(statement).first()
         admin_id = admin.id
     # Add the FAQ entries by converting the constants' tuple format

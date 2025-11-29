@@ -2,3 +2,4 @@ flask
 sqlalchemy
 markdown
 Whoosh
+openai
