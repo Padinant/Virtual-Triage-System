@@ -430,7 +430,8 @@ def admin_login_post():
                                    flask_bcrypt)
 
     if not is_valid:
-        return redirect(url_for('admin_login_error'))
+        flash('Login Error: Invalid Username and/or Password')
+        return redirect(url_for('admin_login_post'))
 
     session['username'] = request.form['username']
 
@@ -526,16 +527,6 @@ def page_not_found(error):
                            title = title,
                            message = error,
                            is_admin=get_admin_status()), 404
-
-@app.route('/bad-login')
-def admin_login_error():
-    "Handles an invalid login."
-    title = 'Login Error: Invalid Username and/or Password'
-    body = 'Please try again.'
-    return render_template('error.html',
-                           title = title,
-                           message = body,
-                           is_admin=get_admin_status()), 401
 
 # Style pages
 
