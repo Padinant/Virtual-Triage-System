@@ -1,3 +1,4 @@
+note: this document is currently incomplete
 —-----------------
 SECTION 1: Introduction:
 This document contains information and resources about the Department of Computer Science and Electrical Engineering at UMBC. This department is often abbreviated as CSEE.

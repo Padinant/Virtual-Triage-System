@@ -11,6 +11,8 @@ pip install flask
 pip install sqlalchemy
 pip install markdown
 pip install whoosh
+pip install requests
+pip install openai
 ```
 
 To use inside of a local venv with automatic dependency resolution,
@@ -20,6 +22,20 @@ run the following:
 python -m venv .venv
 source .venv/bin/activate
 pip install --editable .
+```
+
+# Setting up the configuration file with the AI api keys
+Navigate to `vts/configuration` and create a new file named `.config_ai.toml`
+Notice that within the same folder, there is another file named `.config_ai_example.toml`
+Please copy the content of the example file into the file you created, and replace the secret api values for the model. 
+
+(If you want to also copy the secret config values for the database, there is another file named config.example.toml which you can reference)
+
+You can test whether the connection to the agent api works by making a quick call to chatbot. To do so, type the following in terminal:
+
+```
+cd vts
+python llm.py
 ```
 
 # Local Testing
