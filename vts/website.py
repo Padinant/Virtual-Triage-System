@@ -41,6 +41,13 @@ app = Flask(__name__)
 
 app.secret_key = secrets.token_hex()
 
+# Right now, this will always return the SQLite database. The
+# Engine.POSTGRESQL will be selected if the username and password and
+# path can be read from the configuration file.
+def get_db () -> AppDatabase:
+    "Retrieves the appropriate database."
+    return AppDatabase(Engine.SQLITE_FILE)
+
 def init_db ():
     "Initializes the debug/testing database."
     print("Debug/testing DB not found! Creating it.")
@@ -67,7 +74,7 @@ def setup_app():
         init_db()
         fresh_db = True
     # Builds search index.
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
     if fresh_db:
         build_index(db, app.instance_path)
     else:
@@ -126,7 +133,7 @@ def find_category_name(categories, category_id):
 @app.route("/")
 def home():
     "The main entry point to the app."
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
     items = get_faq_titles_as_markdown(db)
     full_items = get_faq_entries_as_markdown(db)
     return render_template('main-page.html',
@@ -140,7 +147,7 @@ def home():
 @app.route("/faq-search.html")
 def faq_page():
     "The FAQ with search page."
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
     query = request.args.get('query', '').strip()
     if query:
         matched_ids = search_faq_ids(query, app.instance_path)
@@ -162,7 +169,7 @@ def faq_page():
 @app.route("/faq/<int:faq_id>")
 def faq_item_page(faq_id):
     "The page for a specific FAQ item."
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
     items = get_faq_entry_as_markdown(faq_id)(db)
     categories = db.faq_categories()
     return render_template('faq-search.html',
@@ -174,7 +181,7 @@ def faq_item_page(faq_id):
 @app.route("/faq/category/<int:category_id>")
 def faq_category_page(category_id):
     "The page for all entries of a given category."
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
     items = get_faq_categorized_entries_as_markdown(db, category_id)
     categories = db.faq_categories()
     name = find_category_name(categories, category_id)
@@ -196,7 +203,7 @@ def admin_login():
 @app.route("/admin-faq-search.html")
 def faq_admin():
     "The admin FAQ with search page."
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
     query = request.args.get('query', '').strip()
     category = request.args.get('category', '').strip()
     if category:
@@ -233,7 +240,7 @@ def faq_admin():
 @app.route("/admin-categories.html")
 def category_admin():
     "The admin page that lists and manages categories."
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
     categories = db.faq_categories()
     return render_template('admin-category-list.html',
                            title="Admin Category Management - Interactive Help",
@@ -252,7 +259,7 @@ def category_add():
 @app.route("/admin-categories/add", methods=["POST"])
 def category_add_post():
     "Create a new category from the form."
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
     new_cat = FAQCategory(category_name=request.form['category_name'])
     db.add_item(new_cat)
     return redirect(url_for('category_admin'))
@@ -261,7 +268,7 @@ def category_add_post():
 @app.route("/admin-categories/edit/<int:category_id>")
 def category_edit(category_id):
     "Render edit form for a category."
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
     categories = db.faq_categories()
     category = next((c for c in categories if c['id'] == category_id), None)
     if not category:
@@ -275,7 +282,7 @@ def category_edit(category_id):
 @app.route("/admin-categories/edit/<int:category_id>", methods=["POST"])
 def category_edit_post(category_id):
     "Process category edits."
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
     db.update_category(category_id, request.form['category_name'])
     return redirect(url_for('category_admin'))
 
@@ -283,7 +290,7 @@ def category_edit_post(category_id):
 @app.route("/admin-categories/remove/<int:category_id>")
 def category_remove(category_id):
     "Show category remove confirmation."
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
     category = next((c for c in db.faq_categories() if c['id'] == category_id), None)
     if not category:
         return redirect(url_for('category_admin'))
@@ -296,7 +303,7 @@ def category_remove(category_id):
 @app.route("/admin-categories/remove/<int:category_id>", methods=["POST"])
 def category_remove_post(category_id):
     "Perform category removal (marks as removed if not in use)."
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
     success = db.remove_category(category_id)
     if success:
         return redirect(url_for('category_admin'))
@@ -306,7 +313,7 @@ def category_remove_post(category_id):
 @app.route("/add/")
 def faq_admin_add():
     "The admin FAQ page for adding items."
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
     categories = db.faq_categories()
     return render_template('admin-add.html',
                            title="Add New FAQ - Admin",
@@ -316,7 +323,7 @@ def faq_admin_add():
 @app.route("/edit/<int:faq_id>")
 def faq_admin_edit(faq_id):
     "The admin FAQ page for editing an individual item."
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
     faq_entry = db.faq_entry(faq_id)[0]
     categories = db.faq_categories()
     return render_template('admin-edit.html',
@@ -333,7 +340,7 @@ def edit_root():
 @app.route("/remove/<int:faq_id>")
 def faq_admin_remove(faq_id):
     "The admin FAQ page for removing an individual item."
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
     faq_entries = db.faq_entry(faq_id)
     if not faq_entries:
         return redirect(url_for('faq_admin'))
@@ -360,7 +367,7 @@ def admin_login_post():
 @app.route("/add/", methods=["POST"])
 def faq_admin_add_post():
     "Adds a new post to the database."
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
 
     new_entry = FAQEntry(question_text = request.form['question'],
                          answer_text = request.form['answer'],
@@ -389,7 +396,7 @@ def faq_admin_edit_post(faq_id):
         item.category_id = request.form['category']
         item.timestamp = datetime.now()
 
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
     db.update_item(query, update)
     update_faq_in_index(db, faq_id, app.instance_path)
 
@@ -398,7 +405,7 @@ def faq_admin_edit_post(faq_id):
 @app.route("/remove/<int:faq_id>", methods=["POST"])
 def faq_admin_remove_post(faq_id):
     "Removes the given post ID."
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
 
     if request.form['confirm'] and request.form['confirm'] == 'yes':
         db.remove_faq_entry(faq_id)
@@ -491,7 +498,7 @@ def message():
 @app.route("/api.json")
 def json_faq_api():
     "A JSON file that returns the FAQs as structured data for AI."
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
     return [{'question' : entry['question_text'],
              'answer'   : entry['answer_text']}
             for entry in db.faq_entries()]
@@ -499,7 +506,7 @@ def json_faq_api():
 @app.route("/api.txt")
 def text_faq_api():
     "A TXT file that returns the FAQs all in one file for AI."
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = get_db()
     faq_text = ''.join(['Question:\n' + entry['question_text'] + '\n\n'
                         + 'Answer:\n' + entry['answer_text'] + '\n---\n\n'
                         for entry in db.faq_entries()])
