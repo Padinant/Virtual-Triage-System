@@ -205,6 +205,18 @@ class AppDatabase():
             statement = select(User)
             return results_as_dicts(session.scalars(statement))
 
+    def check_user_login(self, username, password) -> bool:
+        "Verifies that the password matches for the given username."
+        with Session(self.engine) as session:
+            statement = select(User).where(User.name == username)
+            result = session.scalars(statement)
+            user = result.one_or_none()
+            if user == None:
+                return False
+            # This will eventually check the hashed password, not a
+            # string match.
+            return user.password == password.encode('UTF-8')
+
     def add_item(self, item):
         "Uses a session to add and commit exactly one item to the database."
         with Session(self.engine) as session:

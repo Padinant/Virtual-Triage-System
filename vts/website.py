@@ -362,6 +362,13 @@ def remove_root():
 @app.route("/admin-login.html", methods=["POST"])
 def admin_login_post():
     "Handles admin login form submission."
+    db = get_db()
+    is_valid = db.check_user_login(request.form['username'],
+                                   request.form['password'])
+
+    if not is_valid:
+        return redirect(url_for('admin_login_error'))
+
     return redirect(url_for('faq_admin'))
 
 @app.route("/add/", methods=["POST"])
@@ -414,13 +421,19 @@ def faq_admin_remove_post(faq_id):
 
     return "Failure!"
 
-# HTML Errors
+# HTML and Application Errors
 
 @app.errorhandler(404)
 def page_not_found(error):
     "Handles the HTTP 404 error."
     title = 'HTTP 404 Error: Page Not Found'
     return render_template('error.html', title = title, message = error), 404
+
+@app.route('/bad-login')
+def admin_login_error():
+    "Handles an invalid login."
+    title = 'Login Error: Invalid Username and/or Password'
+    return render_template('error.html', title = title, message = 'Please try again.'), 401
 
 # Style pages
 

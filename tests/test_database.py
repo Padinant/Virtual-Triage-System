@@ -105,7 +105,7 @@ def test_database_with_test_data_file():
              'email': '',
              'is_admin': False},
              {'id': 2,
-              'name': 'Administrator',
+              'name': 'admin',
              'campus_id': "FAKEID1",
              'email': "admin@example.com",
              'is_admin': True}]
