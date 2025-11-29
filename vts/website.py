@@ -12,6 +12,7 @@ import markdown
 
 from flask import Flask
 from flask import Response
+from flask import abort
 from flask import redirect
 from flask import render_template
 from flask import request
@@ -269,6 +270,9 @@ def admin_login():
 @app.route("/admin-categories.html")
 def category_admin():
     "The admin page that lists and manages categories."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
     categories = db.faq_categories()
     return render_template('admin-category-list.html',
@@ -280,6 +284,9 @@ def category_admin():
 @app.route("/admin-categories/add")
 def category_add():
     "Render the add-category form."
+    if not get_admin_status():
+        abort(403)
+
     return render_template('admin-category-add.html',
                            title="Add New Category - Admin",
                            menu_items=MENU_ITEMS,
@@ -288,6 +295,9 @@ def category_add():
 @app.route("/admin-categories/add", methods=["POST"])
 def category_add_post():
     "Create a new category from the form."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
     new_cat = FAQCategory(category_name=request.form['category_name'])
     db.add_item(new_cat)
@@ -296,6 +306,9 @@ def category_add_post():
 @app.route("/admin-categories/edit/<int:category_id>")
 def category_edit(category_id):
     "Render edit form for a category."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
     categories = db.faq_categories()
     category = next((c for c in categories if c['id'] == category_id), None)
@@ -310,6 +323,9 @@ def category_edit(category_id):
 @app.route("/admin-categories/edit/<int:category_id>", methods=["POST"])
 def category_edit_post(category_id):
     "Process category edits."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
     db.update_category(category_id, request.form['category_name'])
     return redirect(url_for('category_admin'))
@@ -317,6 +333,9 @@ def category_edit_post(category_id):
 @app.route("/admin-categories/remove/<int:category_id>")
 def category_remove(category_id):
     "Show category remove confirmation."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
     category = next((c for c in db.faq_categories() if c['id'] == category_id), None)
     if not category:
@@ -330,6 +349,9 @@ def category_remove(category_id):
 @app.route("/admin-categories/remove/<int:category_id>", methods=["POST"])
 def category_remove_post(category_id):
     "Perform category removal (marks as removed if not in use)."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
     success = db.remove_category(category_id)
     if success:
@@ -340,6 +362,9 @@ def category_remove_post(category_id):
 @app.route("/add/")
 def faq_admin_add():
     "The admin FAQ page for adding items."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
     categories = db.faq_categories()
     return render_template('admin-add.html',
@@ -351,6 +376,9 @@ def faq_admin_add():
 @app.route("/edit/<int:faq_id>")
 def faq_admin_edit(faq_id):
     "The admin FAQ page for editing an individual item."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
     faq_entry = db.faq_entry(faq_id)[0]
     categories = db.faq_categories()
@@ -369,6 +397,9 @@ def edit_root():
 @app.route("/remove/<int:faq_id>")
 def faq_admin_remove(faq_id):
     "The admin FAQ page for removing an individual item."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
     faq_entries = db.faq_entry(faq_id)
     if not faq_entries:
@@ -407,12 +438,18 @@ def admin_login_post():
 @app.route("/admin-logout.html")
 def admin_logout():
     "Logs the user out if the user navigates here."
+    if not get_admin_status():
+        abort(403)
+
     session.pop('username')
     return redirect(url_for('home'))
 
 @app.route("/add/", methods=["POST"])
 def faq_admin_add_post():
     "Adds a new post to the database."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
 
     new_entry = FAQEntry(question_text = request.form['question'],
@@ -432,6 +469,8 @@ def faq_admin_add_post():
 @app.route("/edit/<int:faq_id>", methods=["POST"])
 def faq_admin_edit_post(faq_id):
     "Updates the given ID's post to contain the new data."
+    if not get_admin_status():
+        abort(403)
 
     def query(statement):
         return statement.where(FAQEntry.id == faq_id)
@@ -451,6 +490,9 @@ def faq_admin_edit_post(faq_id):
 @app.route("/remove/<int:faq_id>", methods=["POST"])
 def faq_admin_remove_post(faq_id):
     "Removes the given post ID."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
 
     if request.form['confirm'] and request.form['confirm'] == 'yes':
@@ -462,6 +504,15 @@ def faq_admin_remove_post(faq_id):
 
 # HTML and Application Errors
 
+@app.errorhandler(403)
+def page_forbidden(error):
+    "Handles the HTTP 403 error."
+    title = 'HTTP 403 Error: Forbidden'
+    return render_template('error.html',
+                           title = title,
+                           message = error,
+                           is_admin=get_admin_status()), 403
+
 @app.errorhandler(404)
 def page_not_found(error):
     "Handles the HTTP 404 error."
@@ -469,7 +520,7 @@ def page_not_found(error):
     return render_template('error.html',
                            title = title,
                            message = error,
-                           is_admin=get_admin_status), 404
+                           is_admin=get_admin_status()), 404
 
 @app.route('/bad-login')
 def admin_login_error():
@@ -479,7 +530,7 @@ def admin_login_error():
     return render_template('error.html',
                            title = title,
                            message = body,
-                           is_admin=get_admin_status), 401
+                           is_admin=get_admin_status()), 401
 
 # Style pages
 
