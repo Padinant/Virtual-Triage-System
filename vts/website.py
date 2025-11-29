@@ -146,7 +146,8 @@ def home():
                            menu_items=MENU_ITEMS,
                            faq_items=items,
                            faq_full_items=full_items,
-                           admin_items=ADMIN_ITEMS)
+                           admin_items=ADMIN_ITEMS,
+                           is_admin=False)
 
 @app.route("/faq-search.html")
 def faq_page():
@@ -168,7 +169,8 @@ def faq_page():
                            category_items=categories,
                            faq_items=items,
                            query=query,
-                           selected_category=selected_category)
+                           selected_category=selected_category,
+                           is_admin=False)
 
 @app.route("/faq/<int:faq_id>")
 def faq_item_page(faq_id):
@@ -180,7 +182,8 @@ def faq_item_page(faq_id):
                            title=f"FAQ Item #{faq_id} - Interactive Help",
                            menu_items=MENU_ITEMS,
                            category_items=categories,
-                           faq_items=items)
+                           faq_items=items,
+                           is_admin=False)
 
 @app.route("/faq/category/<int:category_id>")
 def faq_category_page(category_id):
@@ -195,14 +198,16 @@ def faq_category_page(category_id):
                            menu_items=MENU_ITEMS,
                            category_items=categories,
                            faq_items=items,
-                           selected_category=name)
+                           selected_category=name,
+                           is_admin=False)
 
 @app.route("/admin-login.html")
 def admin_login():
     "The admin login page."
     return render_template('admin-login.html',
                            title="Admin Login - Interactive Help",
-                           menu_items=MENU_ITEMS)
+                           menu_items=MENU_ITEMS,
+                           is_admin=False)
 
 @app.route("/admin-faq-search.html")
 def faq_admin():
@@ -238,8 +243,8 @@ def faq_admin():
                            category_items=categories,
                            faq_items=items,
                            query=query,
-                           selected_category=selected_category)
-
+                           selected_category=selected_category,
+                           is_admin=True)
 
 @app.route("/admin-categories.html")
 def category_admin():
@@ -249,16 +254,16 @@ def category_admin():
     return render_template('admin-category-list.html',
                            title="Admin Category Management - Interactive Help",
                            menu_items=MENU_ITEMS,
-                           category_items=categories)
-
+                           category_items=categories,
+                           is_admin=True)
 
 @app.route("/admin-categories/add")
 def category_add():
     "Render the add-category form."
     return render_template('admin-category-add.html',
                            title="Add New Category - Admin",
-                           menu_items=MENU_ITEMS)
-
+                           menu_items=MENU_ITEMS,
+                           is_admin=True)
 
 @app.route("/admin-categories/add", methods=["POST"])
 def category_add_post():
@@ -267,7 +272,6 @@ def category_add_post():
     new_cat = FAQCategory(category_name=request.form['category_name'])
     db.add_item(new_cat)
     return redirect(url_for('category_admin'))
-
 
 @app.route("/admin-categories/edit/<int:category_id>")
 def category_edit(category_id):
@@ -280,8 +284,8 @@ def category_edit(category_id):
     return render_template('admin-category-edit.html',
                            title=f"Edit Category #{category_id} - Admin",
                            menu_items=MENU_ITEMS,
-                           category=category)
-
+                           category=category,
+                           is_admin=True)
 
 @app.route("/admin-categories/edit/<int:category_id>", methods=["POST"])
 def category_edit_post(category_id):
@@ -289,7 +293,6 @@ def category_edit_post(category_id):
     db = get_db()
     db.update_category(category_id, request.form['category_name'])
     return redirect(url_for('category_admin'))
-
 
 @app.route("/admin-categories/remove/<int:category_id>")
 def category_remove(category_id):
@@ -301,8 +304,8 @@ def category_remove(category_id):
     return render_template('admin-category-remove.html',
                            title=f"Remove Category #{category_id} - Admin",
                            menu_items=MENU_ITEMS,
-                           category=category)
-
+                           category=category,
+                           is_admin=True)
 
 @app.route("/admin-categories/remove/<int:category_id>", methods=["POST"])
 def category_remove_post(category_id):
@@ -322,7 +325,8 @@ def faq_admin_add():
     return render_template('admin-add.html',
                            title="Add New FAQ - Admin",
                            menu_items=MENU_ITEMS,
-                           category_items=categories)
+                           category_items=categories,
+                           is_admin=True)
 
 @app.route("/edit/<int:faq_id>")
 def faq_admin_edit(faq_id):
@@ -334,7 +338,8 @@ def faq_admin_edit(faq_id):
                            title=f"Edit FAQ #{faq_id} - Admin",
                            menu_items=MENU_ITEMS,
                            faq_entry=faq_entry,
-                           category_items=categories)
+                           category_items=categories,
+                           is_admin=True)
 
 @app.route("/edit/")
 def edit_root():
@@ -354,7 +359,8 @@ def faq_admin_remove(faq_id):
                            title=f"Remove FAQ #{faq_id} - Admin",
                            menu_items=MENU_ITEMS,
                            category_items=categories,
-                           faq_items=items)
+                           faq_items=items,
+                           is_admin=True)
 
 @app.route("/remove/")
 def remove_root():
@@ -432,13 +438,14 @@ def faq_admin_remove_post(faq_id):
 def page_not_found(error):
     "Handles the HTTP 404 error."
     title = 'HTTP 404 Error: Page Not Found'
-    return render_template('error.html', title = title, message = error), 404
+    return render_template('error.html', title = title, message = error, is_admin=False), 404
 
 @app.route('/bad-login')
 def admin_login_error():
     "Handles an invalid login."
     title = 'Login Error: Invalid Username and/or Password'
-    return render_template('error.html', title = title, message = 'Please try again.'), 401
+    message = 'Please try again.'
+    return render_template('error.html', title = title, message = message, is_admin=False), 401
 
 # Style pages
 
@@ -505,7 +512,8 @@ def chat():
         # Top menu
         menu_items=MENU_ITEMS,
         # Bottom menu
-        bottom_menu_items=MENU_ITEMS)
+        bottom_menu_items=MENU_ITEMS,
+        is_admin=False)
 
 # API endpoint for chat messages (in future versions this is where we'd get chatbot output)
 @app.route("/message", methods=["POST"])
