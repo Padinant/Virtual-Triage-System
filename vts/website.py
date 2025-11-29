@@ -40,10 +40,7 @@ from vts.search import update_faq_in_index
 from vts.search import remove_faq_from_index
 
 app = Flask(__name__)
-
 flask_bcrypt = Bcrypt(app)
-
-app.secret_key = secrets.token_hex()
 
 # Right now, this will always return the SQLite database. The
 # Engine.POSTGRESQL will be selected if the username and password and
@@ -68,6 +65,14 @@ def setup_app():
         os.makedirs(app.instance_path)
     except OSError:
         pass
+    # Create the secret key for the cookies
+    secret_path = os.path.join(app.instance_path, '.secret')
+    if not os.path.exists(secret_path):
+        secrets.token_hex()
+        with open(secret_path, mode='w', encoding='utf8') as secret_file:
+            secret_file.write(secrets.token_hex())
+    with open(secret_path, mode='r', encoding='utf8') as secret_file:
+        app.secret_key = secret_file.read()
     # The database must be in the instance directory.
     db_path = os.path.join(app.instance_path, 'test.db')
     # The path must be cached for future AppDatabase instances.
