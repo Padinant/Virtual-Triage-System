@@ -444,8 +444,8 @@ def page_not_found(error):
 def admin_login_error():
     "Handles an invalid login."
     title = 'Login Error: Invalid Username and/or Password'
-    message = 'Please try again.'
-    return render_template('error.html', title = title, message = message, is_admin=False), 401
+    body = 'Please try again.'
+    return render_template('error.html', title = title, message = body, is_admin=False), 401
 
 # Style pages
 
