@@ -211,7 +211,7 @@ class AppDatabase():
             statement = select(User).where(User.name == username)
             result = session.scalars(statement)
             user = result.one_or_none()
-            if user == None:
+            if user is None:
                 return False
             # This will eventually check the hashed password, not a
             # string match.
