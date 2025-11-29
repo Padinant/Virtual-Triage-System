@@ -54,6 +54,17 @@
       </div>
     </nav>
 
+    <!-- Message flashing -->
+    <div>
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      {% for message in messages %}
+      <section class="admin-faq-entry"> {{ message }} </p>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+    </div>
+
     <!-- Main content area -->
     <main class="main-content container" id="main">
       {% block content %}{% endblock %}

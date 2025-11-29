@@ -13,6 +13,7 @@ import markdown
 from flask import Flask
 from flask import Response
 from flask import abort
+from flask import flash
 from flask import redirect
 from flask import render_template
 from flask import request
@@ -498,9 +499,13 @@ def faq_admin_remove_post(faq_id):
     if request.form['confirm'] and request.form['confirm'] == 'yes':
         db.remove_faq_entry(faq_id)
         remove_faq_from_index(faq_id, app.instance_path)
-        return "Success!"
+        status = 'Success!'
+    else:
+        status = 'Failure!'
 
-    return "Failure!"
+    flash(status)
+
+    return redirect(url_for('faq_page'))
 
 # HTML and Application Errors
 
