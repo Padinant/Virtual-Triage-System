@@ -96,8 +96,15 @@ def say_hello_openai() -> str:
 
 # if this file is ran, have the model introduce itself
 if __name__ == "__main__":
-    print("Calling on agent to say hello...")
+    print("Demo 1: Calling on agent to say hello (single prompt)...")
     print(say_hello_openai())
+    print("Demo 2: Having a multi-message with agent")
+    msgs = [{"role": "system", "content": "Say hello and introduce yourself in one short sentence."}]
+    reply, msgs = chat_with_agent_with_history(msgs)
+    print("Reply:")
+    print(reply)
+    print("Messages")
+    print(msgs)
     print("Finished running llm.py")
 
 
