@@ -9,6 +9,8 @@ import string
 
 from flask import request, jsonify
 
+from vts.llm import ask_agent_openai
+
 def get_echo_output(user_text: string) -> string:
     "This is the first output function for sprint 1. Returns an excited echo"
     if not user_text:
@@ -20,5 +22,7 @@ def reply_to_message():
     # get user text
     user_text = request.json.get("text", "")
     # process user text and get output/reply text
-    reply = get_echo_output(user_text)
+    # reply = get_echo_output(user_text)
+    reply = ask_agent_openai(user_text)
+    print(reply)
     return jsonify({"reply": reply})
