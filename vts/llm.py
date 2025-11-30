@@ -15,11 +15,15 @@ note this file and the functions in it are as of now, incomplete.
 # import sys
 # import time
 # import requests
+
+from dataclasses import dataclass, field
+from typing import List, Dict, Tuple
+
 from openai import OpenAI
 
 from vts.config import load_config
 
-def load_agent_secret_config():
+def load_agent_secret_config() -> Tuple[str, str]:
     """
     load the secret config values from the config folder
     precondition: the configuration path exists and contains info in correct format
@@ -95,6 +99,82 @@ if __name__ == "__main__":
     print("Calling on agent to say hello...")
     print(say_hello_openai())
     print("Finished running llm.py")
+
+
+#########################################################
+# NEW PORTION - TO HELP WITH PASSING FULL CHAT HISTORY TO THE MODEL
+
+def get_agent_client(config_path) -> OpenAI:
+    "this function returns an OpenAI client ready to talk to the DigitalOcean agent."
+    base_url, key = load_agent_secret_config(config_path)
+    return OpenAI(base_url=base_url, api_key=key)
+
+
+"""Note that the the message type defined below should follow this structure: 
+{"role": "user"|"assistant"|"system", "content": "..."}
+
+note a system message might be something the chatbot can see, but the user may/may not (such as instruction prompts). 
+For example, the system message might be: 'You are a helpful chatbot. Be polite and brief in your responses.'
+"""
+
+Message_Type = Dict[str, str]   # {"role": "user"|"assistant"|"system", "content": "..."}
+
+def chat_with_agent_with_history(messages: List[Message_Type], config_path: str) -> Tuple[str, List[Message_Type]]:
+    """
+    Call this function if you want to chat to the chatbot, in a way that involves multiple back and forths!
+    This function sends the full chat history (messages) to the agent and returns:
+      - assistant_text: the chatbot's reply content
+      - updated_messages: original chat history plus the model's recent message appended at the end
+
+    'messages' must be a list of dicts such as:
+        {"role": "system", "content": "..."}  (optional - note we will probably not need to use the "system" role)
+        {"role": "user", "content": "..."}
+        {"role": "assistant", "content": "..."}
+
+    Example call:
+        msgs = [
+            {"role": "assistant", "content": "I'm the UMBC bot, how can I help you?"},
+            {"role": "user", "content": "How can I request access to a room on campus?"},
+        ]
+        reply, msgs = chat_with_agent_with_history (msgs)
+        print (reply)
+    """
+    # step 0 - set up key vars
+    fail_output_message = "Access to agent failed. Maybe take a look at the FAQ section?"
+
+    # step 1 - get response from the model
+    client = get_agent_client(config_path)
+
+    resp = client.chat.completions.create(
+        model="n/a",
+        messages=messages,
+        # todo - implement this part later after fully adding knowledge base
+        # extra_body={
+        #     "include_retrieval_info": include_retrieval_info,
+        # },
+    )
+
+    # step 2 - return model reply + the updated history
+
+    if not resp.choices:
+        return fail_output_message, messages
+
+    assistant_msg = resp.choices[0].message # ie: what was actually outputted by the model
+    assistant_text = ""                     # ie: what we would return as the model reply
+    if assistant_msg.content:
+        assistant_text = assistant_msg.content
+    else:
+        assistant_text = fail_output_message
+
+    updated_messages = messages + [
+        {
+            "role": assistant_msg.role, # the role should be 'assistant'
+            "content": assistant_text,
+        }
+    ]
+
+    return assistant_text, updated_messages
+
 
 #########################################################
 # other functions - not directly dealing with getting input/output messages
