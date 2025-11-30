@@ -60,6 +60,32 @@ def ask_agent_openai(input_prompt: str,
 
     return "Access to agent failed. Maybe take a look at the FAQ section?"
 
+def create_agent_client():
+    """
+    creates the agent client
+    """
+    base_url, key = load_agent_secret_config()
+    return OpenAI(base_url=base_url, api_key=key)
+
+def get_agent_response(client, input_prompt: str):
+    """
+    gets an agent response
+    """
+    agent_response = client.chat.completions.create(
+        model="n/a",
+        messages=[{"role": "user", "content": input_prompt}],
+        # # Extra options for later - get meta data on the knowledge base usage:
+        # extra_body={
+        #     "include_retrieval_info": include_retrieval_info,
+        # },
+    )
+
+    # Return recieved output (if it exists)
+    if agent_response.choices:
+        return agent_response.choices[0].message.content
+
+    return "Access to agent failed. Maybe take a look at the FAQ section?"
+
 def say_hello_openai() -> str:
     "an example function that can be called at the start!"
     return ask_agent_openai("Say hello and introduce yourself in one short sentence.")

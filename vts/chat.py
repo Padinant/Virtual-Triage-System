@@ -9,7 +9,8 @@ import string
 
 from flask import request, jsonify
 
-from vts.llm import ask_agent_openai
+# from vts.llm import ask_agent_openai
+from vts.chat_server import get_session
 
 def get_echo_output(user_text: string) -> string:
     "This is the first output function for sprint 1. Returns an excited echo"
@@ -23,6 +24,9 @@ def reply_to_message():
     user_text = request.json.get("text", "")
     # process user text and get output/reply text
     # reply = get_echo_output(user_text)
-    reply = ask_agent_openai(user_text)
+    # reply = ask_agent_openai(user_text)
+    user_queue, bot_queue = get_session()
+    user_queue.put(user_text)
+    reply = bot_queue.get()
     print(reply)
     return jsonify({"reply": reply})
