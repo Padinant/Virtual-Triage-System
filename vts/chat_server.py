@@ -15,6 +15,40 @@ from vts.llm import get_agent_response
 # line.
 END_MSG = 'gsM dnE'
 
+# Note that this only has to be an attempt to split the long lines
+# because we can just truncate instead.
+def split_long_line(line: str, too_long: int) -> list:
+    "Attempts to split a line that's too long."
+    # The separator here is just whitespace after a period.
+    split = '. '
+    # Invalid input.
+    if too_long < len(split):
+        return line
+    # Build a list of strings and track the remainder.
+    out_line = line
+    out_lines = []
+    while len(out_line) > too_long:
+        # First attempt to split in three.
+        left, separator, right = out_line.rpartition(split)
+        # Try again because it ends in the match.
+        if right == '' and len(out_line) > 2:
+            # Ignore the ending match.
+            left, separator, right = out_line[:len(out_line) - 2].rpartition(split)
+            # We have to restore the ending of the right split.
+            right = right + separator
+        # No matches.
+        if left == '':
+            break
+        # Split the line in two.
+        out_line = left + separator
+        out_lines.append(right)
+    # Add the remainder.
+    if len(out_line) > 0:
+        out_lines.append(out_line)
+    # We built it backwards, but we want it forwards.
+    out_lines.reverse()
+    return out_lines
+
 class LlmBot(SingleServerIRCBot):
     "A bot representing the LLM"
     # pylint:disable-next=unused-argument
@@ -30,9 +64,18 @@ class LlmBot(SingleServerIRCBot):
         print(message)
         response = get_agent_response(agent, message)
         print(response)
-        lines = response.split('\n')
+        lines = response.splitlines()
         for line in lines:
-            c.privmsg("#test", line)
+            if len(line) > 450:
+                more_lines = split_long_line(line, 450)
+                for split_line in more_lines:
+                    # If the splitting didn't work, truncate
+                    if len(split_line) > 475:
+                        c.privmsg("#test", split_line[:475])
+                    else:
+                        c.privmsg("#test", split_line)
+            else:
+                c.privmsg("#test", line)
         c.privmsg('#test', END_MSG)
 
 class GuestBot(SingleServerIRCBot):
