@@ -15,6 +15,7 @@ pip install requests
 pip install openai
 pip install Flask-Bcrypt
 pip install xdg-base-dirs
+pip install irc
 ```
 
 To use inside of a local venv with automatic dependency resolution,
@@ -74,6 +75,24 @@ Note that both pylint and pytest will not recognize imports from vts
 in the tests folder without installing and running both pylint and
 pytest *inside* of the venv.
 
+Note that you also need the chatbot persisting on its own process, as
+well as an IRC server.
+
+The chatbot is:
+
+```bash
+python3 vts/chat_server.py
+```
+
+And the test IRC server is:
+
+```bash
+python3 -m irc.server
+```
+
+It can also connect to a real IRC server with the `[chat_server]`
+configuration in the TOML, given a `domain` and a `key` (server
+password).
 
 # Setting Up Docker Compose and the Backend Environment
 This sections assumes you are using a linux debian virtual machine. The corresponding setup instructions for other devices are the same or similar, and can be found elsewhere.
