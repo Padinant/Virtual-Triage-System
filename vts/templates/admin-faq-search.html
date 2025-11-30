@@ -14,7 +14,7 @@
     <h1 class="page-title page-title-admin-faq">Admin FAQ</h1>
 
     <!-- Admin search form -->
-    <form class="faq-search" id="admin-faq-search" action="{{ url_for('faq_admin') }}">
+    <form class="faq-search" id="admin-faq-search" action="{{ url_for('faq_page') }}">
       <!-- Input field -->
       <input
         autocomplete="off"
@@ -41,13 +41,13 @@
       </summary>
       <ul class="faq-dropdown-list">
       {%for item in category_items %}
-        <li><a class="faq-dropdown-link" href="{{ url_for('faq_admin') }}?category={{ item.id }}">{{ item.category_name }}</a></li>
+        <li><a class="faq-dropdown-link" href="{{ url_for('faq_page') }}?category={{ item.id }}">{{ item.category_name }}</a></li>
       {% endfor %}
       </ul>
       </details>
 
       <!-- View all button -->
-      <a class="faq-search-submit" role="button" href="{{ url_for('faq_admin') }}">View All</a>
+      <a class="faq-search-submit" role="button" href="{{ url_for('faq_page') }}">View All</a>
 
       <!-- Edit categories button -->
       <a class="admin-action-button admin-action-button-edit-cats" role="button" href="{{ url_for('category_admin') }}">

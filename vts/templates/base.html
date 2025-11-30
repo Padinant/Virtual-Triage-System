@@ -25,7 +25,11 @@
             alt="UMBC primary logo"
           />
         </a>
-        <a class="admin-login-button" href="{{ url_for('admin_login') }}">Admin Login</a>
+        {% if is_admin %}
+        <a class="admin-login-button" href="{{ url_for('admin_logout') }}">Admin Logout </a>
+        {% else %}
+        <a class="admin-login-button" href="{{ url_for('admin_login') }}">Admin Login </a>
+        {% endif %}
       </div>
     </header>
 
@@ -49,6 +53,17 @@
         </ul>
       </div>
     </nav>
+
+    <!-- Message flashing -->
+    <div>
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      {% for message in messages %}
+      <section> {{ message }} </section>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+    </div>
 
     <!-- Main content area -->
     <main class="main-content container" id="main">

@@ -12,10 +12,15 @@ import markdown
 
 from flask import Flask
 from flask import Response
+from flask import abort
+from flask import flash
 from flask import redirect
 from flask import render_template
 from flask import request
+from flask import session
 from flask import url_for
+
+from flask_bcrypt import Bcrypt
 
 from vts.chat import reply_to_message
 
@@ -38,8 +43,7 @@ from vts.search import update_faq_in_index
 from vts.search import remove_faq_from_index
 
 app = Flask(__name__)
-
-app.secret_key = secrets.token_hex()
+flask_bcrypt = Bcrypt(app)
 
 # Right now, this will always return the SQLite database. The
 # Engine.POSTGRESQL will be selected if the username and password and
@@ -54,7 +58,7 @@ def init_db ():
     db = AppDatabase(Engine.SQLITE_FILE)
     db.initialize_metadata()
     print("Populating the database.")
-    fill_debug_database(db)
+    fill_debug_database(db, flask_bcrypt)
 
 def setup_app():
     "Makes sure that the app has everything that it needs on startup."
@@ -64,6 +68,14 @@ def setup_app():
         os.makedirs(app.instance_path)
     except OSError:
         pass
+    # Create the secret key for the cookies
+    secret_path = os.path.join(app.instance_path, '.secret')
+    if not os.path.exists(secret_path):
+        secrets.token_hex()
+        with open(secret_path, mode='w', encoding='utf8') as secret_file:
+            secret_file.write(secrets.token_hex())
+    with open(secret_path, mode='r', encoding='utf8') as secret_file:
+        app.secret_key = secret_file.read()
     # The database must be in the instance directory.
     db_path = os.path.join(app.instance_path, 'test.db')
     # The path must be cached for future AppDatabase instances.
@@ -130,6 +142,10 @@ def find_category_name(categories, category_id):
             return category['category_name']
     return ''
 
+def get_admin_status() -> bool:
+    "Returns true if the user is logged in, i.e. if the user's session has a username."
+    return 'username' in session
+
 @app.route("/")
 def home():
     "The main entry point to the app."
@@ -142,65 +158,11 @@ def home():
                            menu_items=MENU_ITEMS,
                            faq_items=items,
                            faq_full_items=full_items,
-                           admin_items=ADMIN_ITEMS)
+                           admin_items=ADMIN_ITEMS,
+                           is_admin=get_admin_status())
 
-@app.route("/faq-search.html")
-def faq_page():
-    "The FAQ with search page."
-    db = get_db()
-    query = request.args.get('query', '').strip()
-    if query:
-        matched_ids = search_faq_ids(query, app.instance_path)
-        faq_entries = fetch_entries_by_ids(db, matched_ids) if matched_ids else []
-        items = faq_entries_to_markdown(faq_entries)
-    else:
-        items = get_faq_entries_as_markdown(db)
-    categories = db.faq_categories()
-    # Default selected category for the public FAQ page is 'All Categories'
-    selected_category = 'All Categories'
-    return render_template('faq-search.html',
-                           title="Browse FAQ - Interactive Help",
-                           menu_items=MENU_ITEMS,
-                           category_items=categories,
-                           faq_items=items,
-                           query=query,
-                           selected_category=selected_category)
-
-@app.route("/faq/<int:faq_id>")
-def faq_item_page(faq_id):
-    "The page for a specific FAQ item."
-    db = get_db()
-    items = get_faq_entry_as_markdown(faq_id)(db)
-    categories = db.faq_categories()
-    return render_template('faq-search.html',
-                           title=f"FAQ Item #{faq_id} - Interactive Help",
-                           menu_items=MENU_ITEMS,
-                           category_items=categories,
-                           faq_items=items)
-
-@app.route("/faq/category/<int:category_id>")
-def faq_category_page(category_id):
-    "The page for all entries of a given category."
-    db = get_db()
-    items = get_faq_categorized_entries_as_markdown(db, category_id)
-    categories = db.faq_categories()
-    name = find_category_name(categories, category_id)
-    # When viewing a specific category, set the selected category name
-    return render_template('faq-search.html',
-                           title=f"FAQ Category #{category_id} - {name} - Interactive Help",
-                           menu_items=MENU_ITEMS,
-                           category_items=categories,
-                           faq_items=items,
-                           selected_category=name)
-
-@app.route("/admin-login.html")
-def admin_login():
-    "The admin login page."
-    return render_template('admin-login.html',
-                           title="Admin Login - Interactive Help",
-                           menu_items=MENU_ITEMS)
-
-@app.route("/admin-faq-search.html")
+# Note: This no longer has a route of its own. You get here from the
+# FAQ search page if you are logged in.
 def faq_admin():
     "The admin FAQ with search page."
     db = get_db()
@@ -234,40 +196,120 @@ def faq_admin():
                            category_items=categories,
                            faq_items=items,
                            query=query,
-                           selected_category=selected_category)
+                           selected_category=selected_category,
+                           is_admin=True)
 
+@app.route("/faq-search.html")
+def faq_page():
+    "The FAQ with search page."
+    if get_admin_status():
+        return faq_admin()
+    db = get_db()
+    query = request.args.get('query', '').strip()
+    if query:
+        matched_ids = search_faq_ids(query, app.instance_path)
+        faq_entries = fetch_entries_by_ids(db, matched_ids) if matched_ids else []
+        items = faq_entries_to_markdown(faq_entries)
+    else:
+        items = get_faq_entries_as_markdown(db)
+    categories = db.faq_categories()
+    # Default selected category for the public FAQ page is 'All Categories'
+    selected_category = 'All Categories'
+    return render_template('faq-search.html',
+                           title="Browse FAQ - Interactive Help",
+                           menu_items=MENU_ITEMS,
+                           category_items=categories,
+                           faq_items=items,
+                           query=query,
+                           selected_category=selected_category,
+                           is_admin=False)
+
+@app.route("/faq/<int:faq_id>")
+def faq_item_page(faq_id):
+    "The page for a specific FAQ item."
+    db = get_db()
+    items = get_faq_entry_as_markdown(faq_id)(db)
+    categories = db.faq_categories()
+    admin_status = get_admin_status()
+    template_page = 'admin-faq-search.html' if admin_status else 'faq-search.html'
+    return render_template(template_page,
+                           title=f"FAQ Item #{faq_id} - Interactive Help",
+                           menu_items=MENU_ITEMS,
+                           category_items=categories,
+                           faq_items=items,
+                           is_admin=admin_status)
+
+@app.route("/faq/category/<int:category_id>")
+def faq_category_page(category_id):
+    "The page for all entries of a given category."
+    db = get_db()
+    items = get_faq_categorized_entries_as_markdown(db, category_id)
+    categories = db.faq_categories()
+    name = find_category_name(categories, category_id)
+    template_page = 'admin-faq-search.html' if get_admin_status() else 'faq-search.html'
+    # When viewing a specific category, set the selected category name
+    return render_template(template_page,
+                           title=f"FAQ Category #{category_id} - {name} - Interactive Help",
+                           menu_items=MENU_ITEMS,
+                           category_items=categories,
+                           faq_items=items,
+                           selected_category=name,
+                           is_admin=get_admin_status())
+
+@app.route("/admin-login.html")
+def admin_login():
+    "The admin login page."
+    # If already logged in, don't login again.
+    if get_admin_status():
+        return redirect(url_for('faq_page'))
+
+    return render_template('admin-login.html',
+                           title="Admin Login - Interactive Help",
+                           menu_items=MENU_ITEMS,
+                           is_admin=False)
 
 @app.route("/admin-categories.html")
 def category_admin():
     "The admin page that lists and manages categories."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
     categories = db.faq_categories()
     return render_template('admin-category-list.html',
                            title="Admin Category Management - Interactive Help",
                            menu_items=MENU_ITEMS,
-                           category_items=categories)
-
+                           category_items=categories,
+                           is_admin=True)
 
 @app.route("/admin-categories/add")
 def category_add():
     "Render the add-category form."
+    if not get_admin_status():
+        abort(403)
+
     return render_template('admin-category-add.html',
                            title="Add New Category - Admin",
-                           menu_items=MENU_ITEMS)
-
+                           menu_items=MENU_ITEMS,
+                           is_admin=True)
 
 @app.route("/admin-categories/add", methods=["POST"])
 def category_add_post():
     "Create a new category from the form."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
     new_cat = FAQCategory(category_name=request.form['category_name'])
     db.add_item(new_cat)
     return redirect(url_for('category_admin'))
 
-
 @app.route("/admin-categories/edit/<int:category_id>")
 def category_edit(category_id):
     "Render edit form for a category."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
     categories = db.faq_categories()
     category = next((c for c in categories if c['id'] == category_id), None)
@@ -276,20 +318,25 @@ def category_edit(category_id):
     return render_template('admin-category-edit.html',
                            title=f"Edit Category #{category_id} - Admin",
                            menu_items=MENU_ITEMS,
-                           category=category)
-
+                           category=category,
+                           is_admin=True)
 
 @app.route("/admin-categories/edit/<int:category_id>", methods=["POST"])
 def category_edit_post(category_id):
     "Process category edits."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
     db.update_category(category_id, request.form['category_name'])
     return redirect(url_for('category_admin'))
 
-
 @app.route("/admin-categories/remove/<int:category_id>")
 def category_remove(category_id):
     "Show category remove confirmation."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
     category = next((c for c in db.faq_categories() if c['id'] == category_id), None)
     if not category:
@@ -297,12 +344,15 @@ def category_remove(category_id):
     return render_template('admin-category-remove.html',
                            title=f"Remove Category #{category_id} - Admin",
                            menu_items=MENU_ITEMS,
-                           category=category)
-
+                           category=category,
+                           is_admin=True)
 
 @app.route("/admin-categories/remove/<int:category_id>", methods=["POST"])
 def category_remove_post(category_id):
     "Perform category removal (marks as removed if not in use)."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
     success = db.remove_category(category_id)
     if success:
@@ -313,16 +363,23 @@ def category_remove_post(category_id):
 @app.route("/add/")
 def faq_admin_add():
     "The admin FAQ page for adding items."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
     categories = db.faq_categories()
     return render_template('admin-add.html',
                            title="Add New FAQ - Admin",
                            menu_items=MENU_ITEMS,
-                           category_items=categories)
+                           category_items=categories,
+                           is_admin=True)
 
 @app.route("/edit/<int:faq_id>")
 def faq_admin_edit(faq_id):
     "The admin FAQ page for editing an individual item."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
     faq_entry = db.faq_entry(faq_id)[0]
     categories = db.faq_categories()
@@ -330,32 +387,37 @@ def faq_admin_edit(faq_id):
                            title=f"Edit FAQ #{faq_id} - Admin",
                            menu_items=MENU_ITEMS,
                            faq_entry=faq_entry,
-                           category_items=categories)
+                           category_items=categories,
+                           is_admin=True)
 
 @app.route("/edit/")
 def edit_root():
     "The root edit directory redirects because it only makes sense if an ID is provided."
-    return redirect(url_for('faq_admin'))
+    return redirect(url_for('faq_page'))
 
 @app.route("/remove/<int:faq_id>")
 def faq_admin_remove(faq_id):
     "The admin FAQ page for removing an individual item."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
     faq_entries = db.faq_entry(faq_id)
     if not faq_entries:
-        return redirect(url_for('faq_admin'))
+        return redirect(url_for('faq_page'))
     items = get_faq_entry_as_markdown(faq_id)(db)
     categories = db.faq_categories()
     return render_template('admin-remove.html',
                            title=f"Remove FAQ #{faq_id} - Admin",
                            menu_items=MENU_ITEMS,
                            category_items=categories,
-                           faq_items=items)
+                           faq_items=items,
+                           is_admin=True)
 
 @app.route("/remove/")
 def remove_root():
     "The root remove directory redirects because it only makes sense if an ID is provided."
-    return redirect(url_for('faq_admin'))
+    return redirect(url_for('faq_page'))
 
 # Input
 
@@ -364,16 +426,32 @@ def admin_login_post():
     "Handles admin login form submission."
     db = get_db()
     is_valid = db.check_user_login(request.form['username'],
-                                   request.form['password'])
+                                   request.form['password'],
+                                   flask_bcrypt)
 
     if not is_valid:
-        return redirect(url_for('admin_login_error'))
+        flash('Login Error: Invalid Username and/or Password')
+        return redirect(url_for('admin_login_post'))
 
-    return redirect(url_for('faq_admin'))
+    session['username'] = request.form['username']
+
+    return redirect(url_for('faq_page'))
+
+@app.route("/admin-logout.html")
+def admin_logout():
+    "Logs the user out if the user navigates here."
+    if not get_admin_status():
+        abort(403)
+
+    session.pop('username')
+    return redirect(url_for('home'))
 
 @app.route("/add/", methods=["POST"])
 def faq_admin_add_post():
     "Adds a new post to the database."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
 
     new_entry = FAQEntry(question_text = request.form['question'],
@@ -393,6 +471,8 @@ def faq_admin_add_post():
 @app.route("/edit/<int:faq_id>", methods=["POST"])
 def faq_admin_edit_post(faq_id):
     "Updates the given ID's post to contain the new data."
+    if not get_admin_status():
+        abort(403)
 
     def query(statement):
         return statement.where(FAQEntry.id == faq_id)
@@ -412,28 +492,41 @@ def faq_admin_edit_post(faq_id):
 @app.route("/remove/<int:faq_id>", methods=["POST"])
 def faq_admin_remove_post(faq_id):
     "Removes the given post ID."
+    if not get_admin_status():
+        abort(403)
+
     db = get_db()
 
     if request.form['confirm'] and request.form['confirm'] == 'yes':
         db.remove_faq_entry(faq_id)
         remove_faq_from_index(faq_id, app.instance_path)
-        return "Success!"
+        status = 'Success!'
+    else:
+        status = 'Failure!'
 
-    return "Failure!"
+    flash(status)
+
+    return redirect(url_for('faq_page'))
 
 # HTML and Application Errors
+
+@app.errorhandler(403)
+def page_forbidden(error):
+    "Handles the HTTP 403 error."
+    title = 'HTTP 403 Error: Forbidden'
+    return render_template('error.html',
+                           title = title,
+                           message = error,
+                           is_admin=get_admin_status()), 403
 
 @app.errorhandler(404)
 def page_not_found(error):
     "Handles the HTTP 404 error."
     title = 'HTTP 404 Error: Page Not Found'
-    return render_template('error.html', title = title, message = error), 404
-
-@app.route('/bad-login')
-def admin_login_error():
-    "Handles an invalid login."
-    title = 'Login Error: Invalid Username and/or Password'
-    return render_template('error.html', title = title, message = 'Please try again.'), 401
+    return render_template('error.html',
+                           title = title,
+                           message = error,
+                           is_admin=get_admin_status()), 404
 
 # Style pages
 
@@ -500,7 +593,8 @@ def chat():
         # Top menu
         menu_items=MENU_ITEMS,
         # Bottom menu
-        bottom_menu_items=MENU_ITEMS)
+        bottom_menu_items=MENU_ITEMS,
+        is_admin=get_admin_status())
 
 # API endpoint for chat messages (in future versions this is where we'd get chatbot output)
 @app.route("/message", methods=["POST"])
