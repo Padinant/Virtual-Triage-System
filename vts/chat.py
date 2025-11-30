@@ -5,8 +5,6 @@ This is a separate file to keep the website.py part of the chatbot
 code as trivial as possible.
 """
 
-import string
-
 from flask import request, jsonify
 
 from vts.chat_server import create_guest_bot

@@ -2,8 +2,6 @@
 Creates a server to persist the chat state.
 """
 
-import time
-
 from irc.bot import SingleServerIRCBot
 from irc.bot import ServerSpec
 
@@ -44,7 +42,7 @@ class GuestBot(SingleServerIRCBot):
         self.incoming_messages = []
         self.final_message = ''
         self.done = False
-        super(GuestBot, self).__init__(server_list, nickname, realname)
+        super().__init__(server_list, nickname, realname)
 
     # pylint:disable-next=unused-argument
     def on_welcome(self, c, e):
@@ -69,7 +67,7 @@ class GuestBot(SingleServerIRCBot):
     def send_message(self, message=None):
         "Send a message"
         c = self.connection
-        if message == None:
+        if message is None:
             message = self.outgoing_message
         print(message)
         c.privmsg('#test', message)
