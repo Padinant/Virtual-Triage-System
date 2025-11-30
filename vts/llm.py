@@ -9,46 +9,39 @@ note this file and the functions in it are as of now, incomplete.
 # some libraries we'll possibly use
 # unused libraries are commented out so pylint doesn't complain
 
+
 # import argparse
-import configparser
 # import json
-# import os
 # import sys
 # import time
 # import requests
 from openai import OpenAI
 
-def load_agent_secret_config(path="configuration/..config_ai.toml"):
-    """
-    load the secret config values from the given path
-    precondition: the provided file exists and contains info in correct INI format
-    returns model endpoint and access key from that file
-    """
-    cfg = configparser.ConfigParser()
+from vts.config import load_config
 
-    files_read = cfg.read(path)
-    if not files_read:
-        # something went wrong
-        raise FileNotFoundError(f"Something unexpected happened. " \
-                                f"Config file not found at the path: {path}")
+def load_agent_secret_config():
+    """
+    load the secret config values from the config folder
+    precondition: the configuration path exists and contains info in correct format
+    """
+    cfg = load_config()["agent"]
 
-    # get agent endpoint and api access key from the given file
-    endpoint = cfg.get("agent", "AGENT_ENDPOINT").rstrip("/") + "/api/v1/"
-    access_key = cfg.get("agent", "AGENT_API_ACCESS_KEY")
+    # get agent endpoint and api access key from the config file
+    endpoint = cfg["url"].rstrip("/") + "/api/v1/"
+    access_key = cfg["key"]
     return endpoint, access_key
 
 def ask_agent_openai(input_prompt: str,
                      # ignore unused argument in incomplete function
                      # pylint:disable-next=unused-argument
-                     include_retrieval_info: bool = False,
-                     config_path: str = "configuration/..config_ai.toml") -> str:
+                     include_retrieval_info: bool = False) -> str:
     """
     this is the main function that does the communication between here and agent
     takes user text as input_prompt and returns the model output as a string
     ignore include_retrieval_info boolean for now
-    precondition: the provided file for config_path exists and contains info in correct INI format
+    precondition: the configuration path exists and contains info in correct format
     """
-    base_url, key = load_agent_secret_config(config_path)
+    base_url, key = load_agent_secret_config()
 
     client = OpenAI(base_url=base_url, api_key=key)
 

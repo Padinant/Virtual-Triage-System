@@ -8,5 +8,4 @@ host = "example.com"
 
 [agent]
 key = "1A1B2C3D5E8F13G21H34I55J89K144L"
-AGENT_API_ACCESS_KEY = an-example-secret-value
-AGENT_ENDPOINT = https://<agent-identifier-goes-here>.ondigitalocean.app
+url = "https://example.com/"
