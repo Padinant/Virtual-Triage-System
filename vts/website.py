@@ -307,12 +307,13 @@ def category_add_post():
 
     db = get_db()
     category_name = request.form['category_name'].strip()
-    
+
     # Check for duplicate category name
     if db.category_name_exists(category_name):
-        flash(f'Error: A category named "{category_name}" already exists. Please choose a different name.')
+        flash(f'Error: A category named "{category_name}" already exists. '
+              f'Please choose a different name.')
         return redirect(url_for('category_add'))
-    
+
     new_cat = FAQCategory(category_name=category_name)
     db.add_item(new_cat)
     flash(f'Category "{category_name}" added successfully!')
@@ -343,19 +344,20 @@ def category_edit_post(category_id):
 
     db = get_db()
     new_name = request.form['category_name'].strip()
-    
+
     # Get current category
     categories = db.faq_categories()
     current_category = next((c for c in categories if c['id'] == category_id), None)
     if not current_category:
         return redirect(url_for('category_admin'))
-    
+
     # Only check for duplicates if name changed
     if current_category['category_name'].lower() != new_name.lower():
         if db.category_name_exists(new_name):
-            flash(f'Error: A category named "{new_name}" already exists. Please choose a different name.')
+            flash(f'Error: A category named "{new_name}" already exists. '
+                  f'Please choose a different name.')
             return redirect(url_for('category_edit', category_id=category_id))
-    
+
     db.update_category(category_id, new_name)
     flash(f'Category updated to "{new_name}" successfully!')
     return redirect(url_for('category_admin'))
@@ -387,13 +389,14 @@ def category_remove_post(category_id):
     categories = db.faq_categories()
     category = next((c for c in categories if c['id'] == category_id), None)
     category_name = category['category_name'] if category else f"#{category_id}"
-    
+
     success = db.remove_category(category_id)
     if success:
         flash(f'Category "{category_name}" removed successfully!')
         return redirect(url_for('category_admin'))
     # Category in use - cannot remove
-    flash(f'Error: Cannot remove category "{category_name}" because it is currently in use by FAQ entries.')
+    flash(f'Error: Cannot remove category "{category_name}" because it is '
+          f'currently in use by FAQ entries.')
     return redirect(url_for('category_admin'))
 
 @app.route("/add/")
