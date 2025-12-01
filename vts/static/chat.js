@@ -84,13 +84,14 @@ document.addEventListener("DOMContentLoaded", () => {
     chatBox.appendChild(userDiv);
     chatBox.scrollTop = chatBox.scrollHeight;
 
+    // Fetch the bot response
     const response = fetch("/message",
                            { method: "POST",
                              headers: { "Content-Type": "application/json" },
                              body: JSON.stringify({ message: message })
                            });
 
-    // Simulate bot reply with a short delay
+    // Handle the bot response
     response.then((success) => {
       const botDiv = document.createElement("div");
       const reply = success.json();
