@@ -288,25 +288,26 @@ class AppDatabase():
         the category can be removed and False if the category cannot
         be removed. A category in use cannot be removed.
         """
-        def query(statement):
-            return statement.where(FAQCategory.id == category_id)
-
         # Check to make sure that the category is empty.
         faq_entries = self.faq_entries_by_category(category_id)
         if len(faq_entries) > 0:
             return False
 
-        def update(item):
-            item.is_removed = True
-
-        self.update_item(query, update)
+        with Session(self.engine) as session:
+            statement = select(FAQCategory).where(FAQCategory.id == category_id)
+            result = session.scalars(statement).one()
+            result.is_removed = True
+            session.commit()
 
         return True
 
     def faq_entries_by_category(self, category_id) -> list[dict]:
-        "Retrieves the FAQ entries with the given category."
+        "Retrieves the FAQ entries with the given category (excludes removed entries)."
         with Session(self.engine) as session:
             statement = select(FAQEntry).where(FAQEntry.category_id == category_id)
+            # Note: Pylint's style suggestion here doesn't work with SQLAlchemy's .where()
+            # pylint:disable-next=singleton-comparison
+            statement = statement.where(FAQEntry.is_removed == False)
             return results_as_dicts(session.scalars(statement))
 
     def faq_categories(self) -> list[dict]:
@@ -327,6 +328,21 @@ class AppDatabase():
             for category in session.scalars(statement):
                 categories[category.category_name] = category.id
         return categories
+
+    def category_name_exists(self, category_name) -> bool:
+        """
+        Check if a category name already exists (case-insensitive).
+        Returns True if the name exists, False otherwise.
+        """
+        with Session(self.engine) as session:
+            # Note: Pylint's style suggestion here doesn't work with SQLAlchemy's .where()
+            # pylint:disable-next=singleton-comparison
+            statement = select(FAQCategory).where(FAQCategory.is_removed == False)
+            categories = session.scalars(statement)
+            for category in categories:
+                if category.category_name.lower() == category_name.lower():
+                    return True
+        return False
 
     def update_category(self, category_id, new_name) -> bool:
         """

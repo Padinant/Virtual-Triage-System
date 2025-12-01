@@ -41,7 +41,7 @@
         <!-- Category field -->
         <h2 class="section-heading">Category</h2>
         <select name="category" id="category" class="faq-dropdown" required="true">
-          <option value="">All Categories</option>
+          <option value="">Select Category</option>
           {%for item in category_items %}
             <option value="{{ item.id }}">{{ item.category_name }}</option>
           {% endfor %}
@@ -49,6 +49,8 @@
       </div>
 
       <div class="admin-form-actions">
+        <!-- Exit button -->
+        <a class="admin-exit-button" href="{{ url_for('faq_page') }}" role="button">Exit</a>
         <!-- Submit button -->
         <button class="admin-submit-button" type="submit">Submit</button>
       </div>

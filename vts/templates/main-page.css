@@ -90,7 +90,7 @@
 }
 
 .faq-list-item {
-  border-bottom: 1px solid var(--umbc-dark-gray);
+  border-bottom: 1.5px solid var(--umbc-dark-gray);
   padding: 0;
 }
 
@@ -150,7 +150,7 @@
 .faq-popup-content {
   background: var(--umbc-white);
   border-radius: var(--menu-border-radius);
-  box-shadow: 0 var(--space-xs) var(--space-lg) rgba(0, 0, 0, 0.3);
+  box-shadow: 0 var(--space-xs) var(--space-lg) rgba(0, 0, 0, 0.25);
   max-height: 80vh;
   max-width: 50rem;
   overflow-y: auto;
@@ -221,7 +221,7 @@
 
 .faq-popup-body hr {
   border: 0;
-  border-top: 2px solid var(--umbc-light-gray);
+  border-top: 4px solid var(--umbc-light-gray);
   margin: var(--space-lg) 0;
 }
 
