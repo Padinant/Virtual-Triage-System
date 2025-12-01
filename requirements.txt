@@ -4,3 +4,5 @@ markdown
 Whoosh
 openai
 Flask-Bcrypt
+xdg-base-dirs
+irc

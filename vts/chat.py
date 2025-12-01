@@ -5,20 +5,14 @@ This is a separate file to keep the website.py part of the chatbot
 code as trivial as possible.
 """
 
-import string
-
 from flask import request, jsonify
 
-def get_echo_output(user_text: string) -> string:
-    "This is the first output function for sprint 1. Returns an excited echo"
-    if not user_text:
-        return "Say Something!" # this is just contingency, it shouldn't be displayed
-    return user_text + "!"
+from vts.chat_server import create_guest_bot
 
 def reply_to_message():
     "This function gets text and makes a reply using get_echo_output"
     # get user text
-    user_text = request.json.get("text", "")
+    user_text = request.json.get("message", "")
     # process user text and get output/reply text
-    reply = get_echo_output(user_text)
+    reply = create_guest_bot(user_text)
     return jsonify({"reply": reply})

@@ -7,7 +7,9 @@ dependencies = [ "flask",
                  "markdown",
                  "Whoosh",
                  "openai",
-                 "Flask-Bcrypt" ]
+                 "Flask-Bcrypt",
+                 "xdg-base-dirs",
+                 "irc" ]
 
 [build-system]
 requires = ["setuptools"]

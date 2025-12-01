@@ -84,17 +84,27 @@ document.addEventListener("DOMContentLoaded", () => {
     chatBox.appendChild(userDiv);
     chatBox.scrollTop = chatBox.scrollHeight;
 
+    const response = fetch("/message",
+                           { method: "POST",
+                             headers: { "Content-Type": "application/json" },
+                             body: JSON.stringify({ message: message })
+                           });
+
     // Simulate bot reply with a short delay
-    setTimeout(() => {
+    response.then((success) => {
       const botDiv = document.createElement("div");
-      botDiv.className = "message bot";
-      botDiv.innerHTML = `
-        <img src="/static/UMBC_STYLES/dogumbc.png" class="avatar" alt="UMBC Mascot">
-        <div class="bubble bot-bubble">That's a great question!</div>
-      `;
-      chatBox.appendChild(botDiv);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }, 700);
+      const reply = success.json();
+      reply.then((success) => {
+        reply_msg = success['reply'];
+        botDiv.className = "message bot";
+        botDiv.innerHTML = `
+          <img src="/static/UMBC_STYLES/dogumbc.png" class="avatar" alt="UMBC Mascot">
+          <div class="bubble bot-bubble">${reply_msg}</div>
+        `;
+        chatBox.appendChild(botDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      });
+    });
 
     // Clear input field
     input.value = "";
