@@ -4,7 +4,7 @@ version = "0.3.3" # 3rd week of sprint 3
 description = "UMBC CSMC 447 Fall 2025 Team 5 Project"
 dependencies = [ "flask",
                  "sqlalchemy",
-                 "markdown",
+                 "markdown-it-py",
                  "Whoosh",
                  "openai",
                  "Flask-Bcrypt",

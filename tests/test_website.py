@@ -6,11 +6,10 @@ final sprint.
 Note that for Sprint 2, only the non-Flask functions are tested here.
 """
 
-from markdown import markdown
-
 from vts.test_data import TEST_FAQ
 from vts.website import faq_entries_to_markdown
 from vts.website import faq_titles_to_markdown
+from vts.website import markdown
 
 def test_faq_entries_to_markdown():
     "Do the FAQ entries correctly convert to the expected data structure?"

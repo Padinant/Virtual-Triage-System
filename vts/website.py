@@ -8,7 +8,7 @@ import secrets
 
 from datetime import datetime
 
-import markdown
+from markdown_it import MarkdownIt
 
 from flask import Flask
 from flask import Response
@@ -94,17 +94,22 @@ def setup_app():
 
 setup_app()
 
+def markdown(text):
+    "Gives a modern table-friendly markdown renderer an API similar to the legacy one."
+    md = MarkdownIt('commonmark', {'breaks':True, 'html':True}).enable('table')
+    return md.render(text)
+
 # This provides a section separator (which should be HTML <hr />) to
 # the end of certain markdown items.
-MARKDOWN_SEPARATOR = markdown.markdown('---')
+MARKDOWN_SEPARATOR = markdown('---')
 
 def faq_entries_to_markdown(faq_entries):
     "Turn FAQ questions and answers into markdown."
     result = []
     for item in faq_entries:
         entry = item.copy()
-        question = markdown.markdown(item['question_text'])
-        answer = markdown.markdown(item['answer_text'])
+        question = markdown(item['question_text'])
+        answer = markdown(item['answer_text'])
         markdown_text = question + MARKDOWN_SEPARATOR + answer
         entry['text'] = markdown_text
         result.append(entry)
@@ -112,7 +117,7 @@ def faq_entries_to_markdown(faq_entries):
 
 def faq_titles_to_markdown(faq_entries):
     "Turn FAQ questions into markdown."
-    return [{'text': markdown.markdown(item['question_text']),
+    return [{'text': markdown(item['question_text']),
              'url': f'/faq/{item["id"]}'}
             for item in faq_entries]
 

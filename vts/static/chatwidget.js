@@ -93,17 +93,28 @@ document.addEventListener('DOMContentLoaded', function() {
     widgetMessages.appendChild(userDiv);
     widgetMessages.scrollTop = widgetMessages.scrollHeight;
 
-    // Simulate bot reply with a short delay
-    setTimeout(() => {
+    // Fetch the bot response
+    const response = fetch("/message",
+                           { method: "POST",
+                             headers: { "Content-Type": "application/json" },
+                             body: JSON.stringify({ message: message })
+                           });
+
+    // Handle the bot response
+    response.then((success) => {
       const botDiv = document.createElement("div");
-      botDiv.className = "message bot";
-      botDiv.innerHTML = `
-        <img src="/static/UMBC_STYLES/dogumbc.png" class="avatar" alt="UMBC Mascot">
-        <div class="bubble bot-bubble">That's a great question!</div>
-      `;
-      widgetMessages.appendChild(botDiv);
-      widgetMessages.scrollTop = widgetMessages.scrollHeight;
-    }, 700);
+      const reply = success.json();
+      reply.then((success) => {
+        reply_msg = success['reply'];
+        botDiv.className = "message bot";
+        botDiv.innerHTML = `
+          <img src="/static/UMBC_STYLES/dogumbc.png" class="avatar" alt="UMBC Mascot">
+          <div class="bubble bot-bubble">${reply_msg}</div>
+        `;
+        widgetMessages.appendChild(botDiv);
+        widgetMessages.scrollTop = widgetMessages.scrollHeight;
+      });
+    });
 
     // Clear input field
     if (widgetInput) widgetInput.value = "";
