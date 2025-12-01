@@ -9,7 +9,7 @@ To install the dependencies, run:
 ```bash
 pip install flask
 pip install sqlalchemy
-pip install markdown
+pip install markdown-it-py
 pip install whoosh
 pip install requests
 pip install openai

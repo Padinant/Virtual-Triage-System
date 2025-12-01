@@ -7,6 +7,8 @@ code as trivial as possible.
 
 from flask import request, jsonify
 
+from markdown_it import MarkdownIt
+
 from vts.chat_server import create_guest_bot
 
 def reply_to_message():
@@ -15,4 +17,7 @@ def reply_to_message():
     user_text = request.json.get("message", "")
     # process user text and get output/reply text
     reply = create_guest_bot(user_text)
-    return jsonify({"reply": reply})
+    # json_reply = jsonify({"reply": reply})
+    md = MarkdownIt('commonmark', {'breaks':True, 'html':True}).enable('table')
+    json_reply = jsonify({"reply": md.render(reply)})
+    return json_reply
