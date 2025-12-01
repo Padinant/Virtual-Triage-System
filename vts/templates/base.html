@@ -59,7 +59,12 @@
       {% with messages = get_flashed_messages() %}
       {% if messages %}
       {% for message in messages %}
-      <section> {{ message }} </section>
+      <!-- Depending on what words the message starts with, there will be different flash styling, teal = success, red = error -->
+      {% if message.startswith('Error:') or message.startswith('Login Error:') %}
+      <section class="flash-message flash-error"> {{ message }} </section>
+      {% else %}
+      <section class="flash-message flash-success"> {{ message }} </section>
+      {% endif %}
       {% endfor %}
       {% endif %}
       {% endwith %}

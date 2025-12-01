@@ -28,6 +28,7 @@
 .admin-text-input,
 .admin-select {
   border: 2px solid var(--umbc-light-gray);
+  background: var(--cust-lightest-gray);
   border-radius: var(--menu-border-radius);
   font-family: inherit;
   font-size: var(--font-size-base);
@@ -65,6 +66,7 @@
 .admin-form-actions {
   display: flex;
   justify-content: flex-end;
+  gap: var(--space-md);
 }
 
 /* Submit button */
@@ -79,11 +81,37 @@
   height: var(--space-xl);
   padding: 0 var(--space-md);
   transition: background-color var(--transition-fast);
+  min-width: 120px;
 }
 
 /* Submit hover */
 .admin-submit-button:hover {
   background: var(--umbc-dark-gray);
+}
+
+/* Exit button */
+.admin-exit-button {
+  background: var(--umbc-retriever-red);
+  border: none;
+  border-radius: var(--menu-border-radius);
+  color: var(--umbc-white);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  font-weight: bold;
+  height: var(--space-xl);
+  padding: 0 var(--space-md);
+  transition: background-color var(--transition-fast);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+}
+
+/* Exit hover */
+.admin-exit-button:hover {
+  background: var(--umbc-dark-gray);
+  text-decoration: none;
 }
 
 /* Dropdown container */

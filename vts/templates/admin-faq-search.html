@@ -34,9 +34,9 @@
     <!-- Dropdown menu for admin FAQ topics -->
     <div class="faq-controls">
       <details class="faq-dropdown">
-      <summary class="faq-dropdown-toggle">{{ selected_category | default('All Categories') }}
+      <summary class="faq-dropdown-toggle">{{ selected_category }}
         <svg class="chevron icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <use href="/static/ICONS/sprite.svg#icon-chevron"></use>
+          <use href="/static/ICONS/sprite.svg#chevron-down"></use>
         </svg>
       </summary>
       <ul class="faq-dropdown-list">
@@ -79,7 +79,7 @@
             <h2 class="section-heading">FAQ Entry ID: {{ item.id }}</h2>
             <p class="admin-faq-info">Author: {{ item.author }}</p>
             <p class="admin-faq-info">Timestamp: {{ item.timestamp }}</p>
-            <p class="admin-faq-info">Category: {{ item.category }}</p>
+            <p class="admin-faq-info">Category: <a class="admin-faq-category-link" href="{{ url_for('faq_page') }}?category={{ item.category_id }}">{{ item.category }}</a></p>
           </div>
           <div class="admin-action-group">
             <a class="admin-action-button admin-action-button-edit" role="button" href="{{ url_for('faq_admin_edit', faq_id=item.id) }}">Edit

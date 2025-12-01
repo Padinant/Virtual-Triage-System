@@ -89,6 +89,7 @@
 /* Faq content */
 .faq-content {
   border: 1px solid var(--umbc-light-gray);
+  background: var(--cust-lightest-gray);
   margin: var(--space-lg) 0;
   padding: var(--space-md);
 }
