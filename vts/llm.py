@@ -1,20 +1,16 @@
 """
 functions relating to connecting the chatbot backend to the frontend, etc
 there are two options:
-- using openAI SDK (simpler, handles behind the scenes)
+- using openAI SDK (simpler, handles behind the scenes) ---> the option we will use
 - raw https (more control, but also complex)
+
 note this file and the functions in it are as of now, incomplete.
+
+SOME FUNCTOINS AND CUSTOM TYPES IN THIS FILE THAT YOU MIGHT WANT TO USE:
+- ask_agent_openai()         for single prompt questions
+- get_agent_response()       for multi-message chats if you have the chat history
+- Message_Type               the format for passing the chat history in multi-message chats
 """
-
-# some libraries we'll possibly use
-# unused libraries are commented out so pylint doesn't complain
-
-
-# import argparse
-# import json
-# import sys
-# import time
-# import requests
 
 from dataclasses import dataclass, field
 from typing import List, Dict, Tuple
