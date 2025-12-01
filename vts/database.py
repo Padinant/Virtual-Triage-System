@@ -182,7 +182,7 @@ class AppDatabase():
     the database.
     """
     path = ''
-    def __init__(self, engine, username='', password=''):
+    def __init__(self, engine, username='', password='', host=False):
         self.engine_type = engine
         if engine == Engine.SQLITE_MEMORY:
             self.engine_path = "sqlite://"
@@ -192,7 +192,10 @@ class AppDatabase():
             else:
                 self.engine_path = "sqlite:///" + AppDatabase.path
         elif engine == Engine.POSTGRESQL:
-            self.engine_path = create_postgres_url(username, password)
+            if host:
+                self.engine_path = create_postgres_url(username, password, host)
+            else:
+                self.engine_path = create_postgres_url(username, password)
         self.engine = create_engine(self.engine_path, echo=True)
 
     def initialize_metadata(self):

@@ -24,6 +24,8 @@ from flask_bcrypt import Bcrypt
 
 from vts.chat import reply_to_message
 
+from vts.config import load_postgres_config
+
 from vts.database import AppDatabase
 from vts.database import Engine
 from vts.database import FAQEntry
@@ -45,11 +47,14 @@ from vts.search import remove_faq_from_index
 app = Flask(__name__)
 flask_bcrypt = Bcrypt(app)
 
-# Right now, this will always return the SQLite database. The
-# Engine.POSTGRESQL will be selected if the username and password and
-# path can be read from the configuration file.
 def get_db () -> AppDatabase:
     "Retrieves the appropriate database."
+    postgres = load_postgres_config()
+    if postgres:
+        return AppDatabase(Engine.POSTGRESQL,
+                           username = postgres["username"],
+                           password = postgres["password"],
+                           host = postgres["host"] if "host" in postgres else False)
     return AppDatabase(Engine.SQLITE_FILE)
 
 def init_db ():
