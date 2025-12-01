@@ -153,7 +153,7 @@
   top: calc(100% + var(--space-xs));
   left: 0;
   z-index: 400;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
 }
 
 /* Dropdown link */
@@ -174,8 +174,16 @@
 /* Faq entry */
 .faq-entry {
   border: 1px solid var(--umbc-light-gray);
+  background: var(--cust-lightest-gray);
   margin: var(--space-lg) 0;
   padding: var(--space-md);
+}
+
+/* Separator between question and answer */
+.faq-entry hr {
+  border: none;
+  border-top: 3px solid var(--umbc-light-gray);
+  margin: var(--space-md) 0;
 }
 
 /* Floating chatbot */

@@ -14,16 +14,16 @@
 
   <!-- Chat container -->
   <div id="chat-container" class="container">
+      <button id="chat-fullscreen-btn" class="chat-fullscreen-btn" title="Toggle Expand" aria-pressed="false">
+        <svg class="expand-1 icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <use href="/static/ICONS/sprite.svg#expand-arrow-1"></use>
+        </svg>
+        <svg class="compress-1 icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <use href="/static/ICONS/sprite.svg#arrow-compress-1"></use>
+        </svg>
+      </button>
       <!-- Chat messages -->
       <div id="chat-box">
-        <button id="chat-fullscreen-btn" class="chat-fullscreen-btn" title="Toggle Expand" aria-pressed="false">
-          <svg class="expand-1 icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <use href="/static/ICONS/sprite.svg#expand-arrow-1"></use>
-          </svg>
-          <svg class="compress-1 icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <use href="/static/ICONS/sprite.svg#arrow-compress-1"></use>
-          </svg>
-        </button>
           <!-- Bot initial message -->
           <div class="message bot">
               <img src="{{ url_for('static', filename='UMBC_STYLES/dogumbc.png') }}" alt="UMBC Mascot" class="avatar">

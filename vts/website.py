@@ -242,6 +242,7 @@ def faq_item_page(faq_id):
                            menu_items=MENU_ITEMS,
                            category_items=categories,
                            faq_items=items,
+                           selected_category='All Categories',
                            is_admin=admin_status)
 
 @app.route("/faq/category/<int:category_id>")
@@ -305,8 +306,17 @@ def category_add_post():
         abort(403)
 
     db = get_db()
-    new_cat = FAQCategory(category_name=request.form['category_name'])
+    category_name = request.form['category_name'].strip()
+
+    # Check for duplicate category name
+    if db.category_name_exists(category_name):
+        flash(f'Error: A category named "{category_name}" already exists. '
+              f'Please choose a different name.')
+        return redirect(url_for('category_add'))
+
+    new_cat = FAQCategory(category_name=category_name)
     db.add_item(new_cat)
+    flash(f'Category "{category_name}" added successfully!')
     return redirect(url_for('category_admin'))
 
 @app.route("/admin-categories/edit/<int:category_id>")
@@ -333,7 +343,23 @@ def category_edit_post(category_id):
         abort(403)
 
     db = get_db()
-    db.update_category(category_id, request.form['category_name'])
+    new_name = request.form['category_name'].strip()
+
+    # Get current category
+    categories = db.faq_categories()
+    current_category = next((c for c in categories if c['id'] == category_id), None)
+    if not current_category:
+        return redirect(url_for('category_admin'))
+
+    # Only check for duplicates if name changed
+    if current_category['category_name'].lower() != new_name.lower():
+        if db.category_name_exists(new_name):
+            flash(f'Error: A category named "{new_name}" already exists. '
+                  f'Please choose a different name.')
+            return redirect(url_for('category_edit', category_id=category_id))
+
+    db.update_category(category_id, new_name)
+    flash(f'Category updated to "{new_name}" successfully!')
     return redirect(url_for('category_admin'))
 
 @app.route("/admin-categories/remove/<int:category_id>")
@@ -359,11 +385,19 @@ def category_remove_post(category_id):
         abort(403)
 
     db = get_db()
+    # Get category name before attempting removal
+    categories = db.faq_categories()
+    category = next((c for c in categories if c['id'] == category_id), None)
+    category_name = category['category_name'] if category else f"#{category_id}"
+
     success = db.remove_category(category_id)
     if success:
+        flash(f'Category "{category_name}" removed successfully!')
         return redirect(url_for('category_admin'))
-    # Category in use - ERROR
-    return ("Category in use; cannot remove.", 400)
+    # Category in use - cannot remove
+    flash(f'Error: Cannot remove category "{category_name}" because it is '
+          f'currently in use by FAQ entries.')
+    return redirect(url_for('category_admin'))
 
 @app.route("/add/")
 def faq_admin_add():
@@ -470,6 +504,7 @@ def faq_admin_add_post():
     faq_id = db.add_item(new_entry)
     # Incremental index update
     add_faq_to_index(db, faq_id, app.instance_path)
+    flash(f'FAQ entry #{faq_id} added successfully!')
 
     return redirect(url_for('faq_item_page', faq_id = faq_id))
 
@@ -491,6 +526,7 @@ def faq_admin_edit_post(faq_id):
     db = get_db()
     db.update_item(query, update)
     update_faq_in_index(db, faq_id, app.instance_path)
+    flash(f'FAQ entry #{faq_id} updated successfully!')
 
     return redirect(url_for('faq_item_page', faq_id = faq_id))
 
@@ -505,11 +541,9 @@ def faq_admin_remove_post(faq_id):
     if request.form['confirm'] and request.form['confirm'] == 'yes':
         db.remove_faq_entry(faq_id)
         remove_faq_from_index(faq_id, app.instance_path)
-        status = 'Success!'
+        flash(f'FAQ entry #{faq_id} removed successfully!')
     else:
-        status = 'Failure!'
-
-    flash(status)
+        flash(f'FAQ entry #{faq_id} removal cancelled.')
 
     return redirect(url_for('faq_page'))
 

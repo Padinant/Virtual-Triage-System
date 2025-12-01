@@ -7,6 +7,13 @@
   margin: var(--space-md) 0 var(--space-sm);
 }
 
+/* Separator between question and answer */
+.admin-faq-body hr {
+  border: none;
+  border-top: 3px solid var(--umbc-light-gray);
+  margin: var(--space-md) 0;
+}
+
 /* Section headings */
 .main-content .section-heading {
   color: var(--umbc-black);
@@ -153,7 +160,7 @@
   top: calc(100% + var(--space-xs));
   left: 0;
   z-index: 400;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
 }
 
 /* Dropdown link */
@@ -246,7 +253,7 @@
 
 /* Faq entry layout */
 .admin-faq-entry {
-  border: 1px solid var(--cust-lighter-gray);
+  border: 1px solid var(--umbc-light-gray);
   background: var(--cust-lightest-gray);
   margin: var(--space-lg) 0;
   padding: var(--space-md);
@@ -277,6 +284,17 @@
 .admin-action-group {
   display: flex;
   gap: var(--space-sm);
+}
+
+/* Clickable category link inside admin FAQ entries */
+.admin-faq-category-link {
+  color: var(--umbc-aok-teal);
+  text-decoration: none;
+}
+
+.admin-faq-category-link:hover {
+  color: var(--umbc-aok-teal);
+  text-decoration: underline;
 }
 
 /* Floating chatbot */
