@@ -369,11 +369,17 @@ If a student has questions about the CSEE Undergraduage Programs, that you do no
 
 —-----------------
 SECTION 6: CSEE Graduate Programs
-UMBC’s Department of Computer Science and Electrical Engineering (CSEE) offers certificate, M.S., MPS, and Ph.D. programs in Computer Science, Computer Engineering, Electrical Engineering and Cybersecurity.
+UMBC’s Department of Computer Science and Electrical Engineering (CSEE) offers certificate, M.S., MPS, and Ph.D. programs in Computer Science, Computer Engineering, Electrical Engineering, Cybersecurity (and Data Science).
 All of our programs are open to full, part-time, and non-degree seeking students. Part-time students are given more time to complete the milestones for their degree.
 
-The section below includes more descriptive details about each of these graduate program options. 
 
+Our Specialty Areas:
+- Computer Science: Artificial Intelligence, Machine Learning and Data Mining, Multi-Agent Systems, Web 2.0, Wireless Sensor Networks, Graphics and Visualization, Game Development.
+- Computer Engineering: VLSI design and test, VLSI arithmetic algorithms and security, Mixed-signal VLSI, Distributed real-time, and embedded systems, Energy efficient and high performance systems and Bioelectronics.
+- Electrical Engineering: Communications, Signal processing, Microelectronics, Sensor technology and Photonics.
+
+
+The section below includes more descriptive details about each of the graduate program options offered by the CSEE department. 
 
 COMPUTER SCIENCE GRADUATE PROGRAMS:
 Students may pursue a M.S. or a Ph.D. program in Computer Science.
@@ -450,8 +456,29 @@ Apply online through UMBC’s Graduate School Website.
 
 ---
 
-ELECTRICAL ENGINEEIRNG GRADUATE PROGRAMS:
+CYBERSECURITY GRADUATE PROGRAMS:
+The Department of Computer Science and Electrical Engineering, offers both graduate certificate programs as well as a Master of Science (M.S.) degree in the field of cybersecurity.
 
+The ten-course Masters of Science (M.S.) Cybersecurity graduate program integrates both technical and non-technical courses in Cybersecurity to prepare Computer Science, Information Systems, and other professionals to fill management, analytical, investigative, operational, and/or technical leadership roles in the Cybersecurity profession. In order to gain a rigorous base of knowledge, students in the Cybersecurity master’s program must complete 10 courses (30 credits). Students are encouraged to tailor their coursework to their interests and career goals. All students must complete 18 credits through our 6 required Cybersecurity courses listed below (18 credits). The remaining 12 credits can be completed by choosing 4 of our elective Cybersecurity course.
+
+UMBC also offers Cybersecurity Graduate Certificates. UMBC’s four-course post-baccalaureate certificates in Cybersecurity can be completed in a year. Cybersecurity certificates are available to students with a variety of undergraduate or work backgrounds. Students may choose to take a certificate by itself, or they may take a certificate and then later apply their coursework to our Cybersecurity master’s degree program. If a student is accepted into the M.S. Cybersecurity program, all four certificate courses count toward that degree.
+
+There are two Graduate Certificates in Cybersecurity:
+- Cybersecurity Strategy & Policy
+- Cybersecurity Operations
+
+Cybersecurity Strategy & Policy: The courses in Cybersecurity Strategy & Policy provides students the essential domain knowledge required to serve in decision-making roles throughout the cybersecurity industry. Students will learn how to analyze cybersecurity risks, develop appropriate protection & response options, and assess operational requirements for government, military, critical infrastructure, and commercial missions. Upon completing this cybersecurity certificate, students will possess advanced knowledge of the strategy, policy, and analytic aspects of cybersecurity, enabling them to fill critical roles in operational cybersecurity missions supporting both industrial and governmental entities.
+
+Cybersecurity Operations: The operations courses are oriented towards students seeking broad exposure to cybersecurity principles, best practices, and technologies. This certificate pathway includes three required cybersecurity courses and one student-selected exploratory elective on a cybersecurity topic of interest or professional relevance. Courses are designed to help students become competitive candidates for in-demand Cybersecurity jobs in a wide range of sectors.
+
+---
+
+DATA SCIENCE GRADUATE PROGRAMS:
+The Department of Computer Science and Electrical Engineering, offers both graduate certificate programs as well as a Master of Science (M.S.) degree in the field of data science.
+
+UMBC’s Master of Professional Studies (M.P.S.) in Data Science program prepares students from a wide range of disciplinary backgrounds for careers in data science. In the core courses, students will get a fundamental understanding of data science through classes that highlight machine learning, data analysis and data management. The core courses will also introduce students to ethical and legal implications surrounding data science. Beyond the core courses, students will take three courses in domain specific pathways developed in collaboration with academic departments across the university. Through these pathways, students will be able to utilize the skills and techniques they learned in the core courses within their own field or area of expertise.
+
+UMBC also offers a Graduate Certificate in Data Science. The courses taught by experts working for the leading data science firms will teach you how to derive insights from data in different formats and solve real-world problems. The certificate allows students the freedom of choosing in-person or online classes to complete their graduate certificate with the schedule and method that works best for them. By taking two classes in both semesters, students can get their graduate certificate in data science in 9-months. Students may also choose to earn the certificate by itself, or earn a certificate and then later apply their coursework to our Data Science master’s degree program. 
 
 
 —-----------------
