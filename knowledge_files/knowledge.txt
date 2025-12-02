@@ -332,6 +332,36 @@ SECTION 3: Commonly Requested Resources
 —-----------------
 SECTION 4: CSEE Undergraduate Programs
 
+The CSEE department offers the following undergraduate programs in Computer Science and Computer Engineering:
+- Computer Science Major
+- Computer Science Minor
+- Computer Engineering Major
+- Combined Computer Science BS/MS Program
+- Combined Computer Engineering BS/MS Program
+
+The section below includes more descriptive details about each of these undergraduate program options.
+
+Computer Science Major:
+Students pursuing a Bachelor’s of Science in Computer Science must complete the Major Requirements, as well the General Education Program (GEP) Requirements set up by the University. In addition to the major itself, the Computer Science degree offers four tracks: Artificial Intelligence and Machine Learning (AIML), Cybersecurity (CYBR), Data Science (DSCI) and Game Development (GDEV). Students pursuing a Computer Science degree may optionally choose to follow one of these four tracks. In that case, they have to also fulfill the specific track requirements for their chosen track.
+You can declare that you intend to follow a track by filling out the registrar’s Declaration of Major, Minor, and Certificate form and indicating the track (i.e., AIML, CYBR, DSCI, GDEV) you plan to pursue.
+Students can complete more than one track with the caveat that two courses in each track cannot be used towards any other tracks. Therefore, one track requires 4 courses. Two tracks require a minimum of 6 courses. Three tracks require a minimum of 9 courses.
+If you have declared that you are following a track and complete its requirements before graduating, a notation that you have completed it will appear on your transcript. There is no penalty for declaring that you intend to follow a track but failing to complete all of its requirements.
+
+Computer Science Minor:
+Students interested in pursuing a Minor in Computer Science must complete the Minor Requirements. Because of the similarities between the Computer Science and Computer Engineering programs, students cannot  major in Computer Engineering and minor in Computer Science.
+
+Combined BS/MS Program (Computer Science):
+Students who see Graduate School in their future can choose to enroll in the combined B.S./ M.S. program, which will allow them to speedily complete a B.S. in Computer Science and an M.S. in Computer Science.
+
+Computer Engineering Major:
+Students pursuing a Bachelor’s of Science in Computer Engineering must complete 125 credits of required and elective courses. These requirements include the General Education Program requirements established by the University for the Bachelor of Science Degree. The Computer Engineering degree offers three tracks: Electronic Systems, Communications, and Cybersecurity. 
+The Electronic Systems track focuses on large electronic systems and networks. Students who specialize in this track will emerge with experience in VLSI (very large scale integrated) design and the design of programmable logic devices, including FPGAs (fully programmable gate arrays). The Communications track focuses on computer and electrical communications networks. Students who specialize in this track will emerge with experience in the electromagnetic and signal processing techniques that are needed to design these networks. The Cybersecurity track emphasizes security of computer systems, along with in depth design of computer hardware topics closely related to the Electronic Systems Track.
+
+Combined BS/MS Program (Computer Engineering):
+Students who see Graduate School in their future can choose to enroll in the combined B.S./ M.S. program, which will allow them to speedily complete a B.S. in Computer Engineering and an M.S. in Computer Engineering OR Electrical Engineering. 
+
+
+If a student has questions about the CSEE Undergraduage Programs, that you do not know the answer to, you should direct them to visit the CSEE website's 'Undergrad Programs' section. You can also direct the student to contact the Computer Engineering Undergraduate Program Director or the Computer Science Undergraduate Program Director. The contact information for both of these directors can be found under: CONTACT INFORMATION - LEADERSHIP OF THE CSEE DEPARTMENT in the contact information document.
 
 
 —-----------------
