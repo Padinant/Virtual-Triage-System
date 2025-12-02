@@ -61,8 +61,11 @@ Research Area: Quantum Computing/Theory and Algorithms
 Research Topics: Computational Complexity Theory, Quantum Computation, Quantum Information, Scientific and Engineering Computation
 Faculty: Richard Chang, Milt Halem, Sam Lomonaco, Curtis Menyuk, Yaacov Yesha
 
+You can learn more about each of the CSEE Department research labs, in the next section.
 
-Research Labs at CSEE Department:
+
+—-----------------
+SECTION 3: CSEE Research Laboratories
 
 The CSEE Department includes many research labs, in the three broad categories of Computer Science, Computer Engineering, and Electrical Engineering.
 Here is a list of these labs, their corresponding office and lab location code, the lab director(s) and director emails, as well as a description of what the lab does. If a student or faculty member is interest in a certain research field, you may draw upon the following list of labs to make recommendations about labs that the person might enjoy looking into, and how to contact such labs. Note that the lab location is the location of the actual lab, while the office location often represents the office of the lab director.
@@ -325,12 +328,12 @@ Description: The lab researches remote sensing, signal and image processing—es
 
 
 —-----------------
-SECTION 3: Commonly Requested Resources
+SECTION 4: Commonly Requested Resources
 
 
 
 —-----------------
-SECTION 4: CSEE Undergraduate Programs
+SECTION 5: CSEE Undergraduate Programs
 
 The CSEE department offers the following undergraduate programs in Computer Science and Computer Engineering:
 - Computer Science Major
@@ -365,13 +368,89 @@ If a student has questions about the CSEE Undergraduage Programs, that you do no
 
 
 —-----------------
-SECTION 5: CSEE Graduate Programs
+SECTION 6: CSEE Graduate Programs
+UMBC’s Department of Computer Science and Electrical Engineering (CSEE) offers certificate, M.S., MPS, and Ph.D. programs in Computer Science, Computer Engineering, Electrical Engineering and Cybersecurity.
+All of our programs are open to full, part-time, and non-degree seeking students. Part-time students are given more time to complete the milestones for their degree.
+
+The section below includes more descriptive details about each of these graduate program options. 
 
 
+COMPUTER SCIENCE GRADUATE PROGRAMS:
+Students may pursue a M.S. or a Ph.D. program in Computer Science.
 
+Students pursuing a Masters of Science (M.S.) in Computer Science must choose between the thesis and non-thesis options. The thesis option requires the completion of 30 credits, including six credits of CMSC 799.  The thesis must be defended with an oral examination and approved by the student’s master’s thesis committee. The non-thesis option requires the completion of 33 credits.  All students must complete CMSC 641 Algorithms, one course chosen from the “system” area, and one course chosen from the “applications” area.  The degree must be completed within five years and students must maintain a minimum G.P.A. of 3.0.
 
-—-----------------
-SECTION 6: CSEE research laboratories
+Students pursuing a Doctorate of Philosophy (Ph.D.) in Computer Science are required to complete 11 courses, including three core courses in addition to 18 credit hours of doctoral dissertation research. Ph.D. students must complete and defend their dissertation, pass the comprehensive portfolio, and pass the preliminary examination and admission to candidacy. In addition, Ph.D. students must complete a minimum of three years of full-time graduate study, with at least one year of full-time study at UMBC. The program must be completed within 4 years after admission to doctoral candidacy and students must maintain a G.P.A. of 3.0.
+
+In addition to the core courses, a wide range of elective and special topics courses are offered in areas such as: cybersecurity and information assurance, natural language processing, databases, data mining, mobile and wearable computing, cognitive systems and architectures, semantic web, machine learning, and networking.
+
+Computer Science Research Areas:
+- Artificial Intelligence: Intelligent decision support, semantic representations and ontologies, interactive AI systems, preference modeling, reasoning under uncertainty.
+- Machine Learning and Data Mining: Knowledge-intensive learning, preference learning, unsupervised perceptual learning, privacy-preserving data mining, ML applications.
+- Multi-Agent Systems: Trust modeling, self-organizing agent networks and swarm systems.
+- Wireless sensor networks: mobile applications, context-aware systems.
+- Web 2.0: Semantic web, knowledge discovery and modeling, policy models, service-oriented computing.
+- Graphics and Visualization: Light and shading, realistic and artistic rendering, graphics hardware, understanding data, use of color and texture for visualization, perceptual studies and evaluation.
+- Game Development: Use of computer science concepts in game programming, especially graphics and AI, networks, parallel programming, and databases. Multidisciplinary team development.
+- Systems: Operating systems, distributed systems, cloud computing, and high-performance computing.
+- Security: cognitive security, IoT security, cryptography, system security, code and malware analysis.
+
+Interested students should apply online through UMBC’s Graduate School Website.
+
+---
+
+COMPUTER ENGINEEIRNG GRADUATE PROGRAMS:
+UMBC’s Computer Science and Electrical Engineering Department offers both M.S. and Ph.D. programs in Computer Engineering. Below you will find information on the Computer Engineering graduate program, and research areas in Electrical and Computer Engineering.
+
+Students pursuing a Masters of Science (M.S.) in Computer Engineering must choose either the thesis or non-thesis (with project) option—there is no course-only option. The thesis option requires the completion of 30 credit hours (including 6 credits of MS thesis research – CMPE 799). The non-thesis (with project) option requires the completion of 33 credits (including 3 credits of graduate project research – CMPE 698).  All students must complete CMSC 641 Algorithms, one course chosen from the “system” area, and one course chosen from the “applications” area.  The degree must be completed within five years.
+
+Doctoral Computer Engineering students must: (a) submit their PhD Comprehensive Portfolio and receive a pass grade within four semesters of entrance to the program (six semesters for part-time students); (b) develop and defend a doctoral dissertation proposal and be admitted to doctoral candidacy within four years of entrance to the program (five years for part-time students); and (c) complete all Ph.D. requirements for their field of specialty within four (4) years of admission to doctoral candidacy.
+The doctoral dissertation must be an original and substantive contribution to knowledge in the student’s major field. It must demonstrate the student’s ability to carry out a program of research and to report the results in accordance with standards observed in the recognized scientific journals related to that field.
+
+Computer (and Electrical) Engineering Research Areas (and faculty highlights):
+- Signal Processing & Machine Learning — Faculty in this area conduct research developing new platforms and methods to address many of the challenges posed by today’s data-rich applications, especially addressing problems in the complex and big data realm. The application domains are many and include problems in medical image analysis and data fusion, remote sensing, image processing for hyperspectral data, cognitive radio networks and future power systems (smart grids).
+  - Tülay Adali, PhD., Distinguished University Professor, Specialization Areas: Statistical and adaptive signal processing, machine learning, matrix and tensor factorizations, and their applications in multimodal and multi-set data fusion and medical image analysis. Machine Learning for Signal Processing Lab.
+  - Chein-I Chang, Ph.D., Professor, Specialization Areas: Hyperspectral imaging, remote sensing signal and image processing, medical imaging.
+  - Seung-Jun Kim, Ph.D., Assistant Professor, Specialization Areas: Statistical signal processing, optimization, machine learning, and big data techniques with applications to wireless communications/networking, future power systems/smart grids, brain/medical data analysis. Signal Processing and Smart Systems Laboratory.
+
+- Microelectronics/ Microsystems (MEMS) & Photonics — Faculty in this area conduct research in the complementary fields of electronic, bioelectronic, nanotechnology, electromagnetic, and optical devices and circuits, with broad application to the next generation light emitters, power electronics, wearable and implantable biomedical sensors that advance consumer, industrial, national security, and health care outcomes.
+  - Fow-Sen Choa, PhD., Professor, Specialization Areas: Material growth, nanofabrication, Near and Mid-IR lasers and detectors, RF-photonic components and systems, photoacoustic sensing, EEG brain function analysis and monitoring, transcranial magnetic, direct/alternating current stimulations, dynamic brain network analysis.
+  - Li Yan, Ph.D., Professor, Specialization Areas: Ultrafast optics, solid-state lasers, optical communications, nonlinear optics, quantum optics, coherent beam combining and mixing.
+
+- Optics & Communications — Faculty in this area conduct basic and applied research that relies on the synergy of physics, materials science, numerical modeling, and device applications to understand and develop innovative materials, devices, and algorithms that addresses the demand for higher data transfer rates and bandwidths, and next generation mobile/wireless technologies.
+  - Gary Carter, Ph.D., Professor, Specialization Areas: Optoelectronics; diode lasers; nonlinear optics; optical communications.
+  - Anthony Johnson, PhD., Professor, Specialization Areas: Ultrafast photophysics and nonlinear optical properties of bulk, nanostructured, and quantum well semiconductor structures, ultrashort pulse propagation in fibers and high-speed lightwave systems.
+  - Curtis Menyuk, Ph.D., Professor, Specialization Areas: Lasers, computational modeling of photonic systems, time and frequency generation and transfer, lightwave communications, optical fibers, optical networks, and nonlinear phenomena.
+  - Mohamed Younis, Ph.D., Associate Professor, Specialization Areas: Wireless networks; Cyber-physical systems, internet of things, fault tolerant computing, embedded computer systems, and secure communication. Embedded Systems and Networks Lab (ESNET).
+
+- VLSI Systems/ Hardware Security & Digital design — Faculty in this area are working on advanced computer-aided VLSI chip design, and developing innovations in VLSI hardware testing, security, computational and communication protocols, and sensor-processing integration that protect the security and integrity of hardware systems that meet the challenges for ultrafast and low-power computing, real-time and secure cyber-physical systems, and effective methods for processing complex data and enhancing multicore and cloud computing.
+  - Riadul Islam, Ph.D., Associate Professor, Specialization Areas:  VLSI CAD tools and low-power digital and mixed-signal IC design, alternative current-mode clock network design to vehicular network security, soft-/hard-error robust, secured IC design to neuromorphic computing and machine learning applications in computing.
+  - Naghmeh Karimi, Ph.D., Associate Professor, Specialization Areas: Hardware Security & Design-for-Trust, Fault Tolerance & Design-for-Reliability, Hardware Testing & Design-for-Testability, Hardware Design & Synthesis, and VLSI Design.
+  - Dhananjay Phatak, Ph.D., Associate Professor, Specialization Areas: Computer arithmetic algorithms and implementations, all aspects of computer/cyber security, number theory, computer networks and neural nets.
+  - Ryan Robucci, PhD., Associate Professor, Specialization Areas: Analog and mixed-signal VLSI; sensors and cyber-physical systems, human-computer systems, and hardware security. ECLIPSE lab.
+
+---
+
+ELECTRICAL ENGINEEIRNG GRADUATE PROGRAMS:
+UMBC’s Computer Science and Electrical Engineering Department offers both M.S. and Ph.D. programs in Electrical Engineering.
+
+Students pursuing a Masters of Science (M.S.) in Electrical Engineering must choose either the thesis or non-thesis (with project) option—there is no course-only option. The thesis option requires the completion of 30 credit hours (including 6 credits of MS thesis research – CMPE 799). The non-thesis (with project) option requires the completion of 33 credits (including 3 credits of graduate project research – CMPE 698).
+
+Doctoral Electrical Engineering students must: (a) submit their PhD Comprehensive Portfolio and receive a pass grade within four semesters of entrance to the program (six semesters for part-time students); (b) develop and defend a doctoral dissertation proposal and be admitted to doctoral candidacy within four years of entrance to the program (five years for part-time students); and (c) complete all Ph.D. requirements for their field of specialty within four years of admission to doctoral candidacy.
+The doctoral dissertation must be an original and substantive contribution to knowledge in the student’s major field. It must demonstrate the student’s ability to carry out a program of research and to report the results in accordance with standards observed in the recognized scientific journals related to that field.
+
+Electrical Engineering Research Areas:
+The featured research areas and faculty highlights for Electrical Engineering, are the same as those listed earlier for Computer Engineering.
+
+Pre-requisites for Admission:
+Applicants must have a B.S. degree in Electrical Engineering from an ABET-accredited undergraduate program with a GPA equivalent to ‘B+’ or higher. Individuals whose records indicate strong potential for successful pursuit of the master’s or doctoral degree objectives and who have similar undergraduate preparation with strong academic records in computer science, mathematics, physics or other areas of engineering or science are encouraged to apply (B.S. degrees in engineering technology are not considered equivalent to the B.S. degree in engineering or the B.A. degree in the sciences). Students whose degrees are not in electrical engineering generally will be required to take courses to make up deficiencies in their backgrounds. Students who plan to pursue the Ph.D. degree but who do not already have an M.S. degree are advised to apply for admission to the M.S. program.
+
+The Application Process:
+Apply online through UMBC’s Graduate School Website.
+
+---
+
+ELECTRICAL ENGINEEIRNG GRADUATE PROGRAMS:
 
 
 
