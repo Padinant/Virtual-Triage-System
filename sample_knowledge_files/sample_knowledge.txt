@@ -47,5 +47,4 @@ For example, if you want to request swipe access to the research lab of a profes
 
 
 The faculty member
-
-email a relevant faculty member (related to their reason of room access request), to fill out the request form on the student's behalf
+student -> email a relevant faculty member (related to their reason of room access request), to fill out the request form on the student's behalf

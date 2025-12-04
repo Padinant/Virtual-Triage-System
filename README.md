@@ -78,17 +78,20 @@ pytest *inside* of the venv.
 Note that you also need the chatbot persisting on its own process, as
 well as an IRC server.
 
-The chatbot is:
+
+The test IRC server is:
+
+```bash
+python3 -m irc.server
+```
+
+And the chatbot is:
 
 ```bash
 python3 vts/chat_server.py
 ```
 
-And the test IRC server is:
-
-```bash
-python3 -m irc.server
-```
+Note: Make sure to run in this order: flask, IRC, chatbot.
 
 It can also connect to a real IRC server with the `[chat_server]`
 configuration in the TOML, given a `domain` and a `key` (server
