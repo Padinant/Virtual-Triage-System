@@ -12,18 +12,18 @@ List of the contents in this document:
 
 -----------------
 
-SECTION 1: Introduction:
+# SECTION 1: Introduction:
 This document contains information and resources about the Department of Computer Science and Electrical Engineering at UMBC. This department is often abbreviated as CSEE.
 
-About UMBC:
+## About UMBC:
 The University of Maryland Baltimore County (UMBC) is a research university in Baltimore County, Maryland. 
 
-About the CSEE department:
+## About the CSEE department:
 For more than 30 years, the Department of Computer Science and Electrical Engineering (CSEE) at UMBC has produced the Computer Science, Computer Engineering, and Electrical Engineering leaders of tomorrow. Currently, the department offers two undergraduate degrees in Computer Science and Computer Engineering with approximately 2300 students, and graduate degrees in five programs Computer Science (MS and PhD), Computer Engineering (MS and PhD), Electrical Engineering (MS and PhD), Data Science (MS), and Cybersecurity (MS) with a total of approximately 1270 students.
 The department has 41 tenured and tenure-track faculty, 18 full-time instructional faculty, 15 research faculty, and over 20 affiliate and part-time adjunct faculty, whose research are in five clusters (i) artificial intelligence, machine learning, and signal processing; (ii) communications and photonics; (iii) computer architecture and hardware systems; (iv) cyber-physical systems; and (v) graphics and visualization.
 The department is centered in the Information Technology and Engineering (ITE) building, which has an excellent laboratory and computing environment, and in the Technology Research Center, which has specialized research laboratories.
 
-About the CSEE programs (Highlights):
+## About the CSEE programs (Highlights):
 In Fall 2024, CSEE enrolled 2145 undergraduate students and 1028 graduate students.
 CSEE programs are available to both full-time and part-time students and include several accelerated Bachelor’s/Master’s degree program options. In addition, selected programs are offered both on Main Campus (Catonsville, MD) and at the Universities at Shady Grove (Rockville, MD) in Montgomery County.
 For over 20 years, UMBC has been a National Center of Academic Excellence in Cyber Defense Education (CAE-CD) and Research (CAE-R)  based on our undergraduate and graduate computer science programs with tracks and research in cybersecurity.
@@ -35,10 +35,10 @@ Here are important UMBC buildings at the CSEE department. Note that the list inc
 
 -----------------
 
-SECTION 2: Research at CSEE Department
+# SECTION 2: Research at CSEE Department
 The CSEE Department offers many research areas and labs, in which faculty and students can become involved in.
 
-CSEE Research Areas:
+## CSEE Research Areas:
 Below is a list of Computer Science and Electrical Engineering research areas offered by UMBC. Note that each entry also lists the topics connected to that research area, and the faculty members who are involved in research in that field.
 If a student expresses interest in a certain research area or topic, you can draw upon this list to make them recommendations on who they can contact. If a student expresses interest in a certain CSEE faculty researcher, you can use this list to let them know about the research that professor might be involved in. Note that just because a faculty is doing research in a certain research area, it does not mean that they have done research on every single topic under that broad research area.
 
@@ -79,7 +79,7 @@ You can learn more about each of the CSEE Department research labs, in the next 
 
 -----------------
 
-SECTION 3: CSEE Research Laboratories
+# SECTION 3: CSEE Research Laboratories
 
 The CSEE Department includes many research labs, in the three broad categories of Computer Science, Computer Engineering, and Electrical Engineering.
 Here is a list of these labs, their corresponding office and lab location code, the lab director(s) and director emails, as well as a description of what the lab does. If a student or faculty member is interest in a certain research field, you may draw upon the following list of labs to make recommendations about labs that the person might enjoy looking into, and how to contact such labs. Note that the lab location is the location of the actual lab, while the office location often represents the office of the lab director.
@@ -96,7 +96,7 @@ Description:
 Sometimes, there might be two lab directors for a research lab, who have two corresponding emails, two office locations, and two lab locations listed.
 
 
-COMPUTER SCIENCE LABS
+## COMPUTER SCIENCE LABS
 
 Lab Name: CDL – Cyber Defense Lab 
 Lab Website: http://www.cisa.umbc.edu/ 
@@ -248,7 +248,7 @@ Description: The lab studies Brain-Machine Interfaces (BMIs) that control upper-
 
 ---
 
-COMPUTER ENGINEERING LABS
+## COMPUTER ENGINEERING LABS
 
 Lab Name: ECLIPSE Cluster
 Lab Website: http://eclipse.umbc.edu
@@ -290,7 +290,7 @@ Description: The group researches electronic design and automation, brain-inspir
 
 ---
 
-ELECTRICAL ENGINEERING LABS
+## ELECTRICAL ENGINEERING LABS
 
 Lab Name: CASPR – Center for Advanced Studies in Photonics Research
 Lab Website: https://www.umbc.edu
@@ -343,7 +343,7 @@ Description: The lab researches remote sensing, signal and image processing—es
 
 -----------------
 
-SECTION 4: Commonly Requested Resources
+# SECTION 4: Commonly Requested Resources
 
 This section includes details about resources and forms that are frequently asked for or needed by students and faculty.
 The way this section is organized is that it details scenarios that a student or faculty member find themselves in. For each scenario, the text explains how an assistant should guide the user on how to proceed, and which resources or forms (if any) should the assistant provide to the user.
@@ -353,19 +353,19 @@ Note that in some cases, a user may be both a student and a faculty member (for 
 
 Here is the list of commonly requested Forms, Links, and Administrative Resources:
 
-Scenario 1: Person wants to request card swipe access to a CSEE room.
-Scenario 1, Case 1 (FACULTY): If the person is a CSEE faculty member, they can request room swipe access via filling out the ‘CSEE Room Access Request’ form. Note that only faculty and staff are permitted to complete this form.
+## Scenario 1: Person wants to request card swipe access to a CSEE room.
+### Scenario 1, Case 1 (FACULTY): If the person is a CSEE faculty member, they can request room swipe access via filling out the ‘CSEE Room Access Request’ form. Note that only faculty and staff are permitted to complete this form.
 ‘CSEE Room Access Request’ form URL link: https://docs.google.com/forms/d/e/1FAIpQLScQs5QiJrMrFbYqA4PnOLEP2VfJc_39EujAZEb3MU0P76RS2g/viewform?c=0&w=1 .
 The ‘CSEE Room Access Request’ form can also be found by navigating to the CSEE department website → ‘Faculty Resources’ → ‘Forms, Department Links & Business Affairs’
 
 
-Scenario 1, Case 2 (STUDENT): If the person who wants to request card swipe or room access is a student (and is not a faculty at UMBC).
+### Scenario 1, Case 2 (STUDENT): If the person who wants to request card swipe or room access is a student (and is not a faculty at UMBC).
 In this case, the student should reach out via email (or in person) to the CSEE faculty member who is related to the reason they are requesting the room.
 (For example, if a student has recently became a lab assistant and wants swipe access to the research lab, the student should ask the specific faculty member or professor who hired the student as a lab assistant for the lab. Then, that faculty can request swipe access to the for you from the department.)
 
 ---
 
-Scenario 2: Person wants to make a reservation request for a room
+## Scenario 2: Person wants to make a reservation request for a room
 The person can make a reservation request from the CSEE department for a room via filling out the 'Room Reservation Request' form.
 'Room Reservation Request' form URL link: https://goo.gl/forms/SPcnmMzkKKDUC6rn2 .
 The 'Room Reservation Request' form an also be found by navigating to the CSEE department website → ‘Faculty Resources’ → ‘Forms, Department Links & Business Affairs’
@@ -373,7 +373,7 @@ The 'Room Reservation Request' form an also be found by navigating to the CSEE d
 
 -----------------
 
-SECTION 5: CSEE Undergraduate Programs
+# SECTION 5: CSEE Undergraduate Programs
 
 The CSEE department offers the following undergraduate programs in Computer Science and Computer Engineering:
 - Computer Science Major
@@ -384,23 +384,23 @@ The CSEE department offers the following undergraduate programs in Computer Scie
 
 The section below includes more descriptive details about each of these undergraduate program options.
 
-Computer Science Major:
+## Computer Science Major:
 Students pursuing a Bachelor’s of Science in Computer Science must complete the Major Requirements, as well the General Education Program (GEP) Requirements set up by the University. In addition to the major itself, the Computer Science degree offers four tracks: Artificial Intelligence and Machine Learning (AIML), Cybersecurity (CYBR), Data Science (DSCI) and Game Development (GDEV). Students pursuing a Computer Science degree may optionally choose to follow one of these four tracks. In that case, they have to also fulfill the specific track requirements for their chosen track.
 You can declare that you intend to follow a track by filling out the registrar’s Declaration of Major, Minor, and Certificate form and indicating the track (i.e., AIML, CYBR, DSCI, GDEV) you plan to pursue.
 Students can complete more than one track with the caveat that two courses in each track cannot be used towards any other tracks. Therefore, one track requires 4 courses. Two tracks require a minimum of 6 courses. Three tracks require a minimum of 9 courses.
 If you have declared that you are following a track and complete its requirements before graduating, a notation that you have completed it will appear on your transcript. There is no penalty for declaring that you intend to follow a track but failing to complete all of its requirements.
 
-Computer Science Minor:
+## Computer Science Minor:
 Students interested in pursuing a Minor in Computer Science must complete the Minor Requirements. Because of the similarities between the Computer Science and Computer Engineering programs, students cannot  major in Computer Engineering and minor in Computer Science.
 
-Combined BS/MS Program (Computer Science):
+## Combined BS/MS Program (Computer Science):
 Students who see Graduate School in their future can choose to enroll in the combined B.S./ M.S. program, which will allow them to speedily complete a B.S. in Computer Science and an M.S. in Computer Science.
 
-Computer Engineering Major:
+## Computer Engineering Major:
 Students pursuing a Bachelor’s of Science in Computer Engineering must complete 125 credits of required and elective courses. These requirements include the General Education Program requirements established by the University for the Bachelor of Science Degree. The Computer Engineering degree offers three tracks: Electronic Systems, Communications, and Cybersecurity. 
 The Electronic Systems track focuses on large electronic systems and networks. Students who specialize in this track will emerge with experience in VLSI (very large scale integrated) design and the design of programmable logic devices, including FPGAs (fully programmable gate arrays). The Communications track focuses on computer and electrical communications networks. Students who specialize in this track will emerge with experience in the electromagnetic and signal processing techniques that are needed to design these networks. The Cybersecurity track emphasizes security of computer systems, along with in depth design of computer hardware topics closely related to the Electronic Systems Track.
 
-Combined BS/MS Program (Computer Engineering):
+## Combined BS/MS Program (Computer Engineering):
 Students who see Graduate School in their future can choose to enroll in the combined B.S./ M.S. program, which will allow them to speedily complete a B.S. in Computer Engineering and an M.S. in Computer Engineering OR Electrical Engineering. 
 
 
@@ -409,7 +409,7 @@ If a student has questions about the CSEE Undergraduage Programs, that you do no
 
 -----------------
 
-SECTION 6: CSEE Graduate Programs
+# SECTION 6: CSEE Graduate Programs
 UMBC’s Department of Computer Science and Electrical Engineering (CSEE) offers certificate, M.S., MPS, and Ph.D. programs in Computer Science, Computer Engineering, Electrical Engineering, Cybersecurity (and Data Science).
 All of our programs are open to full, part-time, and non-degree seeking students. Part-time students are given more time to complete the milestones for their degree.
 
@@ -422,7 +422,7 @@ Our Specialty Areas:
 
 The section below includes more descriptive details about each of the graduate program options offered by the CSEE department. 
 
-COMPUTER SCIENCE GRADUATE PROGRAMS:
+## COMPUTER SCIENCE GRADUATE PROGRAMS:
 Students may pursue a M.S. or a Ph.D. program in Computer Science.
 
 Students pursuing a Masters of Science (M.S.) in Computer Science must choose between the thesis and non-thesis options. The thesis option requires the completion of 30 credits, including six credits of CMSC 799.  The thesis must be defended with an oral examination and approved by the student’s master’s thesis committee. The non-thesis option requires the completion of 33 credits.  All students must complete CMSC 641 Algorithms, one course chosen from the “system” area, and one course chosen from the “applications” area.  The degree must be completed within five years and students must maintain a minimum G.P.A. of 3.0.
@@ -446,7 +446,7 @@ Interested students should apply online through UMBC’s Graduate School Website
 
 ---
 
-COMPUTER ENGINEEIRNG GRADUATE PROGRAMS:
+## COMPUTER ENGINEEIRNG GRADUATE PROGRAMS:
 UMBC’s Computer Science and Electrical Engineering Department offers both M.S. and Ph.D. programs in Computer Engineering. Below you will find information on the Computer Engineering graduate program, and research areas in Electrical and Computer Engineering.
 
 Students pursuing a Masters of Science (M.S.) in Computer Engineering must choose either the thesis or non-thesis (with project) option—there is no course-only option. The thesis option requires the completion of 30 credit hours (including 6 credits of MS thesis research – CMPE 799). The non-thesis (with project) option requires the completion of 33 credits (including 3 credits of graduate project research – CMPE 698).  All students must complete CMSC 641 Algorithms, one course chosen from the “system” area, and one course chosen from the “applications” area.  The degree must be completed within five years.
@@ -478,7 +478,7 @@ Computer (and Electrical) Engineering Research Areas (and faculty highlights):
 
 ---
 
-ELECTRICAL ENGINEEIRNG GRADUATE PROGRAMS:
+## ELECTRICAL ENGINEEIRNG GRADUATE PROGRAMS:
 UMBC’s Computer Science and Electrical Engineering Department offers both M.S. and Ph.D. programs in Electrical Engineering.
 
 Students pursuing a Masters of Science (M.S.) in Electrical Engineering must choose either the thesis or non-thesis (with project) option—there is no course-only option. The thesis option requires the completion of 30 credit hours (including 6 credits of MS thesis research – CMPE 799). The non-thesis (with project) option requires the completion of 33 credits (including 3 credits of graduate project research – CMPE 698).
@@ -497,7 +497,7 @@ Apply online through UMBC’s Graduate School Website.
 
 ---
 
-CYBERSECURITY GRADUATE PROGRAMS:
+## CYBERSECURITY GRADUATE PROGRAMS:
 The Department of Computer Science and Electrical Engineering, offers both graduate certificate programs as well as a Master of Science (M.S.) degree in the field of cybersecurity.
 
 The ten-course Masters of Science (M.S.) Cybersecurity graduate program integrates both technical and non-technical courses in Cybersecurity to prepare Computer Science, Information Systems, and other professionals to fill management, analytical, investigative, operational, and/or technical leadership roles in the Cybersecurity profession. In order to gain a rigorous base of knowledge, students in the Cybersecurity master’s program must complete 10 courses (30 credits). Students are encouraged to tailor their coursework to their interests and career goals. All students must complete 18 credits through our 6 required Cybersecurity courses listed below (18 credits). The remaining 12 credits can be completed by choosing 4 of our elective Cybersecurity course.
@@ -514,7 +514,7 @@ Cybersecurity Operations: The operations courses are oriented towards students s
 
 ---
 
-DATA SCIENCE GRADUATE PROGRAMS:
+## DATA SCIENCE GRADUATE PROGRAMS:
 The Department of Computer Science and Electrical Engineering, offers both graduate certificate programs as well as a Master of Science (M.S.) degree in the field of data science.
 
 UMBC’s Master of Professional Studies (M.P.S.) in Data Science program prepares students from a wide range of disciplinary backgrounds for careers in data science. In the core courses, students will get a fundamental understanding of data science through classes that highlight machine learning, data analysis and data management. The core courses will also introduce students to ethical and legal implications surrounding data science. Beyond the core courses, students will take three courses in domain specific pathways developed in collaboration with academic departments across the university. Through these pathways, students will be able to utilize the skills and techniques they learned in the core courses within their own field or area of expertise.
@@ -524,7 +524,7 @@ UMBC also offers a Graduate Certificate in Data Science. The courses taught by e
 
 -----------------
 
-SECTION 7: Student organizations and activities
+# SECTION 7: Student organizations and activities
 UMBC offers a rich variety of organizations that offer students a chance to meet others with similar interests.
 The following are some groups that may be of interest to both undergraduate and graduate CSEE majors:
 - ACM: Association for Computing Machinary - Scientific Computing Society
@@ -545,7 +545,7 @@ The following are some groups that may be of interest to both undergraduate and 
 
 -----------------
 
-SECTION 8: CSEE Department Staff
+# SECTION 8: CSEE Department Staff
 Here is a list of the CSEE Department staff names, followed by their roles:
 - Yemisi Aina: Program Management Specialist
 - Rosie Bacon: Administrative Assistant
