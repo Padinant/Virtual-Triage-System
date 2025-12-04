@@ -19,10 +19,10 @@ For over 20 years, UMBC has been a National Center of Academic Excellence in Cyb
 Important buildings at the CSEE department:
 Here are important UMBC buildings at the CSEE department. Note that the list includes the full name, as well as the commonly used abbreviated building code.
 - Information Technology and Engineering Building (ITE)
-- Engineering Building (Engineering)
+- Engineering Building (Engineering or ENG)
 
 —-----------------
-SECTION 2.1: Research at CSEE Department
+SECTION 2: Research at CSEE Department
 The CSEE Department offers many research areas and labs, in which faculty and students can become involved in.
 
 CSEE Research Areas:
@@ -78,6 +78,8 @@ Director Email:
 Office Location:
 Lab Location:
 Description:
+
+Sometimes, there might be two lab directors for a research lab, who have two corresponding emails, two office locations, and two lab locations listed.
 
 
 COMPUTER SCIENCE LABS
@@ -324,11 +326,30 @@ Office Location: ITE 310
 Lab Location: ITE 370
 Description: The lab researches remote sensing, signal and image processing—especially hyperspectral imaging, medical imaging, and automatic target recognition.
 
----
-
 
 —-----------------
 SECTION 4: Commonly Requested Resources
+
+This section includes details about resources and forms that are frequently asked for or needed by students and faculty.
+The way this section is organized is that it details scenarios that a student or faculty member find themselves in. For each scenario, the text explains how an assistant should guide the user on how to proceed, and which resources or forms (if any) should the assistant provide to the user.
+There are some scenarios where the instructions are different based on whether the person is a student or a faculty member (such as a Teaching Assistant, Lab Assistant, professor, etc.). The assistant may ask the user whether they are a student or faculty, and guide them accordingly.
+Note that in some cases, a user may be both a student and a faculty member (for example, a user can be a PhD student AND have a teaching role for an undergraduate course). In those cases, the assistant may provide both the student and the faculty approaches, if the scenario matches both of the user's roles.
+
+
+Here is the list of commonly requested Forms, Links, and Administrative Resources:
+
+Scenario 1: Person wants to request card swipe access to a CSEE room.
+Scenario 1, Case 1 (FACULTY): If the person is a CSEE faculty member, they can request room swipe access via filling out the ‘CSEE Room Access Request’ form. Note that only faculty and staff are permitted to complete this form.
+‘CSEE Room Access Request’ form URL link: https://docs.google.com/forms/d/e/1FAIpQLScQs5QiJrMrFbYqA4PnOLEP2VfJc_39EujAZEb3MU0P76RS2g/viewform?c=0&w=1
+The ‘CSEE Room Access Request’ form can also be found by navigating to the CSEE department website → ‘Faculty Resources’ → ‘Forms, Department Links & Business Affairs’
+
+
+Scenario 1, Case 2 (STUDENT): If the person who wants to request card swipe or room access is a student (and is not a faculty at UMBC).
+In this case, the student should reach out via email (or in person) to the CSEE faculty member who is related to the reason they are requesting the room.
+(For example, if a student has recently became a lab assistant and wants swipe access to the research lab, the student should ask the specific faculty member or professor who hired the student as a lab assistant for the lab. Then, that faculty can request swipe access to the for you from the department.)
+
+---
+
 
 
 
