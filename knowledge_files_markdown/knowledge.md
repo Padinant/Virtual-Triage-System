@@ -42,37 +42,37 @@ The CSEE Department offers many research areas and labs, in which faculty and st
 Below is a list of Computer Science and Electrical Engineering research areas offered by UMBC. Note that each entry also lists the topics connected to that research area, and the faculty members who are involved in research in that field.
 If a student expresses interest in a certain research area or topic, you can draw upon this list to make them recommendations on who they can contact. If a student expresses interest in a certain CSEE faculty researcher, you can use this list to let them know about the research that professor might be involved in. Note that just because a faculty is doing research in a certain research area, it does not mean that they have done research on every single topic under that broad research area.
 
-Research Area: Communications and Photonics
-Research Topics: Cognitive Radio, Nonlinear and Integrated Optics, Optical Fibers, Wireless Communications and Networking
-Faculty: Gary Carter, Fow-Sen Choa, Yiwen Hu, Anthony Johnson, Seung-Jun Kim, Curtis Menyuk, Dmitri Perkins, Ergun Simsek, Li Yan, Mohamed Younis
+- Research Area: Communications and Photonics
+- Research Topics: Cognitive Radio, Nonlinear and Integrated Optics, Optical Fibers, Wireless Communications and Networking
+- Faculty: Gary Carter, Fow-Sen Choa, Yiwen Hu, Anthony Johnson, Seung-Jun Kim, Curtis Menyuk, Dmitri Perkins, Ergun Simsek, Li Yan, Mohamed Younis
 
-Research Area: Computer Architecture and Hardware Systems
-Research Topics: Hardware Security, Analog/ Mixed-Mode/ Digital IC Design, Multicore Systems, Neuromorphic Computing, VLSI Design/Test
-Faculty: Riadul Islam, Naghmeh Karimi, Mehdi Kiani, Chenchen Liu, Dhananjay Phatak, Ryan Robucci
+- Research Area: Computer Architecture and Hardware Systems
+- Research Topics: Hardware Security, Analog/ Mixed-Mode/ Digital IC Design, Multicore Systems, Neuromorphic Computing, VLSI Design/Test
+- Faculty: Riadul Islam, Naghmeh Karimi, Mehdi Kiani, Chenchen Liu, Dhananjay Phatak, Ryan Robucci
 
-Research Area: Cyber-Physical Systems
-Research Topics: IoT, Networking, Network Protocols and Management, Network Security, Secure Communication, Smart Power Grids
-Faculty: Nilanjan Banerjee, Riadul Islam, Anupam Joshi, Naghmeh Karimi, Seung-Jun Kim, Dong Li, Dmitri Perkins, Ryan Robucci, Deepinder Sidhu, Mohamed Younis, Roberto Yus
+- Research Area: Cyber-Physical Systems
+- Research Topics: IoT, Networking, Network Protocols and Management, Network Security, Secure Communication, Smart Power Grids
+- Faculty: Nilanjan Banerjee, Riadul Islam, Anupam Joshi, Naghmeh Karimi, Seung-Jun Kim, Dong Li, Dmitri Perkins, Ryan Robucci, Deepinder Sidhu, Mohamed Younis, Roberto Yus
 
-Research Area: Graphics and Visualization
-Research Topics: Character Animation, Computer Graphics, Scientific/Data Visualization
-Faculty: Adam Bargteil, Don Engel, Mark Olano, Rebecca Williams
+- Research Area: Graphics and Visualization
+- Research Topics: Character Animation, Computer Graphics, Scientific/Data Visualization
+- Faculty: Adam Bargteil, Don Engel, Mark Olano, Rebecca Williams
 
-Research Area: Robotics
-Research Topics: Human–Robot Interaction, Assistive and Social Robotics, Neuro-Robotics, Robot Perception and Learning, Language and Vision Interfaces, Motor Planning and Manipulation, and Human-in-the-Loop Adaptive Systems
-Faculty: Tulay Adali, Rajasekhar Anguluri, Fow-Sen Choa, Don Engel, Frank Ferraro, Tim Finin, Tejas Gokhale, Seung-Jun Kim, Dong Li, Lara J. Martin, Cynthia Matuszek, Tim Oates, Ramana Vinjamuri
+- Research Area: Robotics
+- Research Topics: Human–Robot Interaction, Assistive and Social Robotics, Neuro-Robotics, Robot Perception and Learning, Language and Vision Interfaces, Motor Planning and Manipulation, and Human-in-the-Loop Adaptive Systems
+- Faculty: Tulay Adali, Rajasekhar Anguluri, Fow-Sen Choa, Don Engel, Frank Ferraro, Tim Finin, Tejas Gokhale, Seung-Jun Kim, Dong Li, Lara J. Martin, Cynthia Matuszek, Tim Oates, Ramana Vinjamuri
 
-Research Area: AI, Machine Learning, and Signal Processing
-Research Topics: AI, Data Analytics, Knowledge Representation, Machine Learning, Matrix and Tensor Factorizations, Natural Language Processing, Computer Vision, Robotics, Statistical Signal Processing
-Faculty: Tulay Adali, Justin Brooks, Chein-I Chang, Keke Chen, Sanorita Dey, Don Engel,  Frank Ferraro, Tim Finin, Tejas Gokhale, Riadul Islam, Manas Gaur, Konstantinos Kalpakis, Seung-Jun Kim, Dong Li, Lara Martin, Cynthia Matuszek, Charles Nicholas, Tim Oates, Ramana Vinjamuri, Rebecca Williams
+- Research Area: AI, Machine Learning, and Signal Processing
+- Research Topics: AI, Data Analytics, Knowledge Representation, Machine Learning, Matrix and Tensor Factorizations, Natural Language Processing, Computer Vision, Robotics, Statistical Signal Processing
+- Faculty: Tulay Adali, Justin Brooks, Chein-I Chang, Keke Chen, Sanorita Dey, Don Engel,  Frank Ferraro, Tim Finin, Tejas Gokhale, Riadul Islam, Manas Gaur, Konstantinos Kalpakis, Seung-Jun Kim, Dong Li, Lara Martin, Cynthia Matuszek, Charles Nicholas, Tim Oates, Ramana Vinjamuri, Rebecca Williams
 
-Research Area: Security and Privacy
-Research Topics: Computer Security, Cryptography, Cybersecurity, Malware Analysis, Protocols, Secure Voting
-Faculty: Nilanjan Banerjee, Keke Chen, Tim Finin, Richard Forno, Yiwen Hu, Anupam Joshi, Naghmeh Karimi, Charles Nicholas, Dhananjay Phatak, Alan Sherman, Deepinder Sidhu, Mohamed Younis, Roberto Yus
+- Research Area: Security and Privacy
+- Research Topics: Computer Security, Cryptography, Cybersecurity, Malware Analysis, Protocols, Secure Voting
+- Faculty: Nilanjan Banerjee, Keke Chen, Tim Finin, Richard Forno, Yiwen Hu, Anupam Joshi, Naghmeh Karimi, Charles Nicholas, Dhananjay Phatak, Alan Sherman, Deepinder Sidhu, Mohamed Younis, Roberto Yus
 
-Research Area: Quantum Computing/Theory and Algorithms
-Research Topics: Computational Complexity Theory, Quantum Computation, Quantum Information, Scientific and Engineering Computation
-Faculty: Richard Chang, Milt Halem, Sam Lomonaco, Curtis Menyuk, Yaacov Yesha
+- Research Area: Quantum Computing/Theory and Algorithms
+- Research Topics: Computational Complexity Theory, Quantum Computation, Quantum Information, Scientific and Engineering Computation
+- Faculty: Richard Chang, Milt Halem, Sam Lomonaco, Curtis Menyuk, Yaacov Yesha
 
 You can learn more about each of the CSEE Department research labs, in the next section.
 
@@ -85,260 +85,260 @@ The CSEE Department includes many research labs, in the three broad categories o
 Here is a list of these labs, their corresponding office and lab location code, the lab director(s) and director emails, as well as a description of what the lab does. If a student or faculty member is interest in a certain research field, you may draw upon the following list of labs to make recommendations about labs that the person might enjoy looking into, and how to contact such labs. Note that the lab location is the location of the actual lab, while the office location often represents the office of the lab director.
 
 Note that the lab information for each lab is formated in this way:
-Lab Name:
-Lab Website:
-Lab Director:
-Director Email:
-Office Location:
-Lab Location:
-Description:
+- Lab Name:
+- Lab Website:
+- Lab Director:
+- Director Email:
+- Office Location:
+- Lab Location:
+- Description:
 
 Sometimes, there might be two lab directors for a research lab, who have two corresponding emails, two office locations, and two lab locations listed.
 
 
 ## COMPUTER SCIENCE LABS
 
-Lab Name: CDL – Cyber Defense Lab 
-Lab Website: http://www.cisa.umbc.edu/ 
-Lab Director: Dr. Alan T. Sherman Director 
-Email: sherman@umbc.edu 
-Office Location: ITE 224 
-Lab Location: ITE 228 
-Description: The UMBC Cyber Defense Lab (CDL) is a place where students, faculty, and affiliates carry out cybersecurity research. Current projects include high-integrity voting, protocol analysis, and cybersecurity education.
+- Lab Name: CDL – Cyber Defense Lab 
+- Lab Website: http://www.cisa.umbc.edu/ 
+- Lab Director: Dr. Alan T. Sherman Director 
+- Director Email: sherman@umbc.edu 
+- Office Location: ITE 224 
+- Lab Location: ITE 228 
+- Description: The UMBC Cyber Defense Lab (CDL) is a place where students, faculty, and affiliates carry out cybersecurity research. Current projects include high-integrity voting, protocol analysis, and cybersecurity education.
 
 ---
 
-Lab Name: CORAL – Cognition Robotics and Learning Lab
-Lab Website: http://coral-lab.umbc.edu
-Lab Director: Dr. Tim Oates 
-Director Email: oates@umbc.edu
-Office Location: ITE 336 
-Lab Location: ITE 361 
-Description: Research in topics related to machine and human intelligence, including machine vision, natural language processing, and reinforcement learning. The long-term goal is to understand how machines can match the human developmental trajectory from sensors to symbols to semantics. Current projects include sample-efficient reinforcement learning for the real world, safe artificial intelligence, graph neural networks for anomaly detection in learned models, and multi-modal learning from images and text. 
+- Lab Name: CORAL – Cognition Robotics and Learning Lab
+- Lab Website: http://coral-lab.umbc.edu
+- Lab Director: Dr. Tim Oates 
+- Director Email: oates@umbc.edu
+- Office Location: ITE 336 
+- Lab Location: ITE 361 
+- Description: Research in topics related to machine and human intelligence, including machine vision, natural language processing, and reinforcement learning. The long-term goal is to understand how machines can match the human developmental trajectory from sensors to symbols to semantics. Current projects include sample-efficient reinforcement learning for the real world, safe artificial intelligence, graph neural networks for anomaly detection in learned models, and multi-modal learning from images and text. 
 
 ---
 
-Lab Name: CVG – Cognitive Vision Group
-Lab Website: https://www.tejasgokhale.com/
-Lab Director: Dr. Tejas Gokhale
-Director Email: gokhale@umbc.edu
-Office Location: ITE 214
-Lab Location: ITE 368
-Description: The Cognitive Vision Group works on the conceptual characterization of visual scenes, broadly in the areas of computational perception, learning, and reasoning. Areas of innovation include visual understanding in the absence of complete information; adapting and generalizing to new concepts, contexts, domains, environments, and tasks; extrapolation across space and time; interpreting and predicting behavior; acquisition and communication of visual knowledge from/with/to other agents and humans.
+- Lab Name: CVG – Cognitive Vision Group
+- Lab Website: https://www.tejasgokhale.com/
+- Lab Director: Dr. Tejas Gokhale
+- Director Email: gokhale@umbc.edu
+- Office Location: ITE 214
+- Lab Location: ITE 368
+- Description: The Cognitive Vision Group works on the conceptual characterization of visual scenes, broadly in the areas of computational perception, learning, and reasoning. Areas of innovation include visual understanding in the absence of complete information; adapting and generalizing to new concepts, contexts, domains, environments, and tasks; extrapolation across space and time; interpreting and predicting behavior; acquisition and communication of visual knowledge from/with/to other agents and humans.
 
 ---
 
-Lab Name: DAMS – Data Management and Semantics
-Lab Website: https://damslabumbc.github.io/
-Lab Director: Dr. Roberto Yus
-Director Email: ryus@umbc.edu
-Office Location: ITE 342
-Lab Location: ITE 230
-Description: The UMBC DAMS Research Group focuses on four main areas of research: Data Management, AI, Privacy, and the Internet of Things. The group addresses research challenges in bridging the gap between raw data (e.g., data captured by sensors) and semantically meaningful data understandable by people (e.g., inferences from sensor observations). The lab incorporates semantics and privacy-awareness into data management to design smarter, more responsible systems. It also develops prototypes and deploys real-world systems based on research outcomes.
+- Lab Name: DAMS – Data Management and Semantics
+- Lab Website: https://damslabumbc.github.io/
+- Lab Director: Dr. Roberto Yus
+- Director Email: ryus@umbc.edu
+- Office Location: ITE 342
+- Lab Location: ITE 230
+- Description: The UMBC DAMS Research Group focuses on four main areas of research: Data Management, AI, Privacy, and the Internet of Things. The group addresses research challenges in bridging the gap between raw data (e.g., data captured by sensors) and semantically meaningful data understandable by people (e.g., inferences from sensor observations). The lab incorporates semantics and privacy-awareness into data management to design smarter, more responsible systems. It also develops prototypes and deploys real-world systems based on research outcomes.
 
 ---
 
-Lab Name: DREAM – Discovery, Research, and Experimental Analysis of Malware Lab
-Lab Website: [NOT LISTED]
-Lab Director: Dr. Charles Nicholas
-Director Email: nicholas@umbc.edu
-Office Location: ITE 356
-Lab Location: ITE 366
-Description: The DREAM lab looks at ways of applying machine learning to cybersecurity, especially malware analysis. Recent projects involve using tensor decomposition and innovative measures of string similarity to solve practical problems. The lab is also home to UMBC’s active cyberdefense competition team, the ‘CyberDawgs’.
+- Lab Name: DREAM – Discovery, Research, and Experimental Analysis of Malware Lab
+- Lab Website: [NOT LISTED]
+- Lab Director: Dr. Charles Nicholas
+- Director Email: nicholas@umbc.edu
+- Office Location: ITE 356
+- Lab Location: ITE 366
+- Description: The DREAM lab looks at ways of applying machine learning to cybersecurity, especially malware analysis. Recent projects involve using tensor decomposition and innovative measures of string similarity to solve practical problems. The lab is also home to UMBC’s active cyberdefense competition team, the ‘CyberDawgs’.
 
 ---
 
-Lab Name: Ebiquity Research Laboratory
-Lab Website: http://ebiquity.umbc.edu
-Lab Directors: Dr. Anupam Joshi, Dr. Tim Finin
-Director Emails: joshi@umbc.edu; fininumbc.edu
-Office Location: ITE 328; ITE 329
-Lab Location: ITE 332; ITE 338
-Description: This lab builds intelligent systems in open, heterogeneous, dynamic, distributed environments. Research topics include the semantic web, information extraction, mobile computing, privacy, and security.
+- Lab Name: Ebiquity Research Laboratory
+- Lab Website: http://ebiquity.umbc.edu
+- Lab Directors: Dr. Anupam Joshi, Dr. Tim Finin
+- Director Emails: joshi@umbc.edu; fininumbc.edu
+- Office Location: ITE 328; ITE 329
+- Lab Location: ITE 332; ITE 338
+- Description: This lab builds intelligent systems in open, heterogeneous, dynamic, distributed environments. Research topics include the semantic web, information extraction, mobile computing, privacy, and security.
 
 ---
 
-Lab Name: ESNET – Embedded Systems and Networks Laboratory
-Lab Website: http://esnet.cs.umbc.edu
-Lab Director: Dr. Mohamed Younis
-Director Email: younis@cs.umbc.edu
-Office Location: ITE 325 G
-Lab Location: ITE 391
-Description: The lab researches design and management of wireless sensor networks, network architecture and protocols, underwater communication, MAC and routing protocols for ad-hoc and sensor networks, energy-aware system design, secure communication, fault tolerance, topology management, and applications of sensor and actuator networks.
+- Lab Name: ESNET – Embedded Systems and Networks Laboratory
+- Lab Website: http://esnet.cs.umbc.edu
+- Lab Director: Dr. Mohamed Younis
+- Director Email: younis@cs.umbc.edu
+- Office Location: ITE 325 G
+- Lab Location: ITE 391
+- Description: The lab researches design and management of wireless sensor networks, network architecture and protocols, underwater communication, MAC and routing protocols for ad-hoc and sensor networks, energy-aware system design, secure communication, fault tolerance, topology management, and applications of sensor and actuator networks.
 
 ---
 
-Lab Name: FSI – Future Sensing and Interaction Lab
-Lab Website: https://leetton.github.io
-Lab Director: Dr. Dong Li
-Director Email: dli@umbc.edu
-Office Location: ITE 355
-Lab Location: ITE 230
-Description: The Future Sensing and Interaction Lab is dedicated to advancing mobile, wearable, and ubiquitous computing. Its core mission is to design and develop innovative sensing systems addressing societal challenges, particularly in healthcare, human-computer interaction, and environmental sustainability. The lab’s research integrates expertise in mobile computing, wireless and wearable sensing, multi-modal sensing, smart health technologies, and AI for IoT, aiming to create real-world impactful solutions.
+- Lab Name: FSI – Future Sensing and Interaction Lab
+- Lab Website: https://leetton.github.io
+- Lab Director: Dr. Dong Li
+- Director Email: dli@umbc.edu
+- Office Location: ITE 355
+- Lab Location: ITE 230
+- Description: The Future Sensing and Interaction Lab is dedicated to advancing mobile, wearable, and ubiquitous computing. Its core mission is to design and develop innovative sensing systems addressing societal challenges, particularly in healthcare, human-computer interaction, and environmental sustainability. The lab’s research integrates expertise in mobile computing, wireless and wearable sensing, multi-modal sensing, smart health technologies, and AI for IoT, aiming to create real-world impactful solutions.
 
 ---
 
-Lab Name: IRAL – Interactive Robotics and Language Laboratory
-Lab Website: http://iral.cs.umbc.edu
-Lab Director: Dr. Cynthia Matuszek
-Director Email: cmat@umbc.edu
-Office Location: ITE 331
-Lab Location: ITE 343
-Description: The lab conducts research in robotics, human-robot interaction, and grounded language understanding. It combines robotics, natural language processing, and statistical learning approaches to build advanced intelligent agents capable of robust interaction with non-specialists.
+- Lab Name: IRAL – Interactive Robotics and Language Laboratory
+- Lab Website: http://iral.cs.umbc.edu
+- Lab Director: Dr. Cynthia Matuszek
+- Director Email: cmat@umbc.edu
+- Office Location: ITE 331
+- Lab Location: ITE 343
+- Description: The lab conducts research in robotics, human-robot interaction, and grounded language understanding. It combines robotics, natural language processing, and statistical learning approaches to build advanced intelligent agents capable of robust interaction with non-specialists.
 
 ---
 
-Lab Name: KAI² – Knowledge-infused AI and Inference
-Lab Website: https://manasgaur.github.io
-Lab Director: Dr. Manas Gaur
-Director Email: manas@umbc.edu
-Office Location: ITE 337
-Lab Location: ITE 367
-Description: KAI² integrates AI with human knowledge representable in different forms—structural knowledge graphs, lexicons, process knowledge, commonsense in unstructured content—to design human-centered systems and applications in sensitive domains. The lab aims to build next-generation neuro-symbolic AI that combines data and knowledge to yield explainable, interpretable, and safe systems.
+- Lab Name: KAI² – Knowledge-infused AI and Inference
+- Lab Website: https://manasgaur.github.io
+- Lab Director: Dr. Manas Gaur
+- Director Email: manas@umbc.edu
+- Office Location: ITE 337
+- Lab Location: ITE 367
+- Description: KAI² integrates AI with human knowledge representable in different forms—structural knowledge graphs, lexicons, process knowledge, commonsense in unstructured content—to design human-centered systems and applications in sensitive domains. The lab aims to build next-generation neuro-symbolic AI that combines data and knowledge to yield explainable, interpretable, and safe systems.
 
 ---
 
-Lab Name: LARA Lab
-Lab Website: http://laramartin.net
-Lab Director: Dr. Lara J. Martin
-Director Email: laramar@umbc.edu
-Office Location: ITE 216
-Lab Location: ITE 368
-Description: The LARA Lab researches use and improvement of language tools to create better, human-centered AI. It draws from natural language processing (NLP), cognitive science, and AI to build agents that can tell stories, play games (e.g. Dungeons & Dragons), speak expressively, and support human-human communication and accessibility.
+- Lab Name: LARA Lab
+- Lab Website: http://laramartin.net
+- Lab Director: Dr. Lara J. Martin
+- Director Email: laramar@umbc.edu
+- Office Location: ITE 216
+- Lab Location: ITE 368
+- Description: The LARA Lab researches use and improvement of language tools to create better, human-centered AI. It draws from natural language processing (NLP), cognitive science, and AI to build agents that can tell stories, play games (e.g. Dungeons & Dragons), speak expressively, and support human-human communication and accessibility.
 
 ---
 
-Lab Name: Social Intelligence Lab
-Lab Website: http://userpages.cs.umbc.edu
-Lab Director: Dr. Sanorita Dey
-Director Email: sanorita@umbc.edu
-Office Location: ITE 357
-Lab Location: ITE 339
-Description: The lab explores a variety of social-computing topics, aiming to understand how people engage with complex systems and to design user-centric systems and platforms that address audience perceptions. Current work includes accessible health monitoring, equitable and sustainable STEM education, and applying large language models to foster ethical and responsible social computing. Students publish their research in conferences such as CHI, CSCW, GROUP, IUI, and iTICSE.
+- Lab Name: Social Intelligence Lab
+- Lab Website: http://userpages.cs.umbc.edu
+- Lab Director: Dr. Sanorita Dey
+- Director Email: sanorita@umbc.edu
+- Office Location: ITE 357
+- Lab Location: ITE 339
+- Description: The lab explores a variety of social-computing topics, aiming to understand how people engage with complex systems and to design user-centric systems and platforms that address audience perceptions. Current work includes accessible health monitoring, equitable and sustainable STEM education, and applying large language models to foster ethical and responsible social computing. Students publish their research in conferences such as CHI, CSCW, GROUP, IUI, and iTICSE.
 
 ---
 
-Lab Name: TAIC – Trustworthy and Intelligent Computing
-Lab Website: https://sites.google.com
-Lab Director: Keke Chen
-Director Email: kekechen@umbc.edu
-Office Location: ITE 360
-Lab Location: ITE 345
-Description: The TAIC lab studies security and privacy issues in AI and collaborative systems, confidential computing, and applications of AI in scientific domains.
+- Lab Name: TAIC – Trustworthy and Intelligent Computing
+- Lab Website: https://sites.google.com
+- Lab Director: Keke Chen
+- Director Email: kekechen@umbc.edu
+- Office Location: ITE 360
+- Lab Location: ITE 345
+- Description: The TAIC lab studies security and privacy issues in AI and collaborative systems, confidential computing, and applications of AI in scientific domains.
 
 ---
 
-Lab Name: VANGOGH – Visualization, Animation, Non-Photorealistic Graphics, Object Modeling, and Graphics Hardware
-Lab Website: http://vangogh.umbc.edu
-Lab Directors: Dr. Adam Bargteil, Dr. Marc Olano
-Director Emails: adamb@umbc.edu; olano@umbc.edu
-Office Location: ITE 341; ITE 354
-Lab Location: ITE 365; ITE 352, 365
-Description: The VANGOGH lab conducts research in computer graphics and animation. Computer graphics research focuses on real-time approaches using graphics hardware, especially for visual appearance, data visualization, and techniques relevant to computer games. Animation research focuses on natural phenomena using physics-based techniques, numerical methods, and machine learning.
+- Lab Name: VANGOGH – Visualization, Animation, Non-Photorealistic Graphics, Object Modeling, and Graphics Hardware
+- Lab Website: http://vangogh.umbc.edu
+- Lab Directors: Dr. Adam Bargteil, Dr. Marc Olano
+- Director Emails: adamb@umbc.edu; olano@umbc.edu
+- Office Location: ITE 341; ITE 354
+- Lab Location: ITE 365; ITE 352, 365
+- Description: The VANGOGH lab conducts research in computer graphics and animation. Computer graphics research focuses on real-time approaches using graphics hardware, especially for visual appearance, data visualization, and techniques relevant to computer games. Animation research focuses on natural phenomena using physics-based techniques, numerical methods, and machine learning.
 
 ---
 
-Lab Name: Vinjamuri Lab
-Lab Website: http://vinjamurilab.cs.umbc.edu
-Lab Director: Dr. Ramana Vinjamuri
-Director Email: rvinjam1@umbc.edu
-Office Location: ITE 301
-Lab Location: ITE 376
-Description: The lab studies Brain-Machine Interfaces (BMIs) that control upper-limb prostheses. In particular, research focuses on how the brain controls complex hand movements: extending BMI control from 7-degree-of-freedom arms to the ~30-degree-of-freedom human hand. The lab includes a mix of graduate, undergraduate, and high-school students as well as industry collaborators. Its outputs include multiple patents, publications, and conference presentations; the lab has earned several grants, awards, and recognitions.
+- Lab Name: Vinjamuri Lab
+- Lab Website: http://vinjamurilab.cs.umbc.edu
+- Lab Director: Dr. Ramana Vinjamuri
+- Director Email: rvinjam1@umbc.edu
+- Office Location: ITE 301
+- Lab Location: ITE 376
+- Description: The lab studies Brain-Machine Interfaces (BMIs) that control upper-limb prostheses. In particular, research focuses on how the brain controls complex hand movements: extending BMI control from 7-degree-of-freedom arms to the ~30-degree-of-freedom human hand. The lab includes a mix of graduate, undergraduate, and high-school students as well as industry collaborators. Its outputs include multiple patents, publications, and conference presentations; the lab has earned several grants, awards, and recognitions.
 
 ---
 
 ## COMPUTER ENGINEERING LABS
 
-Lab Name: ECLIPSE Cluster
-Lab Website: http://eclipse.umbc.edu
-Lab Directors: Dr. Nilanjan Banerjee, Dr. Ryan Robucci
-Director Emails: nilanb@umbc.edu, robucci@umbc.edu
-Office Location: ITE 362; ITE 319
-Lab Location: ITE 351; ITE 317
-Description: The ECLIPSE cluster comprises groups with shared laboratories, projects, and students. It includes the Mobile, Pervasive, & Sensor Systems Laboratory (led by Dr. Banerjee) and the Covail Analog & Digital Systems Research Laboratory (led by Dr. Robucci).
+- Lab Name: ECLIPSE Cluster
+- Lab Website: http://eclipse.umbc.edu
+- Lab Directors: Dr. Nilanjan Banerjee, Dr. Ryan Robucci
+- Director Emails: nilanb@umbc.edu, robucci@umbc.edu
+- Office Location: ITE 362; ITE 319
+- Lab Location: ITE 351; ITE 317
+- Description: The ECLIPSE cluster comprises groups with shared laboratories, projects, and students. It includes the Mobile, Pervasive, & Sensor Systems Laboratory (led by Dr. Banerjee) and the Covail Analog & Digital Systems Research Laboratory (led by Dr. Robucci).
 
 ---
 
-Lab Name: ESNET – Embedded Systems and Networks Laboratory
-Lab Website: http://esnet.cs.umbc.edu
-Lab Director: Dr. Mohamed Younis
-Director Email: younis@cs.umbc.edu
-Office Location: ITE 325 G
-Lab Location: ITE 391
-Description: The lab researches design and management of wireless sensor networks, network architecture and protocols, underwater communication, MAC and routing protocols for ad-hoc and sensor networks, energy-aware system design, secure communication, fault tolerance, topology management, and applications of sensor and actuator networks.
+- Lab Name: ESNET – Embedded Systems and Networks Laboratory
+- Lab Website: http://esnet.cs.umbc.edu
+- Lab Director: Dr. Mohamed Younis
+- Director Email: younis@cs.umbc.edu
+- Office Location: ITE 325 G
+- Lab Location: ITE 391
+- Description: The lab researches design and management of wireless sensor networks, network architecture and protocols, underwater communication, MAC and routing protocols for ad-hoc and sensor networks, energy-aware system design, secure communication, fault tolerance, topology management, and applications of sensor and actuator networks.
 
 ---
 
-Lab Name: SECRETS – SECure, REliable, and Trusted Systems
-Lab Website: http://userpages.cs.umbc.edu
-Lab Director: Dr. Naghmeh Karimi
-Director Email: nkarimi@umbc.edu
-Office Location: ITE 314
-Lab Location: ITE 210
-Description: The lab’s focus is on design, security, trustworthiness, reliability, and testability of electronic chips (digital circuits). Research includes hardware security, design-for-trust, fault tolerance, design-for-testability, machine learning for security applications, security of ML accelerators, and design of VLSI circuits. Additionally, the lab works on IoT data integrity, lightweight authentication for wearables or implanted devices, and secure data transmission in healthcare contexts.
+- Lab Name: SECRETS – SECure, REliable, and Trusted Systems
+- Lab Website: http://userpages.cs.umbc.edu
+- Lab Director: Dr. Naghmeh Karimi
+- Director Email: nkarimi@umbc.edu
+- Office Location: ITE 314
+- Lab Location: ITE 210
+- Description: The lab’s focus is on design, security, trustworthiness, reliability, and testability of electronic chips (digital circuits). Research includes hardware security, design-for-trust, fault tolerance, design-for-testability, machine learning for security applications, security of ML accelerators, and design of VLSI circuits. Additionally, the lab works on IoT data integrity, lightweight authentication for wearables or implanted devices, and secure data transmission in healthcare contexts.
 
 ---
 
-Lab Name: VLSI-SOC Group
-Lab Website: https://sites.google.com
-Lab Director: Dr. Riadul Islam
-Director Email: riaduli@umbc.edu
-Office Location: ITE 316
-Lab Location: ITE 313
-Description: The group researches electronic design and automation, brain-inspired computing, neural network architecture exploration, autonomous driving and CAN security, digital/analog/mixed-signal CMOS ICs/SOCs for various applications, verification and testing techniques, CAD tools for microprocessors and FPGAs, and interdisciplinary projects.
+- Lab Name: VLSI-SOC Group
+- Lab Website: https://sites.google.com
+- Lab Director: Dr. Riadul Islam
+- Director Email: riaduli@umbc.edu
+- Office Location: ITE 316
+- Lab Location: ITE 313
+- Description: The group researches electronic design and automation, brain-inspired computing, neural network architecture exploration, autonomous driving and CAN security, digital/analog/mixed-signal CMOS ICs/SOCs for various applications, verification and testing techniques, CAD tools for microprocessors and FPGAs, and interdisciplinary projects.
 
 ---
 
 ## ELECTRICAL ENGINEERING LABS
 
-Lab Name: CASPR – Center for Advanced Studies in Photonics Research
-Lab Website: https://www.umbc.edu
-Lab Director: Dr. Anthony Johnson
-Director Email: amj@umbc.edu
-Office Location: TRC 029
-Lab Location: TRC 027
-Description: The center engages in advanced photonics research and technology development in optical communications, optical sensing and devices, nanophotonics, biophotonics, and quantum optics.
+- Lab Name: CASPR – Center for Advanced Studies in Photonics Research
+- Lab Website: https://www.umbc.edu
+- Lab Director: Dr. Anthony Johnson
+- Director Email: amj@umbc.edu
+- Office Location: TRC 029
+- Lab Location: TRC 027
+- Description: The center engages in advanced photonics research and technology development in optical communications, optical sensing and devices, nanophotonics, biophotonics, and quantum optics.
 
 ---
 
-Lab Name: Choa’s Lab
-Lab Website: http://blogs.cs.umbc.edu
-Lab Director: Dr. Fow-Sen Choa
-Director Email: choa@umbc.edu
-Office Location: ITE 303; TRC 274
-Lab Location: TRC 018, 151, 153, 155, 156, 159, 291, 292, 293
-Description: This lab develops novel transcranial magnetic stimulation coils for multisite brain stimulations, extracts brain signals using EEG in designed experiments, studies brain dynamics and neural disorders via fMRI data analysis, and builds human-level intelligent systems through neural-network architecture design and modeling. It also researches photonic and nano-materials and devices (e.g., single-photon detectors, tunable lasers, detectors, mid-IR devices, meta-materials), neuromorphic and neural computing devices for AI chips, including design and fabrication.
+- Lab Name: Choa’s Lab
+- Lab Website: http://blogs.cs.umbc.edu
+- Lab Director: Dr. Fow-Sen Choa
+- Director Email: choa@umbc.edu
+- Office Location: ITE 303; TRC 274
+- Lab Location: TRC 018, 151, 153, 155, 156, 159, 291, 292, 293
+- Description: This lab develops novel transcranial magnetic stimulation coils for multisite brain stimulations, extracts brain signals using EEG in designed experiments, studies brain dynamics and neural disorders via fMRI data analysis, and builds human-level intelligent systems through neural-network architecture design and modeling. It also researches photonic and nano-materials and devices (e.g., single-photon detectors, tunable lasers, detectors, mid-IR devices, meta-materials), neuromorphic and neural computing devices for AI chips, including design and fabrication.
 
 ---
 
-Lab Name: Computational Photonics Laboratory
-Lab Website: http://www.photonics.umbc.edu
-Lab Directors: Dr. Curtis Menyuk, Dr. Ergun Simsek (Assistant Director)
-Director Emails: menyuk@umbc.edu; simsek@umbc.edu
-Office Location: ITE 304; ITE 325 K
-Lab Location: TRC 200, 201, 202, 203, 204, 205; also TRC 201 B for Assistant Director.
-Description: The lab performs computational and theoretical studies of nonlinear optics, RF photonics, and frequency combs. Research covers nonlinear effects in optical fibers (e.g. soliton generation, supercontinuum generation, four-wave mixing), frequency comb generation in fiber lasers and microresonators, and noise processes that limit performance in photonic systems. It also studies photodetectors, sensors, "motheye surfaces," and other components relevant to photonic transmission, and uses machine learning to optimize design and performance of RF-photonic devices and frequency comb systems.
+- Lab Name: Computational Photonics Laboratory
+- Lab Website: http://www.photonics.umbc.edu
+- Lab Directors: Dr. Curtis Menyuk, Dr. Ergun Simsek (Assistant Director)
+- Director Emails: menyuk@umbc.edu; simsek@umbc.edu
+- Office Location: ITE 304; ITE 325 K
+- Lab Location: TRC 200, 201, 202, 203, 204, 205; also TRC 201 B for Assistant Director.
+- Description: The lab performs computational and theoretical studies of nonlinear optics, RF photonics, and frequency combs. Research covers nonlinear effects in optical fibers (e.g. soliton generation, supercontinuum generation, four-wave mixing), frequency comb generation in fiber lasers and microresonators, and noise processes that limit performance in photonic systems. It also studies photodetectors, sensors, "motheye surfaces," and other components relevant to photonic transmission, and uses machine learning to optimize design and performance of RF-photonic devices and frequency comb systems.
 
 ---
 
-Lab Name: MLSP-Lab – Machine Learning for Signal Processing Laboratory
-Lab Website: http://mlsp.umbc.edu
-Lab Director: Dr. Tulay Adali
-Director Email: adali@umbc.edu
-Office Location: ITE 324
-Lab Location: ITE 363
-Description: The lab develops theory and tools for processing signals arising in a wide array of applications that challenge traditional signal-processing techniques. It uses statistical and adaptive signal-processing methods combined with machine learning to address these challenges, with a focus on applications such as medical image analysis and data fusion.
+- Lab Name: MLSP-Lab – Machine Learning for Signal Processing Laboratory
+- Lab Website: http://mlsp.umbc.edu
+- Lab Director: Dr. Tulay Adali
+- Director Email: adali@umbc.edu
+- Office Location: ITE 324
+- Lab Location: ITE 363
+- Description: The lab develops theory and tools for processing signals arising in a wide array of applications that challenge traditional signal-processing techniques. It uses statistical and adaptive signal-processing methods combined with machine learning to address these challenges, with a focus on applications such as medical image analysis and data fusion.
 
 ---
 
-Lab Name: Remote Sensing Signal and Image Processing Laboratory
-Lab Website: https://www.umbc.edu
-Lab Director: Dr. Chein-i Chang
-Director Email: cchang@umbc.edu
-Office Location: ITE 310
-Lab Location: ITE 370
-Description: The lab researches remote sensing, signal and image processing—especially hyperspectral imaging, medical imaging, and automatic target recognition.
+- Lab Name: Remote Sensing Signal and Image Processing Laboratory
+- Lab Website: https://www.umbc.edu
+- Lab Director: Dr. Chein-i Chang
+- Director Email: cchang@umbc.edu
+- Office Location: ITE 310
+- Lab Location: ITE 370
+- Description: The lab researches remote sensing, signal and image processing—especially hyperspectral imaging, medical imaging, and automatic target recognition.
 
 
 -----------------
