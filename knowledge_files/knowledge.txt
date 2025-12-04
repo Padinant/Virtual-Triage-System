@@ -1,5 +1,17 @@
-note: this document is currently incomplete
-—-----------------
+This document contains information about the CSEE department at UMBC.
+
+List of the contents in this document:
+- SECTION 1: Introduction
+- SECTION 2: Research at CSEE Department
+- SECTION 3: CSEE Research Laboratories
+- SECTION 4: Commonly Requested Resources
+- SECTION 5: CSEE Undergraduate Programs
+- SECTION 6: CSEE Graduate Programs
+- SECTION 7: Student organizations and activities
+- SECTION 8: CSEE Department Staff
+
+-----------------
+
 SECTION 1: Introduction:
 This document contains information and resources about the Department of Computer Science and Electrical Engineering at UMBC. This department is often abbreviated as CSEE.
 
@@ -21,7 +33,8 @@ Here are important UMBC buildings at the CSEE department. Note that the list inc
 - Information Technology and Engineering Building (ITE)
 - Engineering Building (Engineering or ENG)
 
-—-----------------
+-----------------
+
 SECTION 2: Research at CSEE Department
 The CSEE Department offers many research areas and labs, in which faculty and students can become involved in.
 
@@ -64,7 +77,8 @@ Faculty: Richard Chang, Milt Halem, Sam Lomonaco, Curtis Menyuk, Yaacov Yesha
 You can learn more about each of the CSEE Department research labs, in the next section.
 
 
-—-----------------
+-----------------
+
 SECTION 3: CSEE Research Laboratories
 
 The CSEE Department includes many research labs, in the three broad categories of Computer Science, Computer Engineering, and Electrical Engineering.
@@ -327,7 +341,8 @@ Lab Location: ITE 370
 Description: The lab researches remote sensing, signal and image processing—especially hyperspectral imaging, medical imaging, and automatic target recognition.
 
 
-—-----------------
+-----------------
+
 SECTION 4: Commonly Requested Resources
 
 This section includes details about resources and forms that are frequently asked for or needed by students and faculty.
@@ -340,7 +355,7 @@ Here is the list of commonly requested Forms, Links, and Administrative Resource
 
 Scenario 1: Person wants to request card swipe access to a CSEE room.
 Scenario 1, Case 1 (FACULTY): If the person is a CSEE faculty member, they can request room swipe access via filling out the ‘CSEE Room Access Request’ form. Note that only faculty and staff are permitted to complete this form.
-‘CSEE Room Access Request’ form URL link: https://docs.google.com/forms/d/e/1FAIpQLScQs5QiJrMrFbYqA4PnOLEP2VfJc_39EujAZEb3MU0P76RS2g/viewform?c=0&w=1
+‘CSEE Room Access Request’ form URL link: https://docs.google.com/forms/d/e/1FAIpQLScQs5QiJrMrFbYqA4PnOLEP2VfJc_39EujAZEb3MU0P76RS2g/viewform?c=0&w=1 .
 The ‘CSEE Room Access Request’ form can also be found by navigating to the CSEE department website → ‘Faculty Resources’ → ‘Forms, Department Links & Business Affairs’
 
 
@@ -350,10 +365,14 @@ In this case, the student should reach out via email (or in person) to the CSEE 
 
 ---
 
+Scenario 2: Person wants to make a reservation request for a room
+The person can make a reservation request from the CSEE department for a room via filling out the 'Room Reservation Request' form.
+'Room Reservation Request' form URL link: https://goo.gl/forms/SPcnmMzkKKDUC6rn2 .
+The 'Room Reservation Request' form an also be found by navigating to the CSEE department website → ‘Faculty Resources’ → ‘Forms, Department Links & Business Affairs’
 
 
+-----------------
 
-—-----------------
 SECTION 5: CSEE Undergraduate Programs
 
 The CSEE department offers the following undergraduate programs in Computer Science and Computer Engineering:
@@ -388,7 +407,8 @@ Students who see Graduate School in their future can choose to enroll in the com
 If a student has questions about the CSEE Undergraduage Programs, that you do not know the answer to, you should direct them to visit the CSEE website's 'Undergrad Programs' section. You can also direct the student to contact the Computer Engineering Undergraduate Program Director or the Computer Science Undergraduate Program Director. The contact information for both of these directors can be found under: CONTACT INFORMATION - LEADERSHIP OF THE CSEE DEPARTMENT in the contact information document.
 
 
-—-----------------
+-----------------
+
 SECTION 6: CSEE Graduate Programs
 UMBC’s Department of Computer Science and Electrical Engineering (CSEE) offers certificate, M.S., MPS, and Ph.D. programs in Computer Science, Computer Engineering, Electrical Engineering, Cybersecurity (and Data Science).
 All of our programs are open to full, part-time, and non-degree seeking students. Part-time students are given more time to complete the milestones for their degree.
@@ -502,7 +522,8 @@ UMBC’s Master of Professional Studies (M.P.S.) in Data Science program prepare
 UMBC also offers a Graduate Certificate in Data Science. The courses taught by experts working for the leading data science firms will teach you how to derive insights from data in different formats and solve real-world problems. The certificate allows students the freedom of choosing in-person or online classes to complete their graduate certificate with the schedule and method that works best for them. By taking two classes in both semesters, students can get their graduate certificate in data science in 9-months. Students may also choose to earn the certificate by itself, or earn a certificate and then later apply their coursework to our Data Science master’s degree program. 
 
 
-—-----------------
+-----------------
+
 SECTION 7: Student organizations and activities
 UMBC offers a rich variety of organizations that offer students a chance to meet others with similar interests.
 The following are some groups that may be of interest to both undergraduate and graduate CSEE majors:
@@ -522,7 +543,8 @@ The following are some groups that may be of interest to both undergraduate and 
 - Hack UMBC - UMBC Annual Hackathon Event
 - Center for Women in Technology
 
-—-----------------
+-----------------
+
 SECTION 8: CSEE Department Staff
 Here is a list of the CSEE Department staff names, followed by their roles:
 - Yemisi Aina: Program Management Specialist
@@ -532,15 +554,5 @@ Here is a list of the CSEE Department staff names, followed by their roles:
 - Skye Jonke: Linux System Administrator and Technical Specialist
 - Geoff Weiss: Computer Systems Manager
 
-—-----------------
-SECTION #: [...]
+-----------------
 
-
-
-—-----------------
-SECTION #: [...]
-
-
-
-—-----------------
-SECTION #: [...]

@@ -9,7 +9,8 @@ Baltimore, MD 21250
 CSEE Phone: 410-455-3500
 
 
-—----------------------
+-----------------
+
 # CONTACT INFORMATION LIST - CSEE Staff:
 Name: Rosie Bacon
 Role: Administrative Assistant
@@ -52,7 +53,8 @@ Office: ITE 302
 Phone: (410) 455-3959
 E-mail:  gweiss@cs.umbc.edu
 
-—----------------------
+-----------------
+
 # CONTACT INFORMATION - LEADERSHIP OF THE CSEE DEPARTMENT
 
 Department Chair: 
@@ -106,7 +108,8 @@ Computer Engineering Undergraduate Program Director:
 Name: Seung-Jun Kim
 E-mail: sjkim@umbc.edu
 
-—----------------------
+-----------------
+
 # CONTACT INFORMATION - LIST OF TENURE-TRACK FACULTY
 
 Name: Tulay Adali
