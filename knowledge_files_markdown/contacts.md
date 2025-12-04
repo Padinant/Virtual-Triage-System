@@ -7,7 +7,7 @@ CSEE Main Office Location:
 ITE 325 1000 Hilltop Circle
 Baltimore, MD 21250
 CSEE Phone: 410-455-3500
-
+CSEE E-mail: dept@cs.umbc.edu
 
 -----------------
 
