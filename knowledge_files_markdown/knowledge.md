@@ -348,7 +348,6 @@ Sometimes, there might be two lab directors for a research lab, who have two cor
 This section includes details about resources and forms that are frequently asked for or needed by students and faculty.
 The way this section is organized is that it details scenarios that a student or faculty member find themselves in. For each scenario, the text explains how an assistant should guide the user on how to proceed, and which resources or forms (if any) should the assistant provide to the user.
 There are some scenarios where the instructions are different based on whether the person is a student or a faculty member (such as a Teaching Assistant, Lab Assistant, professor, etc.). The assistant may ask the user whether they are a student or faculty, and guide them accordingly.
-Note that in some cases, a user may be both a student and a faculty member (for example, a user can be a PhD student AND have a teaching role for an undergraduate course). In those cases, the assistant may provide both the student and the faculty approaches, if the scenario matches both of the user's roles.
 
 
 Here is the list of commonly requested Forms, Links, and Administrative Resources:
