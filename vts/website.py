@@ -99,6 +99,17 @@ def setup_app():
 
 setup_app()
 
+def delete_test_db():
+    "Delete the test DB so the DB can be recreated."
+    try:
+        os.makedirs(app.instance_path)
+    except OSError:
+        pass
+    db_path = os.path.join(app.instance_path, 'test.db')
+    print('Removing test database at ' + db_path)
+    os.remove(db_path)
+    return True
+
 def markdown(text):
     "Gives a modern table-friendly markdown renderer an API similar to the legacy one."
     md = MarkdownIt('commonmark', {'breaks':True, 'html':True}).enable('table')
@@ -207,6 +218,7 @@ def faq_admin():
                            faq_items=items,
                            query=query,
                            selected_category=selected_category,
+                           test_db=db.engine_type == Engine.SQLITE_FILE,
                            is_admin=True)
 
 @app.route("/faq-search.html")
@@ -303,6 +315,21 @@ def category_add():
                            title="Add New Category - Admin",
                            menu_items=MENU_ITEMS,
                            is_admin=True)
+
+@app.route("/admin-reset-test-db")
+def admin_reset_test_db():
+    "Reset the test database."
+    if not get_admin_status():
+        abort(403)
+
+    db_type = get_db().engine_type
+    if db_type != Engine.SQLITE_FILE:
+        flash('Error: Cannot remove the database because it is not a test database!')
+    else:
+        delete_test_db()
+        setup_app()
+        flash('Successfully reset the test database!')
+    return redirect(url_for('faq_page'))
 
 @app.route("/admin-categories/add", methods=["POST"])
 def category_add_post():

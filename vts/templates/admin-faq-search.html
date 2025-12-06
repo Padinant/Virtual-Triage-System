@@ -71,6 +71,20 @@
         </a>
     </div>
 
+    {% if test_db %}
+    <div class="faq-controls">
+      <!-- Reset Test DB button -->
+        <a class="admin-action-button admin-action-button-remove" role="button" href="{{ url_for('admin_reset_test_db') }}">
+          Reset Test DB
+          <span class="btn-icon">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <use href="/static/ICONS/sprite.svg#delete"></use>
+            </svg>
+          </span>
+        </a>
+    </div>
+    {% endif %}
+
     {% for item in faq_items %}
       <!-- Admin FAQ entry with actions -->
       <section class="admin-faq-entry">
