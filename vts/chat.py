@@ -18,6 +18,6 @@ def reply_to_message():
     # process user text and get output/reply text
     reply = create_guest_bot(user_text)
     # json_reply = jsonify({"reply": reply})
-    md = MarkdownIt('commonmark', {'breaks':True, 'html':True}).enable('table')
+    md = MarkdownIt('commonmark', {'breaks':False, 'html':True}).enable('table')
     json_reply = jsonify({"reply": md.render(reply)})
     return json_reply

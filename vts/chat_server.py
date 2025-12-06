@@ -2,6 +2,10 @@
 Creates a server to persist the chat state.
 """
 
+import re
+
+from typing import Optional
+
 from irc.bot import SingleServerIRCBot
 from irc.bot import ServerSpec
 
@@ -15,39 +19,42 @@ from vts.llm import get_agent_response
 # line.
 END_MSG = 'gsM dnE'
 
-# Note that this only has to be an attempt to split the long lines
-# because we can just truncate instead.
-def split_long_line(line: str, too_long: int) -> list:
-    "Attempts to split a line that's too long."
-    # The separator here is just whitespace after a period.
-    split = '. '
-    # Invalid input.
-    if too_long < len(split):
-        return [line]
-    # Build a list of strings and track the remainder.
-    out_line = line
-    out_lines = []
-    while len(out_line) > too_long:
-        # First attempt to split in three.
-        left, separator, right = out_line.rpartition(split)
-        # Try again because it ends in the match.
-        if right == '' and len(out_line) > 2:
-            # Ignore the ending match.
-            left, separator, right = out_line[:len(out_line) - 2].rpartition(split)
-            # We have to restore the ending of the right split.
-            right = right + separator
-        # No matches.
-        if left == '':
-            break
-        # Split the line in two.
-        out_line = left + separator
-        out_lines.append(right)
-    # Add the remainder.
-    if len(out_line) > 0:
-        out_lines.append(out_line)
-    # We built it backwards, but we want it forwards.
-    out_lines.reverse()
-    return out_lines
+def split_on_first_whitespace(line: str, too_long: int) -> tuple[str, Optional[str], bool]:
+    """
+    Attempts to split at the first whitespace of the midpoint of a
+    string. If that fails, then it attempts to split on the first
+    whitespace on a string from the start. If that fails, it cannot be
+    reduced.
+
+    The second result is either a string or None depending on if a
+    split is done.
+    """
+    # No need to split
+    if len(line) < too_long:
+        return (line, None, True)
+    # Split from the midpoint
+    midpoint = len(line) // 2
+    replace = re.split(r'(\s+)', line[midpoint:], maxsplit=1)
+    if len(replace) > 1:
+        return (line[:midpoint] + replace[0], replace[2], True)
+    # Split from the start of the line
+    replace = re.split(r'(\s+)', line, maxsplit=1)
+    if len(replace) > 1:
+        return (replace[0], replace[2], True)
+    # Failure to split
+    return (line, None, False)
+
+def split_long_line(line: str, too_long: int) -> list[str]:
+    "Attempts to split a line that's too long into lists."
+    left, right, is_reduced = split_on_first_whitespace(line, too_long)
+    # The attempt to split failed or the attempt is unncessary.
+    if not is_reduced or not right:
+        # Short line.
+        if is_reduced:
+            return [line]
+        # Truncate long line.
+        return [line[:min(len(line), too_long - 1)]]
+    return split_long_line(left, too_long) + split_long_line(right, too_long)
 
 class LlmBot(SingleServerIRCBot):
     "A bot representing the LLM"
