@@ -93,6 +93,7 @@
             <h2 class="section-heading">FAQ Entry ID: {{ item.id }}</h2>
             <p class="admin-faq-info">Author: {{ item.author }}</p>
             <p class="admin-faq-info">Timestamp: {{ item.timestamp }}</p>
+            <p class="admin-faq-info">Priority: {{ item.priority }}</p>
             <p class="admin-faq-info">Category: <a class="admin-faq-category-link" href="{{ url_for('faq_page') }}?category={{ item.category_id }}">{{ item.category }}</a></p>
           </div>
           <div class="admin-action-group">

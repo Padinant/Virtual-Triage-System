@@ -36,6 +36,7 @@
         <div class="admin-faq-metadata">
           <h2 class="section-heading">Category ID: {{ cat.id }}</h2>
           <p class="admin-faq-info">{{ cat.category_name }}</p>
+          <p class="admin-faq-info">Priority: {{ cat.priority }}</p>
         </div>
         <div class="admin-action-group">
           <a class="admin-action-button admin-action-button-edit" href="{{ url_for('category_edit', category_id=cat.id) }}">Edit
