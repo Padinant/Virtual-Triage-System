@@ -7,10 +7,11 @@ from datetime import datetime
 from enum import Enum
 
 # Imports for the SQL tables
+from sqlalchemy import Boolean
 from sqlalchemy import DateTime
 from sqlalchemy import ForeignKey
+from sqlalchemy import Integer
 from sqlalchemy import String
-from sqlalchemy import Boolean
 from sqlalchemy import URL
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
@@ -80,18 +81,21 @@ class FAQCategory(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     category_name: Mapped[str] = mapped_column(String(50))
+    priority: Mapped[int] = mapped_column(Integer, default=5)
     # Mark category as removed before batch deletion.
     is_removed: Mapped[bool] = mapped_column(Boolean, default=False)
 
     def __repr__(self) -> str:
         return f"FAQCategory(id={self.id!r}, " \
             f"category_name={self.category_name!r}, " \
+            f"priority={self.priority!r}, " \
             f"is_removed={self.is_removed!r})"
 
     def asdict(self) -> dict:
         "Turn the object into a key/value dictionary for APIs that expect this."
         return {'id': self.id,
-                'category_name': self.category_name}
+                'category_name': self.category_name,
+                'priority': self.priority}
 
 # Note: Pylint isn't smart enough for all of the magic that is
 # happening in this class with SQLAlchemy once relationships() are
@@ -112,6 +116,7 @@ class FAQEntry(Base):
     answer_text: Mapped[str] = mapped_column(String(20000))
     category_id: Mapped[int] = mapped_column(ForeignKey("faq_category.id"))
     author_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
+    priority: Mapped[int] = mapped_column(Integer, default=5)
     # Note: Pylint isn't smart enough to handle SQLAlchemy magic here.
     # It wants to use the invalid func.now instead of func.now()
     #
@@ -126,6 +131,7 @@ class FAQEntry(Base):
             f"answer_text={self.answer_text!r}, " \
             f"category_id={self.category_id!r}, " \
             f"author_id={self.author_id!r}, " \
+            f"priority={self.priority!r}, " \
             f"timestamp={self.timestamp!r}, " \
             f"is_removed={self.is_removed!r})"
 
@@ -138,6 +144,7 @@ class FAQEntry(Base):
                 'author_id': self.author_id,
                 'category' : self.category.category_name,
                 'author' : self.author.name,
+                'priority' : self.priority,
                 'timestamp': self.timestamp}
 
 # Application Representation of the Database
@@ -263,6 +270,7 @@ class AppDatabase():
             # Note: Pylint's style suggestion here doesn't work with SQLAlchemy's .where()
             # pylint:disable-next=singleton-comparison
             statement = statement.where(FAQEntry.is_removed == False)
+            statement = statement.order_by(FAQEntry.priority)
             return results_as_dicts(session.scalars(statement))
 
     def faq_entries(self) -> list[dict]:
@@ -271,6 +279,7 @@ class AppDatabase():
             # Note: Pylint's style suggestion here doesn't work with SQLAlchemy's .where()
             # pylint:disable-next=singleton-comparison
             statement = select(FAQEntry).where(FAQEntry.is_removed == False)
+            statement = statement.order_by(FAQEntry.priority)
             return results_as_dicts(session.scalars(statement))
 
     def remove_faq_entry(self, faq_id) -> bool:
@@ -311,6 +320,7 @@ class AppDatabase():
             # Note: Pylint's style suggestion here doesn't work with SQLAlchemy's .where()
             # pylint:disable-next=singleton-comparison
             statement = statement.where(FAQEntry.is_removed == False)
+            statement = statement.order_by(FAQEntry.priority)
             return results_as_dicts(session.scalars(statement))
 
     def faq_categories(self) -> list[dict]:
@@ -319,6 +329,7 @@ class AppDatabase():
             # Note: Pylint's style suggestion here doesn't work with SQLAlchemy's .where()
             # pylint:disable-next=singleton-comparison
             statement = select(FAQCategory).where(FAQCategory.is_removed == False)
+            statement = statement.order_by(FAQCategory.priority)
             return results_as_dicts(session.scalars(statement))
 
     def faq_categories_by_name(self) -> dict:
