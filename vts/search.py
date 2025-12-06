@@ -33,7 +33,7 @@ try:
     qparser_module = importlib.import_module("whoosh.qparser")
     qs_except = getattr(qparser_module, "QuerySyntaxError", None)
     if qs_except is not None:
-        QuerySyntaxError = qs_except
+        raise QuerySyntaxError(qs_except)
 except (ImportError, ModuleNotFoundError):
     pass
 

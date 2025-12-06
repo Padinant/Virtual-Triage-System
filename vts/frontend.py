@@ -14,6 +14,3 @@ MENU_ITEMS = [
     {"name": "Department Website", "url": "https://www.csee.umbc.edu/"},
     {"name": "How to Use This Tool", "url": "#"}
 ]
-
-# admin menu items, empty because admin link is exposed via header button
-ADMIN_ITEMS = []

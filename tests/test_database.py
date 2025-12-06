@@ -85,13 +85,32 @@ def test_database_with_test_data_file():
     faq_categories = []
     faq_category_names = {}
 
+    moved_category_index = 0
+
     # We'll use enumerate() here due to the suggestion of Pylint. Note
     # that Python is 0-based and the SQL IDs are 1-based so an
     # addition has to be done.
     for i, category in enumerate(TEST_FAQ_CATEGORIES):
+        if category == 'Grades':
+            moved_category_index = i
         category_id = i + 1
-        faq_categories.append({'id': category_id, 'category_name': category})
+        faq_categories.append({'id': category_id,
+                               'category_name': category,
+                               'priority' : 5 if category != 'Grades' else 1})
         faq_category_names[category] = category_id
+
+    # Move the Grades category to the front, assuming it only shows up
+    # 0 or 1 times, which should hold as long as the test data is
+    # defined properly, with no duplicate name for "Grades".
+    faq_categories.insert(0, faq_categories.pop(moved_category_index))
+
+    # Now map the category ID to the category index for later use.
+    # Note that ID 0 is going to remain None so there is one more ID
+    # entry than category entry.
+    faq_category_index = [None for category in faq_categories]
+    faq_category_index.append(None)
+    for i, category in enumerate(faq_categories):
+        faq_category_index[category['id']] = i
 
     # Does the database match our assumptions for FAQ categories?
     assert db.faq_categories() == faq_categories
@@ -117,18 +136,30 @@ def test_database_with_test_data_file():
     # categories, creating a dict that should be what we get when we
     # query the database.
     faq_entries = []
+    moved_faq_entry_index = 0
     for i, entry in enumerate(TEST_FAQ):
         faq_question, faq_answer, faq_category = entry
         faq_id = i + 1
         faq_category_id = faq_category_names[faq_category]
+        faq_category = faq_categories[faq_category_index[faq_category_id]]['category_name']
         author_id = 2
+        if faq_category == 'Grades':
+            moved_faq_entry_index = i
         faq_entries.append({'id': faq_id,
                             'question_text': faq_question,
                             'answer_text': faq_answer,
                             'category_id': faq_category_id,
                             'author_id': author_id,
-                            'category' : faq_categories[faq_category_id - 1]['category_name'],
-                            'author' : users[author_id - 1]['name']})
+                            'category' : faq_category,
+                            'author' : users[author_id - 1]['name'],
+                            'priority' : 5 if faq_category != 'Grades' else 1})
+
+    # Move the FAQ entry with the Grades category to the front,
+    # assuming it only shows up 0 or 1 times. It shows up only once
+    # for the test data as it currently exists, but this will need to
+    # be modified if the test data is changed in a way that violates
+    # this assumption.
+    faq_entries.insert(0, faq_entries.pop(moved_faq_entry_index))
 
     # Now we'll check our assumptions. Note that we need to remove the
     # timestamp from the results because the time that it will return
@@ -142,10 +173,13 @@ def test_database_with_test_data_file():
     db_faq_entries = db.faq_entry(3)
     for entry in db_faq_entries:
         entry.pop('timestamp', None)
-    # Note the off-by-one again when comparing SQL IDs to Python
-    # indexing We're comparing the database ID 3 to our list index 2,
-    # which stores the item with ID 3.
-    assert db_faq_entries == [faq_entries[2]]
+
+    # We need to find the position for entry 3
+    entry_3_position = 0
+    for i, entry in enumerate(faq_entries):
+        if entry['id'] == 3:
+            entry_3_position = i
+    assert db_faq_entries == [faq_entries[entry_3_position]]
 
     # Now let's take entries by their categories.
     categorized_entries = []

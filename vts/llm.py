@@ -56,7 +56,7 @@ def ask_agent_openai(input_prompt: str,
 
     # Return recieved output (if it exists)
     if agent_response.choices:
-        return agent_response.choices[0].message.content
+        return agent_response.choices[0].message.content or ''
 
     return "Access to agent failed. Maybe take a look at the FAQ section?"
 
@@ -145,7 +145,7 @@ def chat_with_agent_with_history(messages: List[MessageType]) -> Tuple[str, List
 
     resp = client.chat.completions.create(
         model="n/a",
-        messages=messages,
+        messages=messages, # type: ignore
         #
         # pylint:disable-next=fixme
         # todo - implement this part later after fully adding knowledge base

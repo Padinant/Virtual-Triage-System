@@ -83,7 +83,9 @@ def fill_debug_database(db, pwhash = None):
                  email = "admin@example.com",
                  is_admin = True,
                  password = test_password)
-    categories = [FAQCategory(category_name = category)
+    categories = [FAQCategory(category_name = category,
+                              # Place "Grades" above the rest.
+                              priority = 5 if category != "Grades" else 1)
                   for category in TEST_FAQ_CATEGORIES]
     db.add_items([guest, admin])
     db.add_items(categories)
@@ -100,6 +102,8 @@ def fill_debug_database(db, pwhash = None):
                         answer_text = answer,
                         category_id = category_dict[category],
                         author_id = admin_id,
+                        # Place "Grades" above the rest.
+                        priority = 5 if category != "Grades" else 1,
                         timestamp = datetime.now())
                for question, answer, category in TEST_FAQ]
     db.add_items(entries)
