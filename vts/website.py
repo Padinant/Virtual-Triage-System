@@ -299,6 +299,8 @@ def category_admin():
 
     db = get_db()
     categories = db.faq_categories()
+    for cat in categories:
+        cat['is_empty'] = db.is_empty_category(cat['id'])
     return render_template('admin-category-list.html',
                            title="Admin Category Management - Interactive Help",
                            menu_items=MENU_ITEMS,

@@ -294,15 +294,18 @@ class AppDatabase():
 
         return True
 
+    def is_empty_category(self, category_id) -> bool:
+        "Checks to make sure that the category is empty."
+        faq_entries = self.faq_entries_by_category(category_id)
+        return len(faq_entries) == 0
+
     def remove_category(self, category_id) -> bool:
         """
         Marks a category with the given ID as removed. Returns True if
         the category can be removed and False if the category cannot
         be removed. A category in use cannot be removed.
         """
-        # Check to make sure that the category is empty.
-        faq_entries = self.faq_entries_by_category(category_id)
-        if len(faq_entries) > 0:
+        if not self.is_empty_category(category_id):
             return False
 
         with Session(self.engine) as session:

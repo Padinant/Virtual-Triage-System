@@ -46,6 +46,7 @@
               </svg>
             </span>
           </a>
+          {% if cat.is_empty %}
           <a class="admin-action-button admin-action-button-remove" href="{{ url_for('category_remove', category_id=cat.id) }}">Remove
             <span class="btn-icon">
               <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -53,6 +54,7 @@
               </svg>
             </span>
           </a>
+          {% endif %}
         </div>
       </div>
     </section>
