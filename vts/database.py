@@ -158,7 +158,9 @@ class Engine(Enum):
     POSTGRESQL = 3
 
 # Note: A secure way to store the database password will be needed.
-def create_postgres_url(username, password, host='localhost'):
+def create_postgres_url(username: str,
+                        password: str,
+                        host: str = 'localhost') -> URL:
     "Creates the database URL for PostgreSQL."
     return URL.create('postgresql',
                       username=username,
@@ -219,7 +221,7 @@ class AppDatabase():
             statement = select(User)
             return results_as_dicts(session.scalars(statement))
 
-    def check_user_login(self, username, password, pwhash) -> bool:
+    def check_user_login(self, username: str, password: str, pwhash) -> bool:
         "Verifies that the password matches for the given username, checked by pwhash."
         with Session(self.engine) as session:
             statement = select(User).where(User.name == username)
@@ -231,14 +233,14 @@ class AppDatabase():
                 return False
             return pwhash.check_password_hash(user.password, password)
 
-    def add_item(self, item):
+    def add_item(self, item: User|FAQCategory|FAQEntry) -> int:
         "Uses a session to add and commit exactly one item to the database."
         with Session(self.engine) as session:
             session.add(item)
             session.commit()
             return item.id
 
-    def add_items(self, items):
+    def add_items(self, items: list[User|FAQCategory|FAQEntry]):
         "Uses a session to add and commit a list of items to the database."
         with Session(self.engine) as session:
             session.add_all(items)
@@ -263,7 +265,7 @@ class AppDatabase():
             update(result)
             session.commit()
 
-    def faq_entry(self, faq_id) -> list[dict]:
+    def faq_entry(self, faq_id: int) -> list[dict]:
         "Retrieves exactly one FAQ entry, specified by its ID."
         with Session(self.engine) as session:
             statement = select(FAQEntry).where(FAQEntry.id == faq_id)
@@ -282,7 +284,7 @@ class AppDatabase():
             statement = statement.order_by(FAQEntry.priority)
             return results_as_dicts(session.scalars(statement))
 
-    def remove_faq_entry(self, faq_id) -> bool:
+    def remove_faq_entry(self, faq_id: int) -> bool:
         "Marks an FAQ entry with the given ID as removed."
         def query(statement):
             return statement.where(FAQEntry.id == faq_id)
@@ -294,12 +296,12 @@ class AppDatabase():
 
         return True
 
-    def is_empty_category(self, category_id) -> bool:
+    def is_empty_category(self, category_id: int) -> bool:
         "Checks to make sure that the category is empty."
         faq_entries = self.faq_entries_by_category(category_id)
         return len(faq_entries) == 0
 
-    def remove_category(self, category_id) -> bool:
+    def remove_category(self, category_id: int) -> bool:
         """
         Marks a category with the given ID as removed. Returns True if
         the category can be removed and False if the category cannot
@@ -316,7 +318,7 @@ class AppDatabase():
 
         return True
 
-    def faq_entries_by_category(self, category_id) -> list[dict]:
+    def faq_entries_by_category(self, category_id: int) -> list[dict]:
         "Retrieves the FAQ entries with the given category (excludes removed entries)."
         with Session(self.engine) as session:
             statement = select(FAQEntry).where(FAQEntry.category_id == category_id)

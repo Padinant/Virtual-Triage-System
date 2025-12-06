@@ -109,7 +109,7 @@ def delete_test_db():
     os.remove(db_path)
     return True
 
-def markdown(text):
+def markdown(text: str):
     "Gives a modern table-friendly markdown renderer an API similar to the legacy one."
     md = MarkdownIt('commonmark', {'breaks':True, 'html':True}).enable('table')
     return md.render(text)
@@ -118,7 +118,7 @@ def markdown(text):
 # the end of certain markdown items.
 MARKDOWN_SEPARATOR = markdown('---')
 
-def faq_entries_to_markdown(faq_entries):
+def faq_entries_to_markdown(faq_entries: list[dict]) -> list[dict]:
     "Turn FAQ questions and answers into markdown."
     result = []
     for item in faq_entries:
@@ -130,32 +130,32 @@ def faq_entries_to_markdown(faq_entries):
         result.append(entry)
     return result
 
-def faq_titles_to_markdown(faq_entries):
+def faq_titles_to_markdown(faq_entries: list[dict]) -> list[dict]:
     "Turn FAQ questions into markdown."
     return [{'text': markdown(item['question_text']),
              'url': f'/faq/{item["id"]}'}
             for item in faq_entries]
 
-def get_faq_entries_as_markdown(db):
+def get_faq_entries_as_markdown(db: AppDatabase):
     "Retrieve all FAQ entries as markdown."
     return faq_entries_to_markdown(db.faq_entries())
 
-def get_faq_categorized_entries_as_markdown(db, category_id):
+def get_faq_categorized_entries_as_markdown(db: AppDatabase, category_id: int):
     "Retrieve FAQ entries as markdown in a category."
     return faq_entries_to_markdown(db.faq_entries_by_category(category_id))
 
-def get_faq_entry_as_markdown(faq_id):
+def get_faq_entry_as_markdown(faq_id: int):
     "Retrieve all FAQ entries as markdown."
     return lambda db : faq_entries_to_markdown(db.faq_entry(faq_id))
 
-def get_faq_titles_as_markdown(db):
+def get_faq_titles_as_markdown(db: AppDatabase):
     "Retrieve all FAQ titles (questions) as markdown."
     return faq_titles_to_markdown(db.faq_entries())
 
 # This is based on the assumption that there aren't many categories
 # and that it's cheaper to iterate over the category dict than to talk
 # to the database again.
-def find_category_name(categories, category_id):
+def find_category_name(categories: list[dict], category_id: int) -> str:
     "Return the name for a category id."
     for category in categories:
         if category['id'] == category_id:
@@ -246,7 +246,7 @@ def faq_page():
                            is_admin=False)
 
 @app.route("/faq/<int:faq_id>")
-def faq_item_page(faq_id):
+def faq_item_page(faq_id: int):
     "The page for a specific FAQ item."
     db = get_db()
     items = get_faq_entry_as_markdown(faq_id)(db)
@@ -262,7 +262,7 @@ def faq_item_page(faq_id):
                            is_admin=admin_status)
 
 @app.route("/faq/category/<int:category_id>")
-def faq_category_page(category_id):
+def faq_category_page(category_id: int):
     "The page for all entries of a given category."
     db = get_db()
     items = get_faq_categorized_entries_as_markdown(db, category_id)
@@ -353,7 +353,7 @@ def category_add_post():
     return redirect(url_for('category_admin'))
 
 @app.route("/admin-categories/edit/<int:category_id>")
-def category_edit(category_id):
+def category_edit(category_id: int):
     "Render edit form for a category."
     if not get_admin_status():
         abort(403)
@@ -370,7 +370,7 @@ def category_edit(category_id):
                            is_admin=True)
 
 @app.route("/admin-categories/edit/<int:category_id>", methods=["POST"])
-def category_edit_post(category_id):
+def category_edit_post(category_id: int):
     "Process category edits."
     if not get_admin_status():
         abort(403)
@@ -396,7 +396,7 @@ def category_edit_post(category_id):
     return redirect(url_for('category_admin'))
 
 @app.route("/admin-categories/remove/<int:category_id>")
-def category_remove(category_id):
+def category_remove(category_id: int):
     "Show category remove confirmation."
     if not get_admin_status():
         abort(403)
@@ -412,7 +412,7 @@ def category_remove(category_id):
                            is_admin=True)
 
 @app.route("/admin-categories/remove/<int:category_id>", methods=["POST"])
-def category_remove_post(category_id):
+def category_remove_post(category_id: int):
     "Perform category removal (marks as removed if not in use)."
     if not get_admin_status():
         abort(403)
@@ -447,7 +447,7 @@ def faq_admin_add():
                            is_admin=True)
 
 @app.route("/edit/<int:faq_id>")
-def faq_admin_edit(faq_id):
+def faq_admin_edit(faq_id: int):
     "The admin FAQ page for editing an individual item."
     if not get_admin_status():
         abort(403)
@@ -542,7 +542,7 @@ def faq_admin_add_post():
     return redirect(url_for('faq_item_page', faq_id = faq_id))
 
 @app.route("/edit/<int:faq_id>", methods=["POST"])
-def faq_admin_edit_post(faq_id):
+def faq_admin_edit_post(faq_id: int):
     "Updates the given ID's post to contain the new data."
     if not get_admin_status():
         abort(403)
@@ -564,7 +564,7 @@ def faq_admin_edit_post(faq_id):
     return redirect(url_for('faq_item_page', faq_id = faq_id))
 
 @app.route("/remove/<int:faq_id>", methods=["POST"])
-def faq_admin_remove_post(faq_id):
+def faq_admin_remove_post(faq_id: int):
     "Removes the given post ID."
     if not get_admin_status():
         abort(403)

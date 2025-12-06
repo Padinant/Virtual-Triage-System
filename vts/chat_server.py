@@ -129,7 +129,7 @@ def create_bot():
     bot = LlmBot([server], 'bot', 'bot')
     bot.start()
 
-def create_guest_bot(message):
+def create_guest_bot(message: str) -> str:
     "Creates the guest bot."
     config = load_config()
     if "chat_server" in config:
