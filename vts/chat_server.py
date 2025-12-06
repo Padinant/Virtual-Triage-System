@@ -23,7 +23,7 @@ def split_long_line(line: str, too_long: int) -> list:
     split = '. '
     # Invalid input.
     if too_long < len(split):
-        return line
+        return [line]
     # Build a list of strings and track the remainder.
     out_line = line
     out_lines = []

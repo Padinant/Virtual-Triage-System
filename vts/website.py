@@ -31,7 +31,6 @@ from vts.database import Engine
 from vts.database import FAQEntry
 from vts.database import FAQCategory
 
-from vts.frontend import ADMIN_ITEMS
 from vts.frontend import MENU_ITEMS
 
 from vts.test_data import fill_debug_database
@@ -179,7 +178,7 @@ def home():
                            menu_items=MENU_ITEMS,
                            faq_items=items,
                            faq_full_items=full_items,
-                           admin_items=ADMIN_ITEMS,
+                           admin_items=[],
                            is_admin=get_admin_status())
 
 # Note: This no longer has a route of its own. You get here from the
