@@ -315,6 +315,7 @@ def category_add():
     return render_template('admin-category-add.html',
                            title="Add New Category - Admin",
                            menu_items=MENU_ITEMS,
+                           form_data=None,
                            is_admin=True)
 
 @app.route("/admin-reset-test-db")
@@ -341,11 +342,24 @@ def category_add_post():
     db = get_db()
     category_name = request.form['category_name'].strip()
 
-    # Check for duplicate category name
+    form_data = {
+        'category_name': request.form['category_name']
+    }
+
+    errors = []
+    if not category_name:
+        errors.append('Category name cannot be empty.')
     if db.category_name_exists(category_name):
-        flash(f'Error: A category named "{category_name}" already exists. '
-              f'Please choose a different name.')
-        return redirect(url_for('category_add'))
+        errors.append(f'A category named "{category_name}" already exists. Please choose a different name.')
+
+    if errors:
+        for error in errors:
+            flash(f'Error: {error}')
+        return render_template('admin-category-add.html',
+                               title="Add New Category - Admin",
+                               menu_items=MENU_ITEMS,
+                               form_data=form_data,
+                               is_admin=True)
 
     new_cat = FAQCategory(category_name=category_name)
     db.add_item(new_cat)
@@ -378,18 +392,33 @@ def category_edit_post(category_id: int):
     db = get_db()
     new_name = request.form['category_name'].strip()
 
-    # Get current category
+    form_data = {
+        'id': category_id,
+        'category_name': request.form['category_name']
+    }
+
     categories = db.faq_categories()
     current_category = next((c for c in categories if c['id'] == category_id), None)
     if not current_category:
         return redirect(url_for('category_admin'))
 
+    errors = []
+    if not new_name:
+        errors.append('Category name cannot be empty.')
+    
     # Only check for duplicates if name changed
-    if current_category['category_name'].lower() != new_name.lower():
+    elif current_category['category_name'].lower() != new_name.lower():
         if db.category_name_exists(new_name):
-            flash(f'Error: A category named "{new_name}" already exists. '
-                  f'Please choose a different name.')
-            return redirect(url_for('category_edit', category_id=category_id))
+            errors.append(f'A category named "{new_name}" already exists. Please choose a different name.')
+
+    if errors:
+        for error in errors:
+            flash(f'Error: {error}')
+        return render_template('admin-category-edit.html',
+                               title=f"Edit Category #{category_id} - Admin",
+                               menu_items=MENU_ITEMS,
+                               category=form_data,
+                               is_admin=True)
 
     db.update_category(category_id, new_name)
     flash(f'Category updated to "{new_name}" successfully!')
@@ -444,6 +473,7 @@ def faq_admin_add():
                            title="Add New FAQ - Admin",
                            menu_items=MENU_ITEMS,
                            category_items=categories,
+                           form_data=None,
                            is_admin=True)
 
 @app.route("/edit/<int:faq_id>")
@@ -525,16 +555,45 @@ def faq_admin_add_post():
         abort(403)
 
     db = get_db()
+    question_text = request.form['question'].strip()
+    answer_text = request.form['answer'].strip()
+    category_id = request.form['category'].strip()
 
-    new_entry = FAQEntry(question_text = request.form['question'],
-                         answer_text = request.form['answer'],
-                         category_id = request.form['category'],
+    form_data = {
+        'question': request.form['question'],
+        'answer': request.form['answer'],
+        'category': request.form['category']
+    }
+
+    errors = []
+    if not question_text:
+        errors.append('Question field cannot be empty.')
+    if not answer_text:
+        errors.append('Answer field cannot be empty.')
+    if not category_id:
+        errors.append('Please select a category.')
+
+    if errors:
+        for error in errors:
+            flash(f'Error: {error}')
+        categories = db.faq_categories()
+        return render_template('admin-add.html',
+                               title="Add New FAQ - Admin",
+                               menu_items=MENU_ITEMS,
+                               category_items=categories,
+                               form_data=form_data,
+                               is_admin=True)
+
+    new_entry = FAQEntry(question_text = question_text,
+                         answer_text = answer_text,
+                         category_id = category_id,
                          # This will be the author when the
                          # authentication system is added.
                          author_id = 1,
                          timestamp = datetime.now())
 
     faq_id = db.add_item(new_entry)
+
     # Incremental index update
     add_faq_to_index(db, faq_id, app.instance_path)
     flash(f'FAQ entry #{faq_id} added successfully!')
@@ -547,16 +606,46 @@ def faq_admin_edit_post(faq_id: int):
     if not get_admin_status():
         abort(403)
 
+    db = get_db()
+    question_text = request.form['question'].strip()
+    answer_text = request.form['answer'].strip()
+    category_id = request.form['category'].strip()
+
+    form_data = {
+        'id': faq_id,
+        'question_text': request.form['question'],
+        'answer_text': request.form['answer'],
+        'category_id': request.form['category']
+    }
+
+    errors = []
+    if not question_text:
+        errors.append('Question field cannot be empty.')
+    if not answer_text:
+        errors.append('Answer field cannot be empty.')
+    if not category_id:
+        errors.append('Please select a category.')
+
+    if errors:
+        for error in errors:
+            flash(f'Error: {error}')
+        categories = db.faq_categories()
+        return render_template('admin-edit.html',
+                               title=f"Edit FAQ #{faq_id} - Admin",
+                               menu_items=MENU_ITEMS,
+                               faq_entry=form_data,
+                               category_items=categories,
+                               is_admin=True)
+
     def query(statement):
         return statement.where(FAQEntry.id == faq_id)
 
     def update(item):
-        item.question_text = request.form['question']
-        item.answer_text = request.form['answer']
-        item.category_id = request.form['category']
+        item.question_text = question_text
+        item.answer_text = answer_text
+        item.category_id = category_id
         item.timestamp = datetime.now()
 
-    db = get_db()
     db.update_item(query, update)
     update_faq_in_index(db, faq_id, app.instance_path)
     flash(f'FAQ entry #{faq_id} updated successfully!')

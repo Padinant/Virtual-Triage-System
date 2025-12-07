@@ -51,6 +51,15 @@
   border-radius: var(--menu-border-radius);
   width: var(--layout-content-width);
   max-width: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+.flash-message .icon {
+  width: 28.8px;
+  height: 28.8px;
 }
 
 .flash-success {
@@ -162,6 +171,9 @@ img {
   text-decoration: none;
   z-index: 10;
   box-shadow: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
 }
 
 .admin-login-button:hover {
@@ -370,12 +382,13 @@ img {
 }
 
 .chatbot-float-btn img:hover {
-  transform: scale(1.1);
+  transform: scale(1.2);
 }
 
 /* Chatbot widget container */
 .chatbot-widget {
-  background: var(--umbc-dark-gray);
+  background-color: var(--umbc-dark-gray);
+  background-image: none;
   border-radius: var(--menu-border-radius);
   bottom: var(--space-sm);
   box-shadow: 0 var(--space-xs) var(--space-lg) rgba(0, 0, 0, 0.25);
@@ -388,29 +401,13 @@ img {
   z-index: 1001;
   --mouse-x: 50%;
   --mouse-y: 50%;
-  transition: width 0.25s ease, height 0.25s ease, top 0.25s ease, bottom 0.25s ease, right 0.25s ease;
+  transition: width 0.25s ease, height 0.25s ease, top 0.25s ease, bottom 0.25s ease, right 0.25s ease, background 180ms ease, background-position 120ms ease;
   overflow: hidden;
 }
 
-.chatbot-widget::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  border-radius: inherit;
-  background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.10), rgba(255,255,255,0.10) 25%, transparent 50%);
-  opacity: 0;
-  transition: opacity 180ms ease, transform 180ms ease;
-  z-index: 0;
-}
-
-
-.chatbot-widget.hover-gradient::before,
-.chatbot-widget:hover::before {
-  opacity: 1;
+.chatbot-widget.hover-gradient,
+.chatbot-widget:hover {
+  background-image: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.10), rgba(255,255,255,0.10) 25%, transparent 50%);
 }
 
 .chatbot-widget.show {
@@ -527,6 +524,7 @@ img {
   flex: 1;
   flex-direction: column;
   gap: var(--space-md);
+  min-height: 0;
   overflow-y: auto;
   padding: var(--space-md);
 }
@@ -627,7 +625,7 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-left: calc(var(--space-xs) + 6px);
+  margin-right: calc(var(--space-xs));
   width: 19.2px;
   height: 19.2px;
   color: inherit;
