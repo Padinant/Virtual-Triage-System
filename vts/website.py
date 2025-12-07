@@ -358,7 +358,10 @@ def category_add_post():
     if not category_name:
         errors.append('Category name cannot be empty.')
     if db.category_name_exists(category_name):
-        errors.append(f'A category named "{category_name}" already exists. Please choose a different name.')
+        errors.append(
+            f'A category named "{category_name}" already exists. '
+            'Please choose a different name.'
+        )
 
     if errors:
         for error in errors:
@@ -413,11 +416,14 @@ def category_edit_post(category_id: int):
     errors = []
     if not new_name:
         errors.append('Category name cannot be empty.')
-    
+
     # Only check for duplicates if name changed
     elif current_category['category_name'].lower() != new_name.lower():
         if db.category_name_exists(new_name):
-            errors.append(f'A category named "{new_name}" already exists. Please choose a different name.')
+            errors.append(
+                f'A category named "{new_name}" already exists. '
+                'Please choose a different name.'
+            )
 
     if errors:
         for error in errors:
