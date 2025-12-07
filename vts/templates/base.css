@@ -123,6 +123,11 @@ a:hover {
   text-decoration: none;
 }
 
+/* Indent helper */
+.indent {
+  text-indent: 2em;
+}
+
 /* Media */
 img {
   height: auto;

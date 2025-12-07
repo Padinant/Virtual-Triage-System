@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% set header_eyebrow_class = 'top-header-2-eyebrow-main' %}
+{% set header_heading_class = 'top-header-2-heading-main' %}
+
+{% block title %}How to Use This Tool - Interactive Help{% endblock %}
+
+{% block styles %}
+  <link href="/how-to.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+  <!-- Page title -->
+  <h1 class="page-title">How to Use This Tool</h1>
+  
+  <!-- Introduction -->
+  <section class="how-to-section">
+    <p>
+      This guide will help you make use of the various features available on the website to get answers 
+      to your CSEE related questions.
+    </p>
+  </section>
+
+  <!-- Homepage FAQs section -->
+  <section class="how-to-section">
+    <h2 class="section-heading">How To Use The Homepage</h2>
+    <p>
+      On the homepage, you can use the search bar to search for frequently asked questions (FAQs). 
+      Click on the search bar, type in your question or keywords related to your question, and either 
+      click the "Search" button or press enter to see your relevant search results.
+    </p>
+    <p>
+      You can also view a list of FAQs directly on the homepage. Click on any questions in the grey box 
+      to popup the FAQ and see the answers. If you want to see the full FAQ page, click on the "Go to FAQ" 
+      button in the popup on the top left corner.
+    </p>
+    <p>
+      If you need further assistance, you can use the chatbot feature by clicking on the chat icon located 
+      at the bottom right corner of the page.
+    </p>
+  </section>
+
+  <!-- Browse FAQs section -->
+  <section class="how-to-section">
+    <h2 class="section-heading">How To Browse FAQs</h2>
+    <p>
+      On the browse FAQ page, you can use the search bar to search for frequently asked questions (FAQs). 
+      Click on the search bar, type in your question or keywords related to your question, and either 
+      click the "Search" button or press enter to see your relevant search results.
+    </p>
+    <p>
+      You can also categorize the FAQs by selecting a category from the dropdown menu next to the search bar. 
+      This will filter the FAQs to show only those that belong to the selected category. You can also click on the 
+      "View All" button to see all FAQs without any filters.
+    </p>
+    <p>
+      If you need further assistance, you can use the chatbot feature by clicking on the chat icon located 
+      at the bottom right corner of the page.
+    </p>
+  </section>
+
+  <!-- Using chatbots section -->
+  <section class="how-to-section">
+    <h2 class="section-heading">How To Use The Chatbot</h2>
+    <p>
+      The chatbot feature is available on most pages of the website. There are two ways to access the chatbot: 
+      either by clicking on the "Ask Chatbot" link in the top menu or by clicking on the chat icon located 
+      at the bottom right corner of the page.
+    </p>
+    <p class="indent">
+      If you click on the "Ask Chatbot" link, you will be taken to a dedicated chatbot page where you can 
+      interact with the chatbot. Type your question into the prompt bar and either click the "Send" button 
+      or press enter to submit your question. The chatbot will respond with an appropriate answer. 
+      You can enable fullscreen mode by clicking the expand icon in the top right corner of the chat window 
+      for a larger view. Click the expand icon again to exit fullscreen mode.
+    </p>
+    <p class="indent">
+      If you click on the chat icon on the bottom right corner of the page, a chat widget will appear. 
+      Type your question into the prompt bar at the bottom of the widget and either click the "Send" button 
+      or press enter to submit your question. The chatbot will respond with an appropriate answer. 
+      You can also cycle through three different sizes of the widget by clicking the expand icon in the 
+      top right corner of the widget. You can close the widget by clicking the "X" icon next to the expand icon.
+    </p>
+  </section>
+
+  <!-- Other options -->
+  <section class="how-to-section">
+    <h2 class="section-heading">Other Options</h2>
+    <p>
+      The "Contact Us" link in the top menu will take you to the CSEE department's contact page, 
+      where you can find ways to get in touch with the department for further assistance.
+    </p>
+    <p>
+      The "Department Website" link in the top menu will take you to the official CSEE department website, 
+      where you can find more information about the department, its programs, and resources.
+    </p>
+  </section>
+
+{% endblock %}
+
+{% block chatbot_widget %}
+    {% include "chatbot-widget.html" %}
+{% endblock %}

@@ -181,6 +181,14 @@ def home():
                            admin_items=[],
                            is_admin=get_admin_status())
 
+@app.route("/how-to.html")
+def how_to_page():
+    "The how-to guide page."
+    return render_template('how-to.html',
+                           title="How to Use This Tool - Interactive Help",
+                           menu_items=MENU_ITEMS,
+                           is_admin=get_admin_status())
+
 # Note: This no longer has a route of its own. You get here from the
 # FAQ search page if you are logged in.
 def faq_admin():
@@ -707,6 +715,12 @@ def main_css():
 def faq_search_css():
     "The CSS file for the combined FAQ and search page."
     return Response(response=render_template('faq-search.css'),
+                    mimetype='text/css')
+
+@app.route("/how-to.css")
+def how_to_css():
+    "The CSS file for the how-to page."
+    return Response(response=render_template('how-to.css'),
                     mimetype='text/css')
 
 @app.route("/admin-login.css")

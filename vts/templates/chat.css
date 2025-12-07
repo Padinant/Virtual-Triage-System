@@ -203,8 +203,6 @@ body.chat-fullscreen .main-content > *:not(#chat-container) {
   word-wrap: break-word;
   overflow-wrap: anywhere;
   white-space: pre-wrap;
-  
-  
 }
 
 /* User message (Right) */
@@ -224,8 +222,6 @@ body.chat-fullscreen .main-content > *:not(#chat-container) {
   word-wrap: break-word;
   overflow-wrap: anywhere;
   white-space: pre-wrap;
-  
-  
 }
 
 .emoji {

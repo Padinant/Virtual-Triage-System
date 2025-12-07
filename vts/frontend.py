@@ -12,5 +12,5 @@ MENU_ITEMS = [
     {"name": "Ask Chatbot", "url": "/chat.html"},
     {"name": "Contact Us", "url": "https://www.csee.umbc.edu/contact/"},
     {"name": "Department Website", "url": "https://www.csee.umbc.edu/"},
-    {"name": "How to Use This Tool", "url": "#"}
+    {"name": "How to Use This Tool", "url": "/how-to.html"}
 ]

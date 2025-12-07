@@ -1,10 +1,27 @@
 @import url("/base.css");
 
 /* Page title */
+.page-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-xl);
+}
+
 .page-title-main {
   font-size: var(--font-size-xl);
-  margin-bottom: var(--space-xl);
   text-align: left;
+  margin: 0;
+}
+
+.admin-faq-link {
+  color: var(--umbc-aok-teal);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.admin-faq-link:hover {
+  text-decoration: underline;
 }
 
 /* Content area */
