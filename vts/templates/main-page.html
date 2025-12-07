@@ -8,8 +8,13 @@
 {% block styles %}
     <link href="/main-page.css" rel="stylesheet" />
 {% endblock %}{% block content %}
-  <!-- Page title -->
+  <!-- Page title with admin link -->
+  <div class="page-title-container">
     <h1 class="page-title page-title-main">Got Questions? We Have Answers!</h1>
+    {% if is_admin %}
+    <a href="{{ url_for('faq_page') }}" class="admin-faq-link">You are logged in as an admin, click here to manage your FAQs</a>
+    {% endif %}
+  </div>
     <p>
       Welcome to the UMBC CSEE Interactive Help system! This tool is designed
       to help you quickly find answers to common questions about the Computer
@@ -71,7 +76,7 @@
     <h2 class="section-heading section-heading-howto">
       How To Use This Tool
     </h2>
-    <p>
+    <p class="indent">
       Browse through our Frequently Asked Questions (FAQ) by scrolling through
       the list on the home page, or use the search bar to find specific topics.
       Click on any question to view its detailed answer. If you need more

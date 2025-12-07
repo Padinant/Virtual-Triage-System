@@ -19,12 +19,12 @@
     <!-- Right controls -->
     <div>
       <a class="admin-action-button admin-action-button-add" href="{{ url_for('category_add') }}">
-        Add Category
         <span class="btn-icon">
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <use href="/static/ICONS/sprite.svg#add-file"></use>
           </svg>
         </span>
+        Add Category
       </a>
     </div>
   </div>
@@ -39,20 +39,22 @@
           <p class="admin-faq-info">Priority: {{ cat.priority }}</p>
         </div>
         <div class="admin-action-group">
-          <a class="admin-action-button admin-action-button-edit" href="{{ url_for('category_edit', category_id=cat.id) }}">Edit
+          <a class="admin-action-button admin-action-button-edit" href="{{ url_for('category_edit', category_id=cat.id) }}">
             <span class="btn-icon">
               <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <use href="/static/ICONS/sprite.svg#edit"></use>
               </svg>
             </span>
+            Edit
           </a>
           {% if cat.is_empty %}
-          <a class="admin-action-button admin-action-button-remove" href="{{ url_for('category_remove', category_id=cat.id) }}">Remove
+          <a class="admin-action-button admin-action-button-remove" href="{{ url_for('category_remove', category_id=cat.id) }}">
             <span class="btn-icon">
               <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <use href="/static/ICONS/sprite.svg#delete"></use>
               </svg>
             </span>
+            Remove
           </a>
           {% endif %}
         </div>

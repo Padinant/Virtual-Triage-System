@@ -38,7 +38,7 @@
       <div class="admin-form-group">
         <!-- Category field -->
         <h2 class="section-heading">Category</h2>
-        <select name="category" id="category" class="faq-dropdown" required="true">
+        <select name="category" id="category" class="faq-dropdown">
           <option value="">Select Category</option>
           {%for item in category_items %}
             <option value="{{ item.id }}"{% if faq_entry.category_id == item.id %} selected="true"{% endif %}>{{ item.category_name }}</option>

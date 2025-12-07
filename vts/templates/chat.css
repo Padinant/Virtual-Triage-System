@@ -15,6 +15,7 @@
 /* Chat box styles */
 #chat-box {
   background-color: var(--umbc-light-gray);
+  background-image: none;
   border-radius: var(--space-xs);
   padding: var(--space-md);
   height: 72vh;
@@ -32,6 +33,7 @@
   overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: var(--umbc-dark-gray) var(--umbc-light-gray);
+  transition: background 180ms ease, background-position 120ms ease;
 }
 
 /* Fullscreen toggle button */
@@ -148,25 +150,9 @@ body.chat-fullscreen .main-content > *:not(#chat-container) {
 #chat-container.fullscreen {
   z-index: 2147483647;
 }
-/* Cursor-following gradient overlay for the chat messages area */
-#chat-box::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  border-radius: inherit;
-  background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.10), rgba(255,255,255,0.10) 25%, transparent 50%);
-  opacity: 0;
-  transition: opacity 180ms ease, transform 180ms ease;
-  z-index: 0;
-}
-
-#chat-box.hover-gradient::before,
-#chat-box:hover::before {
-  opacity: 1;
+#chat-box.hover-gradient,
+#chat-box:hover {
+  background-image: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.10), rgba(255,255,255,0.10) 25%, transparent 50%);
 }
 
 /* Message rows */
@@ -217,8 +203,6 @@ body.chat-fullscreen .main-content > *:not(#chat-container) {
   word-wrap: break-word;
   overflow-wrap: anywhere;
   white-space: pre-wrap;
-  
-  
 }
 
 /* User message (Right) */
@@ -238,8 +222,6 @@ body.chat-fullscreen .main-content > *:not(#chat-container) {
   word-wrap: break-word;
   overflow-wrap: anywhere;
   white-space: pre-wrap;
-  
-  
 }
 
 .emoji {

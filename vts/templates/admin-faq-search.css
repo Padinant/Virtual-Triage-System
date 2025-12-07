@@ -199,7 +199,7 @@
 
 .admin-action-button .btn-icon {
   display: inline-flex;
-  margin-left: calc(var(--space-xs) + 6px);
+  margin-right: calc(var(--space-xs));
   width: 19.2px;
   height: 19.2px;
   align-items: center;

@@ -1,0 +1,31 @@
+@import url("/base.css");
+
+/* Page title */
+.page-title {
+  color: var(--umbc-black);
+  font-size: var(--font-size-xl);
+  font-weight: bold;
+  margin: var(--space-md) 0 var(--space-lg);
+  text-align: left;
+}
+
+/* How-to sections */
+.how-to-section {
+  margin: var(--space-xl) 0;
+}
+
+/* Section headings */
+.section-heading {
+  color: var(--umbc-black);
+  font-size: var(--font-size-lg);
+  font-weight: bold;
+  margin: var(--space-lg) 0 var(--space-md);
+}
+
+/* Body text */
+.how-to-section p {
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  margin-bottom: var(--space-md);
+  text-align: justify;
+}
