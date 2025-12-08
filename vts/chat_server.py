@@ -19,6 +19,10 @@ from vts.llm import get_agent_response
 # line.
 END_MSG = 'gsM dnE'
 
+# TODO: reverse the midpoint search so it searches from the right when
+# on the left for the fallback split
+#
+# TODO: make sure split is called on the user send, not just the receive
 def split_on_first_whitespace(line: str, too_long: int) -> tuple[str, Optional[str], bool]:
     """
     Attempts to split at the first whitespace of the midpoint of a
@@ -136,7 +140,7 @@ def create_bot():
     bot = LlmBot([server], 'bot', 'bot')
     bot.start()
 
-def create_guest_bot(message: str) -> str:
+def create_guest_bot(message: str) -> Optional[str]:
     "Creates the guest bot."
     config = load_config()
     if "chat_server" in config:
@@ -144,12 +148,17 @@ def create_guest_bot(message: str) -> str:
         server = ServerSpec(config["domain"], 6667, config["key"])
     else:
         server = ServerSpec("127.0.0.1", 6667)
-    bot = GuestBot([server], 'notbot', 'notbot')
-    bot.outgoing_message = message
-    bot.connect(server.host, 6667, 'notbot')
-    while not bot.done:
-        bot.reactor.process_once()
-    return bot.final_message
+    # Note that any error at all in the try/except block means return
+    # None, which will tell the caller to use the fallback instead.
+    try:
+        bot = GuestBot([server], 'notbot', 'notbot')
+        bot.outgoing_message = message
+        bot.connect(server.host, 6667, 'notbot')
+        while not bot.done:
+            bot.reactor.process_once()
+        return bot.final_message
+    except:
+        return None
 
 # The bot connects to a server such as the one from `python3 -m irc.server`
 #

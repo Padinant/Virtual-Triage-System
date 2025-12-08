@@ -180,9 +180,15 @@ affect on our program's behavior, but it is safer to have the various
 API keys entirely outside of the git repository instead of merely
 `.gitignore`d.
 
-## irc
+## irc (optional)
 
 *Easy API; substitution is extremely feasible.*
+
+This is an optional dependency. If the IRC bots and server are not
+running (i.e. the connection fails either locally or to the server
+specified by `[chat_server]`), then the application attempts to
+directly connect to the chatbot agent specified under `[agent]` in the
+config. If even that is not provided, then the chat does not function.
 
 Flask only has four ways to persist state: an external database, files
 on disk, client-side browser storage, or talking to another
