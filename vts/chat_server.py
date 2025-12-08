@@ -19,11 +19,7 @@ from vts.llm import get_agent_response
 # line.
 END_MSG = 'gsM dnE'
 
-# TODO: reverse the midpoint search so it searches from the right when
-# on the left for the fallback split
-#
-# TODO: make sure split is called on the user send, not just the receive
-def split_on_first_whitespace(line: str, too_long: int) -> tuple[str, Optional[str], bool]:
+def split_whitespace(line: str, too_long: int) -> tuple[str, Optional[str], bool]:
     """
     Attempts to split at the first whitespace of the midpoint of a
     string. If that fails, then it attempts to split on the first
@@ -41,16 +37,18 @@ def split_on_first_whitespace(line: str, too_long: int) -> tuple[str, Optional[s
     replace = re.split(r'(\s+)', line[midpoint:], maxsplit=1)
     if len(replace) > 1:
         return (line[:midpoint] + replace[0], replace[2], True)
-    # Split from the start of the line
-    replace = re.split(r'(\s+)', line, maxsplit=1)
+    # Split from the midpoint, in reverse
+    replace = re.split(r'(\s+)', line[:midpoint][::-1], maxsplit=1)
     if len(replace) > 1:
-        return (replace[0], replace[2], True)
+        left = replace[2][::-1]
+        right = replace[0][::-1] + line[midpoint:]
+        return (left, right, True)
     # Failure to split
     return (line, None, False)
 
 def split_long_line(line: str, too_long: int) -> list[str]:
     "Attempts to split a line that's too long into lists."
-    left, right, is_reduced = split_on_first_whitespace(line, too_long)
+    left, right, is_reduced = split_whitespace(line, too_long)
     # The attempt to split failed or the attempt is unncessary.
     if not is_reduced or not right:
         # Short line.
@@ -59,6 +57,21 @@ def split_long_line(line: str, too_long: int) -> list[str]:
         # Truncate long line.
         return [line[:min(len(line), too_long - 1)]]
     return split_long_line(left, too_long) + split_long_line(right, too_long)
+
+def send_split_message(response: str, connection):
+    "Splits the message into multiple lines and sends it."
+    lines = response.splitlines()
+    for line in lines:
+        if len(line) > 450:
+            more_lines = split_long_line(line, 450)
+            for split_line in more_lines:
+                # If the splitting didn't work, truncate
+                if len(split_line) > 475:
+                    connection.privmsg("#test", split_line[:475])
+                else:
+                    connection.privmsg("#test", split_line)
+        else:
+            connection.privmsg("#test", line)
 
 class LlmBot(SingleServerIRCBot):
     "A bot representing the LLM"
@@ -75,18 +88,7 @@ class LlmBot(SingleServerIRCBot):
         print(message)
         response = get_agent_response(agent, message)
         print(response)
-        lines = response.splitlines()
-        for line in lines:
-            if len(line) > 450:
-                more_lines = split_long_line(line, 450)
-                for split_line in more_lines:
-                    # If the splitting didn't work, truncate
-                    if len(split_line) > 475:
-                        c.privmsg("#test", split_line[:475])
-                    else:
-                        c.privmsg("#test", split_line)
-            else:
-                c.privmsg("#test", line)
+        send_split_message(response, c)
         c.privmsg('#test', END_MSG)
 
 class GuestBot(SingleServerIRCBot):
@@ -157,6 +159,11 @@ def create_guest_bot(message: str) -> Optional[str]:
         while not bot.done:
             bot.reactor.process_once()
         return bot.final_message
+    # Note: The point of this is to fallback on ANY exception state so
+    # that another way to use the API can be attempted so the bare
+    # exception is desirable here.
+    #
+    # pylint:disable-next=bare-except
     except:
         return None
 
