@@ -17,6 +17,8 @@ from typing import List, Dict, Tuple, Optional
 
 from openai import OpenAI
 
+from vts.bot_logging import write_log_entry
+
 from vts.config import load_config
 
 def load_agent_secret_config() -> Tuple[str, str]:
@@ -150,11 +152,14 @@ def chat_with_agent(new_message: Optional[str],
 
     # A new message is appended before sending.
     if new_message:
-        messages.append({'role': 'user', 'content': new_message})
+        user_message_dict = {"role": "user", "content": new_message}
+        updated_messages = messages + [user_message_dict]
+    else:
+        updated_messages = messages
 
     resp = client.chat.completions.create(
         model="n/a",
-        messages=messages, # type: ignore
+        messages=updated_messages, # type: ignore
         #
         # pylint:disable-next=fixme
         # todo - implement this part later after fully adding knowledge base
@@ -166,7 +171,7 @@ def chat_with_agent(new_message: Optional[str],
     # step 2 - return model reply + the updated history
 
     if not resp.choices:
-        return fail_output_message, messages
+        return fail_output_message, updated_messages
 
     assistant_msg = resp.choices[0].message # ie: what was actually outputted by the model
     assistant_text = ""                     # ie: what we would return as the model reply
@@ -175,12 +180,12 @@ def chat_with_agent(new_message: Optional[str],
     else:
         assistant_text = fail_output_message
 
-    updated_messages = messages + [
-        {
-            "role": assistant_msg.role, # the role should be 'assistant'
-            "content": assistant_text,
-        }
-    ]
+    response_dict = {"role": assistant_msg.role, # the role should be 'assistant'
+                     "content": assistant_text}
+
+    updated_messages = updated_messages + [response_dict]
+
+    write_log_entry('test_log.txt', user_message_dict, response_dict)
 
     return assistant_text, updated_messages
 
