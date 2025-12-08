@@ -11,8 +11,7 @@ from irc.bot import ServerSpec
 
 from vts.config import load_config
 
-from vts.llm import create_agent_client
-from vts.llm import get_agent_response
+from vts.llm import chat_with_agent_with_history
 
 # Our bot likes to send multiple lines, so let's send the line "End
 # Msg" backwards, which is extremely unlikely to be a valid output
@@ -75,6 +74,10 @@ def send_split_message(response: str, connection):
 
 class LlmBot(SingleServerIRCBot):
     "A bot representing the LLM"
+    def __init__(self, server_list, nickname, realname):
+        self.message_list = []
+        super().__init__(server_list, nickname, realname)
+
     # pylint:disable-next=unused-argument
     def on_welcome(self, c, e):
         "Autojoin a channel; ignore e"
@@ -84,9 +87,10 @@ class LlmBot(SingleServerIRCBot):
         "Take any responses in the channel and reply with the chatbot."
         # nick = e.source.nick
         message = e.arguments[0]
-        agent = create_agent_client()
         print(message)
-        response = get_agent_response(agent, message)
+        self.message_list.append({'role': 'user', 'content': message})
+        response, message_list = chat_with_agent_with_history(self.message_list)
+        self.message_list = message_list
         print(response)
         send_split_message(response, c)
         c.privmsg('#test', END_MSG)
