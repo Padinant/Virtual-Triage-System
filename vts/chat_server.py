@@ -1,5 +1,7 @@
 """
-Creates a server to persist the chat state.
+Creates a server to persist the chat state. The chat server runs a
+chat bot that in turn connects to another server to send and receive
+messages.
 """
 
 import re
