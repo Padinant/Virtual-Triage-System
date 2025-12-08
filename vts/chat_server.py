@@ -11,7 +11,7 @@ from irc.bot import ServerSpec
 
 from vts.config import load_config
 
-from vts.llm import chat_with_agent_with_history
+from vts.llm import chat_with_agent
 
 # Our bot likes to send multiple lines, so let's send the line "End
 # Msg" backwards, which is extremely unlikely to be a valid output
@@ -88,8 +88,7 @@ class LlmBot(SingleServerIRCBot):
         # nick = e.source.nick
         message = e.arguments[0]
         print(message)
-        self.message_list.append({'role': 'user', 'content': message})
-        response, message_list = chat_with_agent_with_history(self.message_list)
+        response, message_list = chat_with_agent(message, self.message_list)
         self.message_list = message_list
         print(response)
         send_split_message(response, c)

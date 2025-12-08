@@ -13,8 +13,7 @@ from vts.chat_server import create_guest_bot
 
 from vts.config import load_config
 
-from vts.llm import create_agent_client
-from vts.llm import get_agent_response
+from vts.llm import chat_with_agent
 
 def reply_to_message():
     "This function gets text and makes a reply using get_echo_output"
@@ -27,9 +26,8 @@ def reply_to_message():
         config = load_config()
         # a direct connection is possible
         if 'agent' in config:
-            agent = create_agent_client()
             print(user_text)
-            reply = get_agent_response(agent, user_text)
+            reply = chat_with_agent(user_text, [], stateless=True)[0]
             print(reply)
         # provide contact information
         else:

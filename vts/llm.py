@@ -13,7 +13,7 @@ SOME FUNCTOINS AND CUSTOM TYPES IN THIS FILE THAT YOU MIGHT WANT TO USE:
 """
 
 # from dataclasses import dataclass, field
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Optional
 
 from openai import OpenAI
 
@@ -60,13 +60,6 @@ def ask_agent_openai(input_prompt: str,
 
     return "Access to agent failed. Maybe take a look at the FAQ section?"
 
-def create_agent_client():
-    """
-    creates the agent client
-    """
-    base_url, key = load_agent_secret_config()
-    return OpenAI(base_url=base_url, api_key=key)
-
 def get_agent_response(client, input_prompt: str):
     """
     gets an agent response
@@ -98,7 +91,6 @@ def get_agent_client() -> OpenAI:
     base_url, key = load_agent_secret_config()
     return OpenAI(base_url=base_url, api_key=key)
 
-
 # "Note that the the message type defined below should follow this structure:
 # {"role": "user"|"assistant"|"system", "content": "..."}
 #
@@ -110,7 +102,9 @@ def get_agent_client() -> OpenAI:
 
 MessageType = Dict[str, str]   # {"role": "user"|"assistant"|"system", "content": "..."}
 
-def chat_with_agent_with_history(messages: List[MessageType]) -> Tuple[str, List[MessageType]]:
+def chat_with_agent(new_message: Optional[str],
+                    messages: List[MessageType],
+                    stateless: bool=False) -> Tuple[str, List[MessageType]]:
     """
     Call this function if you want to chat to the chatbot, in a way
     that involves multiple back and forths!
@@ -121,10 +115,15 @@ def chat_with_agent_with_history(messages: List[MessageType]) -> Tuple[str, List
       - updated_messages: original chat history plus the model's
         recent message appended at the end
 
+    if provided, 'new_message' is appended to the end of the messages as a message
+    from the "user" role unless 'messages' is empty
+
     'messages' must be a list of dicts such as:
         {"role": "system", "content": "..."}
         {"role": "user", "content": "..."}
         {"role": "assistant", "content": "..."}
+
+    if 'stateless' is true, then the version without history is used
 
     note that system is optional; will probably not need to use the "system" role
 
@@ -133,8 +132,8 @@ def chat_with_agent_with_history(messages: List[MessageType]) -> Tuple[str, List
             {"role": "assistant", "content": "I'm the UMBC bot, how can I help you?"},
             {"role": "user", "content": "How can I request access to a room on campus?"},
         ]
-        reply, msgs = chat_with_agent_with_history (msgs)
-        print (reply)
+        reply, msgs = chat_with_agent(msgs)
+        print(reply)
 
     """
     # step 0 - set up key vars
@@ -142,6 +141,16 @@ def chat_with_agent_with_history(messages: List[MessageType]) -> Tuple[str, List
 
     # step 1 - get response from the model
     client = get_agent_client()
+
+    # Use the old interface if possible.
+    if stateless:
+        if new_message:
+            return get_agent_response(client, new_message), []
+        return "I'm sorry. I didn't understand that.", []
+
+    # A new message is appended before sending.
+    if new_message:
+        messages.append({'role': 'user', 'content': new_message})
 
     resp = client.chat.completions.create(
         model="n/a",
@@ -174,7 +183,6 @@ def chat_with_agent_with_history(messages: List[MessageType]) -> Tuple[str, List
     ]
 
     return assistant_text, updated_messages
-
 
 #########################################################
 # other functions - not directly dealing with getting input/output messages
@@ -211,7 +219,7 @@ if __name__ == "__main__":
     print("Demo 2: Having a multi-message with agent")
     msgs = [{"role": "system",
              "content": "Say hello and introduce yourself in one short sentence."}]
-    reply, msgs = chat_with_agent_with_history(msgs)
+    reply, msgs = chat_with_agent(None, msgs)
     print("Reply:")
     print(reply)
     print("Messages")
