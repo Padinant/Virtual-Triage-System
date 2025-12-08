@@ -3,12 +3,12 @@
 Team 5's project for the UMBC course CMSC 447 in the Fall 2025
 semester.
 
-# Installing, configuring, and running
+## Installing, configuring, and running
 
 For instructions on installing, configuring, and running our
 application, please see our [INSTALL.md](INSTALL.md) file.
 
-# Local testing (the short, quickstart version)
+## Local testing (the short, quickstart version)
 
 The full instructions are in INSTALL.md, but if you're impatient, then
 inside of this current directory run:
