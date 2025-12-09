@@ -41,7 +41,13 @@ entry in the configuration file. To disable this, comment it out with
 ## Configuration file
 
 We have a TOML file located in the XDG config directory. By default,
-it will be `$HOME/.config/vts/config.toml`.
+it will be `$HOME/.config/vts/config.toml`. In other words, it's in
+the `.config` directory under your home directory. Alternatively, you
+can put it in any directory as long as you set the environment
+variable `XDG_CONFIG_HOME` to that path.
+
+In that `.config` directory, you can create the `vts` subdirectory and
+the file `config.toml` in that subdirectory.
 
 For the chatbot to function, it needs an API key and an endpoint
 URL. This configuration can look like this:
@@ -95,7 +101,73 @@ chatbot's persistent chat is already running on a remote server. If
 running locally, the chatbot process and the chat server process need
 to run.
 
-*TODO: Have instructions for running/deploying perhaps in another file.*
+You can test whether the connection to the agent api works by making a
+quick call to chatbot. To do so, type either of the following in
+terminal:
+
+```bash
+cd vts
+python llm.py
+```
+
+or
+
+```bash
+python vts/llm.py
+```
+
+To test locally on your machine, either navigate to the `vts`
+directory and then run:
+
+```bash
+flask --app website run
+```
+
+Alternatively, from the top-level directory (where this file is
+located) run:
+
+```bash
+flask --app vts/website run
+```
+
+After that, navigate your browser to the Flask-provided localhost URL.
+
+Note that both pylint and pytest will not recognize imports from vts
+in the tests folder without installing and running both pylint and
+pytest *inside* of the venv if you are using virtual environments.
+
+## Running the chatbot with the application
+
+If only Flask is running, then the agent will run without any
+persistent history because Flask relies on either files or on cookies
+or on other processes such as servers and databases to persist
+history. Running the agent directly from inside of Flask requires an
+`[agent]` key in your configuration.
+
+If you want chat history to persist between requests, then you need
+the chatbot persisting on its own process (where it keeps track of its
+state), as well as an IRC server (to connect to).
+
+The test IRC server is:
+
+```bash
+python3 -m irc.server
+```
+
+And then the chatbot is:
+
+```bash
+python3 vts/chat_server.py
+```
+
+Note: Make sure to run in this order: flask, IRC, chatbot. If the
+chatbot can't see an already-started IRC server, then it won't connect
+when started.
+
+It can also connect to a real IRC server with the `[chat_server]`
+configuration in the TOML, given a `domain` and a `key` (server
+password). Note that if it connects to a real IRC server, then only
+the machine running the chatbot needs the `[agent]` key!
 
 # Dependencies Explained
 
@@ -135,10 +207,6 @@ We used a pure-Python search solution for several reasons:
   without having it be too complicated because two of us develop on
   Windows, one on macOS, and one directly on Linux. This also means
   that any of us could run the demo in the presentation.
-
-## requests
-
-_TODO: justify_
 
 ## openai
 
@@ -180,9 +248,15 @@ affect on our program's behavior, but it is safer to have the various
 API keys entirely outside of the git repository instead of merely
 `.gitignore`d.
 
-## irc
+## irc (optional)
 
 *Easy API; substitution is extremely feasible.*
+
+This is an optional dependency. If the IRC bots and server are not
+running (i.e. the connection fails either locally or to the server
+specified by `[chat_server]`), then the application attempts to
+directly connect to the chatbot agent specified under `[agent]` in the
+config. If even that is not provided, then the chat does not function.
 
 Flask only has four ways to persist state: an external database, files
 on disk, client-side browser storage, or talking to another

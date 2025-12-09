@@ -1,5 +1,7 @@
 """
-Creates a server to persist the chat state.
+Creates a server to persist the chat state. The chat server runs a
+chat bot that in turn connects to another server to send and receive
+messages.
 """
 
 import re
@@ -11,15 +13,14 @@ from irc.bot import ServerSpec
 
 from vts.config import load_config
 
-from vts.llm import create_agent_client
-from vts.llm import get_agent_response
+from vts.llm import chat_with_agent
 
 # Our bot likes to send multiple lines, so let's send the line "End
 # Msg" backwards, which is extremely unlikely to be a valid output
 # line.
 END_MSG = 'gsM dnE'
 
-def split_on_first_whitespace(line: str, too_long: int) -> tuple[str, Optional[str], bool]:
+def split_whitespace(line: str, too_long: int) -> tuple[str, Optional[str], bool]:
     """
     Attempts to split at the first whitespace of the midpoint of a
     string. If that fails, then it attempts to split on the first
@@ -37,16 +38,18 @@ def split_on_first_whitespace(line: str, too_long: int) -> tuple[str, Optional[s
     replace = re.split(r'(\s+)', line[midpoint:], maxsplit=1)
     if len(replace) > 1:
         return (line[:midpoint] + replace[0], replace[2], True)
-    # Split from the start of the line
-    replace = re.split(r'(\s+)', line, maxsplit=1)
+    # Split from the midpoint, in reverse
+    replace = re.split(r'(\s+)', line[:midpoint][::-1], maxsplit=1)
     if len(replace) > 1:
-        return (replace[0], replace[2], True)
+        left = replace[2][::-1]
+        right = replace[0][::-1] + line[midpoint:]
+        return (left, right, True)
     # Failure to split
     return (line, None, False)
 
 def split_long_line(line: str, too_long: int) -> list[str]:
     "Attempts to split a line that's too long into lists."
-    left, right, is_reduced = split_on_first_whitespace(line, too_long)
+    left, right, is_reduced = split_whitespace(line, too_long)
     # The attempt to split failed or the attempt is unncessary.
     if not is_reduced or not right:
         # Short line.
@@ -56,8 +59,27 @@ def split_long_line(line: str, too_long: int) -> list[str]:
         return [line[:min(len(line), too_long - 1)]]
     return split_long_line(left, too_long) + split_long_line(right, too_long)
 
+def send_split_message(response: str, connection):
+    "Splits the message into multiple lines and sends it."
+    lines = response.splitlines()
+    for line in lines:
+        if len(line) > 450:
+            more_lines = split_long_line(line, 450)
+            for split_line in more_lines:
+                # If the splitting didn't work, truncate
+                if len(split_line) > 475:
+                    connection.privmsg("#test", split_line[:475])
+                else:
+                    connection.privmsg("#test", split_line)
+        else:
+            connection.privmsg("#test", line)
+
 class LlmBot(SingleServerIRCBot):
     "A bot representing the LLM"
+    def __init__(self, server_list, nickname, realname):
+        self.message_list = []
+        super().__init__(server_list, nickname, realname)
+
     # pylint:disable-next=unused-argument
     def on_welcome(self, c, e):
         "Autojoin a channel; ignore e"
@@ -67,22 +89,11 @@ class LlmBot(SingleServerIRCBot):
         "Take any responses in the channel and reply with the chatbot."
         # nick = e.source.nick
         message = e.arguments[0]
-        agent = create_agent_client()
         print(message)
-        response = get_agent_response(agent, message)
+        response, message_list = chat_with_agent(message, self.message_list)
+        self.message_list = message_list
         print(response)
-        lines = response.splitlines()
-        for line in lines:
-            if len(line) > 450:
-                more_lines = split_long_line(line, 450)
-                for split_line in more_lines:
-                    # If the splitting didn't work, truncate
-                    if len(split_line) > 475:
-                        c.privmsg("#test", split_line[:475])
-                    else:
-                        c.privmsg("#test", split_line)
-            else:
-                c.privmsg("#test", line)
+        send_split_message(response, c)
         c.privmsg('#test', END_MSG)
 
 class GuestBot(SingleServerIRCBot):
@@ -136,7 +147,7 @@ def create_bot():
     bot = LlmBot([server], 'bot', 'bot')
     bot.start()
 
-def create_guest_bot(message: str) -> str:
+def create_guest_bot(message: str) -> Optional[str]:
     "Creates the guest bot."
     config = load_config()
     if "chat_server" in config:
@@ -144,12 +155,22 @@ def create_guest_bot(message: str) -> str:
         server = ServerSpec(config["domain"], 6667, config["key"])
     else:
         server = ServerSpec("127.0.0.1", 6667)
-    bot = GuestBot([server], 'notbot', 'notbot')
-    bot.outgoing_message = message
-    bot.connect(server.host, 6667, 'notbot')
-    while not bot.done:
-        bot.reactor.process_once()
-    return bot.final_message
+    # Note that any error at all in the try/except block means return
+    # None, which will tell the caller to use the fallback instead.
+    try:
+        bot = GuestBot([server], 'notbot', 'notbot')
+        bot.outgoing_message = message
+        bot.connect(server.host, 6667, 'notbot')
+        while not bot.done:
+            bot.reactor.process_once()
+        return bot.final_message
+    # Note: The point of this is to fallback on ANY exception state so
+    # that another way to use the API can be attempted so the bare
+    # exception is desirable here.
+    #
+    # pylint:disable-next=bare-except
+    except:
+        return None
 
 # The bot connects to a server such as the one from `python3 -m irc.server`
 #

@@ -349,9 +349,11 @@ def category_add_post():
 
     db = get_db()
     category_name = request.form['category_name'].strip()
+    # priority = request.form['priority'].strip()
 
     form_data = {
-        'category_name': request.form['category_name']
+        'category_name': request.form['category_name'],
+        # 'priority': request.form['priority']
     }
 
     errors = []
@@ -402,10 +404,12 @@ def category_edit_post(category_id: int):
 
     db = get_db()
     new_name = request.form['category_name'].strip()
+    # priority = request.form['priority'].strip()
 
     form_data = {
         'id': category_id,
         'category_name': request.form['category_name']
+        # 'priority': request.form['priority']
     }
 
     categories = db.faq_categories()
@@ -572,11 +576,13 @@ def faq_admin_add_post():
     question_text = request.form['question'].strip()
     answer_text = request.form['answer'].strip()
     category_id = request.form['category'].strip()
+    # priority = request.form['priority'].strip()
 
     form_data = {
         'question': request.form['question'],
         'answer': request.form['answer'],
-        'category': request.form['category']
+        'category': request.form['category'],
+        # 'priority': request.form['priority']
     }
 
     errors = []
@@ -586,6 +592,8 @@ def faq_admin_add_post():
         errors.append('Answer field cannot be empty.')
     if not category_id:
         errors.append('Please select a category.')
+    # if not priority:
+    #     errors.append('Please select a priority.')
 
     if errors:
         for error in errors:
@@ -624,12 +632,14 @@ def faq_admin_edit_post(faq_id: int):
     question_text = request.form['question'].strip()
     answer_text = request.form['answer'].strip()
     category_id = request.form['category'].strip()
+    # priority = request.form['priority'].strip()
 
     form_data = {
         'id': faq_id,
         'question_text': request.form['question'],
         'answer_text': request.form['answer'],
-        'category_id': request.form['category']
+        'category_id': request.form['category'],
+        # 'priority': request.form['priority']
     }
 
     errors = []
@@ -639,6 +649,8 @@ def faq_admin_edit_post(faq_id: int):
         errors.append('Answer field cannot be empty.')
     if not category_id:
         errors.append('Please select a category.')
+    # if not priority:
+    #     errors.append('Please select a priority.')
 
     if errors:
         for error in errors:
@@ -658,6 +670,7 @@ def faq_admin_edit_post(faq_id: int):
         item.question_text = question_text
         item.answer_text = answer_text
         item.category_id = category_id
+        # item.priority = priority
         item.timestamp = datetime.now()
 
     db.update_item(query, update)
