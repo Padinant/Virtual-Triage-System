@@ -27,14 +27,14 @@
         </a>
         {% if admin %}
         <a class="admin-login-button" href="{{ url_for('admin_logout') }}">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <svg class="icon" viewBox="0 0 24 24" focusable="false">
             <use href="/static/ICONS/sprite.svg#logout"></use>
           </svg>
           Logout as {{admin.username}}
         </a>
         {% else %}
         <a class="admin-login-button" href="{{ url_for('admin_login') }}">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <svg class="icon" viewBox="0 0 24 24" focusable="false">
             <use href="/static/ICONS/sprite.svg#login"></use>
           </svg>
           Admin Login
@@ -72,14 +72,14 @@
       <!-- Depending on what words the message starts with, there will be different flash styling, teal = success, red = error -->
       {% if message.startswith('Error:') or message.startswith('Login Error:') %}
       <section class="flash-message flash-error">
-        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <svg class="icon" viewBox="0 0 24 24" focusable="false">
           <use href="/static/ICONS/sprite.svg#warning"></use>
         </svg>
         {{ message }}
       </section>
       {% else %}
       <section class="flash-message flash-success">
-        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <svg class="icon" viewBox="0 0 24 24" focusable="false">
           <use href="/static/ICONS/sprite.svg#check-circle"></use>
         </svg>
         {{ message }}

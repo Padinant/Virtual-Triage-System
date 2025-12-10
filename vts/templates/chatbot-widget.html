@@ -5,10 +5,10 @@
     <span class="chatbot-widget-title">Ask Chatbot</span>
     <div class="chatbot-widget-controls">
       <button id="chatbot-widget-expand" class="chatbot-widget-expand" title="Expand">
-        <svg class="expand icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <svg class="expand icon" viewBox="0 0 24 24" focusable="false">
           <use href="/static/ICONS/sprite.svg#expand-arrow"></use>
         </svg>
-        <svg class="compress icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <svg class="compress icon" viewBox="0 0 24 24" focusable="false">
           <use href="/static/ICONS/sprite.svg#arrow-compress"></use>
         </svg>
       </button>
@@ -18,11 +18,18 @@
   <div id="chatbot-widget-messages" class="chatbot-widget-messages">
     <div class="message bot">
       <img src="{{ url_for('static', filename='UMBC_STYLES/dogumbc.png') }}" alt="UMBC Mascot" class="avatar">
-      <div class="bubble bot-bubble">How can I help you?</div>
+      <div class="bubble bot-bubble">
+        How can I help you?
+        <button class="copy-btn copy-right">
+          <svg class="icon" viewBox="0 0 24 24" focusable="false" width="16" height="16">
+            <use href="/static/ICONS/sprite.svg#copy"></use>
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
   <div class="chatbot-widget-input">
-    <form id="chatbot-widget-form">
+    <form id="chatbot-widget-form" autocomplete="off">
       <input id="chatbot-widget-input" type="text" placeholder="Type your question..." required minlength="1" maxlength="400" />
       <button type="submit">Send</button>
     </form>

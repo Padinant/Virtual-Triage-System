@@ -33,7 +33,7 @@
   overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: var(--umbc-dark-gray) var(--umbc-light-gray);
-  transition: background 180ms ease, background-position 120ms ease;
+  transition: background var(--transition-fast), background-position var(--transition-fast);
 }
 
 /* Fullscreen toggle button */
@@ -159,7 +159,7 @@ body.chat-fullscreen .main-content > *:not(#chat-container) {
 .message {
   display: flex;
   align-items: flex-end;
-  gap: calc(var(--space-sm) - 2px);
+  gap: var(--space-sm);
   animation: fadeIn 0.3s ease-in-out;
   position: relative;
   z-index: 1;
@@ -179,11 +179,11 @@ body.chat-fullscreen .main-content > *:not(#chat-container) {
 
 /* Avatar (Bot icon) */
 .avatar {
-  width: var(--space-xl);
-  height: var(--space-xl);
-  margin-right: calc(var(--space-xs));
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   flex-shrink: 0;
+  display: block;
 }
 
 /* Bot message (Left) */
@@ -196,13 +196,18 @@ body.chat-fullscreen .main-content > *:not(#chat-container) {
   background-color: var(--cust-lightest-gray);
   color: var(--umbc-black);
   border-radius: var(--space-xs);
-  padding: calc(var(--space-xs) + 6px) calc(var(--space-sm) + 6px);
-  max-width: 78%;
+  padding: calc(var(--space-sm) + 2px);
+  max-width: 75%;
+  text-align: left;
   font-size: var(--font-size-base);
   border: none;
   word-wrap: break-word;
   overflow-wrap: anywhere;
-  white-space: pre-wrap;
+  white-space: normal;
+  line-height: 1.4;
+  position: relative;
+  margin: 0;
+  display: inline-block;
 }
 
 /* User message (Right) */
@@ -214,35 +219,50 @@ body.chat-fullscreen .main-content > *:not(#chat-container) {
   background-color: var(--umbc-gold);
   color: var(--umbc-black);
   border-radius: var(--space-xs);
-  padding: calc(var(--space-xs) + 6px) calc(var(--space-sm) + 6px);
-  max-width: 78%;
-  text-align: right;
+  padding: calc(var(--space-sm) + 2px);
+  max-width: 75%;
+  text-align: left;
   font-size: var(--font-size-base);
   border: none;
   word-wrap: break-word;
   overflow-wrap: anywhere;
-  white-space: pre-wrap;
+  white-space: normal;
+  line-height: 1.4;
+  position: relative;
+  margin: 0;
+  display: inline-block;
 }
 
-.emoji {
-  font-size: calc(var(--font-size-base) + 0.25rem);
-  margin-left: var(--space-sm);
+.userprofilepicture {
+  font-size: var(--font-size-lg);
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.bubble p,
+.bubble ul,
+.bubble ol {
+  margin: 0;
+  padding: 0;
+}
+
+.bubble ul,
+.bubble ol {
+  padding-left: 1.5em;
+  list-style-position: outside;
+}
+
+.bubble p + p {
+  margin-top: 0.5em;
 }
 
 /* Input section */
-#input-section {
-  margin-top: var(--space-sm);
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-#chat-form {
-  display: flex;
-  width: 100%;
-  gap: var(--space-md);
-}
-
 #input-section {
   margin-top: var(--space-sm);
   display: flex;
@@ -280,7 +300,7 @@ body.chat-fullscreen .main-content > *:not(#chat-container) {
   font-weight: bold;
 }
 
- #chat-form button:hover {
+#chat-form button:hover {
   background-color: var(--umbc-dark-gray);
 }
 
@@ -288,4 +308,45 @@ body.chat-fullscreen .main-content > *:not(#chat-container) {
   color: var(--umbc-black);
   margin-top: var(--space-xs);
   font-weight: bold;
+}
+
+/* Copy button */
+.copy-btn {
+  position: absolute;
+  top: 0;
+  margin: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--space-xs);
+  border: none;
+  background: var(--umbc-white);
+  color: var(--umbc-black);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+}
+
+.copy-btn .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.message:hover .copy-btn,
+.bubble:hover .copy-btn {
+  display: inline-flex;
+}
+
+.bubble.bot-bubble .copy-btn.copy-right {
+  left: calc(100% + 8px);
+}
+
+.bubble.user-bubble .copy-btn.copy-left {
+  right: calc(100% + 8px);
+}
+
+.copy-btn.copied {
+  background: var(--umbc-gold);
 }

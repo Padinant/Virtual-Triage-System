@@ -87,8 +87,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const userDiv = document.createElement("div");
     userDiv.className = "message user";
     userDiv.innerHTML = `
-      <div class="bubble user-bubble">${message}</div>
-      <span class="emoji">😊</span>
+      <img src="/static/UMBC_STYLES/userprofile.png" class="avatar" alt="User Avatar">
+      <div class="bubble user-bubble">
+        ${message}
+        <button class="copy-btn copy-left">
+          <svg class="icon" viewBox="0 0 24 24" focusable="false" width="16" height="16">
+            <use href="/static/ICONS/sprite.svg#copy"></use>
+          </svg>
+        </button>
+      </div>
     `;
     widgetMessages.appendChild(userDiv);
     widgetMessages.scrollTop = widgetMessages.scrollHeight;
@@ -105,11 +112,18 @@ document.addEventListener('DOMContentLoaded', function() {
       const botDiv = document.createElement("div");
       const reply = success.json();
       reply.then((success) => {
-        reply_msg = success['reply'];
+        const reply_msg = success['reply'].trim();
         botDiv.className = "message bot";
         botDiv.innerHTML = `
           <img src="/static/UMBC_STYLES/dogumbc.png" class="avatar" alt="UMBC Mascot">
-          <div class="bubble bot-bubble">${reply_msg}</div>
+          <div class="bubble bot-bubble">
+            ${reply_msg}
+            <button class="copy-btn copy-right">
+              <svg class="icon" viewBox="0 0 24 24" focusable="false" width="16" height="16">
+                <use href="/static/ICONS/sprite.svg#copy"></use>
+              </svg>
+            </button>
+          </div>
         `;
         widgetMessages.appendChild(botDiv);
         widgetMessages.scrollTop = widgetMessages.scrollHeight;
@@ -119,4 +133,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Clear input field
     if (widgetInput) widgetInput.value = "";
   });
+
+  // Copy-to-clipboard handler for widget
+  if (widgetMessages) {
+    widgetMessages.addEventListener('click', async (e) => {
+      const btn = e.target.closest('.copy-btn');
+      if (!btn) return;
+      const bubble = btn.closest('.bubble');
+      if (!bubble) return;
+      const text = bubble.textContent.trim();
+      await navigator.clipboard.writeText(text); // Copy text to clipboard
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.classList.remove('copied');
+      }, 1000); // 1000 = 1 second timeout
+    });
+  }
 });

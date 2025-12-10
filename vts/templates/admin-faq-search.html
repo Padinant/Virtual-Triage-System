@@ -14,16 +14,16 @@
     <h1 class="page-title page-title-admin-faq">Admin FAQ</h1>
 
     <!-- Admin search form -->
-    <form class="faq-search" id="admin-faq-search" action="{{ url_for('faq_page') }}">
+    <form class="faq-search" id="admin-faq-search" action="{{ url_for('faq_page') }}" autocomplete="off">
       <!-- Input field -->
       <input
-        autocomplete="off"
         class="faq-search-input"
         id="admin-faq-query"
         name="query"
         placeholder="Search admin FAQs..."
         type="search"
         value="{{ query | default('', true) }}"
+        autocomplete="off"
       />
       <!-- Search button -->
       <button class="faq-search-submit" id="admin-faq-search-button" type="submit">
@@ -35,7 +35,7 @@
     <div class="faq-controls">
       <details class="faq-dropdown">
       <summary class="faq-dropdown-toggle">{{ selected_category }}
-        <svg class="chevron icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <svg class="chevron icon" viewBox="0 0 24 24" focusable="false">
           <use href="/static/ICONS/sprite.svg#chevron-down"></use>
         </svg>
       </summary>
@@ -52,7 +52,7 @@
       <!-- Edit categories button -->
       <a class="admin-action-button admin-action-button-edit-cats" role="button" href="{{ url_for('category_admin') }}">
         <span class="btn-icon">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <svg class="icon" viewBox="0 0 24 24" focusable="false">
             <use href="/static/ICONS/sprite.svg#edit"></use>
           </svg>
         </span>
@@ -63,7 +63,7 @@
         <!-- Add FAQ button -->
         <a class="admin-action-button admin-action-button-add" role="button" href="{{ url_for('faq_admin_add') }}">
           <span class="btn-icon">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <svg class="icon" viewBox="0 0 24 24" focusable="false">
               <use href="/static/ICONS/sprite.svg#add-file"></use>
             </svg>
           </span>
@@ -76,7 +76,7 @@
       <!-- Reset Test DB button -->
         <a class="admin-action-button admin-action-button-remove" role="button" href="{{ url_for('admin_reset_test_db') }}">
           <span class="btn-icon">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <svg class="icon" viewBox="0 0 24 24" focusable="false">
               <use href="/static/ICONS/sprite.svg#delete"></use>
             </svg>
           </span>
@@ -99,7 +99,7 @@
           <div class="admin-action-group">
             <a class="admin-action-button admin-action-button-edit" role="button" href="{{ url_for('faq_admin_edit', faq_id=item.id) }}">
               <span class="btn-icon">
-                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <svg class="icon" viewBox="0 0 24 24" focusable="false">
                   <use href="/static/ICONS/sprite.svg#edit"></use>
                 </svg>
               </span>
@@ -107,7 +107,7 @@
             </a>
             <a class="admin-action-button admin-action-button-remove" role="button" href="{{ url_for('faq_admin_remove', faq_id=item.id) }}">
               <span class="btn-icon">
-                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <svg class="icon" viewBox="0 0 24 24" focusable="false">
                   <use href="/static/ICONS/sprite.svg#delete"></use>
                 </svg>
               </span>

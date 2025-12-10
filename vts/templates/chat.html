@@ -14,11 +14,11 @@
 
   <!-- Chat container -->
   <div id="chat-container" class="container">
-      <button id="chat-fullscreen-btn" class="chat-fullscreen-btn" title="Toggle Expand" aria-pressed="false">
-        <svg class="expand-1 icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <button id="chat-fullscreen-btn" class="chat-fullscreen-btn" title="Toggle Expand">
+        <svg class="expand-1 icon" viewBox="0 0 24 24" focusable="false">
           <use href="/static/ICONS/sprite.svg#expand-arrow-1"></use>
         </svg>
-        <svg class="compress-1 icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <svg class="compress-1 icon" viewBox="0 0 24 24" focusable="false">
           <use href="/static/ICONS/sprite.svg#arrow-compress-1"></use>
         </svg>
       </button>
@@ -27,14 +27,20 @@
           <!-- Bot initial message -->
           <div class="message bot">
               <img src="{{ url_for('static', filename='UMBC_STYLES/dogumbc.png') }}" alt="UMBC Mascot" class="avatar">
-
-              <div class="bubble bot-bubble">How can I help you?</div>
+              <div class="bubble bot-bubble">
+                How can I help you?
+                <button class="copy-btn copy-right">
+                  <svg class="icon" viewBox="0 0 24 24" focusable="false" width="16" height="16">
+                    <use href="/static/ICONS/sprite.svg#copy"></use>
+                  </svg>
+                </button>
+              </div>
           </div>
       </div>
 
         <!-- Input area -->
         <div id="input-section">
-          <form id="chat-form">
+          <form id="chat-form" autocomplete="off">
             <input id="user-input" name="message" placeholder="Type your question..." required minlength="1" maxlength="400" />
             <button type="submit">Send</button>
           </form>

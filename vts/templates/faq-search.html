@@ -14,16 +14,16 @@
     <h1 class="page-title page-title-faq">Frequently Asked Questions (FAQ)</h1>
 
     <!-- Faq search bar section -->
-    <form class="faq-search" id="faq-search" action="{{ url_for('faq_page') }}">
+    <form class="faq-search" id="faq-search" action="{{ url_for('faq_page') }}" autocomplete="off">
       <!-- Input field -->
       <input
-        autocomplete="off"
         class="faq-search-input"
         id="faq-query"
         name="query"
         placeholder="Search FAQs..."
         type="search"
         value="{{ query | default('', true) }}"
+        autocomplete="off"
       />
       <!-- Search button -->
       <button class="faq-search-submit" id="faq-search-button" type="submit">
@@ -35,7 +35,7 @@
     <div class="faq-controls">
       <details class="faq-dropdown">
       <summary class="faq-dropdown-toggle">{{ selected_category }}
-        <svg class="chevron icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <svg class="chevron icon" viewBox="0 0 24 24" focusable="false">
           <use href="/static/ICONS/sprite.svg#chevron-down"></use>
         </svg>
       </summary>
