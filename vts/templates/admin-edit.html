@@ -22,6 +22,8 @@
           class="admin-textfield admin-textfield-question"
           id="admin-edit-question"
           name="question"
+          minlength="1"
+          maxlength="500"
         >{{ faq_entry.question_text }}</textarea>
       </div>
 
@@ -32,7 +34,9 @@
           class="admin-textfield admin-textfield-answer"
           id="admin-edit-answer"
           name="answer"
-        >{{ faq_entry.answer_text }}</textarea>
+          minlength="1"
+          maxlength="20000"
+       >{{ faq_entry.answer_text }}</textarea>
       </div>
 
       <div class="admin-form-group">
@@ -44,6 +48,12 @@
             <option value="{{ item.id }}"{% if faq_entry.category_id == item.id %} selected="true"{% endif %}>{{ item.category_name }}</option>
           {% endfor %}
         </select>
+      </div>
+
+      <div class="admin-form-group">
+        <!-- Sorting priority field -->
+        <h2 class="section-heading">Sorting Priority (Lower Number = Higher Priority)</h2>
+        <input type="number" name="priority" id="priority" value="{{faq_entry.priority}}" min="1" max="10" class="admin-input-number" />
       </div>
 
       <div class="admin-form-actions">

@@ -21,26 +21,37 @@ from vts.bot_logging import write_log_entry
 
 from vts.config import load_config
 
+FAIL_MESSAGE = "Access to agent failed. Maybe take a look at the FAQ section?"
+
+class AgentConfigError(Exception):
+    "Error if the agent config is incorrect."
+
 def load_agent_secret_config() -> Tuple[str, str]:
     """
     load the secret config values from the config folder
     precondition: the configuration path exists and contains info in correct format
     """
-    cfg = load_config()["agent"]
+    cfg = load_config()
+    if "agent" not in cfg:
+        raise AgentConfigError("[agent]")
+
+    cfg = cfg["agent"]
+
+    if "key" not in cfg:
+        raise AgentConfigError("key")
+
+    if "url" not in cfg:
+        raise AgentConfigError("url")
 
     # get agent endpoint and api access key from the config file
     endpoint = cfg["url"].rstrip("/") + "/api/v1/"
     access_key = cfg["key"]
     return endpoint, access_key
 
-def ask_agent_openai(input_prompt: str,
-                     # ignore unused argument in incomplete function
-                     # pylint:disable-next=unused-argument
-                     include_retrieval_info: bool = False) -> str:
+def ask_agent_openai(input_prompt: str) -> str:
     """
     this is the main function that does the communication between here and agent
     takes user text as input_prompt and returns the model output as a string
-    ignore include_retrieval_info boolean for now
     precondition: the configuration path exists and contains info in correct format
     """
     base_url, key = load_agent_secret_config()
@@ -49,41 +60,37 @@ def ask_agent_openai(input_prompt: str,
 
     agent_response = client.chat.completions.create(
         model="n/a",
-        messages=[{"role": "user", "content": input_prompt}],
-        # # Extra options for later - get meta data on the knowledge base usage:
-        # extra_body={
-        #     "include_retrieval_info": include_retrieval_info,
-        # },
+        messages=[{"role": "user", "content": input_prompt}]
     )
 
     # Return recieved output (if it exists)
     if agent_response.choices:
         return agent_response.choices[0].message.content or ''
 
-    return "Access to agent failed. Maybe take a look at the FAQ section?"
-
-def get_agent_response(client, input_prompt: str):
-    """
-    gets an agent response
-    """
-    agent_response = client.chat.completions.create(
-        model="n/a",
-        messages=[{"role": "user", "content": input_prompt}],
-        # # Extra options for later - get meta data on the knowledge base usage:
-        # extra_body={
-        #     "include_retrieval_info": include_retrieval_info,
-        # },
-    )
-
-    # Return recieved output (if it exists)
-    if agent_response.choices:
-        return agent_response.choices[0].message.content
-
-    return "Access to agent failed. Maybe take a look at the FAQ section?"
+    return FAIL_MESSAGE
 
 def say_hello_openai() -> str:
     "an example function that can be called at the start!"
     return ask_agent_openai("Say hello and introduce yourself in one short sentence.")
+
+def get_agent_response(client, input_prompt: str):
+    """
+    gets an agent response without using chat history
+    """
+    user_message = {"role": "user", "content": input_prompt}
+    agent_response = client.chat.completions.create(
+        model="n/a",
+        messages=[user_message]
+    )
+
+    # Return recieved output (if it exists)
+    if agent_response.choices:
+        response = agent_response.choices[0].message.content
+        response_dict = {"role": "assistant", "content": response}
+        write_log_entry("memoryless_chat.txt", user_message, response_dict)
+        return response
+
+    return FAIL_MESSAGE
 
 #########################################################
 # NEW PORTION - TO HELP WITH PASSING FULL CHAT HISTORY TO THE MODEL
@@ -106,6 +113,7 @@ MessageType = Dict[str, str]   # {"role": "user"|"assistant"|"system", "content"
 
 def chat_with_agent(new_message: Optional[str],
                     messages: List[MessageType],
+                    session: int=0,
                     stateless: bool=False) -> Tuple[str, List[MessageType]]:
     """
     Call this function if you want to chat to the chatbot, in a way
@@ -127,6 +135,8 @@ def chat_with_agent(new_message: Optional[str],
 
     if 'stateless' is true, then the version without history is used
 
+    the session tells it which simultaneous chat session it is using
+
     note that system is optional; will probably not need to use the "system" role
 
     Example call:
@@ -138,9 +148,6 @@ def chat_with_agent(new_message: Optional[str],
         print(reply)
 
     """
-    # step 0 - set up key vars
-    fail_output_message = "Access to agent failed. Maybe take a look at the FAQ section?"
-
     # step 1 - get response from the model
     client = get_agent_client()
 
@@ -160,64 +167,33 @@ def chat_with_agent(new_message: Optional[str],
     resp = client.chat.completions.create(
         model="n/a",
         messages=updated_messages, # type: ignore
-        #
-        # pylint:disable-next=fixme
-        # todo - implement this part later after fully adding knowledge base
-        # extra_body={
-        #     "include_retrieval_info": include_retrieval_info,
-        # },
     )
 
     # step 2 - return model reply + the updated history
 
     if not resp.choices:
-        return fail_output_message, updated_messages
+        return FAIL_MESSAGE, updated_messages
 
     assistant_msg = resp.choices[0].message # ie: what was actually outputted by the model
     assistant_text = ""                     # ie: what we would return as the model reply
     if assistant_msg.content:
         assistant_text = assistant_msg.content
     else:
-        assistant_text = fail_output_message
+        assistant_text = FAIL_MESSAGE
 
     response_dict = {"role": assistant_msg.role, # the role should be 'assistant'
                      "content": assistant_text}
 
     updated_messages = updated_messages + [response_dict]
 
-    write_log_entry('test_log.txt', user_message_dict, response_dict)
+    write_log_entry(f's{session}.txt', user_message_dict, response_dict)
 
     return assistant_text, updated_messages
 
-#########################################################
-# other functions - not directly dealing with getting input/output messages
-# tbi - to be implemented
-
-# ignore unused arguments on stub
-# pylint:disable-next=unused-argument
-def update_agent_instruction_prompt(new_instruction_prompt: str) -> bool:
-    "tbi"
-    return False
-
-# ignore unused arguments on stub
-# pylint:disable-next=unused-argument
-def add_file_to_kb(new_knowledge_base_file_path: str, kb_id: str) -> bool:
-    "tbi"
-    return False
-
-# ignore unused arguments on stub
-# pylint:disable-next=unused-argument
-def create_new_kb(kb_name, kb_decription = ""):
-    "tbi; would return the kb api in digital ocean"
-    return False
-
-# ignore unused arguments on stub
-# pylint:disable-next=unused-argument
-def add_kb_to_agent(agent_id: str, kb_id: str):
-    "tbi"
-    return False
-
 # if this file is ran, have the model introduce itself
+#
+# this is for running the file directly as local testing, separate
+# from the integration with the rest of the web app
 if __name__ == "__main__":
     print("Demo 1: Calling on agent to say hello (single prompt)...")
     print(say_hello_openai())

@@ -11,8 +11,8 @@
   <!-- Page title with admin link -->
   <div class="page-title-container">
     <h1 class="page-title page-title-main">Got Questions? We Have Answers!</h1>
-    {% if is_admin %}
-    <a href="{{ url_for('faq_page') }}" class="admin-faq-link">You are logged in as an admin, click here to manage your FAQs</a>
+    {% if admin %}
+    <a href="{{ url_for('faq_page') }}" class="admin-faq-link">Manage Your FAQs as an Admin</a>
     {% endif %}
   </div>
     <p>

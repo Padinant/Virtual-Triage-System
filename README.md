@@ -8,6 +8,26 @@ semester.
 For instructions on installing, configuring, and running our
 application, please see our [INSTALL.md](INSTALL.md) file.
 
+## Configuration and log files
+
+This project uses the XDG standard to load local configuration and
+write local data files.
+
+By default, that means that the required (for the agent chatbot)
+configuration will be located in:
+
+```bash
+$HOME/.config/vts/config.toml
+```
+
+And the log files will write to various `.txt` files in the directory:
+
+```bash
+$HOME/.local/share/vts/
+```
+
+The INSTALL.md file has more information on the configuration file.
+
 ## Local testing (the short, quickstart version)
 
 The full instructions are in INSTALL.md, but if you're impatient, then

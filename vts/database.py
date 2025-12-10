@@ -5,6 +5,7 @@ database tables.
 
 from datetime import datetime
 from enum import Enum
+from typing import Optional
 
 # Imports for the SQL tables
 from sqlalchemy import Boolean
@@ -221,7 +222,7 @@ class AppDatabase():
             statement = select(User)
             return results_as_dicts(session.scalars(statement))
 
-    def check_user_login(self, username: str, password: str, pwhash) -> bool:
+    def check_user_login(self, username: str, password: str, pwhash) -> Optional[int]:
         "Verifies that the password matches for the given username, checked by pwhash."
         with Session(self.engine) as session:
             statement = select(User).where(User.name == username)
@@ -231,7 +232,10 @@ class AppDatabase():
             # permissions removed.
             if user is None or not user.is_admin:
                 return False
-            return pwhash.check_password_hash(user.password, password)
+            password_status = pwhash.check_password_hash(user.password, password)
+            if password_status:
+                return user.id
+            return None
 
     def add_item(self, item: User|FAQCategory|FAQEntry) -> int:
         "Uses a session to add and commit exactly one item to the database."
@@ -348,7 +352,7 @@ class AppDatabase():
                 categories[category.category_name] = category.id
         return categories
 
-    def category_name_exists(self, category_name) -> bool:
+    def category_name_exists(self, category_name: str) -> bool:
         """
         Check if a category name already exists (case-insensitive).
         Returns True if the name exists, False otherwise.
@@ -363,7 +367,10 @@ class AppDatabase():
                     return True
         return False
 
-    def update_category(self, category_id, new_name) -> bool:
+    def update_category(self,
+                        category_id: int,
+                        new_name: str,
+                        new_priority) -> bool:
         """
         Update the name of a category specified by `category_id`.
         Returns True on success.
@@ -372,6 +379,7 @@ class AppDatabase():
             statement = select(FAQCategory).where(FAQCategory.id == category_id)
             result = session.scalars(statement).one()
             result.category_name = new_name
+            result.priority = new_priority
             session.commit()
         return True
 
