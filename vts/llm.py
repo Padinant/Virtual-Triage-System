@@ -60,7 +60,7 @@ def ask_agent_openai(input_prompt: str) -> str:
 
     agent_response = client.chat.completions.create(
         model="n/a",
-        messages=[{"role": "user", "content": input_prompt}],
+        messages=[{"role": "user", "content": input_prompt}]
     )
 
     # Return recieved output (if it exists)
@@ -77,14 +77,18 @@ def get_agent_response(client, input_prompt: str):
     """
     gets an agent response without using chat history
     """
+    user_message = {"role": "user", "content": input_prompt}
     agent_response = client.chat.completions.create(
         model="n/a",
-        messages=[{"role": "user", "content": input_prompt}],
+        messages=[user_message]
     )
 
     # Return recieved output (if it exists)
     if agent_response.choices:
-        return agent_response.choices[0].message.content
+        response = agent_response.choices[0].message.content
+        response_dict = {"role": "assistant", "content": response}
+        write_log_entry("memoryless_chat.txt", user_message, response_dict)
+        return response
 
     return FAIL_MESSAGE
 
