@@ -14,6 +14,12 @@
       <input type="text" name="category_name" id="category-name" class="admin-textfield" value="{{ category.category_name }}" minlength="1" maxlength="50" />
     </div>
 
+    <div class="admin-form-group">
+      <!-- Sorting priority field -->
+      <h2 class="section-heading">Sorting Priority (Lower Number = Higher Priority)</h2>
+      <input type="number" name="priority" id="priority" value="{{category.priority}}" min="1" max="10" class="admin-input-number" />
+    </div>
+
     <div class="admin-form-actions">
       <a class="admin-exit-button" href="{{ url_for('faq_page') }}" role="button">Exit</a>
       <button class="admin-submit-button" type="submit">Save</button>

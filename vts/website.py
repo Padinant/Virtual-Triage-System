@@ -374,7 +374,8 @@ def category_add_post():
                                form_data=form_data,
                                is_admin=True)
 
-    new_cat = FAQCategory(category_name=category_name)
+    new_cat = FAQCategory(category_name=category_name,
+                          priority=priority)
     db.add_item(new_cat)
     flash(f'Category "{category_name}" added successfully!')
     return redirect(url_for('category_admin'))
@@ -438,7 +439,7 @@ def category_edit_post(category_id: int):
                                category=form_data,
                                is_admin=True)
 
-    db.update_category(category_id, new_name)
+    db.update_category(category_id, new_name, priority)
     flash(f'Category updated to "{new_name}" successfully!')
     return redirect(url_for('category_admin'))
 

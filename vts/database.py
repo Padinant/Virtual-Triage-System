@@ -348,7 +348,7 @@ class AppDatabase():
                 categories[category.category_name] = category.id
         return categories
 
-    def category_name_exists(self, category_name) -> bool:
+    def category_name_exists(self, category_name: str) -> bool:
         """
         Check if a category name already exists (case-insensitive).
         Returns True if the name exists, False otherwise.
@@ -363,7 +363,10 @@ class AppDatabase():
                     return True
         return False
 
-    def update_category(self, category_id, new_name) -> bool:
+    def update_category(self,
+                        category_id: int,
+                        new_name: str,
+                        new_priority) -> bool:
         """
         Update the name of a category specified by `category_id`.
         Returns True on success.
@@ -372,6 +375,7 @@ class AppDatabase():
             statement = select(FAQCategory).where(FAQCategory.id == category_id)
             result = session.scalars(statement).one()
             result.category_name = new_name
+            result.priority = new_priority
             session.commit()
         return True
 
