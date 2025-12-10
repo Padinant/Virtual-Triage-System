@@ -266,12 +266,19 @@ def faq_item_page(faq_id: int):
     categories = db.faq_categories()
     admin_status = get_admin_status()
     template_page = 'admin-faq-search.html' if admin_status else 'faq-search.html'
+    selected_category = 'All Categories'
+    if items:
+        category_id = items[0].get('category_id')
+        if category_id is not None:
+            name = find_category_name(categories, category_id)
+            if name:
+                selected_category = name
     return render_template(template_page,
                            title=f"FAQ Item #{faq_id} - Interactive Help",
                            menu_items=MENU_ITEMS,
                            category_items=categories,
                            faq_items=items,
-                           selected_category='All Categories',
+                           selected_category=selected_category,
                            admin=admin_status)
 
 @app.route("/faq/category/<int:category_id>")
