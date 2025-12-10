@@ -23,12 +23,25 @@ from vts.config import load_config
 
 FAIL_MESSAGE = "Access to agent failed. Maybe take a look at the FAQ section?"
 
+class AgentConfigError(Exception):
+    "Error if the agent config is incorrect."
+
 def load_agent_secret_config() -> Tuple[str, str]:
     """
     load the secret config values from the config folder
     precondition: the configuration path exists and contains info in correct format
     """
-    cfg = load_config()["agent"]
+    cfg = load_config()
+    if "agent" not in cfg:
+        raise AgentConfigError("[agent]")
+
+    cfg = cfg["agent"]
+
+    if "key" not in cfg:
+        raise AgentConfigError("key")
+
+    if "url" not in cfg:
+        raise AgentConfigError("url")
 
     # get agent endpoint and api access key from the config file
     endpoint = cfg["url"].rstrip("/") + "/api/v1/"
