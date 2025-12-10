@@ -50,6 +50,12 @@
         </select>
       </div>
 
+      <div class="admin-form-group">
+        <!-- Sorting priority field -->
+        <h2 class="section-heading">Sorting Priority (Lower Number = Higher Priority)</h2>
+        <input type="number" name="priority" id="priority" value="{{faq_entry.priority}}" min="1" max="10" class="admin-input-number" />
+      </div>
+
       <div class="admin-form-actions">
         <!-- Exit button -->
         <a class="admin-exit-button" href="{{ url_for('faq_page') }}" role="button">Exit</a>

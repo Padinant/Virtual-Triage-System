@@ -53,6 +53,11 @@
   max-width: 25rem;
 }
 
+/* Numeric input width */
+.admin-input-number {
+  max-width: 50px;
+}
+
 /* Focus state */
 .admin-textfield:focus,
 .admin-text-input:focus,
