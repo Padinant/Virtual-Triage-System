@@ -23,6 +23,8 @@
           id="admin-add-question"
           name="question"
           placeholder="Enter the FAQ question..."
+          minlength="1"
+          maxlength="500"
         >{% if form_data %}{{ form_data.question }}{% endif %}</textarea>
       </div>
 
@@ -34,6 +36,8 @@
           id="admin-add-answer"
           name="answer"
           placeholder="Provide the detailed answer..."
+          minlength="1"
+          maxlength="20000"
         >{% if form_data %}{{ form_data.answer }}{% endif %}</textarea>
       </div>
 

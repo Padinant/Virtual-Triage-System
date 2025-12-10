@@ -11,7 +11,7 @@
 
   <form class="admin-faq-form" action="{{ url_for('category_add_post') }}" method="post">
     <div class="admin-form-group">
-      <input type="text" name="category_name" id="category-name" class="admin-textfield" placeholder="Category name" value="{% if form_data %}{{ form_data.category_name }}{% endif %}" />
+      <input type="text" name="category_name" id="category-name" class="admin-textfield" placeholder="Category name" value="{% if form_data %}{{ form_data.category_name }}{% endif %}" minlength="1" maxlength="50" />
     </div>
 
     <div class="admin-form-actions">

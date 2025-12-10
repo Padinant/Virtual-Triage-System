@@ -11,7 +11,7 @@
 
   <form class="admin-faq-form" action="{{ url_for('category_edit_post', category_id=category.id) }}" method="post">
     <div class="admin-form-group">
-      <input type="text" name="category_name" id="category-name" class="admin-textfield" value="{{ category.category_name }}" />
+      <input type="text" name="category_name" id="category-name" class="admin-textfield" value="{{ category.category_name }}" minlength="1" maxlength="50" />
     </div>
 
     <div class="admin-form-actions">

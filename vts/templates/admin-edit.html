@@ -22,6 +22,8 @@
           class="admin-textfield admin-textfield-question"
           id="admin-edit-question"
           name="question"
+          minlength="1"
+          maxlength="500"
         >{{ faq_entry.question_text }}</textarea>
       </div>
 
@@ -32,7 +34,9 @@
           class="admin-textfield admin-textfield-answer"
           id="admin-edit-answer"
           name="answer"
-        >{{ faq_entry.answer_text }}</textarea>
+          minlength="1"
+          maxlength="20000"
+       >{{ faq_entry.answer_text }}</textarea>
       </div>
 
       <div class="admin-form-group">
