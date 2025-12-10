@@ -137,7 +137,7 @@ class GuestBot(SingleServerIRCBot):
             message = self.outgoing_message
         print(message)
         # Make sure to truncate the message
-        c.privmsg('#test', message[:475])
+        c.privmsg('#test', message[:400])
 
 def create_bot():
     "Creates the bot."
