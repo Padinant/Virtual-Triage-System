@@ -169,6 +169,11 @@ configuration in the TOML, given a `domain` and a `key` (server
 password). Note that if it connects to a real IRC server, then only
 the machine running the chatbot needs the `[agent]` key!
 
+Also note that the file `vts/llm.py` can be run directly as its own
+script so that you can test a chat session with the `[agent]` key from
+the configuration file without having to integrate with the rest of
+the web application.
+
 # Dependencies Explained
 
 Our direct dependencies are as follows:
