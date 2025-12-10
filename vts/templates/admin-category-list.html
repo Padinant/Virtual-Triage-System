@@ -20,7 +20,7 @@
     <div>
       <a class="admin-action-button admin-action-button-add" href="{{ url_for('category_add') }}">
         <span class="btn-icon">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <svg class="icon" viewBox="0 0 24 24" focusable="false">
             <use href="/static/ICONS/sprite.svg#add-file"></use>
           </svg>
         </span>
@@ -41,7 +41,7 @@
         <div class="admin-action-group">
           <a class="admin-action-button admin-action-button-edit" href="{{ url_for('category_edit', category_id=cat.id) }}">
             <span class="btn-icon">
-              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <svg class="icon" viewBox="0 0 24 24" focusable="false">
                 <use href="/static/ICONS/sprite.svg#edit"></use>
               </svg>
             </span>
@@ -50,7 +50,7 @@
           {% if cat.is_empty %}
           <a class="admin-action-button admin-action-button-remove" href="{{ url_for('category_remove', category_id=cat.id) }}">
             <span class="btn-icon">
-              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <svg class="icon" viewBox="0 0 24 24" focusable="false">
                 <use href="/static/ICONS/sprite.svg#delete"></use>
               </svg>
             </span>

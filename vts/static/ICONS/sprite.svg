@@ -73,4 +73,9 @@
   <symbol id="refresh" viewBox="0 0 24 24">
     <path d="M21 12C21 16.9706 16.9706 21 12 21C9.69494 21 7.59227 20.1334 6 18.7083L3 16M3 12C3 7.02944 7.02944 3 12 3C14.3051 3 16.4077 3.86656 18 5.29168L21 8M3 21V16M3 16H8M21 3V8M21 8H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </symbol>
+  <symbol id="copy" viewBox="0 0 24 24">
+    <path d="M9 9V6.2c0-1.12 0-1.68.218-2.108A2 2 0 0 1 10.092 3.22C10.52 3 11.08 3 12.2 3h5.6c1.12 0 1.68 0 2.108.218.376.192.683.498.874.874C21 4.52 21 5.08 21 6.2v5.6c0 1.12 0 1.68-.218 2.108a2 2 0 0 1-.874.874C19.48 15 18.92 15 17.8 15H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M9 9H6.2c-1.12 0-1.68 0-2.108.218a2 2 0 0 0-.874.874C3 10.52 3 11.08 3 12.2v5.6c0 1.12 0 1.68.218 2.108.192.376.498.683.874.874C4.52 21 5.08 21 6.2 21h5.6c1.12 0 1.68 0 2.108-.218.376-.192.683-.498.874-.874C15 19.48 15 18.92 15 17.8V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M9 9h2.8c1.12 0 1.68 0 2.108.218.376.192.683.498.874.874C15 10.52 15 11.08 15 12.2V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </symbol>
 </svg>
