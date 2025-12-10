@@ -22,15 +22,15 @@
     </p>
 
     <!-- Faq search bar section -->
-    <form class="faq-search" id="faq-search" action="{{ url_for('faq_page') }}">
+    <form class="faq-search" id="faq-search" action="{{ url_for('faq_page') }}" autocomplete="off">
       <!-- Input field -->
       <input
-        autocomplete="off"
         class="faq-search-input"
         id="faq-query"
         name="query"
         placeholder="Search FAQs..."
         type="search"
+        autocomplete="off"
       />
       <!-- Search button -->
       <button class="faq-search-submit" id="faq-search-button" type="submit">

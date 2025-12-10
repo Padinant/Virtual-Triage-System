@@ -20,7 +20,7 @@
 
     <!-- Confirmation button group -->
     <div class="admin-remove-actions">
-      <form action="{{ url_for('faq_admin_remove_post', faq_id = faq_items[0].id) }}" method="post">
+      <form action="{{ url_for('faq_admin_remove_post', faq_id = faq_items[0].id) }}" method="post" autocomplete="off">
         <button class="admin-remove-button admin-remove-button-yes" type="submit" name="confirm" value="yes">
           Yes, Remove Item
         </button>

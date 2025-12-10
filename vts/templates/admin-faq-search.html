@@ -14,16 +14,16 @@
     <h1 class="page-title page-title-admin-faq">Admin FAQ</h1>
 
     <!-- Admin search form -->
-    <form class="faq-search" id="admin-faq-search" action="{{ url_for('faq_page') }}">
+    <form class="faq-search" id="admin-faq-search" action="{{ url_for('faq_page') }}" autocomplete="off">
       <!-- Input field -->
       <input
-        autocomplete="off"
         class="faq-search-input"
         id="admin-faq-query"
         name="query"
         placeholder="Search admin FAQs..."
         type="search"
         value="{{ query | default('', true) }}"
+        autocomplete="off"
       />
       <!-- Search button -->
       <button class="faq-search-submit" id="admin-faq-search-button" type="submit">

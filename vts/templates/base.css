@@ -561,14 +561,15 @@ img {
   border-radius: var(--space-xs);
   max-width: 75%;
   padding: calc(var(--space-sm) + 2px);
-  word-wrap: break-word;
+  text-align: left;
   border: none;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
   white-space: normal;
   line-height: 1.4;
   position: relative;
   margin: 0;
   display: inline-block;
-  text-align: left;
 }
 
 .chatbot-widget-messages .bot-bubble {

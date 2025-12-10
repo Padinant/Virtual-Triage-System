@@ -9,7 +9,7 @@
 {% block content %}
   <h1 class="page-title">Add Category [ADMIN]</h1>
 
-  <form class="admin-faq-form" action="{{ url_for('category_add_post') }}" method="post">
+  <form class="admin-faq-form" action="{{ url_for('category_add_post') }}" method="post" autocomplete="off">
     <div class="admin-form-group">
       <input type="text" name="category_name" id="category-name" class="admin-textfield" placeholder="Category name" value="{% if form_data %}{{ form_data.category_name }}{% endif %}" minlength="1" maxlength="50" />
     </div>
