@@ -109,6 +109,7 @@ MessageType = Dict[str, str]   # {"role": "user"|"assistant"|"system", "content"
 
 def chat_with_agent(new_message: Optional[str],
                     messages: List[MessageType],
+                    session: int=0,
                     stateless: bool=False) -> Tuple[str, List[MessageType]]:
     """
     Call this function if you want to chat to the chatbot, in a way
@@ -129,6 +130,8 @@ def chat_with_agent(new_message: Optional[str],
         {"role": "assistant", "content": "..."}
 
     if 'stateless' is true, then the version without history is used
+
+    the session tells it which simultaneous chat session it is using
 
     note that system is optional; will probably not need to use the "system" role
 
@@ -179,7 +182,7 @@ def chat_with_agent(new_message: Optional[str],
 
     updated_messages = updated_messages + [response_dict]
 
-    write_log_entry('test_log.txt', user_message_dict, response_dict)
+    write_log_entry(f's{session}.txt', user_message_dict, response_dict)
 
     return assistant_text, updated_messages
 

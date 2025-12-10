@@ -13,12 +13,17 @@ import re
 
 from typing import Optional
 
+from time import sleep
+
 from irc.bot import SingleServerIRCBot
 from irc.bot import ServerSpec
 
 from vts.config import load_config
 
 from vts.llm import chat_with_agent
+
+MAX_SESSIONS = 12
+LINE_LIMIT = 450
 
 # Our bot likes to send multiple lines, so let's send the line "End
 # Msg" backwards, which is extremely unlikely to be a valid output
@@ -64,31 +69,39 @@ def split_long_line(line: str, too_long: int) -> list[str]:
         return [line[:min(len(line), too_long - 1)]]
     return split_long_line(left, too_long) + split_long_line(right, too_long)
 
-def send_split_message(response: str, connection):
+def send_split_message(session: int, response: str, connection):
     "Splits the message into multiple lines and sends it."
     lines = response.splitlines()
+    channel = f'#s{session}'
     for line in lines:
-        if len(line) > 450:
-            more_lines = split_long_line(line, 450)
+        if len(line) > LINE_LIMIT:
+            more_lines = split_long_line(line, LINE_LIMIT)
             for split_line in more_lines:
                 # If the splitting didn't work, truncate
-                if len(split_line) > 475:
-                    connection.privmsg("#test", split_line[:475])
+                if len(split_line) > LINE_LIMIT:
+                    connection.privmsg(channel, split_line[:LINE_LIMIT])
                 else:
-                    connection.privmsg("#test", split_line)
+                    connection.privmsg(channel, split_line)
         else:
-            connection.privmsg("#test", line)
+            connection.privmsg(channel, line)
 
 class LlmBot(SingleServerIRCBot):
     "A bot representing the LLM"
+    sessions: list[int] = []
+
     def __init__(self, server_list, nickname, realname):
         self.message_list = []
+        self.session = 0
         super().__init__(server_list, nickname, realname)
 
     # pylint:disable-next=unused-argument
     def on_welcome(self, c, e):
-        "Autojoin a channel; ignore e"
-        c.join("#test")
+        "Autojoin all session channels; ignore e"
+        # Note there are 12 sessions from 1 to 12 and "null" channel 0
+        # for no session.
+        for i in range(MAX_SESSIONS + 1):
+            c.join(f'#s{i}')
+            sleep(0.1)
 
     def on_pubmsg(self, c, e):
         "Take any responses in the channel and reply with the chatbot."
@@ -98,8 +111,8 @@ class LlmBot(SingleServerIRCBot):
         response, message_list = chat_with_agent(message, self.message_list)
         self.message_list = message_list
         print(response)
-        send_split_message(response, c)
-        c.privmsg('#test', END_MSG)
+        send_split_message(self.session, response, c)
+        c.privmsg(f'#s{self.session}', END_MSG)
 
 class GuestBot(SingleServerIRCBot):
     "A bot representing the LLM"
@@ -108,12 +121,13 @@ class GuestBot(SingleServerIRCBot):
         self.incoming_messages = []
         self.final_message = ''
         self.done = False
+        self.session = 0
         super().__init__(server_list, nickname, realname)
 
     # pylint:disable-next=unused-argument
     def on_welcome(self, c, e):
         "Autojoin a channel; ignore e"
-        c.join("#test")
+        c.join(f'#s{self.session}')
         self.send_message()
 
     # pylint:disable-next=unused-argument
@@ -137,7 +151,7 @@ class GuestBot(SingleServerIRCBot):
             message = self.outgoing_message
         print(message)
         # Make sure to truncate the message
-        c.privmsg('#test', message[:400])
+        c.privmsg(f'#s{self.session}', message[:400])
 
 def create_bot():
     "Creates the bot."
@@ -164,9 +178,9 @@ def create_guest_bot(message: str) -> Optional[str]:
     # Note that any error at all in the try/except block means return
     # None, which will tell the caller to use the fallback instead.
     try:
-        bot = GuestBot([server], 'notbot', 'notbot')
+        bot = GuestBot([server], 'guest', 'guest')
         bot.outgoing_message = message
-        bot.connect(server.host, 6667, 'notbot')
+        bot.connect(server.host, 6667, 'guest')
         while not bot.done:
             bot.reactor.process_once()
         return bot.final_message
