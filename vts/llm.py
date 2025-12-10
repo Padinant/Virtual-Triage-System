@@ -33,14 +33,10 @@ def load_agent_secret_config() -> Tuple[str, str]:
     access_key = cfg["key"]
     return endpoint, access_key
 
-def ask_agent_openai(input_prompt: str,
-                     # ignore unused argument in incomplete function
-                     # pylint:disable-next=unused-argument
-                     include_retrieval_info: bool = False) -> str:
+def ask_agent_openai(input_prompt: str) -> str:
     """
     this is the main function that does the communication between here and agent
     takes user text as input_prompt and returns the model output as a string
-    ignore include_retrieval_info boolean for now
     precondition: the configuration path exists and contains info in correct format
     """
     base_url, key = load_agent_secret_config()
@@ -50,10 +46,6 @@ def ask_agent_openai(input_prompt: str,
     agent_response = client.chat.completions.create(
         model="n/a",
         messages=[{"role": "user", "content": input_prompt}],
-        # # Extra options for later - get meta data on the knowledge base usage:
-        # extra_body={
-        #     "include_retrieval_info": include_retrieval_info,
-        # },
     )
 
     # Return recieved output (if it exists)
@@ -69,10 +61,6 @@ def get_agent_response(client, input_prompt: str):
     agent_response = client.chat.completions.create(
         model="n/a",
         messages=[{"role": "user", "content": input_prompt}],
-        # # Extra options for later - get meta data on the knowledge base usage:
-        # extra_body={
-        #     "include_retrieval_info": include_retrieval_info,
-        # },
     )
 
     # Return recieved output (if it exists)
@@ -160,12 +148,6 @@ def chat_with_agent(new_message: Optional[str],
     resp = client.chat.completions.create(
         model="n/a",
         messages=updated_messages, # type: ignore
-        #
-        # pylint:disable-next=fixme
-        # todo - implement this part later after fully adding knowledge base
-        # extra_body={
-        #     "include_retrieval_info": include_retrieval_info,
-        # },
     )
 
     # step 2 - return model reply + the updated history
