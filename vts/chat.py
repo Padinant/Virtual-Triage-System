@@ -52,5 +52,6 @@ def reply_to_message():
     except AgentConfigError as e:
         reply = f"Error in configuration file: The required agent field '{e.args[0]}' is missing."
     md = MarkdownIt('commonmark', {'breaks':False, 'html':True}).enable('table')
-    json_reply = jsonify({"reply": md.render(reply)})
+    json_reply = jsonify({"reply": md.render(reply),
+                          "unformatted_reply": reply})
     return json_reply
