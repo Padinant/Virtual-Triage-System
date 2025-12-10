@@ -25,12 +25,12 @@
             alt="UMBC primary logo"
           />
         </a>
-        {% if is_admin %}
+        {% if admin %}
         <a class="admin-login-button" href="{{ url_for('admin_logout') }}">
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <use href="/static/ICONS/sprite.svg#logout"></use>
           </svg>
-          Admin Logout
+          Logout as {{admin.username}}
         </a>
         {% else %}
         <a class="admin-login-button" href="{{ url_for('admin_login') }}">

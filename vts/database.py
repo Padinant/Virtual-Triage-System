@@ -5,6 +5,7 @@ database tables.
 
 from datetime import datetime
 from enum import Enum
+from typing import Optional
 
 # Imports for the SQL tables
 from sqlalchemy import Boolean
@@ -221,7 +222,7 @@ class AppDatabase():
             statement = select(User)
             return results_as_dicts(session.scalars(statement))
 
-    def check_user_login(self, username: str, password: str, pwhash) -> bool:
+    def check_user_login(self, username: str, password: str, pwhash) -> Optional[int]:
         "Verifies that the password matches for the given username, checked by pwhash."
         with Session(self.engine) as session:
             statement = select(User).where(User.name == username)
@@ -231,7 +232,10 @@ class AppDatabase():
             # permissions removed.
             if user is None or not user.is_admin:
                 return False
-            return pwhash.check_password_hash(user.password, password)
+            password_status = pwhash.check_password_hash(user.password, password)
+            if password_status:
+                return user.id
+            return None
 
     def add_item(self, item: User|FAQCategory|FAQEntry) -> int:
         "Uses a session to add and commit exactly one item to the database."

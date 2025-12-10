@@ -6,6 +6,8 @@ import os
 
 import secrets
 
+from typing import Optional
+
 from datetime import datetime
 
 from markdown_it import MarkdownIt
@@ -162,9 +164,12 @@ def find_category_name(categories: list[dict], category_id: int) -> str:
             return category['category_name']
     return ''
 
-def get_admin_status() -> bool:
+def get_admin_status() -> Optional[dict]:
     "Returns true if the user is logged in, i.e. if the user's session has a username."
-    return 'username' in session
+    if 'username' in session and 'user_id' in session:
+        return {'username': session['username'],
+                'user_id': session['user_id']}
+    return None
 
 @app.route("/")
 def home():
@@ -179,7 +184,7 @@ def home():
                            faq_items=items,
                            faq_full_items=full_items,
                            admin_items=[],
-                           is_admin=get_admin_status())
+                           admin=get_admin_status())
 
 @app.route("/how-to.html")
 def how_to_page():
@@ -187,7 +192,7 @@ def how_to_page():
     return render_template('how-to.html',
                            title="How to Use This Tool - Interactive Help",
                            menu_items=MENU_ITEMS,
-                           is_admin=get_admin_status())
+                           admin=get_admin_status())
 
 # Note: This no longer has a route of its own. You get here from the
 # FAQ search page if you are logged in.
@@ -226,7 +231,7 @@ def faq_admin():
                            query=query,
                            selected_category=selected_category,
                            test_db=db.engine_type == Engine.SQLITE_FILE,
-                           is_admin=True)
+                           admin=get_admin_status())
 
 @app.route("/faq-search.html")
 def faq_page():
@@ -251,7 +256,7 @@ def faq_page():
                            faq_items=items,
                            query=query,
                            selected_category=selected_category,
-                           is_admin=False)
+                           admin=None)
 
 @app.route("/faq/<int:faq_id>")
 def faq_item_page(faq_id: int):
@@ -267,7 +272,7 @@ def faq_item_page(faq_id: int):
                            category_items=categories,
                            faq_items=items,
                            selected_category='All Categories',
-                           is_admin=admin_status)
+                           admin=admin_status)
 
 @app.route("/faq/category/<int:category_id>")
 def faq_category_page(category_id: int):
@@ -284,7 +289,7 @@ def faq_category_page(category_id: int):
                            category_items=categories,
                            faq_items=items,
                            selected_category=name,
-                           is_admin=get_admin_status())
+                           admin=get_admin_status())
 
 @app.route("/admin-login.html")
 def admin_login():
@@ -296,7 +301,7 @@ def admin_login():
     return render_template('admin-login.html',
                            title="Admin Login - Interactive Help",
                            menu_items=MENU_ITEMS,
-                           is_admin=False)
+                           admin=None)
 
 @app.route("/admin-categories.html")
 def category_admin():
@@ -312,7 +317,7 @@ def category_admin():
                            title="Admin Category Management - Interactive Help",
                            menu_items=MENU_ITEMS,
                            category_items=categories,
-                           is_admin=True)
+                           admin=get_admin_status())
 
 @app.route("/admin-categories/add")
 def category_add():
@@ -324,7 +329,7 @@ def category_add():
                            title="Add New Category - Admin",
                            menu_items=MENU_ITEMS,
                            form_data=None,
-                           is_admin=True)
+                           admin=get_admin_status())
 
 @app.route("/admin-reset-test-db")
 def admin_reset_test_db():
@@ -372,7 +377,7 @@ def category_add_post():
                                title="Add New Category - Admin",
                                menu_items=MENU_ITEMS,
                                form_data=form_data,
-                               is_admin=True)
+                               admin=get_admin_status())
 
     new_cat = FAQCategory(category_name=category_name,
                           priority=priority)
@@ -395,7 +400,7 @@ def category_edit(category_id: int):
                            title=f"Edit Category #{category_id} - Admin",
                            menu_items=MENU_ITEMS,
                            category=category,
-                           is_admin=True)
+                           admin=get_admin_status())
 
 @app.route("/admin-categories/edit/<int:category_id>", methods=["POST"])
 def category_edit_post(category_id: int):
@@ -437,7 +442,7 @@ def category_edit_post(category_id: int):
                                title=f"Edit Category #{category_id} - Admin",
                                menu_items=MENU_ITEMS,
                                category=form_data,
-                               is_admin=True)
+                               admin=get_admin_status())
 
     db.update_category(category_id, new_name, priority)
     flash(f'Category updated to "{new_name}" successfully!')
@@ -457,7 +462,7 @@ def category_remove(category_id: int):
                            title=f"Remove Category #{category_id} - Admin",
                            menu_items=MENU_ITEMS,
                            category=category,
-                           is_admin=True)
+                           admin=get_admin_status())
 
 @app.route("/admin-categories/remove/<int:category_id>", methods=["POST"])
 def category_remove_post(category_id: int):
@@ -493,7 +498,7 @@ def faq_admin_add():
                            menu_items=MENU_ITEMS,
                            category_items=categories,
                            form_data=None,
-                           is_admin=True)
+                           admin=get_admin_status())
 
 @app.route("/edit/<int:faq_id>")
 def faq_admin_edit(faq_id: int):
@@ -509,7 +514,7 @@ def faq_admin_edit(faq_id: int):
                            menu_items=MENU_ITEMS,
                            faq_entry=faq_entry,
                            category_items=categories,
-                           is_admin=True)
+                           admin=get_admin_status())
 
 @app.route("/edit/")
 def edit_root():
@@ -533,7 +538,7 @@ def faq_admin_remove(faq_id):
                            menu_items=MENU_ITEMS,
                            category_items=categories,
                            faq_items=items,
-                           is_admin=True)
+                           admin=get_admin_status())
 
 @app.route("/remove/")
 def remove_root():
@@ -546,15 +551,16 @@ def remove_root():
 def admin_login_post():
     "Handles admin login form submission."
     db = get_db()
-    is_valid = db.check_user_login(request.form['username'],
-                                   request.form['password'],
-                                   flask_bcrypt)
+    user_id = db.check_user_login(request.form['username'],
+                                  request.form['password'],
+                                  flask_bcrypt)
 
-    if not is_valid:
+    if not user_id:
         flash('Login Error: Invalid Username and/or Password')
         return redirect(url_for('admin_login_post'))
 
     session['username'] = request.form['username']
+    session['user_id'] = user_id
 
     return redirect(url_for('faq_page'))
 
@@ -565,6 +571,7 @@ def admin_logout():
         abort(403)
 
     session.pop('username')
+    session.pop('user_id')
     return redirect(url_for('home'))
 
 @app.route("/add/", methods=["POST"])
@@ -605,14 +612,12 @@ def faq_admin_add_post():
                                menu_items=MENU_ITEMS,
                                category_items=categories,
                                form_data=form_data,
-                               is_admin=True)
+                               admin=get_admin_status())
 
     new_entry = FAQEntry(question_text = question_text,
                          answer_text = answer_text,
                          category_id = category_id,
-                         # TODO: This needs to be the author when the
-                         # authentication system is added.
-                         author_id = 1,
+                         author_id = session['user_id'],
                          priority = priority,
                          timestamp = datetime.now())
 
@@ -663,7 +668,7 @@ def faq_admin_edit_post(faq_id: int):
                                menu_items=MENU_ITEMS,
                                faq_entry=form_data,
                                category_items=categories,
-                               is_admin=True)
+                               admin=get_admin_status())
 
     def query(statement):
         return statement.where(FAQEntry.id == faq_id)
@@ -673,7 +678,7 @@ def faq_admin_edit_post(faq_id: int):
         item.answer_text = answer_text
         item.category_id = category_id
         item.priority = priority
-        # TODO: author!!!
+        item.author_id = session['user_id']
         item.timestamp = datetime.now()
 
     db.update_item(query, update)
@@ -708,7 +713,7 @@ def page_forbidden(error):
     return render_template('error.html',
                            title = title,
                            message = error,
-                           is_admin=get_admin_status()), 403
+                           admin=get_admin_status()), 403
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -717,7 +722,7 @@ def page_not_found(error):
     return render_template('error.html',
                            title = title,
                            message = error,
-                           is_admin=get_admin_status()), 404
+                           admin=get_admin_status()), 404
 
 # Style pages
 
@@ -791,7 +796,7 @@ def chat():
         menu_items=MENU_ITEMS,
         # Bottom menu
         bottom_menu_items=MENU_ITEMS,
-        is_admin=get_admin_status())
+        admin=get_admin_status())
 
 # API endpoint for chat messages (in future versions this is where we'd get chatbot output)
 @app.route("/message", methods=["POST"])
