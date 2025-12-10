@@ -189,34 +189,6 @@ def chat_with_agent(new_message: Optional[str],
 
     return assistant_text, updated_messages
 
-#########################################################
-# other functions - not directly dealing with getting input/output messages
-# tbi - to be implemented
-
-# ignore unused arguments on stub
-# pylint:disable-next=unused-argument
-def update_agent_instruction_prompt(new_instruction_prompt: str) -> bool:
-    "tbi"
-    return False
-
-# ignore unused arguments on stub
-# pylint:disable-next=unused-argument
-def add_file_to_kb(new_knowledge_base_file_path: str, kb_id: str) -> bool:
-    "tbi"
-    return False
-
-# ignore unused arguments on stub
-# pylint:disable-next=unused-argument
-def create_new_kb(kb_name, kb_decription = ""):
-    "tbi; would return the kb api in digital ocean"
-    return False
-
-# ignore unused arguments on stub
-# pylint:disable-next=unused-argument
-def add_kb_to_agent(agent_id: str, kb_id: str):
-    "tbi"
-    return False
-
 # if this file is ran, have the model introduce itself
 if __name__ == "__main__":
     print("Demo 1: Calling on agent to say hello (single prompt)...")
