@@ -2,6 +2,11 @@
 Creates a server to persist the chat state. The chat server runs a
 chat bot that in turn connects to another server to send and receive
 messages.
+
+Note that at this point, this file is more "chatbot_server" than
+"chat_server", but changing a filename this late may break things
+unexpectedly.
+
 """
 
 import re
@@ -131,7 +136,8 @@ class GuestBot(SingleServerIRCBot):
         if message is None:
             message = self.outgoing_message
         print(message)
-        c.privmsg('#test', message)
+        # Make sure to truncate the message
+        c.privmsg('#test', message[:475])
 
 def create_bot():
     "Creates the bot."
