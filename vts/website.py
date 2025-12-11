@@ -211,12 +211,18 @@ def how_to_page():
     args = create_how_to_page(get_admin_status())
     return render_template('how-to.html', **args)
 
-# Note: This no longer has a route of its own. You get here from the
-# FAQ search page if you are logged in.
-def faq_admin(db: AppDatabase, admin_status: Optional[dict]):
+def faq_search(db: AppDatabase, query, instance_path) -> list[dict]:
+    "Runs a search on query using the instance path, returning results from db as markdown."
+    matched_ids = search_faq_ids(query, instance_path)
+    faq_entries = fetch_entries_by_ids(db, matched_ids) if matched_ids else []
+    return faq_entries_to_markdown(faq_entries)
+
+def faq_admin(db: AppDatabase,
+              admin_status: Optional[dict],
+              query,
+              category,
+              instance_path) -> dict:
     "The admin FAQ with search page."
-    query = request.args.get('query', '').strip()
-    category = request.args.get('category', '').strip()
     if category:
         try:
             category_id = int(category)
@@ -227,9 +233,7 @@ def faq_admin(db: AppDatabase, admin_status: Optional[dict]):
         else:
             items = get_faq_entries_as_markdown(db)
     elif query:
-        matched_ids = search_faq_ids(query, app.instance_path)
-        faq_entries = fetch_entries_by_ids(db, matched_ids) if matched_ids else []
-        items = faq_entries_to_markdown(faq_entries)
+        items = faq_search(db, query, instance_path)
     else:
         items = get_faq_entries_as_markdown(db)
     categories = db.faq_categories()
@@ -239,41 +243,46 @@ def faq_admin(db: AppDatabase, admin_status: Optional[dict]):
         if name:
             selected_category = name
 
-    return render_template('admin-faq-search.html',
-                           title=TITLES['admin-faq-search'],
-                           menu_items=MENU_ITEMS,
-                           category_items=categories,
-                           faq_items=items,
-                           query=query,
-                           selected_category=selected_category,
-                           test_db=db.engine_type == TEST_ENGINE,
-                           admin=admin_status)
+    return {'title': TITLES['admin-faq-search'],
+            'menu_items': MENU_ITEMS,
+            'category_items': categories,
+            'faq_items': items,
+            'query': query,
+            'selected_category': selected_category,
+            'test_db': db.engine_type == TEST_ENGINE,
+            'admin': admin_status}
+
+def faq_nonadmin(db: AppDatabase,
+                 query,
+                 instance_path) -> dict:
+    "The non-admin FAQ with search page."
+    if query:
+        items = faq_search(db, query, instance_path)
+    else:
+        items = get_faq_entries_as_markdown(db)
+    categories = db.faq_categories()
+    # Default selected category for the public FAQ page is 'All Categories'
+    selected_category = 'All Categories'
+    return {'title': TITLES['faq-search'],
+            'menu_items': MENU_ITEMS,
+            'category_items': categories,
+            'faq_items': items,
+            'query': query,
+            'selected_category': selected_category,
+            'admin': None}
 
 @app.route("/faq-search.html")
 def faq_page():
     "The FAQ with search page."
     db = get_db()
     admin_status = get_admin_status()
-    if admin_status:
-        return faq_admin(db, admin_status)
     query = request.args.get('query', '').strip()
-    if query:
-        matched_ids = search_faq_ids(query, app.instance_path)
-        faq_entries = fetch_entries_by_ids(db, matched_ids) if matched_ids else []
-        items = faq_entries_to_markdown(faq_entries)
-    else:
-        items = get_faq_entries_as_markdown(db)
-    categories = db.faq_categories()
-    # Default selected category for the public FAQ page is 'All Categories'
-    selected_category = 'All Categories'
-    return render_template('faq-search.html',
-                           title=TITLES['faq-search'],
-                           menu_items=MENU_ITEMS,
-                           category_items=categories,
-                           faq_items=items,
-                           query=query,
-                           selected_category=selected_category,
-                           admin=admin_status)
+    if admin_status:
+        category = request.args.get('category', '').strip()
+        args = faq_admin(db, admin_status, query, category, app.instance_path)
+        return render_template('admin-faq-search.html', **args)
+    args = faq_nonadmin(db, query, app.instance_path)
+    return render_template('faq-search.html', **args)
 
 @app.route("/faq/<int:faq_id>")
 def faq_item_page(faq_id: int):
