@@ -291,7 +291,7 @@ def faq_item_page(faq_id: int):
             if name:
                 selected_category = name
     return render_template(template_page,
-                           title=TITLES['faq-item'](faq_id),
+                           title=TITLES['faq-item'](faq_id), # type: ignore
                            menu_items=MENU_ITEMS,
                            category_items=categories,
                            faq_items=items,
@@ -308,7 +308,7 @@ def faq_category_page(category_id: int):
     template_page = 'admin-faq-search.html' if get_admin_status() else 'faq-search.html'
     # When viewing a specific category, set the selected category name
     return render_template(template_page,
-                           title=TITLES['category-page'](category_id, name),
+                           title=TITLES['category-page'](category_id, name), # type: ignore
                            menu_items=MENU_ITEMS,
                            category_items=categories,
                            faq_items=items,
@@ -421,7 +421,7 @@ def category_edit(category_id: int):
     if not category:
         return redirect(url_for('category_admin'))
     return render_template('admin-category-edit.html',
-                           title=TITLES['admin-category-edit'](category_id),
+                           title=TITLES['admin-category-edit'](category_id), # type: ignore
                            menu_items=MENU_ITEMS,
                            category=category,
                            admin=get_admin_status())
@@ -463,7 +463,7 @@ def category_edit_post(category_id: int):
         for error in errors:
             flash(f'Error: {error}')
         return render_template('admin-category-edit.html',
-                               title=TITLES['admin-category-edit'](category_id),
+                               title=TITLES['admin-category-edit'](category_id), # type: ignore
                                menu_items=MENU_ITEMS,
                                category=form_data,
                                admin=get_admin_status())
@@ -483,7 +483,7 @@ def category_remove(category_id: int):
     if not category:
         return redirect(url_for('category_admin'))
     return render_template('admin-category-remove.html',
-                           title=TITLES['admin-category-remove'](category_id),
+                           title=TITLES['admin-category-remove'](category_id), # type: ignore
                            menu_items=MENU_ITEMS,
                            category=category,
                            admin=get_admin_status())
@@ -534,7 +534,7 @@ def faq_admin_edit(faq_id: int):
     faq_entry = db.faq_entry(faq_id)[0]
     categories = db.faq_categories()
     return render_template('admin-edit.html',
-                           title=TITLES['admin-faq-edit'](faq_id),
+                           title=TITLES['admin-faq-edit'](faq_id), # type: ignore
                            menu_items=MENU_ITEMS,
                            faq_entry=faq_entry,
                            category_items=categories,
@@ -558,7 +558,7 @@ def faq_admin_remove(faq_id):
     items = get_faq_entry_as_markdown(faq_id)(db)
     categories = db.faq_categories()
     return render_template('admin-remove.html',
-                           title=TITLES['admin-faq-remove'](faq_id),
+                           title=TITLES['admin-faq-remove'](faq_id), # type: ignore
                            menu_items=MENU_ITEMS,
                            category_items=categories,
                            faq_items=items,
@@ -688,7 +688,7 @@ def faq_admin_edit_post(faq_id: int):
             flash(f'Error: {error}')
         categories = db.faq_categories()
         return render_template('admin-edit.html',
-                               title=TITLES['admin-faq-edit'](faq_id),
+                               title=TITLES['admin-faq-edit'](faq_id), # type: ignore
                                menu_items=MENU_ITEMS,
                                faq_entry=form_data,
                                category_items=categories,
