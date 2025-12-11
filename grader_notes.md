@@ -26,3 +26,14 @@ the script is stopped and then restarted.
 
 Sample questions to ask the chatbot are
 [here](sample_chatbot_questions/sample_questions.md).
+
+The cloud-based parts of this project can be recreated fairly easily.
+We used Digital Ocean's Agent Platform. The `knowledge_files_markdown`
+folder was what we gave to the AI agent. The prompt is
+`instructions_v4.md`, while the `contacts.md` and `knowledge.md` were
+uploaded via the web interface to the Knowledge Base. We used the
+cheapest and smallest model on the platform, which we found to be
+satisfactory for our use case. It is called "OpenAI GPT-oss-20b". The
+agent requires a knowledge base to be generated to upload the two
+files and then endpoint access keys can be generated to access the
+private access point URL.
