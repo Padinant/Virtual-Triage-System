@@ -66,22 +66,8 @@ def empty_database_is_empty(db):
     # so that list should be empty.
     assert is_empty_list(db.delete_marked_entries())
 
-# pylint:disable-next=too-many-locals
-def test_database_with_test_data_file():
-    "Test the basics of the database via exposed AppDatabase methods."
-
-    # Create, initialize, and ensure that the database is empty.
-    db = create_db_and_initialize()
-    empty_database_is_empty(db)
-
-    # This inserts several users, categories, and FAQ entries, which
-    # can then be verified based on our assumptions. This is done all
-    # at once because the FAQEntries need Users and FAQCategories.
-    fill_debug_database(db)
-
-    # First, we assume that the categories are added in order and
-    # become associated with an incrementing ID. Let's build the
-    # same thing manually so we can compare.
+def mock_categories():
+    "Fakes data structures that looks like the database category returns."
     faq_categories = []
     faq_category_names = {}
 
@@ -112,29 +98,23 @@ def test_database_with_test_data_file():
     for i, category in enumerate(faq_categories):
         faq_category_index[category['id']] = i
 
-    # Does the database match our assumptions for FAQ categories?
-    assert db.faq_categories() == faq_categories
-    assert db.faq_categories_by_name() == faq_category_names
+    return faq_categories, faq_category_names, faq_category_index
 
-    # The two users as defined in fill_debug_database, except now
-    # defined as a list of dicts here.
-    users = [{'id': 1,
-              'name': 'Guest',
-             'campus_id': '',
-             'email': '',
-             'is_admin': False},
-             {'id': 2,
-              'name': 'admin',
-             'campus_id': "FAKEID1",
-             'email': "admin@example.com",
-             'is_admin': True}]
+def mock_database_users():
+    "Fakes data structures that look like the database users as hash tables."
+    return [{'id': 1,
+             'name': 'Guest',
+            'campus_id': '',
+            'email': '',
+            'is_admin': False},
+            {'id': 2,
+             'name': 'admin',
+            'campus_id': "FAKEID1",
+            'email': "admin@example.com",
+            'is_admin': True}]
 
-    # Compare the returned user dicts to the expected user dict.
-    assert db.users() == users
-
-    # We'll do the same thing with the entries that we did with the
-    # categories, creating a dict that should be what we get when we
-    # query the database.
+def mock_faq_entries(faq_categories, faq_category_names, faq_category_index, users):
+    "Fakes data structures that look like the database FAQ Entries as hash tables."
     faq_entries = []
     moved_faq_entry_index = 0
     for i, entry in enumerate(TEST_FAQ):
@@ -160,6 +140,40 @@ def test_database_with_test_data_file():
     # be modified if the test data is changed in a way that violates
     # this assumption.
     faq_entries.insert(0, faq_entries.pop(moved_faq_entry_index))
+    return faq_entries
+
+def test_database_with_test_data_file():
+    "Test the basics of the database via exposed AppDatabase methods."
+
+    # Create, initialize, and ensure that the database is empty.
+    db = create_db_and_initialize()
+    empty_database_is_empty(db)
+
+    # This inserts several users, categories, and FAQ entries, which
+    # can then be verified based on our assumptions. This is done all
+    # at once because the FAQEntries need Users and FAQCategories.
+    fill_debug_database(db)
+
+    # First, we assume that the categories are added in order and
+    # become associated with an incrementing ID. Let's build the
+    # same thing manually so we can compare.
+    faq_categories, faq_category_names, faq_category_index = mock_categories()
+
+    # Does the database match our assumptions for FAQ categories?
+    assert db.faq_categories() == faq_categories
+    assert db.faq_categories_by_name() == faq_category_names
+
+    # The two users as defined in fill_debug_database, except now
+    # defined as a list of dicts here.
+    users = mock_database_users()
+
+    # Compare the returned user dicts to the expected user dict.
+    assert db.users() == users
+
+    # We'll do the same thing with the entries that we did with the
+    # categories, creating a dict that should be what we get when we
+    # query the database.
+    faq_entries = mock_faq_entries(faq_categories, faq_category_names, faq_category_index, users)
 
     # Now we'll check our assumptions. Note that we need to remove the
     # timestamp from the results because the time that it will return
