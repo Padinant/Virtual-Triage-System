@@ -2,6 +2,31 @@
 Test the parts of website.py that are best tested through code instead
 of through stepping through every web page. This may change in the
 final sprint.
+
+Note that most of these tests have to be integration tests because
+almost every test of website.py is also necessarily a test of the
+database. It also requires relatively complicated pylint fixtures.
+
+The strategy for testing this file was to split the functions that
+begin in @app.route('/...') and end in return render_template(...)
+
+The functions, once split, can be tested in two pieces.
+
+The first piece is just a function that returns a dict and takes as an
+argument anything that's stateful (e.g. the app.instance_path or the
+AppDatabase). This dict can be tested with essentially the same mocks
+used in test_database to test the database.
+
+The second piece is a function that returns a render_template call of
+two arguments, i.e. render_template('template-name.html', **args)
+where args is the return value dict of the first function. This
+replaces the direct keyword arguments use to render_template.
+
+This second function is only tested for the response.status_code,
+typically being HTTP 200 for success. The assumption here is that if
+the template successfully renders and returns the expected status code
+while having the data that is expected (from the earlier test), then
+it probably does what is expected.
 """
 
 from pytest import fixture
