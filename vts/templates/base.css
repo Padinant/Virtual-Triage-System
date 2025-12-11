@@ -499,14 +499,14 @@ img {
 
 /* Widget scale states */
 .chatbot-widget.scale-default {
-  width: 25vw;
+  width: 50vw;
   height: 50vh;
   bottom: 5vh;
-  right: var(--space-sm);
+  right: 0;
 }
 
 .chatbot-widget.scale-1 {
-  width: 25vw;
+  width: 50vw;
   height: 100vh;
   top: 0;
   bottom: 0;
@@ -515,11 +515,12 @@ img {
 }
 
 .chatbot-widget.scale-2 {
-  width: 50vw;
+  width: calc(100vw - var(--space-md) / 2);
   height: 100vh;
   top: 0;
   bottom: 0;
   right: 0;
+  left: -var(--space-md);
   border-radius: 0;
 }
 
