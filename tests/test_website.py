@@ -19,6 +19,7 @@ from vts.test_data import TEST_FAQ
 from vts.website import TEST_ENGINE
 from vts.website import app
 from vts.website import create_home
+from vts.website import create_how_to_page
 from vts.website import faq_entries_to_markdown
 from vts.website import faq_titles_to_markdown
 from vts.website import flask_bcrypt
@@ -130,7 +131,7 @@ def test_home(sqlite_db):
     faq_categories, faq_category_names, faq_category_index = mock_categories()
     users = mock_database_users()
     faq_entries = mock_faq_entries(faq_categories, faq_category_names, faq_category_index, users)
-    home = create_home(sqlite_db, None)
+    page_data = create_home(sqlite_db, None)
     expected = {'title': TITLES['main-page'],
                 'menu_items': MENU_ITEMS,
                 'faq_items': faq_titles_to_markdown(faq_entries),
@@ -138,6 +139,26 @@ def test_home(sqlite_db):
                 'admin': None}
     # Timestamps aren't going to match so we didn't even mock them.
     # Let's pop them.
-    for entry in home['faq_full_items']:
+    for entry in page_data['faq_full_items']:
         entry.pop('timestamp', None)
-    assert home == expected
+    assert page_data == expected
+
+# pylint:disable-next=redefined-outer-name
+def test_home_template(client):
+    "Does the home page template return HTTP 200?"
+    response = client.get('/')
+    assert response.status_code == 200
+
+def test_how_to_page():
+    "Does the data sent to the template for the how-to page match expectations?"
+    page_data = create_how_to_page(None)
+    expected = {'title': TITLES['how-to'],
+                'menu_items': MENU_ITEMS,
+                'admin': None}
+    assert page_data == expected
+
+# pylint:disable-next=redefined-outer-name
+def test_how_to_template(client):
+    "Does the how-to template return HTTP 200?"
+    response = client.get('/how-to.html')
+    assert response.status_code == 200
