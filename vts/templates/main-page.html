@@ -102,14 +102,6 @@
       Phone: 410-455-3500
     </p>
 
-    <!-- Admin links section -->
-    {% if admin_items %}
-      {% for item in admin_items %}
-        <p>
-          <a class="admin-link" href="{{ item.url }}">{{ item.name }}</a>
-        </p>
-      {% endfor %}
-    {% endif %}
 {% endblock %}
 
 {% block page_scripts %}
