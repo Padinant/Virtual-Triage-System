@@ -102,14 +102,6 @@
       Phone: 410-455-3500
     </p>
 
-    <!-- Admin links section -->
-    {% if admin_items %}
-      {% for item in admin_items %}
-        <p>
-          <a class="admin-link" href="{{ item.url }}">{{ item.name }}</a>
-        </p>
-      {% endfor %}
-    {% endif %}
 {% endblock %}
 
 {% block page_scripts %}
@@ -120,14 +112,14 @@ document.addEventListener('DOMContentLoaded', function() {
   const popupOpenLink = document.getElementById('faq-popup-open');
   const closeBtn = document.querySelector('.faq-popup-close');
   const faqLinks = document.querySelectorAll('.faq-list-link');
-  
+
   // Open popup when FAQ link is clicked
   faqLinks.forEach(link => {
     link.addEventListener('click', function(e) {
       e.preventDefault();
       const faqId = this.getAttribute('data-faq-id');
       const faqData = document.querySelector(`#faq-data [data-faq-id="${faqId}"]`);
-      
+
       if (faqData) {
         popupBody.innerHTML = faqData.innerHTML;
         // A button to go to the full FAQ page
@@ -140,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
-  
+
   // Close popup when X button is clicked
   closeBtn.addEventListener('click', function() {
     popup.classList.remove('show');
@@ -150,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
       popupOpenLink.style.display = 'none';
     }
   });
-  
+
   // Close popup when clicking outside the content
   popup.addEventListener('click', function(e) {
     if (e.target === popup) {
@@ -162,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   });
-  
+
   // Close popup with Escape key
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape' && popup.classList.contains('show')) {

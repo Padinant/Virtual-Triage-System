@@ -200,7 +200,7 @@ if __name__ == "__main__":
     print("Demo 2: Having a multi-message with agent")
     msgs = [{"role": "system",
              "content": "Say hello and introduce yourself in one short sentence."}]
-    reply, msgs = chat_with_agent(None, msgs)
+    reply, msgs = chat_with_agent("Hello", msgs)
     print("Reply:")
     print(reply)
     print("Messages")

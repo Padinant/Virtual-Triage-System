@@ -34,6 +34,7 @@ from vts.database import FAQEntry
 from vts.database import FAQCategory
 
 from vts.frontend import MENU_ITEMS
+from vts.frontend import TITLES
 
 from vts.test_data import fill_debug_database
 
@@ -48,6 +49,8 @@ from vts.search import remove_faq_from_index
 app = Flask(__name__)
 flask_bcrypt = Bcrypt(app)
 
+TEST_ENGINE: Engine = Engine.SQLITE_FILE
+
 def get_db () -> AppDatabase:
     "Retrieves the appropriate database."
     postgres = load_postgres_config()
@@ -56,15 +59,16 @@ def get_db () -> AppDatabase:
                            username = postgres["username"],
                            password = postgres["password"],
                            host = postgres["host"] if "host" in postgres else False)
-    return AppDatabase(Engine.SQLITE_FILE)
+    return AppDatabase(TEST_ENGINE)
 
-def init_db ():
+def init_db (engine: Engine, bcrypt) -> AppDatabase:
     "Initializes the debug/testing database."
     print("Debug/testing DB not found! Creating it.")
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = AppDatabase(engine)
     db.initialize_metadata()
     print("Populating the database.")
-    fill_debug_database(db, flask_bcrypt)
+    fill_debug_database(db, bcrypt)
+    return db
 
 def setup_app():
     "Makes sure that the app has everything that it needs on startup."
@@ -89,7 +93,7 @@ def setup_app():
     # If the database is not there, then create it and populate it.
     fresh_db = False
     if not os.path.exists(db_path):
-        init_db()
+        init_db(TEST_ENGINE, flask_bcrypt)
         fresh_db = True
     # Builds search index.
     db = get_db()
@@ -100,15 +104,20 @@ def setup_app():
 
 setup_app()
 
-def delete_test_db():
+def delete_test_db() -> bool:
     "Delete the test DB so the DB can be recreated."
+    if TEST_ENGINE != Engine.SQLITE_FILE:
+        return False
     try:
         os.makedirs(app.instance_path)
     except OSError:
         pass
     db_path = os.path.join(app.instance_path, 'test.db')
     print('Removing test database at ' + db_path)
-    os.remove(db_path)
+    try:
+        os.remove(db_path)
+    except OSError:
+        return False
     return True
 
 def markdown(text: str):
@@ -171,36 +180,49 @@ def get_admin_status() -> Optional[dict]:
                 'user_id': session['user_id']}
     return None
 
+# Note: This is a separate function from home() to make things
+# independently testable in the unit tests. Other functions behave
+# similarly.
+def create_home(db: AppDatabase, admin_status: Optional[dict]) -> dict:
+    "Generates arguments to create the homepage template."
+    items = get_faq_titles_as_markdown(db)
+    full_items = get_faq_entries_as_markdown(db)
+    return {'title': TITLES['main-page'],
+            'menu_items': MENU_ITEMS,
+            'faq_items': items,
+            'faq_full_items': full_items,
+            'admin': admin_status}
+
 @app.route("/")
 def home():
     "The main entry point to the app."
-    db = get_db()
-    items = get_faq_titles_as_markdown(db)
-    full_items = get_faq_entries_as_markdown(db)
-    return render_template('main-page.html',
-                           title="Interactive Help" \
-                           " - UMBC Computer Science & Electrical Engineering",
-                           menu_items=MENU_ITEMS,
-                           faq_items=items,
-                           faq_full_items=full_items,
-                           admin_items=[],
-                           admin=get_admin_status())
+    args = create_home(get_db(), get_admin_status())
+    return render_template('main-page.html', **args)
+
+def create_how_to_page(admin_status: Optional[dict]) -> dict:
+    "Generates arguments to create the how-to page template."
+    return {'title': TITLES['how-to'],
+            'menu_items': MENU_ITEMS,
+            'admin': admin_status}
 
 @app.route("/how-to.html")
 def how_to_page():
     "The how-to guide page."
-    return render_template('how-to.html',
-                           title="How to Use This Tool - Interactive Help",
-                           menu_items=MENU_ITEMS,
-                           admin=get_admin_status())
+    args = create_how_to_page(get_admin_status())
+    return render_template('how-to.html', **args)
 
-# Note: This no longer has a route of its own. You get here from the
-# FAQ search page if you are logged in.
-def faq_admin():
+def faq_search(db: AppDatabase, query, instance_path) -> list[dict]:
+    "Runs a search on query using the instance path, returning results from db as markdown."
+    matched_ids = search_faq_ids(query, instance_path)
+    faq_entries = fetch_entries_by_ids(db, matched_ids) if matched_ids else []
+    return faq_entries_to_markdown(faq_entries)
+
+def faq_admin(db: AppDatabase,
+              admin_status: Optional[dict],
+              query,
+              category,
+              instance_path) -> dict:
     "The admin FAQ with search page."
-    db = get_db()
-    query = request.args.get('query', '').strip()
-    category = request.args.get('category', '').strip()
     if category:
         try:
             category_id = int(category)
@@ -211,9 +233,7 @@ def faq_admin():
         else:
             items = get_faq_entries_as_markdown(db)
     elif query:
-        matched_ids = search_faq_ids(query, app.instance_path)
-        faq_entries = fetch_entries_by_ids(db, matched_ids) if matched_ids else []
-        items = faq_entries_to_markdown(faq_entries)
+        items = faq_search(db, query, instance_path)
     else:
         items = get_faq_entries_as_markdown(db)
     categories = db.faq_categories()
@@ -223,40 +243,46 @@ def faq_admin():
         if name:
             selected_category = name
 
-    return render_template('admin-faq-search.html',
-                           title="Admin FAQ Management - Interactive Help",
-                           menu_items=MENU_ITEMS,
-                           category_items=categories,
-                           faq_items=items,
-                           query=query,
-                           selected_category=selected_category,
-                           test_db=db.engine_type == Engine.SQLITE_FILE,
-                           admin=get_admin_status())
+    return {'title': TITLES['admin-faq-search'],
+            'menu_items': MENU_ITEMS,
+            'category_items': categories,
+            'faq_items': items,
+            'query': query,
+            'selected_category': selected_category,
+            'test_db': db.engine_type == TEST_ENGINE,
+            'admin': admin_status}
 
-@app.route("/faq-search.html")
-def faq_page():
-    "The FAQ with search page."
-    if get_admin_status():
-        return faq_admin()
-    db = get_db()
-    query = request.args.get('query', '').strip()
+def faq_nonadmin(db: AppDatabase,
+                 query,
+                 instance_path) -> dict:
+    "The non-admin FAQ with search page."
     if query:
-        matched_ids = search_faq_ids(query, app.instance_path)
-        faq_entries = fetch_entries_by_ids(db, matched_ids) if matched_ids else []
-        items = faq_entries_to_markdown(faq_entries)
+        items = faq_search(db, query, instance_path)
     else:
         items = get_faq_entries_as_markdown(db)
     categories = db.faq_categories()
     # Default selected category for the public FAQ page is 'All Categories'
     selected_category = 'All Categories'
-    return render_template('faq-search.html',
-                           title="Browse FAQ - Interactive Help",
-                           menu_items=MENU_ITEMS,
-                           category_items=categories,
-                           faq_items=items,
-                           query=query,
-                           selected_category=selected_category,
-                           admin=None)
+    return {'title': TITLES['faq-search'],
+            'menu_items': MENU_ITEMS,
+            'category_items': categories,
+            'faq_items': items,
+            'query': query,
+            'selected_category': selected_category,
+            'admin': None}
+
+@app.route("/faq-search.html")
+def faq_page():
+    "The FAQ with search page."
+    db = get_db()
+    admin_status = get_admin_status()
+    query = request.args.get('query', '').strip()
+    if admin_status:
+        category = request.args.get('category', '').strip()
+        args = faq_admin(db, admin_status, query, category, app.instance_path)
+        return render_template('admin-faq-search.html', **args)
+    args = faq_nonadmin(db, query, app.instance_path)
+    return render_template('faq-search.html', **args)
 
 @app.route("/faq/<int:faq_id>")
 def faq_item_page(faq_id: int):
@@ -274,7 +300,7 @@ def faq_item_page(faq_id: int):
             if name:
                 selected_category = name
     return render_template(template_page,
-                           title=f"FAQ Item #{faq_id} - Interactive Help",
+                           title=TITLES['faq-item'](faq_id), # type: ignore
                            menu_items=MENU_ITEMS,
                            category_items=categories,
                            faq_items=items,
@@ -291,7 +317,7 @@ def faq_category_page(category_id: int):
     template_page = 'admin-faq-search.html' if get_admin_status() else 'faq-search.html'
     # When viewing a specific category, set the selected category name
     return render_template(template_page,
-                           title=f"FAQ Category #{category_id} - {name} - Interactive Help",
+                           title=TITLES['category-page'](category_id, name), # type: ignore
                            menu_items=MENU_ITEMS,
                            category_items=categories,
                            faq_items=items,
@@ -306,7 +332,7 @@ def admin_login():
         return redirect(url_for('faq_page'))
 
     return render_template('admin-login.html',
-                           title="Admin Login - Interactive Help",
+                           title=TITLES['admin-login'],
                            menu_items=MENU_ITEMS,
                            admin=None)
 
@@ -321,7 +347,7 @@ def category_admin():
     for cat in categories:
         cat['is_empty'] = db.is_empty_category(cat['id'])
     return render_template('admin-category-list.html',
-                           title="Admin Category Management - Interactive Help",
+                           title=TITLES['admin-category'],
                            menu_items=MENU_ITEMS,
                            category_items=categories,
                            admin=get_admin_status())
@@ -333,7 +359,7 @@ def category_add():
         abort(403)
 
     return render_template('admin-category-add.html',
-                           title="Add New Category - Admin",
+                           title=TITLES['admin-category-add'],
                            menu_items=MENU_ITEMS,
                            form_data=None,
                            admin=get_admin_status())
@@ -381,7 +407,7 @@ def category_add_post():
         for error in errors:
             flash(f'Error: {error}')
         return render_template('admin-category-add.html',
-                               title="Add New Category - Admin",
+                               title=TITLES['admin-category-add'],
                                menu_items=MENU_ITEMS,
                                form_data=form_data,
                                admin=get_admin_status())
@@ -404,7 +430,7 @@ def category_edit(category_id: int):
     if not category:
         return redirect(url_for('category_admin'))
     return render_template('admin-category-edit.html',
-                           title=f"Edit Category #{category_id} - Admin",
+                           title=TITLES['admin-category-edit'](category_id), # type: ignore
                            menu_items=MENU_ITEMS,
                            category=category,
                            admin=get_admin_status())
@@ -446,7 +472,7 @@ def category_edit_post(category_id: int):
         for error in errors:
             flash(f'Error: {error}')
         return render_template('admin-category-edit.html',
-                               title=f"Edit Category #{category_id} - Admin",
+                               title=TITLES['admin-category-edit'](category_id), # type: ignore
                                menu_items=MENU_ITEMS,
                                category=form_data,
                                admin=get_admin_status())
@@ -466,7 +492,7 @@ def category_remove(category_id: int):
     if not category:
         return redirect(url_for('category_admin'))
     return render_template('admin-category-remove.html',
-                           title=f"Remove Category #{category_id} - Admin",
+                           title=TITLES['admin-category-remove'](category_id), # type: ignore
                            menu_items=MENU_ITEMS,
                            category=category,
                            admin=get_admin_status())
@@ -501,7 +527,7 @@ def faq_admin_add():
     db = get_db()
     categories = db.faq_categories()
     return render_template('admin-add.html',
-                           title="Add New FAQ - Admin",
+                           title=TITLES['admin-faq-add'],
                            menu_items=MENU_ITEMS,
                            category_items=categories,
                            form_data=None,
@@ -517,7 +543,7 @@ def faq_admin_edit(faq_id: int):
     faq_entry = db.faq_entry(faq_id)[0]
     categories = db.faq_categories()
     return render_template('admin-edit.html',
-                           title=f"Edit FAQ #{faq_id} - Admin",
+                           title=TITLES['admin-faq-edit'](faq_id), # type: ignore
                            menu_items=MENU_ITEMS,
                            faq_entry=faq_entry,
                            category_items=categories,
@@ -541,7 +567,7 @@ def faq_admin_remove(faq_id):
     items = get_faq_entry_as_markdown(faq_id)(db)
     categories = db.faq_categories()
     return render_template('admin-remove.html',
-                           title=f"Remove FAQ #{faq_id} - Admin",
+                           title=TITLES['admin-faq-remove'](faq_id), # type: ignore
                            menu_items=MENU_ITEMS,
                            category_items=categories,
                            faq_items=items,
@@ -615,7 +641,7 @@ def faq_admin_add_post():
             flash(f'Error: {error}')
         categories = db.faq_categories()
         return render_template('admin-add.html',
-                               title="Add New FAQ - Admin",
+                               title=TITLES['admin-faq-add'],
                                menu_items=MENU_ITEMS,
                                category_items=categories,
                                form_data=form_data,
@@ -671,7 +697,7 @@ def faq_admin_edit_post(faq_id: int):
             flash(f'Error: {error}')
         categories = db.faq_categories()
         return render_template('admin-edit.html',
-                               title=f"Edit FAQ #{faq_id} - Admin",
+                               title=TITLES['admin-faq-edit'](faq_id), # type: ignore
                                menu_items=MENU_ITEMS,
                                faq_entry=form_data,
                                category_items=categories,
@@ -798,7 +824,7 @@ def chat():
     "The chatbot page."
     return render_template(
         'chat.html',
-        title="Ask Chatbot - Interactive Help",
+        title=TITLES['chatbot'],
         # Top menu
         menu_items=MENU_ITEMS,
         # Bottom menu

@@ -46,3 +46,11 @@ with an error message. The chatbot will not preserve chat history
 inside of the chat conversation without running several other
 processes in the background, which is described in the INSTALL.md
 instructions.
+
+## Other
+
+This was a class project. If you are grading or evaluating this,
+please read [grader_notes.md](grader_notes.md).
+
+Sample questions to ask the chatbot are
+[here](sample_chatbot_questions/sample_questions.md).
