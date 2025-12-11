@@ -156,14 +156,15 @@ def test_repr():
                 name = 'Bob',
                 password = 'pass',
                 is_admin = True)
-    str(user) == "User(id=1, email='bob@example.com', name='Bob', password=b'******', is_admin=True)"
+    assert str(user) == "User(id=1, campus_id='AAAAAA', email='bob@example.com', name='Bob', " \
+        "password=b'******', is_admin=True)"
 
     # FAQCategory
     category = FAQCategory(id = 1,
                            category_name = 'Cat',
                            priority = 10,
                            is_removed = False)
-    str(category) == "FAQCategory(id=1, category_name='Cat', priority=10, is_removed=False)"
+    assert str(category) == "FAQCategory(id=1, category_name='Cat', priority=10, is_removed=False)"
 
     # FAQEntry, which depends on the previous two
     timestamp = datetime.now()
@@ -175,7 +176,7 @@ def test_repr():
                      priority = 1,
                      timestamp = timestamp,
                      is_removed = False)
-    str(entry) == "FAQEntry(id=1, question_text='Cat', answer_text='Meow', category_id=1, " \
+    assert str(entry) == "FAQEntry(id=1, question_text='Cat', answer_text='Meow', category_id=1, " \
         f"author_id=1, priority=1, timestamp={timestamp!r}, is_removed=False)"
 
 def test_asdict():
@@ -187,21 +188,20 @@ def test_asdict():
                 name = 'Bob',
                 password = 'pass',
                 is_admin = True)
-    user.asdict() == {'id': 1,
-                      'campus_id': 'AAAAAA',
-                      'email': 'bob@example.com',
-                      'name': 'Bob',
-                      'password': 'pass',
-                      'is_admin': True}
+    assert user.asdict() == {'id': 1,
+                             'campus_id': 'AAAAAA',
+                             'email': 'bob@example.com',
+                             'name': 'Bob',
+                             'is_admin': True}
 
     # FAQCategory
     category = FAQCategory(id = 1,
                            category_name = 'Cat',
                            priority = 10,
                            is_removed = False)
-    category.asdict() == {'id': 1,
-                          'category_name': 'Cat',
-                          'priority': 10}
+    assert category.asdict() == {'id': 1,
+                                 'category_name': 'Cat',
+                                 'priority': 10}
 
     # FAQEntry, which depends on the previous two
     timestamp = datetime.now()
@@ -216,14 +216,15 @@ def test_asdict():
     # Note: Manually do the joins because the DB ORM isn't active.
     entry.category = category
     entry.author = user
-    entry.asdict() == {'id': 1,
-                       'question_text': 'Cat',
-                       'answer_text': 'Meow',
-                       'category_id': 1,
-                       'author_id': 1,
-                       'priority': 1,
-                       'timestamp': timestamp,
-                       'is_removed': False}
+    assert entry.asdict() == {'id': 1,
+                              'question_text': 'Cat',
+                              'answer_text': 'Meow',
+                              'category_id': 1,
+                              'author_id': 1,
+                              'priority': 1,
+                              'author': 'Bob',
+                              'category': 'Cat',
+                              'timestamp': timestamp}
 
 def test_database_with_test_data_file():
     "Test the basics of the database via exposed AppDatabase methods."
