@@ -213,9 +213,8 @@ def how_to_page():
 
 # Note: This no longer has a route of its own. You get here from the
 # FAQ search page if you are logged in.
-def faq_admin():
+def faq_admin(db: AppDatabase, admin_status: Optional[dict]):
     "The admin FAQ with search page."
-    db = get_db()
     query = request.args.get('query', '').strip()
     category = request.args.get('category', '').strip()
     if category:
@@ -248,14 +247,15 @@ def faq_admin():
                            query=query,
                            selected_category=selected_category,
                            test_db=db.engine_type == TEST_ENGINE,
-                           admin=get_admin_status())
+                           admin=admin_status)
 
 @app.route("/faq-search.html")
 def faq_page():
     "The FAQ with search page."
-    if get_admin_status():
-        return faq_admin()
     db = get_db()
+    admin_status = get_admin_status()
+    if admin_status:
+        return faq_admin(db, admin_status)
     query = request.args.get('query', '').strip()
     if query:
         matched_ids = search_faq_ids(query, app.instance_path)
@@ -273,7 +273,7 @@ def faq_page():
                            faq_items=items,
                            query=query,
                            selected_category=selected_category,
-                           admin=None)
+                           admin=admin_status)
 
 @app.route("/faq/<int:faq_id>")
 def faq_item_page(faq_id: int):
