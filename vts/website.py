@@ -34,6 +34,7 @@ from vts.database import FAQEntry
 from vts.database import FAQCategory
 
 from vts.frontend import MENU_ITEMS
+from vts.frontend import TITLES
 
 from vts.test_data import fill_debug_database
 
@@ -48,6 +49,8 @@ from vts.search import remove_faq_from_index
 app = Flask(__name__)
 flask_bcrypt = Bcrypt(app)
 
+TEST_ENGINE: Engine = Engine.SQLITE_FILE
+
 def get_db () -> AppDatabase:
     "Retrieves the appropriate database."
     postgres = load_postgres_config()
@@ -56,15 +59,16 @@ def get_db () -> AppDatabase:
                            username = postgres["username"],
                            password = postgres["password"],
                            host = postgres["host"] if "host" in postgres else False)
-    return AppDatabase(Engine.SQLITE_FILE)
+    return AppDatabase(TEST_ENGINE)
 
-def init_db ():
+def init_db (engine: Engine, bcrypt) -> AppDatabase:
     "Initializes the debug/testing database."
     print("Debug/testing DB not found! Creating it.")
-    db = AppDatabase(Engine.SQLITE_FILE)
+    db = AppDatabase(engine)
     db.initialize_metadata()
     print("Populating the database.")
-    fill_debug_database(db, flask_bcrypt)
+    fill_debug_database(db, bcrypt)
+    return db
 
 def setup_app():
     "Makes sure that the app has everything that it needs on startup."
@@ -89,7 +93,7 @@ def setup_app():
     # If the database is not there, then create it and populate it.
     fresh_db = False
     if not os.path.exists(db_path):
-        init_db()
+        init_db(TEST_ENGINE, flask_bcrypt)
         fresh_db = True
     # Builds search index.
     db = get_db()
@@ -100,15 +104,20 @@ def setup_app():
 
 setup_app()
 
-def delete_test_db():
+def delete_test_db() -> bool:
     "Delete the test DB so the DB can be recreated."
+    if TEST_ENGINE != Engine.SQLITE_FILE:
+        return False
     try:
         os.makedirs(app.instance_path)
     except OSError:
         pass
     db_path = os.path.join(app.instance_path, 'test.db')
     print('Removing test database at ' + db_path)
-    os.remove(db_path)
+    try:
+        os.remove(db_path)
+    except OSError:
+        return False
     return True
 
 def markdown(text: str):
@@ -171,28 +180,36 @@ def get_admin_status() -> Optional[dict]:
                 'user_id': session['user_id']}
     return None
 
+# Note: This is a separate function from home() to make things
+# independently testable in the unit tests. Other functions behave
+# similarly.
+def create_home(db: AppDatabase, admin_status: Optional[dict]) -> dict:
+    "Generates arguments to create the homepage template."
+    items = get_faq_titles_as_markdown(db)
+    full_items = get_faq_entries_as_markdown(db)
+    return {'title': TITLES['main-page'],
+            'menu_items': MENU_ITEMS,
+            'faq_items': items,
+            'faq_full_items': full_items,
+            'admin': admin_status}
+
 @app.route("/")
 def home():
     "The main entry point to the app."
-    db = get_db()
-    items = get_faq_titles_as_markdown(db)
-    full_items = get_faq_entries_as_markdown(db)
-    return render_template('main-page.html',
-                           title="Interactive Help" \
-                           " - UMBC Computer Science & Electrical Engineering",
-                           menu_items=MENU_ITEMS,
-                           faq_items=items,
-                           faq_full_items=full_items,
-                           admin_items=[],
-                           admin=get_admin_status())
+    args = create_home(get_db(), get_admin_status())
+    return render_template('main-page.html', **args)
+
+def create_how_to_page(admin_status: Optional[dict]) -> dict:
+    "Generates arguments to create the how-to page template."
+    return {'title': TITLES['how-to'],
+            'menu_items': MENU_ITEMS,
+            'admin': admin_status}
 
 @app.route("/how-to.html")
 def how_to_page():
     "The how-to guide page."
-    return render_template('how-to.html',
-                           title="How to Use This Tool - Interactive Help",
-                           menu_items=MENU_ITEMS,
-                           admin=get_admin_status())
+    args = create_how_to_page(get_admin_status())
+    return render_template('how-to.html', **args)
 
 # Note: This no longer has a route of its own. You get here from the
 # FAQ search page if you are logged in.
@@ -230,7 +247,7 @@ def faq_admin():
                            faq_items=items,
                            query=query,
                            selected_category=selected_category,
-                           test_db=db.engine_type == Engine.SQLITE_FILE,
+                           test_db=db.engine_type == TEST_ENGINE,
                            admin=get_admin_status())
 
 @app.route("/faq-search.html")

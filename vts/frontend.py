@@ -14,3 +14,7 @@ MENU_ITEMS = [
     {"name": "Department Website", "url": "https://www.csee.umbc.edu/"},
     {"name": "How to Use This Tool", "url": "/how-to.html"}
 ]
+
+TITLES = {"main-page": "Interactive Help" \
+          " - UMBC Computer Science & Electrical Engineering",
+          "how-to": "How to Use This Tool - Interactive Help"}
