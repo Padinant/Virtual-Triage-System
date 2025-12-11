@@ -2,12 +2,17 @@
 Test the database functionality.
 """
 
+from datetime import datetime
+
 from functools import reduce
 
 # Note that we have to import from both the database file and the file
 # that contains the test data that we will fill a fresh database with.
 from vts.database import AppDatabase
 from vts.database import Engine
+from vts.database import FAQCategory
+from vts.database import FAQEntry
+from vts.database import User
 from vts.test_data import TEST_FAQ
 from vts.test_data import TEST_FAQ_CATEGORIES
 from vts.test_data import fill_debug_database
@@ -141,6 +146,84 @@ def mock_faq_entries(faq_categories, faq_category_names, faq_category_index, use
     # this assumption.
     faq_entries.insert(0, faq_entries.pop(moved_faq_entry_index))
     return faq_entries
+
+def test_repr():
+    "Test the ORM objects' printable/string representations."
+    # User
+    user = User(id = 1,
+                campus_id = 'AAAAAA',
+                email = 'bob@example.com',
+                name = 'Bob',
+                password = 'pass',
+                is_admin = True)
+    str(user) == "User(id=1, email='bob@example.com', name='Bob', password=b'******', is_admin=True)"
+
+    # FAQCategory
+    category = FAQCategory(id = 1,
+                           category_name = 'Cat',
+                           priority = 10,
+                           is_removed = False)
+    str(category) == "FAQCategory(id=1, category_name='Cat', priority=10, is_removed=False)"
+
+    # FAQEntry, which depends on the previous two
+    timestamp = datetime.now()
+    entry = FAQEntry(id = 1,
+                     question_text = 'Cat',
+                     answer_text = 'Meow',
+                     category_id = 1,
+                     author_id = 1,
+                     priority = 1,
+                     timestamp = timestamp,
+                     is_removed = False)
+    str(entry) == "FAQEntry(id=1, question_text='Cat', answer_text='Meow', category_id=1, " \
+        f"author_id=1, priority=1, timestamp={timestamp!r}, is_removed=False)"
+
+def test_asdict():
+    "Tests object.asdict() for ORM objects"
+    # User
+    user = User(id = 1,
+                campus_id = 'AAAAAA',
+                email = 'bob@example.com',
+                name = 'Bob',
+                password = 'pass',
+                is_admin = True)
+    user.asdict() == {'id': 1,
+                      'campus_id': 'AAAAAA',
+                      'email': 'bob@example.com',
+                      'name': 'Bob',
+                      'password': 'pass',
+                      'is_admin': True}
+
+    # FAQCategory
+    category = FAQCategory(id = 1,
+                           category_name = 'Cat',
+                           priority = 10,
+                           is_removed = False)
+    category.asdict() == {'id': 1,
+                          'category_name': 'Cat',
+                          'priority': 10}
+
+    # FAQEntry, which depends on the previous two
+    timestamp = datetime.now()
+    entry = FAQEntry(id = 1,
+                     question_text = 'Cat',
+                     answer_text = 'Meow',
+                     category_id = 1,
+                     author_id = 1,
+                     priority = 1,
+                     timestamp = timestamp,
+                     is_removed = False)
+    # Note: Manually do the joins because the DB ORM isn't active.
+    entry.category = category
+    entry.author = user
+    entry.asdict() == {'id': 1,
+                       'question_text': 'Cat',
+                       'answer_text': 'Meow',
+                       'category_id': 1,
+                       'author_id': 1,
+                       'priority': 1,
+                       'timestamp': timestamp,
+                       'is_removed': False}
 
 def test_database_with_test_data_file():
     "Test the basics of the database via exposed AppDatabase methods."
