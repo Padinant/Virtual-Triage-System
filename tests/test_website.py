@@ -2,8 +2,6 @@
 Test the parts of website.py that are best tested through code instead
 of through stepping through every web page. This may change in the
 final sprint.
-
-Note that for Sprint 2, only the non-Flask functions are tested here.
 """
 
 from pytest import fixture
@@ -12,6 +10,11 @@ from werkzeug.test import Client
 
 # from flask_bcrypt import Bcrypt
 
+from test_database import mock_categories, mock_database_users, mock_faq_entries
+
+from vts.database import Engine
+from vts.frontend import MENU_ITEMS
+from vts.frontend import TITLES
 from vts.test_data import TEST_FAQ
 from vts.website import TEST_ENGINE
 from vts.website import app
@@ -21,8 +24,6 @@ from vts.website import faq_titles_to_markdown
 from vts.website import flask_bcrypt
 from vts.website import init_db
 from vts.website import markdown
-
-from vts.database import Engine
 
 TEST_ENGINE = Engine.SQLITE_MEMORY
 
@@ -75,6 +76,9 @@ def test_faq_titles_to_markdown():
 # Note: pylint can't handle pytest's fixtures so redefined-outer-name
 # has to be disabled here.
 
+# These are the pages restricted by admin access. The ones with false
+# in the second tuple field are ones that are dangerous to run
+# directly because they immediately have side effects.
 ADMIN_PAGES = [("/admin-categories.html", True),
                ("/admin-categories/add", True),
                ("/admin-categories/edit/1", True),
@@ -121,7 +125,19 @@ def test_admin_login_wall(client):
 # Integration Tests Part 2: Server and Database
 
 # pylint:disable-next=redefined-outer-name
-# def test_home(sqlite_db):
-#     print(sqlite_db.engine)
-#     print(create_home(sqlite_db, None))
-#     assert 1 == 0
+def test_home(sqlite_db):
+    "Does the data sent to the template for the home page match expectations?"
+    faq_categories, faq_category_names, faq_category_index = mock_categories()
+    users = mock_database_users()
+    faq_entries = mock_faq_entries(faq_categories, faq_category_names, faq_category_index, users)
+    home = create_home(sqlite_db, None)
+    expected = {'title': TITLES['main-page'],
+                'menu_items': MENU_ITEMS,
+                'faq_items': faq_titles_to_markdown(faq_entries),
+                'faq_full_items': faq_entries_to_markdown(faq_entries),
+                'admin': None}
+    # Timestamps aren't going to match so we didn't even mock them.
+    # Let's pop them.
+    for entry in home['faq_full_items']:
+        entry.pop('timestamp', None)
+    assert home == expected
