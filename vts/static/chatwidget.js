@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
       scaleState = 0;
       widget.classList.remove('scale-1', 'scale-2');
       widget.classList.add('scale-default');
-      if (expandBtn) expandBtn.title = 'Expanded: quarter width, half height';
+      if (expandBtn) expandBtn.title = 'Expand to half width, full height';
     }
   });
 
@@ -65,13 +65,13 @@ document.addEventListener('DOMContentLoaded', function() {
       widget.classList.remove('scale-default', 'scale-1', 'scale-2');
       if (scaleState === 0) {
         widget.classList.add('scale-default');
-        expandBtn.title = 'Expanded: quarter width, half height';
+        expandBtn.title = 'Expand to half width, full height';
       } else if (scaleState === 1) {
         widget.classList.add('scale-1');
-        expandBtn.title = 'Expanded: quarter width, full height';
+        expandBtn.title = 'Expand to fullscreen';
       } else if (scaleState === 2) {
         widget.classList.add('scale-2');
-        expandBtn.title = 'Expanded: half width, full height';
+        expandBtn.title = 'Return to half width, half height';
       }
     });
   }

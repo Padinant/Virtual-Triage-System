@@ -39,13 +39,13 @@ document.addEventListener("DOMContentLoaded", () => {
       chatContainer.classList.add('fullscreen');
       document.body.classList.add('chat-fullscreen');
       if (fsBtn) {
-        fsBtn.setAttribute('title', 'Exit Fullscreen');
+        fsBtn.setAttribute('title', 'Exit fullscreen');
       }
     } else {
       chatContainer.classList.remove('fullscreen');
       document.body.classList.remove('chat-fullscreen');
       if (fsBtn) {
-        fsBtn.setAttribute('title', 'Toggle Expand');
+        fsBtn.setAttribute('title', 'Expand to fullscreen');
       }
     }
     chatBox.scrollTop = chatBox.scrollHeight;

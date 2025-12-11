@@ -2,7 +2,7 @@
 
 /* Full page layout */
 #chat-container {
-  max-width: 96%;
+  max-width: 95%;
   margin: 0 auto;
   background-color: var(--umbc-dark-gray);
   border-radius: var(--space-xs);
@@ -52,7 +52,7 @@
   border-radius: 8px;
   padding: 0;
   cursor: pointer;
-  z-index: 2150;
+  z-index: 1101;
 }
 
 #chat-container.fullscreen .chat-fullscreen-btn {
@@ -88,18 +88,14 @@
 #chat-container.fullscreen {
   position: fixed;
   top: 0;
-  left: 0;
-  width: 100vw;
+  left: -var(--space-md);
+  width: calc(100vw - var(--space-md) / 2);
   height: 100vh;
-  z-index: 2000;
+  z-index: 1100;
   margin: 0;
   padding: 0;
   background: var(--umbc-light-gray);
   border-radius: 0;
-}
-
-body.chat-fullscreen {
-  overflow: hidden;
 }
 
 /* Fullscreen styles for chat box */
@@ -121,22 +117,8 @@ body.chat-fullscreen {
   padding: 0;
   background: transparent;
   box-shadow: none;
-  z-index: 2151;
+  z-index: 1102;
   margin: 0;
-}
-
-
-/* Hide site when chat is expanded */
-body.chat-fullscreen .top-header-1,
-body.chat-fullscreen .top-header-2,
-body.chat-fullscreen .top-menu,
-body.chat-fullscreen .top-menu-bottom {
-  display: none !important;
-}
-
-/* Hide main content children except chat container */
-body.chat-fullscreen .main-content > *:not(#chat-container) {
-  display: none !important;
 }
 
 /* Ensure the chat container ignores the `.container` constraints when expanded */
@@ -144,11 +126,6 @@ body.chat-fullscreen .main-content > *:not(#chat-container) {
   max-width: none !important;
   width: 100vw !important;
   left: 0 !important;
-}
-
-/* Makes sure the expanded chat is above everything */
-#chat-container.fullscreen {
-  z-index: 2147483647;
 }
 #chat-box.hover-gradient,
 #chat-box:hover {
@@ -160,21 +137,8 @@ body.chat-fullscreen .main-content > *:not(#chat-container) {
   display: flex;
   align-items: flex-end;
   gap: var(--space-sm);
-  animation: fadeIn 0.3s ease-in-out;
   position: relative;
   z-index: 1;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(var(--space-xs));
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /* Avatar (Bot icon) */
