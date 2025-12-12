@@ -9,7 +9,8 @@ dependencies = [ "flask",
                  "openai",
                  "Flask-Bcrypt",
                  "xdg-base-dirs",
-                 "irc" ]
+                 "irc",
+                 "psycopg2-binary" ]
 
 [build-system]
 requires = ["setuptools"]

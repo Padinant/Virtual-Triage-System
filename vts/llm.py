@@ -12,7 +12,6 @@ SOME FUNCTOINS AND CUSTOM TYPES IN THIS FILE THAT YOU MIGHT WANT TO USE:
 - MessageType                the format for passing the chat history in multi-message chats
 """
 
-# from dataclasses import dataclass, field
 from typing import List, Dict, Tuple, Optional
 
 from openai import OpenAI
@@ -92,9 +91,6 @@ def get_agent_response(client, input_prompt: str):
 
     return FAIL_MESSAGE
 
-#########################################################
-# NEW PORTION - TO HELP WITH PASSING FULL CHAT HISTORY TO THE MODEL
-
 def get_agent_client() -> OpenAI:
     "this function returns an OpenAI client ready to talk to the DigitalOcean agent."
     base_url, key = load_agent_secret_config()
@@ -170,18 +166,20 @@ def chat_with_agent(new_message: Optional[str],
     )
 
     # step 2 - return model reply + the updated history
-
     if not resp.choices:
         return FAIL_MESSAGE, updated_messages
 
-    assistant_msg = resp.choices[0].message # ie: what was actually outputted by the model
-    assistant_text = ""                     # ie: what we would return as the model reply
+    # ie: what was actually outputted by the model
+    assistant_msg = resp.choices[0].message
+    # ie: what we would return as the model reply
+    assistant_text = ""
     if assistant_msg.content:
         assistant_text = assistant_msg.content
     else:
         assistant_text = FAIL_MESSAGE
 
-    response_dict = {"role": assistant_msg.role, # the role should be 'assistant'
+    # note: the role should be 'assistant'
+    response_dict = {"role": assistant_msg.role,
                      "content": assistant_text}
 
     updated_messages = updated_messages + [response_dict]
@@ -190,7 +188,7 @@ def chat_with_agent(new_message: Optional[str],
 
     return assistant_text, updated_messages
 
-# if this file is ran, have the model introduce itself
+# if this file is run directly, then the the model should say hello
 #
 # this is for running the file directly as local testing, separate
 # from the integration with the rest of the web app

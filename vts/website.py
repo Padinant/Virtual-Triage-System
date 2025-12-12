@@ -36,6 +36,7 @@ from vts.database import FAQCategory
 from vts.frontend import MENU_ITEMS
 from vts.frontend import TITLES
 
+from vts.sample_faq import add_sample_questions
 from vts.test_data import fill_debug_database
 
 from vts.search import ensure_index
@@ -49,6 +50,11 @@ from vts.search import remove_faq_from_index
 app = Flask(__name__)
 flask_bcrypt = Bcrypt(app)
 
+# Toggle between the original FAQ data that is good for tests (if set
+# to True) vs. the sample FAQ entries that are more in line with what
+# the stakeholder wants to put in the VTS FAQ.
+TEST_DATA: bool = False
+
 TEST_ENGINE: Engine = Engine.SQLITE_FILE
 
 def get_db () -> AppDatabase:
@@ -61,13 +67,16 @@ def get_db () -> AppDatabase:
                            host = postgres["host"] if "host" in postgres else False)
     return AppDatabase(TEST_ENGINE)
 
-def init_db (engine: Engine, bcrypt) -> AppDatabase:
+def init_db (engine: Engine, bcrypt, test_data: bool) -> AppDatabase:
     "Initializes the debug/testing database."
     print("Debug/testing DB not found! Creating it.")
     db = AppDatabase(engine)
     db.initialize_metadata()
     print("Populating the database.")
-    fill_debug_database(db, bcrypt)
+    if test_data:
+        fill_debug_database(db, bcrypt)
+    else:
+        add_sample_questions(db, bcrypt)
     return db
 
 def setup_app():
@@ -93,7 +102,7 @@ def setup_app():
     # If the database is not there, then create it and populate it.
     fresh_db = False
     if not os.path.exists(db_path):
-        init_db(TEST_ENGINE, flask_bcrypt)
+        init_db(TEST_ENGINE, flask_bcrypt, TEST_DATA)
         fresh_db = True
     # Builds search index.
     db = get_db()
@@ -733,7 +742,7 @@ def faq_admin_remove_post(faq_id: int):
         remove_faq_from_index(faq_id, app.instance_path)
         flash(f'FAQ entry #{faq_id} removed successfully!')
     else:
-        flash(f'FAQ entry #{faq_id} removal cancelled.')
+        flash(f'FAQ entry #{faq_id} removal canceled.')
 
     return redirect(url_for('faq_page'))
 
@@ -831,7 +840,7 @@ def chat():
         bottom_menu_items=MENU_ITEMS,
         admin=get_admin_status())
 
-# API endpoint for chat messages (in future versions this is where we'd get chatbot output)
+# API endpoint for chat messages
 @app.route("/message", methods=["POST"])
 def message():
     "Calls the chatbot reply function, which returns a JSON result."

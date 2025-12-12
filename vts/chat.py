@@ -36,7 +36,6 @@ def get_reply(user_text: str) -> str:
 
 def reply_to_message():
     "This function gets text and makes a reply using get_echo_output"
-    # get user text
     user_text = request.json.get("message", "")
     # Note: These error strings probably should be logged or printed
     # instead of being exposed in the chat reply to the end user like

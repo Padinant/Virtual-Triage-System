@@ -40,7 +40,6 @@ except (ImportError, ModuleNotFoundError):
 # Index directory name under Flask instance path
 INDEX_DIR_NAME = "whoosh_index"
 
-
 # Return Whoosh schema for FAQ entries
 def _schema() -> Schema:
     "Return Whoosh schema for FAQ entries."
@@ -54,12 +53,10 @@ def _schema() -> Schema:
         category=TEXT(stored=False, analyzer=StemmingAnalyzer()),
     )
 
-
 # Get index directory path from Flask instance path
 def _index_path(instance_path: str) -> str:
     "Get index directory path from Flask instance path."
     return os.path.join(instance_path, INDEX_DIR_NAME)
-
 
 # Rebuild Whoosh index from FAQ entries
 def build_index(db: AppDatabase, instance_path: str) -> None:
@@ -98,7 +95,6 @@ def build_index(db: AppDatabase, instance_path: str) -> None:
             category=category_name,
         )
     writer.commit()
-
 
 # Create index if missing
 def ensure_index(db: AppDatabase, instance_path: str) -> None:
@@ -165,7 +161,6 @@ def remove_faq_from_index(faq_id: int, instance_path: str) -> None:
     writer.delete_by_term('faq_id', str(faq_id))
     writer.commit()
 
-
 # Get FAQ entry IDs matching query
 def search_faq_ids(query: str, instance_path: str, limit: int = 50) -> List[int]:
     "Get FAQ entry IDs matching query."
@@ -189,7 +184,6 @@ def search_faq_ids(query: str, instance_path: str, limit: int = 50) -> List[int]
             except (ValueError, KeyError):
                 continue
     return results
-
 
 # Fetch FAQ entries by ID
 def fetch_entries_by_ids(db: AppDatabase, ids: Iterable[int]) -> list[dict]:

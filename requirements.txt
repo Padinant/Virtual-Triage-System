@@ -6,3 +6,4 @@ openai
 Flask-Bcrypt
 xdg-base-dirs
 irc
+psycopg2-binary
