@@ -285,3 +285,8 @@ of a low-level message queue based implementation is that we can
 handle multiple chat sessions as conversations in multiple chat rooms
 (called "channels" in IRC terminology) between the same two bots (one
 representing the chatbot and one representing the user).
+
+## psycopg2-binary (optional)
+
+This is how SQLAlchemy communicates with PostgreSQL. If you are using
+SQLite, this dependency is not used.
