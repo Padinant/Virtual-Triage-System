@@ -78,3 +78,8 @@ satisfactory for our use case. It is called "OpenAI GPT-oss-20b". The
 agent requires a knowledge base to be generated to upload the two
 files and then endpoint access keys can be generated to access the
 private access point URL.
+
+DigitalOcean uses the OpenAI API, which has become a standard
+interface for LLM APIs. This means that it should be possible to use
+the three `md` files and the existing OpenAI-API-using `llm.py` file
+to use a different service than DigitalOcean.
