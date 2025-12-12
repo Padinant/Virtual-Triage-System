@@ -10,7 +10,10 @@ it over again, with `main` skipping rather than editing the
 problematic commit. This, however, means that [Dua's corrected
 commit](https://github.com/Padinant/Virtual-Triage-System/commit/ba1573d54227afb73bb9fe41d61256bc992be475)
 from Sprint 2 no longer shows up in the `main` branch because it lives
-in `old_main`.
+in `old_main`. The authorship of those lines of code thus do not show
+up as Dua's in the third `main` branch (it's the third after the
+mistaken `main` that is no longer available and the `old_main` that
+became inconsistent with the other branches).
 
 At the time of this writing, there are 6 branches in addition to the
 `main` branch:
