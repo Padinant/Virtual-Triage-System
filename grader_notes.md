@@ -20,7 +20,7 @@ At the time of this writing, there are 6 branches in addition to the
 
 * the `old_main` with an entirely distinct history due to the commit
   redaction
-* `frontend` which was originally intended to be shared by Jia and
+* `frontend`, which was originally intended to be shared by Jia and
   Dua, but wound up becoming Jia's branch
 * `web_frontend`, which was Jia's old branch before moving all work to
   the `frontend` branch.
@@ -32,7 +32,7 @@ Despite the names of the branches, these branches were used for other
 purposes as well. For instance, Jia implemented the search on the
 `frontend` branch and Michael did non-database features on the
 `data_backend` branch. Having exactly one branch per person in Sprint
-2 was done to avoid the complexity in Sprint 2 that lead to the
+3 was done to avoid the complexity in Sprint 2 that lead to the
 inconsistent `main`.
 
 ## Running this project
