@@ -12,7 +12,7 @@ from vts.database import User
 from vts.database import FAQCategory
 from vts.database import FAQEntry
 
-FAQ = [("Why undergraduate programs are offered by the UMBC CSEE department?",
+FAQ = [("What undergraduate programs are offered by the UMBC CSEE department?",
         "The UMBC CSEE department offers the following undergraduate programs:\n" \
         "1. Computer Science Major (Bachelor's of Science)\n" \
         "2. Computer Science Minor\n" \
