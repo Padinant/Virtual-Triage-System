@@ -831,7 +831,7 @@ def chat():
         bottom_menu_items=MENU_ITEMS,
         admin=get_admin_status())
 
-# API endpoint for chat messages (in future versions this is where we'd get chatbot output)
+# API endpoint for chat messages
 @app.route("/message", methods=["POST"])
 def message():
     "Calls the chatbot reply function, which returns a JSON result."
