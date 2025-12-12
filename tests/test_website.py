@@ -51,6 +51,7 @@ from vts.website import flask_bcrypt
 from vts.website import init_db
 from vts.website import markdown
 
+TEST_DATA = True
 TEST_ENGINE = Engine.SQLITE_MEMORY
 
 # Unit tests
@@ -131,7 +132,7 @@ def client(flask_app):
 # pylint:disable-next=redefined-outer-name,unused-argument
 def sqlite_db(flask_app, client):
     "Creates a test database for Flask."
-    db = init_db(TEST_ENGINE, flask_bcrypt)
+    db = init_db(TEST_ENGINE, flask_bcrypt, TEST_DATA)
     yield db
 
 # pylint:disable-next=redefined-outer-name
