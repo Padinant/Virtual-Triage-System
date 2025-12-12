@@ -1,3 +1,39 @@
+## Note on the git repository's branches
+
+Note that there was an issue with a commit in the git repository in
+the second sprint where an entire `venv` directory was committed and
+made it into `main`. The fix was to rewrite history to redact the
+`venv` from the commit, but that rewrote *all* history and made the
+other branches inconsistent with the `main` branch. It was easier to
+rename the fixed, but inconsistent `main` branch to `old_main` and do
+it over again, with `main` skipping rather than editing the
+problematic commit. This, however, means that [Dua's corrected
+commit](https://github.com/Padinant/Virtual-Triage-System/commit/ba1573d54227afb73bb9fe41d61256bc992be475)
+from Sprint 2 no longer shows up in the `main` branch because it lives
+in `old_main`.
+
+At the time of this writing, there are 6 branches in addition to the
+`main` branch:
+
+* the `old_main` with an entirely distinct history due to the commit
+  redaction
+* `frontend` which was originally intended to be shared by Jia and
+  Dua, but wound up becoming Jia's branch
+* `web_frontend`, which was Jia's old branch before moving all work to
+  the `frontend` branch.
+* `chatbot_frontend`, which was Dua's branch
+* `chatbot_backend`, which was Padina's branch
+* `data_backend`, which was Michael's branch
+
+Despite the names of the branches, these branches were used for other
+purposes as well. For instance, Jia implemented the search on the
+`frontend` branch and Michael did non-database features on the
+`data_backend` branch. Having exactly one branch per person in Sprint
+2 was done to avoid the complexity in Sprint 2 that lead to the
+inconsistent `main`.
+
+## Running this project
+
 You should have been given a `config.toml` with one entry, the
 `[agent]` with a `key` and a `url`. You can use this to talk to the
 chatbot agent server. The other configuration options (for the remote
@@ -26,6 +62,8 @@ the script is stopped and then restarted.
 
 Sample questions to ask the chatbot are
 [here](sample_chatbot_questions/sample_questions.md).
+
+## Recreating this project from scratch
 
 The cloud-based parts of this project can be recreated fairly easily.
 We used Digital Ocean's Agent Platform. The `knowledge_files_markdown`
