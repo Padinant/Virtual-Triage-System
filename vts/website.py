@@ -733,7 +733,7 @@ def faq_admin_remove_post(faq_id: int):
         remove_faq_from_index(faq_id, app.instance_path)
         flash(f'FAQ entry #{faq_id} removed successfully!')
     else:
-        flash(f'FAQ entry #{faq_id} removal cancelled.')
+        flash(f'FAQ entry #{faq_id} removal canceled.')
 
     return redirect(url_for('faq_page'))
 

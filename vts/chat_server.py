@@ -60,7 +60,7 @@ def split_whitespace(line: str, too_long: int) -> tuple[str, Optional[str], bool
 def split_long_line(line: str, too_long: int) -> list[str]:
     "Attempts to split a line that's too long into lists."
     left, right, is_reduced = split_whitespace(line, too_long)
-    # The attempt to split failed or the attempt is unncessary.
+    # The attempt to split failed or the attempt is unnecessary.
     if not is_reduced or not right:
         # Short line.
         if is_reduced:
